@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "urent_rn",
+    "name": "uRent",
     "slug": "urent_rn",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "myapp",
+    "scheme": "urent",
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
