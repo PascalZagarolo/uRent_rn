@@ -3,6 +3,8 @@ import { Text, View } from "react-native";
 import SearchBar from "./search-bar";
 
 
+
+
 const Header = () => {
     return ( 
         <View className="bg-[#202336] p-4 border-b border-gray-700">

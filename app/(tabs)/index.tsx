@@ -36,7 +36,7 @@ export default function HomeScreen() {
 
         <View>
         <TouchableOpacity className=' py-4 rounded-md w-full  justify-center' onPress={() => {
-          router.push(`/main`)
+          router.push(`/mainpage`)
         }}>
           <Text className=' justify-center text-xs text-gray-200 text-center font-semibold'>
             Ohne Konto fortfahren..
