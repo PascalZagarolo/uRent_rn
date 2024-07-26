@@ -23,18 +23,18 @@ const InseratProfile : React.FC<InseratProfileProps> = ({
     return ( 
         <View>
             <View className="flex flex-row items-center gap-x-4">
-            <View>
-                <Image source={{uri: thisUser.image }} style={{width: 50, height: 50}} 
+            
+            <Image source={{uri: thisUser.image }} style={{width: 50, height: 50}} 
                 className="rounded-md"
                 />
-            </View>
-            <Text className="text-lg font-semibold text-gray-200">
-                {thisUser.name}
+            
+            <Text className="text-lg font-semibold w-3/4 text-gray-200 break-all line-clamp-1" numberOfLines={1}>
+                {thisUser.name} 
             </Text>
             </View>
             <View className="mt-4 space-y-4">
-            <View className="flex flex-row items-center gap-x-4 mb-2">
-                        <MaterialIcons name="public" size={20} color="blue" className="text-indigo-800 bg-indigo-800" />
+            <View className="flex flex-row items-center gap-x-4">
+                        <MaterialIcons name="public" size={20} color="white" className="text-indigo-800 bg-indigo-800" />
                         <Text className="text-gray-200 font-semibold break-all line-clamp-1 text-md" numberOfLines={1}>
                             {publicInserate.length} Inserate online
                         </Text>
