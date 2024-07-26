@@ -31,7 +31,7 @@ const InseratDescription: React.FC<InseratDescriptionProps> = ({ description }) 
                     {displayedText}
                 </Text>
                 {shouldShowMore && (
-                    <TouchableOpacity onPress={toggleExpanded} className="bg-[#242635] p-4 mt-2 rounded-md w-full flex justify-center">
+                    <TouchableOpacity onPress={toggleExpanded} className="bg-[#242635] p-2 mt-2 rounded-md w-full flex justify-center">
                         <Text className="text-sm text-gray-200 font-semibold items-center flex justify-center text-center">
                             {isExpanded ? "Weniger anzeigen" : "Mehr anzeigen"}
                         </Text>
