@@ -20,7 +20,7 @@ export default function HomeScreen() {
         <Text className='text-xl font-semibold text-gray-200'>
           Willkommen auf
         </Text>
-        <Text className='text-6xl font-semibold text-gray-200'>
+        <Text className='text-4xl font-semibold text-gray-200'>
           uRent
         </Text>
       </View>
