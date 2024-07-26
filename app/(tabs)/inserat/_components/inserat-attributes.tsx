@@ -2,6 +2,7 @@ import { inserat } from "@/db/schema";
 import { Text, View } from "react-native";
 import PkwAttributeRender from "./inserat-attributes/pkw-attributes";
 import { pkwAttribute } from '../../../../db/schema';
+import LkwAttributeRender from "./inserat-attributes/lkw-attributes";
 
 interface InseratAttributesProps {
     thisInserat : typeof inserat.$inferSelect
@@ -22,7 +23,7 @@ const InseratAttributes : React.FC<InseratAttributesProps> = ({
                 {
                     {
                         "PKW" : <PkwAttributeRender attributes={thisInserat?.pkwAttribute} />,
-
+                        "LKW" : <LkwAttributeRender attributes={thisInserat?.lkwAttribute} />
                     }[thisInserat?.category]
                 }                
             </View>
