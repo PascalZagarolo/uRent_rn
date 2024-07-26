@@ -19,6 +19,13 @@ const InseratPage =  () => {
                 where : eq(
                     inserat.id, id
                 ), with : {
+                    user : {
+                        with : {
+                            business : true,
+                            inserat : true,
+                        }
+                    },
+                    
                     images : true,
                     address : true,
                     priceprofiles : true,
