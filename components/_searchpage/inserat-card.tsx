@@ -1,7 +1,9 @@
 import { inserat } from "@/db/schema";
 import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Image, Text, View } from "react-native";
+import { Image, Text, View, TouchableOpacity } from "react-native";
 import { address } from '../../db/schema';
+import { useRouter } from "expo-router";
+  
 
 interface InseratCardProps {
     thisInserat: typeof inserat.$inferSelect;
@@ -25,22 +27,29 @@ const InseratCard: React.FC<InseratCardProps> = ({
         }
     }
 
+    const router = useRouter();
+
 
     return (
         <View className="bg-[#141620]  w-full">
             <View>
-                <View className="flex flex-row gap-x-4 items-center px-4 py-4">
+                
+                    <TouchableOpacity className="flex flex-row gap-x-4 items-center px-4 py-4"
+                    onPress={() => {router.push(`/inserat/${thisInserat.id}`)}}
+                    >
                     <View>
                         {matchingIcon(thisInserat.category)}
                     </View>
                     <Text className="text-lg font-medium text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
                         {thisInserat.title}
                     </Text>
-                </View>
+                    </TouchableOpacity>
+              
                 <View className=" px-4 ">
                     <Image
                         className="w-full h-40  rounded-t-md"
                         source={{
+                            //@ts-ignore
                             uri: thisInserat.images[0].url,
                         }}
                     />
@@ -53,8 +62,10 @@ const InseratCard: React.FC<InseratCardProps> = ({
                                 <FontAwesome name="location-arrow" size={20} color="red" />
                             </View>
                             <Text className="text-md font-semibold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
-                                {thisInserat.address.postalCode} 
-                                <Text className="text-xs" numberOfLines={1}> {thisInserat.address.locationString}  </Text>
+                                {//@ts-ignore
+                                thisInserat.address.postalCode} 
+                                <Text className="text-xs" numberOfLines={1}> { //@ts-ignore
+                                thisInserat.address.locationString}  </Text>
                             </Text>
                         </View>
                     </View>
@@ -66,19 +77,23 @@ const InseratCard: React.FC<InseratCardProps> = ({
                         </View>
                     </View>
                 </View>
-                <View className="flex flex-row py-2 px-2 items-center gap-x-4">
+                <TouchableOpacity className="flex flex-row py-2 px-2 items-center gap-x-4"
+            onPress={() => {router.push(`/profile/${thisInserat?.user?.id}`)}}
+                >
                     <View className="flex ">
                         <Image
                             className="w-10 h-10 rounded-md "
                             source={{
+                                //@ts-ignores
                                 uri: thisInserat.user?.image,
                             }}
                         />
                     </View>
                     <Text className="text-md font-semibold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
-                        {thisInserat.user?.name} 
+                        {//@ts-ignore
+                        thisInserat.user?.name} 
                     </Text>
-                </View>
+                </TouchableOpacity>
                 
             </View>
             
