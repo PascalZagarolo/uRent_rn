@@ -3,6 +3,7 @@ import { Text, View } from "react-native";
 import PkwAttributeRender from "./inserat-attributes/pkw-attributes";
 import { pkwAttribute } from '../../../../db/schema';
 import LkwAttributeRender from "./inserat-attributes/lkw-attributes";
+import TransportAttributeRender from "./inserat-attributes/transport-attributes";
 
 interface InseratAttributesProps {
     thisInserat : typeof inserat.$inferSelect
@@ -23,7 +24,8 @@ const InseratAttributes : React.FC<InseratAttributesProps> = ({
                 {
                     {
                         "PKW" : <PkwAttributeRender attributes={thisInserat?.pkwAttribute} />,
-                        "LKW" : <LkwAttributeRender attributes={thisInserat?.lkwAttribute} />
+                        "LKW" : <LkwAttributeRender attributes={thisInserat?.lkwAttribute} />,
+                        "TRANSPORT" : <TransportAttributeRender attributes={thisInserat?.transportAttribute} />
                     }[thisInserat?.category]
                 }                
             </View>

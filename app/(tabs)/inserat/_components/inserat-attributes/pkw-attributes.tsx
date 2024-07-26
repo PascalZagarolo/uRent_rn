@@ -1,5 +1,5 @@
 import { pkwAttribute } from "@/db/schema";
-import { FontAwesome, FontAwesome5, MaterialIcons, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { FontAwesome, FontAwesome5, MaterialIcons, MaterialCommunityIcons, Ionicons, Fontisto } from '@expo/vector-icons';
 
 import { format } from "date-fns";
 
@@ -89,7 +89,7 @@ const PkwAttributeRender: React.FC<PkwAttributeRenderProps> = ({
             )}
             {(attributes?.loading_l || attributes?.loading_b || attributes?.loading_h) && (
                 <View className="flex-row items-center bg-[#13151C] p-4 space-x-4">
-                    <Ionicons name="resize" className="w-4 h-4 mr-2 text-gray-200" size={20} color="white"/>
+                    <Fontisto name="arrow-resize" className="w-4 h-4 mr-2" size={20} color="white" />
                     <Text className="font-semibold text-gray-200">{attributes?.loading_l} x {attributes?.loading_b} x {attributes?.loading_h} m</Text>
                 </View>
             )}
