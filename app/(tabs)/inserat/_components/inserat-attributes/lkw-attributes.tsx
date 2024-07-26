@@ -2,7 +2,7 @@
 
 
 import { lkwAttribute } from "@/db/schema";
-import { FontAwesome5, Fontisto, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import { format } from "date-fns";
 import { Text, View, ViewBase } from "react-native";
@@ -99,7 +99,7 @@ const LkwAttributeRender: React.FC<LkwAttributeRenderProps> = ({
             )}
             {attributes?.loading_volume && (
                 <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome5 name="cube" className="w-4 h-4 mr-2" size={20} color="white"/>
+                    <Ionicons name="cube" className="w-4 h-4 mr-2 text-gray-200" size={20} color="white"/>
                     <Text className="font-semibold text-gray-200">{attributes.loading_volume} l</Text>
                 </View>
             )}
