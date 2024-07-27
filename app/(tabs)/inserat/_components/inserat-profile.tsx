@@ -1,5 +1,5 @@
 import { business, userTable } from "@/db/schema";
-import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { Feather, FontAwesome, FontAwesome5, Foundation, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { format } from "date-fns/format";
 import { useRouter } from "expo-router";
 
@@ -88,6 +88,71 @@ const InseratProfile : React.FC<InseratProfileProps> = ({
                                 </View>
                             </View>  
                         )}
+                        <View className="py-4">
+                            <View className="w-full mb-4">
+                                <Text className="text-md font-semibold text-gray-200">
+                                    Weitere Kontaktdaten
+                                </Text>
+                            </View>
+                            <View className="flex flex-row items-center">
+                                <View className="w-1/6 flex flex-row items-center gap-x-4">
+                                    
+                                    <Feather name="globe" size={20} color="white" />
+                                    
+                                </View>
+                                <View className="w-5/6">
+                                    <Text className="text-md font-medium text-gray-200 underline">
+                                        {thisUser?.business?.website ? thisUser?.business?.website : "-"}
+                                    </Text>
+                                </View>
+                            </View>
+
+                            <View className="flex flex-row items-center mt-4">
+                                <View className="w-2/6 flex flex-row items-center gap-x-4">
+                                    
+                                    <View>
+                                    <Ionicons name="mail-outline" size={20} color="white" />
+                                    </View>
+                                    <Text className="text-md font-medium text-gray-200">
+                                    Email
+                                    </Text>
+                                </View>
+                                <View className="w-4/6">
+                                    <Text className="text-md font-medium text-gray-200">
+                                        {thisUser?.business?.email ? thisUser?.business?.email : "-"}
+                                    </Text>
+                                </View>
+                            </View>
+                            <View className="flex flex-row items-center mt-2">
+                                <View className="w-2/6 flex flex-row items-center gap-x-4">
+                                <View className="w-1/6">
+                                    <FontAwesome name="phone" size={20} color="white" />
+                                    </View>
+                                    <Text className="text-md font-medium text-gray-200">
+                                        Tel.
+                                    </Text>
+                                </View>
+                                <View className="w-4/6">
+                                    <Text className="text-md font-medium text-gray-200">
+                                        {thisUser?.business?.telephone_number ? thisUser?.business?.telephone_number : "-"}
+                                    </Text>
+                                </View>
+                            </View>
+                            <View className="flex flex-row items-center mt-2">
+                                <View className="w-2/6 flex flex-row items-center gap-x-4">
+                                    
+                                    <FontAwesome5 name="fax" size={20} color="white" />
+                                    <Text className="text-md font-medium text-gray-200">
+                                        Fax
+                                    </Text>
+                                </View>
+                                <View className="w-4/6">
+                                    <Text className="text-md font-medium text-gray-200">
+                                        {thisUser?.business?.fax ? thisUser?.business?.fax : "-"}
+                                    </Text>
+                                </View>
+                            </View>
+                        </View>
                     </View>
 )}
                 <TouchableOpacity onPress={() => {router.push(`/profile/${thisUser.id}`)}} className="bg-[#242635] 
