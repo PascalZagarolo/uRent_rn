@@ -27,7 +27,11 @@ const InseratPage =  () => {
                                     businessAddresses : true
                                 }
                             },
-                            inserat : true,
+                            inserat : {
+                                with : {
+                                    images : true,
+                                }
+                            },
                         }
                     },
                     
@@ -47,7 +51,7 @@ const InseratPage =  () => {
         loadInserat();
     }, [])
 
-    
+    //!Prepare the data
 
     return ( 
         <SafeAreaView className="bg-[#161923] flex-1">

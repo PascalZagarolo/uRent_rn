@@ -9,6 +9,7 @@ import InseratDescription from "./inserat-description";
 import InseratOptions from "./inserat-options";
 import InseratAttributes from "./inserat-attributes";
 import InseratProfile from "./inserat-profile";
+import InseratMoreContent from "./inserat-user-more-content";
 
 interface InseratRenderProps {
     thisInserat: typeof inserat.$inferSelect;
@@ -123,9 +124,14 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                 </View>
                 <View className="p-4">
                         <InseratProfile 
-                        
                         thisUser={thisInserat.user}
                         />
+                </View>
+                <View className="p-4">
+                    <InseratMoreContent 
+                    username={thisInserat.user.name}
+                    foundInserat={thisInserat.user.inserat}
+                    />
                 </View>
             </View>
         </View>
