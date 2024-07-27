@@ -4,6 +4,7 @@ import { format } from "date-fns/format";
 import { useRouter } from "expo-router";
 
 import { Image, Text, TouchableOpacity, View } from "react-native";
+import { businessAddress, address } from '../../../../db/schema';
 
 interface InseratProfileProps {
     thisUser : typeof userTable.$inferSelect;
@@ -16,18 +17,20 @@ const InseratProfile : React.FC<InseratProfileProps> = ({
     thisUser
 }) => {
 
+    console.log(thisUser?.business.businessAddresses?.length)
+
     const publicInserate = thisUser?.inserat.filter(inserat => inserat.isPublished);
+
+    const foundMainAddress = thisUser?.business?.businessAddresses?.filter(address => address?.isPrimary);
 
     const router = useRouter();
 
     return ( 
         <View>
             <View className="flex flex-row items-center gap-x-4">
-            
             <Image source={{uri: thisUser.image }} style={{width: 50, height: 50}} 
                 className="rounded-md"
                 />
-            
             <Text className="text-lg font-semibold w-3/4 text-gray-200 break-all line-clamp-1" numberOfLines={1}>
                 {thisUser.name} 
             </Text>
@@ -63,6 +66,30 @@ const InseratProfile : React.FC<InseratProfileProps> = ({
                         </Text>
                     </View>
                 )}
+{thisUser?.isBusiness && (
+                    <View className="py-4 w-full border-b border-t border-gray-800">
+                        {thisUser?.business.businessAddresses?.length > 0 && (
+                            <View>
+                                <View className="flex flex-row items-center gap-x-4">
+                                    <FontAwesome name="map-marker" size={20} color="red" />
+                                    <Text className="text-md font-semibold text-gray-200">
+                                    Firmenstandort
+                                    </Text>
+                                </View>
+                                <View className="mt-2">
+                                    <Image
+                                    source={{uri: foundMainAddress[0].image }}
+                                    className="w-full h-32 object-cover"
+                                    />
+                                    <Text className="mt-2 ml-auto text-sm font-medium text-gray-200">
+                                    {foundMainAddress[0]?.street ? foundMainAddress[0]?.street + ", " : ""} 
+                                    {foundMainAddress[0]?.postalCode} {foundMainAddress[0]?.city}
+                                    </Text>
+                                </View>
+                            </View>  
+                        )}
+                    </View>
+)}
                 <TouchableOpacity onPress={() => {router.push(`/profile/${thisUser.id}`)}} className="bg-[#242635] 
                 p-2 mt-2 rounded-md w-full flex justify-center flex-row space-x-4">
                     <FontAwesome name="user" size={20} color="white" />
