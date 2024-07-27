@@ -5,6 +5,7 @@ import { inserat, lkwAttribute, pkwAttribute, priceprofile } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
+import { businessAddress } from '../../../db/schema';
 
 
 const InseratPage =  () => {
@@ -21,7 +22,11 @@ const InseratPage =  () => {
                 ), with : {
                     user : {
                         with : {
-                            business : true,
+                            business : {
+                                with : {
+                                    businessAddresses : true
+                                }
+                            },
                             inserat : true,
                         }
                     },
