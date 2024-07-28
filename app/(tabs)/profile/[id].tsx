@@ -22,6 +22,7 @@ const ProfilePage = () => {
                         business : {
                             with : {
                                 businessAddresses : true,
+                                faqs : true,
                                 openingTimes : true
                             }
                         },

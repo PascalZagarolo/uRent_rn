@@ -6,6 +6,7 @@ import ProfileContact from "../profile-contact";
 import ProfileOpeningTimes from "./profile-opening-times";
 import ProfilePaymentMethods from "./profile-payments";
 import { paymentMethods } from '../../../../db/schema';
+import ProfileFaqs from "./profile-faqs";
 
 interface ProfileRenderProps {
     thisUser : typeof userTable.$inferSelect | any;
@@ -17,7 +18,7 @@ const ProfileRender : React.FC<ProfileRenderProps> = ({
 
     const usedDescription = thisUser?.isBusiness ? thisUser?.business?.description : thisUser?.description;
     
-    console.log(thisUser.paymentMethods)
+    console.log(thisUser.business?.faqs)
 
     return ( 
         <View className="bg-[#1F2332] h-full">
@@ -77,6 +78,11 @@ const ProfileRender : React.FC<ProfileRenderProps> = ({
                 {thisUser?.isBusiness && (
                     <ProfilePaymentMethods 
                         thisPaymentMethods={thisUser.paymentMethods as any}
+                    />
+                )}
+                {(thisUser?.isBusiness && thisUser?.business?.faqs > 0) && (
+                    <ProfileFaqs 
+                    thisQuestions={thisUser?.business?.faqs as any}
                     />
                 )}
             </View>

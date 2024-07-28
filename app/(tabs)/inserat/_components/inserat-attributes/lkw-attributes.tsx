@@ -2,7 +2,7 @@
 
 
 import { lkwAttribute } from "@/db/schema";
-import { FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import { format } from "date-fns";
 import { Text, View, ViewBase } from "react-native";
@@ -47,7 +47,7 @@ const LkwAttributeRender: React.FC<LkwAttributeRenderProps> = ({
             )}
             {attributes?.drive && (
                 <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome5 name="gear" className="w-4 h-4 mr-2" size={20} color="white"/>
+                    <FontAwesome name="gear" className="w-4 h-4 mr-2" size={20} color="white"/>
                     <Text className="font-semibold text-gray-200">{attributes.drive.substring(1)}</Text>
                 </View>
             )}
