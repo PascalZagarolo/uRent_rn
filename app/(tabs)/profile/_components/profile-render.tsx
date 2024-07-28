@@ -1,0 +1,57 @@
+import { userTable } from "@/db/schema";
+import { Image, Text, View } from "react-native";
+import ProfileDescription from "./profile-description";
+
+interface ProfileRenderProps {
+    thisUser : typeof userTable.$inferSelect;
+}
+
+const ProfileRender : React.FC<ProfileRenderProps> = ({
+    thisUser
+}) => {
+
+    const usedDescription = thisUser?.isBusiness ? thisUser?.business?.description : thisUser?.description;
+
+    return ( 
+        <View className="bg-[#1F2332] h-full">
+            <View>
+                <View className="border-b border-gray-800 p-4 bg-[#181b27]">
+                    <Text className="text-xl font-semibold text-gray-200">
+                        {thisUser?.isBusiness ? "Vermieterdetails" : "Nutzerdetails"}
+                    </Text>
+                </View>
+                <View className="p-4 flex flex-row items-center">
+                    <View className="w-1/4">
+                        <Image 
+                        source={{uri : thisUser?.image}}
+                        className="w-20 h-20 rounded-full"
+                        />
+                    </View>
+                    <View className="w-3/4">
+                    <Text className="text-lg font-semibold text-gray-200">
+                    {thisUser?.name}
+                    </Text>
+                    {thisUser?.sharesRealName && (
+                        <Text className="text-sm text-gray-200 font-medium">
+                            {thisUser?.vorname} {thisUser?.nachname}
+                        </Text>
+                    )}
+                    {thisUser?.sharesEmail && (
+                        <Text className="text-sm text-gray-200 font-semibold">
+                            {thisUser?.email}
+                        </Text>
+                    )}
+                    </View>
+                </View>
+                <View>
+                    <ProfileDescription 
+                    thisDescription={usedDescription}
+                    thisName={thisUser?.name}
+                    />
+                </View>
+            </View>
+        </View>
+     );
+}
+ 
+export default ProfileRender;
