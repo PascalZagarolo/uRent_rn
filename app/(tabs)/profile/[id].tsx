@@ -1,5 +1,5 @@
 import db from "@/db/drizzle";
-import { userTable } from "@/db/schema";
+import { businessAddress, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -18,7 +18,12 @@ const ProfilePage = () => {
                 const thisUser = await db.query.userTable.findFirst({
                     where : eq(userTable.id , id),
                     with : {
-                        business : true
+                        business : {
+                            with : {
+                                businessAddresses : true,
+                            }
+                        },
+                        
                     }
                 });
     

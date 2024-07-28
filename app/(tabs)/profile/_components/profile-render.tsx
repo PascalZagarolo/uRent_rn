@@ -1,9 +1,11 @@
 import { userTable } from "@/db/schema";
 import { Image, Text, View } from "react-native";
 import ProfileDescription from "./profile-description";
+import ProfileStandort from "./profile-standort";
+import ProfileContact from "../profile-contact";
 
 interface ProfileRenderProps {
-    thisUser : typeof userTable.$inferSelect;
+    thisUser : typeof userTable.$inferSelect | any;
 }
 
 const ProfileRender : React.FC<ProfileRenderProps> = ({
@@ -49,6 +51,19 @@ const ProfileRender : React.FC<ProfileRenderProps> = ({
                     thisName={thisUser?.name}
                     />
                 </View>
+                {thisUser?.isBusiness && (
+                    <ProfileStandort 
+                    thisBusiness = {thisUser?.business }
+                    />
+                )}
+                {thisUser?.isBusiness && (
+                    <ProfileContact 
+                    thisEmail={thisUser?.business?.email as string}
+                    thisFax={thisUser?.business?.fax as string}
+                    thisNumber={thisUser?.business?.telephone_number as string}
+                    thisWebsite={thisUser?.business?.website as string}
+                    />
+                )}
             </View>
         </View>
      );

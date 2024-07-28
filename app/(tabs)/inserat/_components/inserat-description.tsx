@@ -13,7 +13,7 @@ const InseratDescription: React.FC<InseratDescriptionProps> = ({ description }) 
         setIsExpanded(!isExpanded);
     };
 
-    const shouldShowMore = description.length > 100; // You can adjust the threshold as needed
+    const shouldShowMore = description.length > 100; 
     const displayedText = isExpanded ? description : `${description.substring(0, 100)}...`;
 
     return (
