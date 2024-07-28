@@ -80,7 +80,7 @@ const ProfileRender : React.FC<ProfileRenderProps> = ({
                         thisPaymentMethods={thisUser.paymentMethods as any}
                     />
                 )}
-                {(thisUser?.isBusiness && thisUser?.business?.faqs > 0) && (
+                {(thisUser?.isBusiness && thisUser?.business?.faqs?.length > 0) && (
                     <ProfileFaqs 
                     thisQuestions={thisUser?.business?.faqs as any}
                     />

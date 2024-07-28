@@ -3,6 +3,8 @@ import { View, Text, TouchableOpacity, Animated } from "react-native";
 import { Avatar, Icon, ListItem } from '@rneui/themed';
 import { useRef, useState } from "react";
 import { businessFaqs } from "@/db/schema";
+import { FontAwesome } from "@expo/vector-icons";
+import exp from "constants";
 
 interface ProfileFaqsProps {
     thisQuestions : typeof businessFaqs.$inferSelect[];
@@ -70,17 +72,25 @@ const ProfileFaqs : React.FC<ProfileFaqsProps> = ({
                 </Text>
             </View>
             {thisQuestions.map((faq, index) => (
-                <View key={index} className="mt-2">
-                    <TouchableOpacity onPress={() => handlePress(index)}>
-                        <Text className="text-base font-medium text-gray-200">
-                            {faq.question}
+                <View key={index} className="mt-4">
+                    <TouchableOpacity onPress={() => handlePress(index)} className="flex flex-row items-center border-b border-gray-800 pb-2">
+                        <Text className="text-base font-medium text-gray-200 w-11/12">
+                            {faq.question}  
+                            
                         </Text>
+                        <View className="w-1/12 ml-2">
+                        {expandedIndex === index ? (
+                            <FontAwesome className="" name="chevron-up" size={16} color="white" />
+                        ) : (
+                            <FontAwesome className="" name="chevron-down" size={16} color="white" />
+                        )}
+                        </View>
                     </TouchableOpacity>
                     {expandedIndex === index && (
                         <Animated.View style={{ height: animations[index].interpolate({
                             inputRange: [0, 1],
                             outputRange: [0, 100] // Adjust this value to fit your content height
-                        }) }}>
+                        }) }} className="mt-2">
                             <Text className="text-sm text-gray-400">
                                 {faq.answer}
                             </Text>
