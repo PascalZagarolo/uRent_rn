@@ -1,10 +1,11 @@
 import db from "@/db/drizzle";
-import { businessAddress, userTable } from "@/db/schema";
+import { businessAddress, paymentMethods, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import ProfileRender from "./_components/profile-render";
+import { openingTimes } from '../../../db/schema';
 
 const ProfilePage = () => {
 
@@ -21,9 +22,10 @@ const ProfilePage = () => {
                         business : {
                             with : {
                                 businessAddresses : true,
+                                openingTimes : true
                             }
                         },
-                        
+                        paymentMethods : true,
                     }
                 });
     
@@ -37,6 +39,8 @@ const ProfilePage = () => {
         findUser();
 
     },[])
+
+    
 
     return ( 
         <SafeAreaView className="flex-1  bg-[#181b27]">
