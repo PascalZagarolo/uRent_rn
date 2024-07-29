@@ -26,7 +26,8 @@ const LoginForm = () => {
                 </Text>
                 <TextInput
                     className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md mt-2"
-                    passwordRules={"true"}
+                    
+                    secureTextEntry={true}
                 />
             </View>
             <View className="mt-8">

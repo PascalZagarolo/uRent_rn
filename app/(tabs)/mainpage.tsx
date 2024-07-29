@@ -1,4 +1,5 @@
 import { getInserate } from "@/actions/getInserate";
+import Footer from "@/components/_searchpage/footer";
 import Header from "@/components/_searchpage/header";
 import InseratCard from "@/components/_searchpage/inserat-card";
 import { useEffect, useState } from "react";
@@ -21,15 +22,19 @@ const MainPage = () => {
 
     return (
         <SafeAreaView className="flex-1  bg-[#1F2332]">
+            
+            <ScrollView className=" ">
             <View className="">
                 <Header />
             </View>
-            <ScrollView className=" space-y-4">
                 {inserate.map((pInserat) => (
-                    <View key={pInserat.id}>
+                    <View key={pInserat.id} className="border-t border-b border-gray-800 mb-2">
                         <InseratCard thisInserat={pInserat} />
                     </View>
                 ))}
+                <View className="mt-4">
+                    <Footer />
+                </View>
             </ScrollView>
         </SafeAreaView>
     );
