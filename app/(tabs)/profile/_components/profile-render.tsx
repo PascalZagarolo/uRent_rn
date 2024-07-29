@@ -7,6 +7,7 @@ import ProfileOpeningTimes from "./profile-opening-times";
 import ProfilePaymentMethods from "./profile-payments";
 import { paymentMethods } from '../../../../db/schema';
 import ProfileFaqs from "./profile-faqs";
+import ProfileImprint from "./profile-imprint";
 
 interface ProfileRenderProps {
     thisUser : typeof userTable.$inferSelect | any;
@@ -83,6 +84,11 @@ const ProfileRender : React.FC<ProfileRenderProps> = ({
                 {(thisUser?.isBusiness && thisUser?.business?.faqs?.length > 0) && (
                     <ProfileFaqs 
                     thisQuestions={thisUser?.business?.faqs as any}
+                    />
+                )}
+                {thisUser?.isBusiness && (
+                    <ProfileImprint 
+                    thisImprint = {thisUser?.business?.impressum as any}
                     />
                 )}
             </View>
