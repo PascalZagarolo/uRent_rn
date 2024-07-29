@@ -45,9 +45,9 @@ const InseratCard: React.FC<InseratCardProps> = ({
                     </Text>
                     </TouchableOpacity>
               
-                <View className=" px-4 ">
+                <View className="px-2">
                     <Image
-                        className="w-full h-40  rounded-t-md"
+                        className="w-full h-40  rounded-t-lg"
                         source={{
                             //@ts-ignore
                             uri: thisInserat.images[0].url,
@@ -55,8 +55,8 @@ const InseratCard: React.FC<InseratCardProps> = ({
                     />
 
                 </View>
-                <View className="px-4">
-                    <View className="w-full bg-[#1a1d29] p-4 py-4">
+                <View className=" bg-[#1a1d29] border-t border-b border-gray-800">
+                    <View className="w-full  p-4 py-4">
                         <View className="flex flex-row gap-x-2">
                             <View>
                                 <FontAwesome name="location-arrow" size={20} color="red" />
@@ -77,7 +77,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity className="flex flex-row py-2 px-2 items-center gap-x-4"
+                <TouchableOpacity className="flex flex-row py-2 px-2 items-center gap-x-4 bg-[#151720]"
             onPress={() => {router.push(`/profile/${thisInserat?.user?.id}`)}}
                 >
                     <View className="flex ">
