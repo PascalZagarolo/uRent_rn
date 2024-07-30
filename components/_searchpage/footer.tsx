@@ -32,9 +32,11 @@ const Footer = () => {
                         Impressum
                     </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => router.push('/data-privacy')}>
                     <Text className="text-sm font-semibold text-gray-200">
                        Datenschutz
                     </Text>
+                    </TouchableOpacity>
                     <Text className="text-sm font-semibold text-gray-200">
                         AGBs
                     </Text>
