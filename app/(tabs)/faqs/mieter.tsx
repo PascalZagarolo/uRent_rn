@@ -197,7 +197,7 @@ const FaqsMieter = () => {
                         <View className="mt-12">
                             <View>
                                 <Text className="text-lg font-semibold text-gray-200">
-                                    Inserate erstellen/verwalten:
+                                    Mieten auf uRent:
                                 </Text>
                             </View>
                             <View>

@@ -62,7 +62,7 @@ const Faqs = () => {
                                             Mieter
                                         </Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity className="p-4 bg-[#181b27] rounded-md w-6/12">
+                                    <TouchableOpacity className="p-4 bg-[#181b27] rounded-md w-6/12" onPress={() => {router.push(`/faqs/vermieter`)}}>
                                     <Text className="text-base font-semibold text-gray-200 text-center">
                                             FAQ
                                         </Text>
