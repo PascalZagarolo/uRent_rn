@@ -50,9 +50,11 @@ const Footer = () => {
                     </TouchableOpacity>
                 </View>
                 <View className="w-1/3">
+                <TouchableOpacity onPress={() => router.push('/faqs')}>
                 <Text className="text-sm font-semibold text-gray-200">
                         FAQs & Hilfe
                     </Text>
+                    </TouchableOpacity>
                 </View>
             </View>
             <View className="w-full flex flex-row py-4 space-x-4">
