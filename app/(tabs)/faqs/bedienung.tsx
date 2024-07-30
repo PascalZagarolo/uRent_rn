@@ -361,7 +361,7 @@ const FaqsBedienung = () => {
                             </View>
 
                                 <Text className="text-sm font-semibold text-gray-200">
-                                 zurück zu FAQs
+                                 zurück zur FAQs-Übersicht
                                 </Text>
                             </View>
                             </TouchableOpacity>

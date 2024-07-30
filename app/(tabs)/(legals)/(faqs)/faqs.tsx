@@ -54,7 +54,7 @@ const Faqs = () => {
                                     </Text>
                                 </TouchableOpacity>
                                 <View className="flex flex-row items-center justify-center space-x-4 px-2 w-full">
-                                    <TouchableOpacity className="p-4 bg-[#181b27] rounded-md w-6/12">
+                                    <TouchableOpacity className="p-4 bg-[#181b27] rounded-md w-6/12" onPress={() => {router.push(`/faqs/mieter`)}}>
                                     <Text className="text-base font-semibold text-gray-200 text-center">
                                             FAQ
                                         </Text>
