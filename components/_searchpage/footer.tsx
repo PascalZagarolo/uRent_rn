@@ -16,9 +16,11 @@ const Footer = () => {
             </View>
             <View className="w-full flex flex-row justify-between">
                 <View className="w-1/3">
+                <TouchableOpacity onPress={() => router.push('/about-us')}>
                     <Text className="text-sm font-semibold text-gray-200">
                         Über uns
                     </Text>
+                    </TouchableOpacity>
                     <Text className="text-sm font-semibold text-gray-200">
                        Kontakt
                     </Text>
