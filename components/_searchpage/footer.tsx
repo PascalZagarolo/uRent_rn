@@ -21,9 +21,11 @@ const Footer = () => {
                         Über uns
                     </Text>
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => router.push('/contact-site')}>
                     <Text className="text-sm font-semibold text-gray-200">
                        Kontakt
                     </Text>
+                    </TouchableOpacity>
                     <Text className="text-sm font-semibold text-gray-200">
                         Karriere
                     </Text>
