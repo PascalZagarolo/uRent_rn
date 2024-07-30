@@ -87,7 +87,7 @@ const ContactSite = () => {
                     {/* 
                     Add Checkbox for conditions
                     */}
-                    <View className="mt-8 mb-8 flex justify-end ml-auto">
+                    <View className="mt-8  flex justify-end ml-auto">
                         <TouchableOpacity className="p-4 bg-indigo-800 w-40 rounded-md" onPress={() => {}}>
                             <Text className="text-center font-semibold text-gray-200">
                                 Absenden
