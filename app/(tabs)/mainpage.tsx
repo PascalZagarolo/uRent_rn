@@ -3,7 +3,10 @@ import Footer from "@/components/_searchpage/footer";
 import Header from "@/components/_searchpage/header";
 import InseratCard from "@/components/_searchpage/inserat-card";
 import { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import { ActivityIndicator, SafeAreaView, ScrollView, Text, View } from "react-native";
+import * as SecureStore from 'expo-secure-store';
+import { getCurrentUser } from "@/actions/getCurrentUser";
+import { useAuth } from "./AuthProvider";
 
 const MainPage = () => {
     console.log("MainPage");
@@ -18,12 +21,21 @@ const MainPage = () => {
         load();
     }, [])
 
-    console.log(inserate.length)
+    const { currentUser, isLoading} = useAuth();
+
+    
+
+    console.log(currentUser)
+
+    if (isLoading) {
+        return <ActivityIndicator />;
+      }
 
     return (
         <SafeAreaView className="flex-1  bg-[#1F2332]">
             
             <ScrollView className=" ">
+                
             <View className="">
                 <Header />
             </View>

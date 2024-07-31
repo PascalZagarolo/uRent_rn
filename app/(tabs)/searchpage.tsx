@@ -1,7 +1,9 @@
 
 
 
+import { useEffect, useState } from "react";
 import { SafeAreaView, Text, View } from "react-native";
+import * as SecureStore from 'expo-secure-store';
 
 
 
