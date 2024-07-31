@@ -1,23 +1,61 @@
 'use client'
 
+import { createLogin } from "@/api";
 import { FontAwesome } from "@expo/vector-icons";
+import { useEffect, useState } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { useRouter } from "expo-router";
+import * as SecureStore from 'expo-secure-store';
 
 const LoginForm = () => {
 
-    const onSignUp = () => {
-        console.log('Sign up')
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("")
+
+    const router = useRouter();
+
+    const onSignUp = async () => {
+        console.log(email + "!!");
+        console.log(password + "!!")
+        await createLogin(email, password)
+            .then((res) => {
+                if (res.error) {
+                    console.log("schade")
+                } else {
+                    console.log(res);
+                    const token = res;
+                    SecureStore.setItem("authToken", token);
+                    router.replace("/")
+                }
+            })
     }
+
+    useEffect(() => {
+        const checkLoginStatus = async () => {
+            try {
+                const token = await AsyncStorage.getItem("authToken");
+                if (token) {
+                    router.replace("/")
+                }
+            } catch (e: any) {
+
+            }
+        }
+
+        checkLoginStatus()
+    }, [])
 
     return (
         <View className="">
-            
+
             <View className="mt-4">
                 <Text className="text-md text-gray-200 font-semibold">
                     Email
                 </Text>
                 <TextInput
                     className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md mt-2"
+                    onChangeText={(text) => {setEmail(text)}}
                 />
             </View>
             <View className="mt-4">
@@ -26,7 +64,7 @@ const LoginForm = () => {
                 </Text>
                 <TextInput
                     className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md mt-2"
-                    
+                    onChangeText={(text) => {setPassword(text)}}
                     secureTextEntry={true}
                 />
             </View>
