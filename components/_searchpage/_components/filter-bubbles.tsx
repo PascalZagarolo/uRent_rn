@@ -4,10 +4,12 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 interface FilterBubblesProps {
     currentResults : number;
+    toggleFilter : () => void;
 }
 
 const FilterBubbles : React.FC<FilterBubblesProps> = ({
-    currentResults
+    currentResults,
+    toggleFilter
 }) => {
     return ( 
         <View className="pb-2">
@@ -17,7 +19,9 @@ const FilterBubbles : React.FC<FilterBubblesProps> = ({
                 </Text>
             </View>
             <View className="flex flex-row mt-2">
-                <TouchableOpacity className="flex flex-row items-center space-x-1 bg-indigo-800 p-2 rounded-md">
+                <TouchableOpacity className="flex flex-row items-center space-x-1 bg-indigo-800 p-2 rounded-md"
+                onPress={toggleFilter}
+                >
                     <AntDesign name="plussquare" size={20} color={"white"} />
                     <Text className="text-gray-200 font-semibold">
                         Filter hinzufügen
