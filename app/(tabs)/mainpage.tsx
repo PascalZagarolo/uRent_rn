@@ -3,10 +3,15 @@ import Footer from "@/components/_searchpage/footer";
 import Header from "@/components/_searchpage/header";
 import InseratCard from "@/components/_searchpage/inserat-card";
 import { useEffect, useState } from "react";
-import { ActivityIndicator, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { ActivityIndicator, SafeAreaView, ScrollView, Text, View, TouchableOpacity } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import { useAuth } from "./AuthProvider";
+import FilterBubbles from "@/components/_searchpage/_components/filter-bubbles";
+import { Drawer } from 'react-native-drawer-layout';
+import DrawerContentProfile from "@/components/_drawercontent/drawer-content-profile";
+
+
 
 const MainPage = () => {
     console.log("MainPage");
@@ -21,33 +26,64 @@ const MainPage = () => {
         load();
     }, [])
 
-    const { currentUser, isLoading} = useAuth();
+    const { currentUser, isLoading } = useAuth();
 
-    
+    const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+
+    const toggleDrawer = () => {
+        setIsDrawerVisible(!isDrawerVisible);
+    };
 
     console.log(currentUser)
 
     if (isLoading) {
         return <ActivityIndicator />;
-      }
+    }
 
     return (
         <SafeAreaView className="flex-1  bg-[#1F2332]">
-            
+<Drawer
+                    open={isDrawerVisible}
+                    onOpen={() => { setIsDrawerVisible(true) }}
+                    onClose={() => { setIsDrawerVisible(false) }}
+                    drawerPosition="right"
+                    drawerType="front"
+                    renderDrawerContent={() => {
+                        return (
+                            <DrawerContentProfile 
+                            currentUser = {currentUser}
+                            />
+                        )
+                    }}
+                >
             <ScrollView className=" ">
                 
-            <View className="">
-                <Header />
-            </View>
-                {inserate.map((pInserat) => (
-                    <View key={pInserat.id} className="border-t border-b border-gray-800 mb-2">
-                        <InseratCard thisInserat={pInserat} />
+                
+                   
+                    <View className="">
+                        <Header
+                        toggleDrawer={toggleDrawer}
+                            currentUser={currentUser}
+                        />
                     </View>
-                ))}
-                <View className="mt-4">
-                    <Footer />
-                </View>
+                    <View className="p-2">
+                        <FilterBubbles
+                            currentResults={inserate.length}
+                        />
+                    </View>
+                    {inserate.map((pInserat) => (
+                        <View key={pInserat.id} className="border-t border-b border-gray-800 mb-2">
+                            <InseratCard thisInserat={pInserat} />
+                        </View>
+                    ))}
+                    <View className="mt-4">
+                        <Footer />
+                    </View>
+                    
+                    
+                    
             </ScrollView>
+            </Drawer>
         </SafeAreaView>
     );
 }
