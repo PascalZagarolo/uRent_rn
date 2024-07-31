@@ -1,5 +1,6 @@
 'use server'
 
+import JWT from 'expo-jwt';
 import BcryptReactNative from 'bcrypt-react-native';
 
 import { sign } from "react-native-pure-jwt";
@@ -40,12 +41,12 @@ export const createLogin = async (givenEmail: string, givenPassword: string) => 
             return { error: "Dieser Nutzer existiert nicht" }
         }
         console.log(findExistingUser.password)
-        console.log(givenPassword + "sss")
+        
 
         
         
         const passwordsMatch = await bcrypt.compareSync(givenPassword, findExistingUser?.password);
-        console.log("unsdaunondoiusfoi")
+        
         console.log(passwordsMatch)
 
         if (!passwordsMatch || !findExistingUser.password) {
@@ -54,22 +55,22 @@ export const createLogin = async (givenEmail: string, givenPassword: string) => 
 
        
 
-        const usedSecret = process.env.JWT_SECRET;
+        const usedSecret = "77375149353387154508860974358780";
         const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
+        
 
-        console.log("Nurnoch token")
+        console.log(usedSecret)
 
-        const token = sign({
-            userId: findExistingUser.id,
-            exp: oneMonthInMilliseconds
+        
+        const generatedTokenJWT = JWT.encode({
+            userId : findExistingUser.id,
+            exp : oneMonthInMilliseconds
         },
-            usedSecret,
-            {
-                alg: "HS256"
-            }
-
+        usedSecret
+        
         )
-        return token;
+
+        return generatedTokenJWT;
 
     } catch (e: any) {
         console.log(e)
