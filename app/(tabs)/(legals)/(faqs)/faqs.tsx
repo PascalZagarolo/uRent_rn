@@ -1,3 +1,5 @@
+import Footer from "@/components/_searchpage/footer";
+import Header from "@/components/_searchpage/header";
 import { useRouter } from "expo-router";
 import { SafeAreaView, Text, View, ScrollView, TouchableOpacity } from "react-native";
 
@@ -9,6 +11,9 @@ const Faqs = () => {
     return (
         <SafeAreaView className="flex flex-1 bg-[#1F2332]">
             <ScrollView>
+                <View>
+                    <Header />
+                </View>
                 <View className="p-4">
                     <View>
                         <View>
@@ -48,7 +53,9 @@ const Faqs = () => {
                                         Bedienungshilfen
                                     </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity className="p-8 bg-[#181b27] rounded-md">
+                                <TouchableOpacity className="p-8 bg-[#181b27] rounded-md"
+                                onPress={() => {router.push(`/faqs/bookings`)}}
+                                >
                                     <Text className="text-lg font-semibold text-gray-200 text-center">
                                         uRent - Buchungssystem
                                     </Text>
@@ -74,6 +81,9 @@ const Faqs = () => {
                             </View>
                         </View>
                     </View>
+                </View>
+                <View>
+                    <Footer />
                 </View>
             </ScrollView>
         </SafeAreaView>
