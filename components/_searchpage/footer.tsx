@@ -1,4 +1,4 @@
-import { Entypo, FontAwesome } from "@expo/vector-icons";
+import { Entypo, FontAwesome, Fontisto } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { View, Text, TouchableOpacity } from "react-native";
 
@@ -12,7 +12,7 @@ const Footer = () => {
             <View className="w-full flex flex-row py-4 space-x-4">
             <FontAwesome name="instagram" size={24} color="white" />
             <FontAwesome name="twitter" size={24} color="white" />
-                <Entypo name="email" size={24} color="white" />
+                <Fontisto name="email" size={24} color="white" />
             </View>
             <View className="w-full flex flex-row justify-between">
                 <View className="w-1/3">
