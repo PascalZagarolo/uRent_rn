@@ -6,6 +6,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import CategoryFilter from "./_filter-content/_general-filter/category-filter";
 import Results from "./_filter-content/results";
 import PriceRange from "./_filter-content/_general-filter/price-range";
+import SelectDateFilter from "./_filter-content/_general-filter/select-date-filter";
 
 
 interface DrawerSearchFilterProps {
@@ -61,6 +62,9 @@ const DrawerSearchFilter : React.FC<DrawerSearchFilterProps> = ({
             </View>
             <View className="mt-4">
                 <PriceRange />
+            </View>
+            <View className="mt-4">
+                <SelectDateFilter />
             </View>
             <View className="mt-4">
             <Results 
