@@ -61,6 +61,7 @@ const MainPage = () => {
                     return (
                         <DrawerSearchFilter
                             toggleFilter={toggleFilter}
+                            currentResults={inserate.length as number}
                         />
                     )
                 }}
