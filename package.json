@@ -65,6 +65,7 @@
     "react-native-css-interop": "^0.0.34",
     "react-native-drawer-layout": "^3.3.2",
     "react-native-gesture-handler": "~2.16.1",
+    "react-native-popover-view": "^5.1.8",
     "react-native-pure-jwt": "^3.0.2",
     "react-native-raw-bottom-sheet": "^3.0.0",
     "react-native-reanimated": "~3.10.1",
