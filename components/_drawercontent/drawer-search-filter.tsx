@@ -1,10 +1,12 @@
 import { AntDesign, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Feather } from "lucide-react-native";
-import { Text } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import CategoryFilter from "./_filter-content/_general-filter/category-filter";
 import Results from "./_filter-content/results";
+import PriceRange from "./_filter-content/_general-filter/price-range";
+
 
 interface DrawerSearchFilterProps {
     toggleFilter: () => void;
@@ -17,7 +19,9 @@ const DrawerSearchFilter : React.FC<DrawerSearchFilterProps> = ({
     currentResults
 }) => {
     return (
-        <View className="bg-[#1F2332]   border-gray-600 h-full ">
+        
+        <ScrollView className="bg-[#1F2332]   border-gray-600 ">
+            <View className="flex-1 flex">
             <View className="p-4">
                 <View className="ml-auto ">
                     <TouchableOpacity onPress={toggleFilter}>
@@ -56,11 +60,16 @@ const DrawerSearchFilter : React.FC<DrawerSearchFilterProps> = ({
                 </View>
             </View>
             <View className="mt-4">
+                <PriceRange />
+            </View>
+            <View className="mt-4">
             <Results 
             currentResults={currentResults}
             />
             </View>
-        </View>
+            </View>
+        </ScrollView>
+        
     );
 }
 
