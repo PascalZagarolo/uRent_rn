@@ -1,4 +1,5 @@
 import { useSavedSearchParams } from "@/store";
+import { cn } from "@/~/lib/utils";
 import { Feather } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
 import { ScrollView, Text } from "react-native";
@@ -6,7 +7,13 @@ import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
-const SelectDateTime = () => {
+interface DynamicSearchReqTimeProps{
+    disabled : boolean;
+}
+
+const DynamicSearchReqTime : React.FC<DynamicSearchReqTimeProps> = ({
+    disabled
+}) => {
 
     const [currentStartTime, setCurrentStartTime] = useState<any>();
     const [currentEndTime, setCurrentEndTime] = useState<any>();
@@ -58,9 +65,10 @@ const SelectDateTime = () => {
                 <View className="flex flex-row w-full mt-2 justify-center space-x-4 px-8">
                     <View className="w-1/2">
                         <Text className="text-base font-semibold text-gray-200">
-                            Startzeit
+                            Startzeit {disabled}
                         </Text>
-                        <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row"
+                        <TouchableOpacity className={cn("w-full bg-[#171a24] p-4 rounded-md flex flex-row", disabled ? "bg-[#1e222e]" : "")}
+                        disabled={disabled}
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
@@ -80,7 +88,7 @@ const SelectDateTime = () => {
                         <Text className="text-base font-semibold text-gray-200">
                             Endzeit
                         </Text>
-                        <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row"
+                        <TouchableOpacity className={cn("w-full bg-[#171a24] p-4 rounded-md flex flex-row", disabled ? "bg-[#1e222e]" : "")}
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
@@ -211,4 +219,4 @@ const SelectDateTime = () => {
     );
 }
 
-export default SelectDateTime;
+export default DynamicSearchReqTime;
