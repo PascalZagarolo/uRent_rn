@@ -22,7 +22,7 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
 
 export const getCurrentResults = async (values) => {
     try {
-        console.log(values)
+        
 
         const { location, amount, thisCategory, reqAge, freeMiles, license, minPrice, maxPrice, end, start, begin, startDateDynamic, endDateDynamic, reqTime,
             //LKW
@@ -40,7 +40,7 @@ export const getCurrentResults = async (values) => {
             volume, loading_l, loading_b, loading_h, title, radius, caution,
             ...filteredValues } = values;
 
-
+            console.log(periodBegin + "!!!!")
 
         const ConditionFilter = (pInserat: typeof inserat) => {
             const bAge = reqAge ? Number(reqAge) >= Number(pInserat.reqAge) : true;
