@@ -7,6 +7,7 @@ import CategoryFilter from "./_filter-content/_general-filter/category-filter";
 import Results from "./_filter-content/results";
 import PriceRange from "./_filter-content/_general-filter/price-range";
 import SelectDateFilter from "./_filter-content/_general-filter/select-date-filter";
+import SelectDateTime from "./_filter-content/_general-filter/select-date-time";
 
 
 interface DrawerSearchFilterProps {
@@ -65,6 +66,9 @@ const DrawerSearchFilter : React.FC<DrawerSearchFilterProps> = ({
             </View>
             <View className="mt-4">
                 <SelectDateFilter />
+            </View>
+            <View className="mt-4">
+                <SelectDateTime />
             </View>
             <View className="mt-4">
             <Results 

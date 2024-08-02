@@ -101,7 +101,7 @@ const SelectDateFilter = () => {
               <Popover
 
                 from={(
-                  <TouchableOpacity className="w-full bg-[#1c1f2b] p-4 rounded-md flex flex-row">
+                  <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row">
                     {
                     currentEndDate ? (
                       <Text className="text-base text-gray-200 font-semibold">{format(new Date(currentEndDate), "dd.MM.yy")}</Text>
