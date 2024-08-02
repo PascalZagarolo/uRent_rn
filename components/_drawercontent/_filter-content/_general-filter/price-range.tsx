@@ -231,6 +231,7 @@ const PriceRange = () => {
                             {prefilledValues.map((value) => (
                                 <TouchableOpacity className="w-full bg-[#232635] p-2"
                                     onPress={() => onPrefillValueSelectStart(value.price)}
+                                    key={value.price}
                                 >
                                     <Text className="text-center text-lg text-gray-200 font-semibold">
                                         {value.string}
@@ -279,6 +280,7 @@ const PriceRange = () => {
                                 </TouchableOpacity>
                             {prefilledValues.map((value) => (
                                 <TouchableOpacity className="w-full bg-[#232635] p-2"
+                                key={value.price}
                                     onPress={() => onPrefillValueSelect(value.price)}
                                 >
                                     <Text className="text-center text-lg text-gray-200 font-semibold">
