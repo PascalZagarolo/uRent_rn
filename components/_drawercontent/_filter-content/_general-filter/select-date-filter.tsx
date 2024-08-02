@@ -1,6 +1,7 @@
+import { useSavedSearchParams } from "@/store";
 import { Feather, FontAwesome } from "@expo/vector-icons";
-import { format } from "date-fns";
-import { useState } from "react";
+import { format, isAfter, isSameDay } from "date-fns";
+import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { Calendar, LocaleConfig } from 'react-native-calendars';
 
@@ -11,6 +12,29 @@ const SelectDateFilter = () => {
 
   const [currentStartDate, setCurrentStartDate] = useState<Date | null>(null);
   const [currentEndDate, setCurrentEndDate] = useState<Date | null>(null);
+
+  useEffect(() => {
+    if(currentStartDate) {
+      console.log(currentStartDate + "!")
+      changeSearchParams("periodBegin", currentStartDate?.toISOString())
+    } else {
+      deleteSearchParams("periodBegin")
+    }
+  },[currentStartDate])
+
+  useEffect(() => {
+    changeSearchParams("periodEnd", currentEndDate?.toISOString())
+  },[currentEndDate])
+
+  useEffect(() => {
+    if(currentStartDate && currentEndDate && isAfter(currentStartDate,currentEndDate)) {
+      setCurrentEndDate(currentStartDate);
+    }
+  },[currentStartDate, currentEndDate])
+
+  const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
+
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
 
   return (
     <View>
@@ -44,6 +68,8 @@ const SelectDateFilter = () => {
               )}>
               <View className="w-[320px] ">
                 <Calendar
+                
+                markingType="custom"
                   style={{
 
                     height: 350,
@@ -51,10 +77,18 @@ const SelectDateFilter = () => {
                   }}
                   markedDates={
                     currentStartDate ? {
-                      [format(currentStartDate, "yyyy-MM-dd")]: { selected: true, selectedColor: '#1c1f2b' }
+                      [format(currentStartDate, "yyyy-MM-dd")]: { selected: true, selectedColor: '#1c1f2b',
+                      customStyles : {
+                        container : {
+                          backgroundColor: '#3730A3'
+                        }
+                      } }
                     } : {}	
                   }
-                  onDayPress={(day) => { setCurrentStartDate(new Date(day.dateString)) }}
+                  onDayPress={(day) => { 
+                     isSameDay(new Date(day.dateString), new Date(currentStartDate)) ? 
+                     setCurrentStartDate(null) : setCurrentStartDate(new Date(day.dateString));
+                   }}
                 />
               </View>
             </Popover>
@@ -82,6 +116,7 @@ const SelectDateFilter = () => {
                 )}>
                 <View className="w-[320px] ">
                 <Calendar
+                markingType={'custom'}
                   style={{
 
                     height: 350,
@@ -89,10 +124,21 @@ const SelectDateFilter = () => {
                   }}
                   markedDates={
                     currentEndDate ? {
-                      [format(currentEndDate, "yyyy-MM-dd")]: { selected: true, selectedColor: '#1c1f2b' }
+                      [format(currentEndDate, "yyyy-MM-dd")]: { 
+                        selected: true, selectedColor: '#1c1f2b',
+                        customStyles : {
+                          container : {
+                            backgroundColor: '#3730A3'
+                          }
+                        }
+                      
+                      }
                     } : {}	
                   }
-                  onDayPress={(day) => { setCurrentEndDate(new Date(day.dateString)) }}
+                  onDayPress={(day) => { 
+                    isSameDay(new Date(day.dateString), new Date(currentEndDate)) ? 
+                    setCurrentEndDate(null) : setCurrentEndDate(new Date(day.dateString));
+                  }}
                 />
               </View>
               </Popover>
