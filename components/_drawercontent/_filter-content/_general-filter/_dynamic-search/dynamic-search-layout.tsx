@@ -1,8 +1,12 @@
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { Switch, Text, View } from "react-native";
-import DynamicSearchReqTime from "./dynamic-search-reqTime";
+
 import { useSavedSearchParams } from "@/store";
+import DynamicSearchCalendar from "./dynamic-search-calendar";
+import DynamicSearchReqTime from "./dynamic-reqTime";
+import DynamicSearchStartTime from "./dynamic-search-startTime";
+
 
 const DynamicSearchLayout = () => {
 
@@ -14,7 +18,7 @@ const DynamicSearchLayout = () => {
 
     useEffect(() => {
         if(dynamicSearch) {
-            changeSearchParams("dynamicSearch", true)
+            changeSearchParams("dynamicSearch", "true")
         } else {
             deleteSearchParams("dynamicSearch")
         }
@@ -44,8 +48,18 @@ const DynamicSearchLayout = () => {
                         </View>
                     </View>
                 </View>
+                <View>
+                <DynamicSearchCalendar 
+                disabled={!dynamicSearch}
+                />
+                </View>
                 <View className="">
-                    <DynamicSearchReqTime 
+                    <DynamicSearchStartTime 
+                    disabled={!dynamicSearch}
+                    />
+                </View>
+                <View>
+                <DynamicSearchReqTime 
                     disabled={!dynamicSearch}
                     />
                 </View>
