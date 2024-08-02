@@ -9,6 +9,8 @@ import PriceRange from "./_filter-content/_general-filter/price-range";
 import SelectDateFilter from "./_filter-content/_general-filter/select-date-filter";
 import SelectDateTime from "./_filter-content/_general-filter/select-date-time";
 import DynamicSearchLayout from './_filter-content/_general-filter/_dynamic-search/dynamic-search-layout';
+import ConditionsFilter from "./_filter-content/_general-filter/_conditions/conditions-fillter";
+import CategoryOverview from "./_filter-content/_general-filter/_category/category-overview";
 
 
 interface DrawerSearchFilterProps {
@@ -73,6 +75,12 @@ const DrawerSearchFilter : React.FC<DrawerSearchFilterProps> = ({
             </View>
             <View className="mt-4">
                 <DynamicSearchLayout />
+            </View>
+            <View className="mt-4">
+                <ConditionsFilter />
+            </View>
+            <View className="mt-4">
+            <CategoryOverview />
             </View>
             <View className="mt-4">
             <Results 

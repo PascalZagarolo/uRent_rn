@@ -23,7 +23,11 @@ const SelectDateFilter = () => {
   },[currentStartDate])
 
   useEffect(() => {
-    changeSearchParams("periodEnd", currentEndDate?.toISOString())
+    if(currentEndDate) {
+      changeSearchParams("periodEnd", currentEndDate?.toISOString())
+    } else {
+      deleteSearchParams("periodEnd")
+    }
   },[currentEndDate])
 
   useEffect(() => {
