@@ -7,11 +7,11 @@ import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
-interface DynamicSearchReqTimeProps{
+interface DynamicSearchStartTimeProps{
     disabled : boolean;
 }
 
-const DynamicSearchReqTime : React.FC<DynamicSearchReqTimeProps> = ({
+const DynamicSearchStartTime : React.FC<DynamicSearchStartTimeProps> = ({
     disabled
 }) => {
 
@@ -65,9 +65,9 @@ const DynamicSearchReqTime : React.FC<DynamicSearchReqTimeProps> = ({
                 <View className="flex flex-row w-full mt-2 justify-center space-x-4 px-8">
                     <View className="w-1/2">
                         <Text className="text-base font-semibold text-gray-200">
-                            Startzeit {disabled}
+                            Startzeit 
                         </Text>
-                        <TouchableOpacity className={cn("w-full bg-[#171a24] p-4 rounded-md flex flex-row", disabled ? "bg-[#1e222e]" : "")}
+                        <TouchableOpacity className={cn("w-full bg-[#171a24] p-4 rounded-md flex flex-row", disabled ? "bg-[#1c212c]" : "")}
                         disabled={disabled}
                         onPress={() => refRBSheet.current[1].open()}
                         >
@@ -219,4 +219,4 @@ const DynamicSearchReqTime : React.FC<DynamicSearchReqTimeProps> = ({
     );
 }
 
-export default DynamicSearchReqTime;
+export default DynamicSearchStartTime;
