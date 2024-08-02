@@ -12,7 +12,7 @@ const PriceRange = () => {
     const refRBSheet = useRef([]);
 
 
-    const snapPoints = useMemo(() => ['25%', '50%', '90%'], []);
+    
     const [startPrice, setStartPrice] = useState<number | string | null>();
     const [endPrice, setEndPrice] = useState<number | string | null>();
     const [isStartFocused, setIsStartFocused] = useState(false);
