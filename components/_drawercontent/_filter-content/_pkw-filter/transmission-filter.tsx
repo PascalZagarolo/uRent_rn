@@ -7,9 +7,9 @@ import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
-const FuelFilter = () => {
+const TransmissionFilter = () => {
 
-    const [currentFuel, setCurrentFuel] = useState<any>();
+    const [currentTransmission, setCurrentTransmission] = useState<any>();
     
 
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
@@ -20,34 +20,23 @@ const FuelFilter = () => {
 
     const prefilledValues = [
         {
-            value : "BENZIN",
-            string : "Benzin"
+            value : "MANUAL",
+            string : "Manuell"
         },
         {
-            value : "DIESEL",
-            string : "Diesel"
+            value : "AUTOMATIC",
+            string : "Automatisch"
         },
-        {
-            value : "ELEKTRISCH",
-            string : "Elektrisch"
-        },
-        {
-            value : "HYBRID",
-            string : "Hybrid"
-        },
+        
     ]
     
 
     const convertValues = (value: string) => {
         switch(value) {
-            case "BENZIN":
-                return "Benzin"
-            case "DIESEL":
-                return "Diesel"
-            case "ELEKTRISCH":
-                return "Elektrisch"
-            case "HYBRID":
-                return "Hybrid"
+            case "MANUAL":
+                return "Manuell"
+            case "AUTOMATIC":
+                return "Automatisch"
             default:
                 return null
         }
@@ -57,12 +46,12 @@ const FuelFilter = () => {
     
 
     useEffect(() => {
-        if(currentFuel) {
-            changeSearchParams("fuel", currentFuel)
+        if(currentTransmission) {
+            changeSearchParams("transmission", currentTransmission)
         }else {
-            deleteSearchParams("fuel")
+            deleteSearchParams("transmission")
         }
-    },[currentFuel])
+    },[currentTransmission])
 
     
 
@@ -78,17 +67,17 @@ const FuelFilter = () => {
     return (
         <View>
             <View>
-                <View className="flex flex-row w-full mt-2 justify-center  pl-8">
+                <View className="flex flex-row w-full mt-2 justify-center pr-8">
                     <View className="w-full">
                         <Text className="text-base font-semibold text-gray-200">
-                            Treibstoff
+                            Getriebe
                         </Text>
                         <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row"
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                 currentFuel  ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentFuel)}</Text>
+                                 currentTransmission  ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentTransmission)}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
@@ -127,13 +116,13 @@ const FuelFilter = () => {
                 }}>
                 <View className="p-4">
                     <Text className="text-base font-semibold text-gray-200">
-                        Treibstoff auswählen
+                        Getriebe auswählen
                     </Text>
                     <ScrollView className="h-[160px] w-full p-4 ">
                         <View className="flex flex-col justify-center space-y-4">
                         <TouchableOpacity className="w-full bg-[#232635] p-2"
                                     onPress={() => {
-                                        setCurrentFuel(null);
+                                        setCurrentTransmission(null);
                                         refRBSheet.current[1].close();
                                     }}
                                 >
@@ -144,7 +133,7 @@ const FuelFilter = () => {
                                 {prefilledValues.map((value) => (
                                     <TouchableOpacity className="w-full bg-[#232635] p-2"
                                     onPress={() => {
-                                        setCurrentFuel(value.value);
+                                        setCurrentTransmission(value.value);
                                         refRBSheet.current[1].close();
                                     }}
                                 >
@@ -165,4 +154,4 @@ const FuelFilter = () => {
     );
 }
 
-export default FuelFilter;
+export default TransmissionFilter;
