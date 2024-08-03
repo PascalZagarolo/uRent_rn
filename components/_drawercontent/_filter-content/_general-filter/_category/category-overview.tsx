@@ -75,7 +75,7 @@ const CategoryOverview = () => {
                     }[currentObject["thisCategory"]]
                 }
             </View>
-            <View >
+            <View>
                 <PkwAttributeRender />
             </View>
         </View>
