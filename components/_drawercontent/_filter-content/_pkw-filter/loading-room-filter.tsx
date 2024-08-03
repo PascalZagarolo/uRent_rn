@@ -123,7 +123,7 @@ const LoadingRoomFilter = () => {
                 <View className="flex flex-row w-full mt-2 justify-center space-x-4 px-8">
                     <View className="w-1/2">
                         <Text className="text-base font-semibold text-gray-200">
-                            Liter
+                        ab Liter
                         </Text>
                         <View className="flex flex-row w-full">
                             <TextInput
@@ -151,7 +151,7 @@ const LoadingRoomFilter = () => {
                     </View>
                     <View className="w-1/2">
                         <Text className="text-base font-semibold text-gray-200">
-                            Kubikmeter
+                           ab Kubikmeter
                         </Text>
                         <View className="flex flex-row w-full">
                             <TextInput
