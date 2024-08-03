@@ -1,3 +1,4 @@
+import { BrandEnumRender } from "@/db/schema";
 import { useSavedSearchParams } from "@/store";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
@@ -6,10 +7,10 @@ import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
-const LicenseAgeFilter = () => {
+const BrandTypeFilter = () => {
 
-    const [currentLicense, setCurrentLicense] = useState<any>();
-    const [currentReqAge, setCurrentReqAge] = useState<any>();
+    const [currentBrand, setCurrentBrand] = useState<any>();
+    const [currentType, setCurrentType] = useState<any>();
 
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
@@ -17,23 +18,93 @@ const LicenseAgeFilter = () => {
 
     const refRBSheet = useRef([]);
 
+    const prefilledValuesType = [
+        {
+            value : "CABRIO",
+            string : "Cabrio"
+        },
+        {
+            value : "COUPE",
+            string : "Coupe"
+        },
+        {
+            value : "KLEINBUS",
+            string : "Kleinbus"
+        },
+        {
+            value : "KLEIN",
+            string : "Kleinwagen"
+        },
+        {
+            value : "KOMBI",
+            string : "Kombi"
+        },
+        {
+            value : "LIMOUSINE",
+            string : "Limousine"
+        },
+        {
+            value : "VAN",
+            string : "Van"
+        },
+        {
+            value : "SPORT",
+            string : "Sportwagen"
+        },
+        {
+            value : "SUPERSPORT",
+            string : "Supersportwagen"
+        },
+        {
+            value : "SUV",
+            string : "SUV"
+        },
+    ]
+
+    const convertType = (type : string) => {
+        switch (type) {
+            case "CABRIO":
+                return "Cabrio"
+            case "COUPE":
+                return "Coupe"
+            case "KLEINBUS":
+                return "Kleinbus"
+            case "KLEIN":
+                return "Kleinwagen"
+            case "KOMBI":
+                return "Kombi"
+            case "LIMOUSINE":
+                return "Limousine"
+            case "VAN":
+                return "Van"
+            case "SPORT":
+                return "Sportwagen"
+            case "SUPERSPORT":
+                return "Supersportwagen"
+            case "SUV":
+                return "SUV"
+            default:
+                return "Beliebig"
+        }
+    }
+
     
 
     useEffect(() => {
-        if(currentLicense) {
-            changeSearchParams("license", currentLicense)
+        if(currentBrand) {
+            changeSearchParams("thisBrand", currentBrand)
         } else {
-            deleteSearchParams("license")
+            deleteSearchParams("thisBrand")
         }
-    },[currentLicense])
+    },[currentBrand])
 
     useEffect(() => {
-        if(currentReqAge) {
-            changeSearchParams("reqAge", currentReqAge)
+        if(currentType) {
+            changeSearchParams("type", currentType)
         } else {
-            deleteSearchParams("reqAge")
+            deleteSearchParams("type")
         }
-    },[currentReqAge])
+    },[currentType])
 
     const prefilledValuesAge = [];
 
@@ -50,7 +121,10 @@ const LicenseAgeFilter = () => {
         "CE1"
     ]
 
-    
+    function removeUnderscore(inputString: string): string {
+        const outputString = inputString.replace(/_/g, ' ');
+        return outputString;
+    }
 
     return (
         <View>
@@ -58,14 +132,14 @@ const LicenseAgeFilter = () => {
                 <View className="flex flex-row w-full mt-2 justify-center space-x-4 px-8">
                     <View className="w-1/2">
                         <Text className="text-base font-semibold text-gray-200">
-                            Führerschein
+                            Marke
                         </Text>
                         <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row"
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentLicense ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{currentLicense}</Text>
+                                currentBrand ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{removeUnderscore(currentBrand)}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
@@ -78,21 +152,25 @@ const LicenseAgeFilter = () => {
 
                     <View className="w-1/2">
                         <Text className="text-base font-semibold text-gray-200">
-                            Mindestalter
+                            Fahrzeugtyp
                         </Text>
-                        <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row"
+                        <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row items-center"
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentReqAge ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{currentReqAge} Jahre</Text>
+                                currentType ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertType(currentType)}</Text>
                                 ) : (
-                                    <Text className="text-base text-gray-200/60">Beliebig</Text>
+                                    <Text className="text-base text-gray-200/60 flex flex-row items-center">Beliebig
+                                    
+                                    </Text>
                                 )
                             }
-                            <View className="ml-auto">
+                            
+                                <View className="ml-auto">
                                     <FontAwesome name="chevron-down" size={20} color="#fff" className="ml-auto"/>
                                 </View>
+                            
                         </TouchableOpacity>
                     </View>
 
@@ -122,13 +200,13 @@ const LicenseAgeFilter = () => {
                 }}>
                 <View className="p-4">
                     <Text className="text-base font-semibold text-gray-200">
-                        Führerschein auswählen
+                        Marke auswählen
                     </Text>
                     <ScrollView className="h-[160px] w-full p-4 ">
                         <View className="flex flex-col justify-center space-y-4">
                         <TouchableOpacity className="w-full bg-[#232635] p-2"
                                     onPress={() => {
-                                        setCurrentLicense(null);
+                                        setCurrentBrand(null);
                                         refRBSheet.current[1].close();
                                     }}
                                 >
@@ -136,15 +214,15 @@ const LicenseAgeFilter = () => {
                                         -
                                     </Text>
                                 </TouchableOpacity>
-                            {prefilledValuesLicense.map((value) => (
-                                <TouchableOpacity className="w-full bg-[#232635] p-2" key={value}
+                            {Object.values(BrandEnumRender).map((brand) => (
+                                <TouchableOpacity className="w-full bg-[#232635] p-2" key={brand}
                                     onPress={() => {
-                                        setCurrentLicense(value);
+                                        setCurrentBrand(brand);
                                         refRBSheet.current[1].close();
                                     }}
                                 >
                                     <Text className="text-center text-lg text-gray-200 font-semibold">
-                                        {currentLicense}
+                                    {removeUnderscore(brand)}
                                     </Text>
                                 </TouchableOpacity>
                             ))}
@@ -177,13 +255,13 @@ const LicenseAgeFilter = () => {
                 }}>
                 <View className="p-4">
                     <Text className="text-base font-semibold text-gray-200">
-                        Mindestalter auswählen
+                        Fahrzeugtyp auswählen
                     </Text>
                     <ScrollView className="h-[160px] w-full p-4 ">
                         <View className="flex flex-col justify-center space-y-4">
                         <TouchableOpacity className="w-full bg-[#232635] p-2"
                                     onPress={() => {
-                                        setCurrentReqAge(null);
+                                        setCurrentType(null);
                                         refRBSheet.current[2].close();
                                     }}
                                 >
@@ -191,15 +269,15 @@ const LicenseAgeFilter = () => {
                                         -
                                     </Text>
                                 </TouchableOpacity>
-                            {prefilledValuesAge.map((value) => (
-                                <TouchableOpacity className="w-full bg-[#232635] p-2" key={value}
+                            {prefilledValuesType.map((value) => (
+                                <TouchableOpacity className="w-full bg-[#232635] p-2" key={value.value}
                                     onPress={() => {
-                                        setCurrentReqAge(value);
+                                        setCurrentType(value.value);
                                         refRBSheet.current[2].close();
                                     }}
                                 >
                                     <Text className="text-center text-lg text-gray-200 font-semibold">
-                                        {value} Jahre
+                                        {value.string}
                                     </Text>
                                 </TouchableOpacity>
                             ))}
@@ -211,4 +289,4 @@ const LicenseAgeFilter = () => {
     );
 }
 
-export default LicenseAgeFilter;
+export default BrandTypeFilter;
