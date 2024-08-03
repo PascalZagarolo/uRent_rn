@@ -16,7 +16,7 @@ const LoadingRoomFilter = () => {
     
     const [currentLiter, setCurrentLiter] = useState<number | string | null>();
     const [currentCubic, setCurrentCubic] = useState<number | string | null>();
-    const [usesLiter, setUsesLiter] = useState<boolean>(false);
+    const [usesLiter, setUsesLiter] = useState<boolean>(true);
     const [isStartFocused, setIsStartFocused] = useState(false);
     const [isEndFocused, setIsEndFocused] = useState(false);
 
@@ -129,11 +129,11 @@ const LoadingRoomFilter = () => {
                             <TextInput
                                 className={
                                     cn("w-full bg-[#181b25] rounded-l-md text-base text-gray-200/90 p-4 font-semibold",
-                                    usesLiter && "bg-[#1d202c] text-gray-200/60"
+                                    !usesLiter && "bg-[#1d202c] text-gray-200/60"
                                     )
                                 }
                                 placeholder="Startpreis"
-                                editable={!usesLiter}
+                                editable={usesLiter}
                                 onFocus={() => setIsStartFocused(true)}
                                 onBlur={() => setIsStartFocused(false)}
                                 value={currentLiter?.toString() || ''}  
@@ -157,11 +157,11 @@ const LoadingRoomFilter = () => {
                             <TextInput
                                 className={
                                     cn("w-full bg-[#181b25] rounded-l-md text-base text-gray-200/90 p-4 font-semibold",
-                                    !usesLiter && "bg-[#1d202c] text-gray-200/60"
+                                    usesLiter && "bg-[#1d202c] text-gray-200/60"
                                     )
                                 }
                                 placeholder="Endpreis"
-                                editable={usesLiter}
+                                editable={!usesLiter}
                                 value={currentCubic?.toString() || ''}  
                                 onChangeText={(text) => 
                                     {
@@ -182,15 +182,15 @@ const LoadingRoomFilter = () => {
             </View>
             <View className="mt-2 px-6">
                 <View className="flex flex-row items-center gap-x-2">
-                        <Text className="text-sm text-gray-200/90 font-medium">
+                        <Text className={cn("text-sm text-gray-200/90 font-medium", usesLiter && "font-semibold")}>
                             Liter
                         </Text>
                         <Switch
                             
                             
                             onValueChange={() => setUsesLiter(!usesLiter)}
-                            value={usesLiter} />
-                        <Text className="text-sm text-gray-200/90 font-medium">
+                            value={!usesLiter} />
+                        <Text className={cn("text-sm text-gray-200/90 font-medium", !usesLiter && "font-semibold")}>
                             Kubikmeter
                         </Text>
                 </View>
