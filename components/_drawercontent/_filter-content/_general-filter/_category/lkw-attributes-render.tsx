@@ -6,6 +6,8 @@ import SeatsFilter from "../../_pkw-filter/seats-filter";
 import TransmissionFilter from "../../_pkw-filter/transmission-filter";
 import LkwBrandFilter from "../../_lkw-filter/lkw-brand-filter";
 import LkwWeightClassFilter from "../../_lkw-filter/lkw-weightclass-filter";
+import LkwExtraTypeFilter from "../../_lkw-filter/lkw-extra-type";
+import LkwLoadingTypeFilter from "../../_lkw-filter/lkw-loading-type-filter";
 
 const LkwAttributesRender = () => {
     return (
@@ -20,6 +22,14 @@ const LkwAttributesRender = () => {
             </View>
             <View className="mt-4">
                 <LkwWeightClassFilter />
+            </View>
+            <View className="flex items-center flex-row justify-center space-x-4">
+            <View className="w-1/2">
+                    <LkwExtraTypeFilter />
+                </View>
+                <View className="w-1/2">
+                <LkwLoadingTypeFilter />
+                </View>
             </View>
             <View>
                 <SeatsFilter />
