@@ -1,6 +1,8 @@
+
 import { useSavedSearchParams } from "@/store";
 import { Entypo, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
+import PkwAttributeRender from "./pkw-attributes-render";
 
 const CategoryOverview = () => {
     
@@ -72,6 +74,9 @@ const CategoryOverview = () => {
                     
                     }[currentObject["thisCategory"]]
                 }
+            </View>
+            <View >
+                <PkwAttributeRender />
             </View>
         </View>
      );

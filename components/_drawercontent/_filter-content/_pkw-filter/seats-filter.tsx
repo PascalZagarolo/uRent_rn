@@ -1,3 +1,4 @@
+import { BrandEnumRender } from "@/db/schema";
 import { useSavedSearchParams } from "@/store";
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
@@ -6,10 +7,10 @@ import { View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
-const LicenseAgeFilter = () => {
+const SeatsFilter = () => {
 
-    const [currentLicense, setCurrentLicense] = useState<any>();
-    const [currentReqAge, setCurrentReqAge] = useState<any>();
+    const [currentSeats, setCurrentSeats] = useState<any>();
+    const [currentSeatsmax, setCurrentSeatsmax] = useState<any>();
 
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
@@ -19,38 +20,42 @@ const LicenseAgeFilter = () => {
 
     
 
-    useEffect(() => {
-        if(currentLicense) {
-            changeSearchParams("license", currentLicense)
-        } else {
-            deleteSearchParams("license")
-        }
-    },[currentLicense])
-
-    useEffect(() => {
-        if(currentReqAge) {
-            changeSearchParams("reqAge", currentReqAge)
-        } else {
-            deleteSearchParams("reqAge")
-        }
-    },[currentReqAge])
-
-    const prefilledValuesAge = [];
-
-    for (let i = 16; i <= 30; i++) {
-        prefilledValuesAge.push(i)
-    }
-
-    const prefilledValuesLicense = [
-        "B",
-        "BE",
-        "C1",
-        "C",
-        "CE",
-        "CE1"
-    ]
+    
 
     
+
+    useEffect(() => {
+        if(currentSeats) {
+            changeSearchParams("seats", currentSeats)
+        } else {
+            deleteSearchParams("seats")
+        }
+    },[currentSeats])
+
+    useEffect(() => {
+        if(currentSeatsmax) {
+            changeSearchParams("seatsMax", currentSeatsmax)
+        } else {
+            deleteSearchParams("seatsMax")
+        }
+    },[currentSeatsmax])
+
+    
+
+    const prefilledSeats = [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+    ]
+
+    function removeUnderscore(inputString: string): string {
+        const outputString = inputString.replace(/_/g, ' ');
+        return outputString;
+    }
 
     return (
         <View>
@@ -58,14 +63,14 @@ const LicenseAgeFilter = () => {
                 <View className="flex flex-row w-full mt-2 justify-center space-x-4 px-8">
                     <View className="w-1/2">
                         <Text className="text-base font-semibold text-gray-200">
-                            Führerschein
+                            Sitze
                         </Text>
                         <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row"
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentLicense ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{currentLicense}</Text>
+                                currentSeats ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{currentSeats}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
@@ -78,21 +83,25 @@ const LicenseAgeFilter = () => {
 
                     <View className="w-1/2">
                         <Text className="text-base font-semibold text-gray-200">
-                            Mindestalter
+                            max. Sitze
                         </Text>
-                        <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row"
+                        <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row items-center"
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentReqAge ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{currentReqAge} Jahre</Text>
+                                currentSeatsmax ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{currentSeatsmax}</Text>
                                 ) : (
-                                    <Text className="text-base text-gray-200/60">Beliebig</Text>
+                                    <Text className="text-base text-gray-200/60 flex flex-row items-center">Beliebig
+                                    
+                                    </Text>
                                 )
                             }
-                            <View className="ml-auto">
+                            
+                                <View className="ml-auto">
                                     <FontAwesome name="chevron-down" size={20} color="#fff" className="ml-auto"/>
                                 </View>
+                            
                         </TouchableOpacity>
                     </View>
 
@@ -122,13 +131,13 @@ const LicenseAgeFilter = () => {
                 }}>
                 <View className="p-4">
                     <Text className="text-base font-semibold text-gray-200">
-                        Führerschein auswählen
+                        Sitze auswählen
                     </Text>
                     <ScrollView className="h-[160px] w-full p-4 ">
                         <View className="flex flex-col justify-center space-y-4">
                         <TouchableOpacity className="w-full bg-[#232635] p-2"
                                     onPress={() => {
-                                        setCurrentLicense(null);
+                                        setCurrentSeats(null);
                                         refRBSheet.current[1].close();
                                     }}
                                 >
@@ -136,15 +145,15 @@ const LicenseAgeFilter = () => {
                                         -
                                     </Text>
                                 </TouchableOpacity>
-                            {prefilledValuesLicense.map((value) => (
-                                <TouchableOpacity className="w-full bg-[#232635] p-2" key={value}
+                            {prefilledSeats.map((seats) => (
+                                <TouchableOpacity className="w-full bg-[#232635] p-2" key={seats}
                                     onPress={() => {
-                                        setCurrentLicense(value);
+                                        setCurrentSeats(seats);
                                         refRBSheet.current[1].close();
                                     }}
                                 >
                                     <Text className="text-center text-lg text-gray-200 font-semibold">
-                                        {currentLicense}
+                                    {seats} {seats === 1 ? "Sitz" : "Sitze"}
                                     </Text>
                                 </TouchableOpacity>
                             ))}
@@ -177,13 +186,13 @@ const LicenseAgeFilter = () => {
                 }}>
                 <View className="p-4">
                     <Text className="text-base font-semibold text-gray-200">
-                        Mindestalter auswählen
+                        Max. Anzahl Sitze auswählen
                     </Text>
                     <ScrollView className="h-[160px] w-full p-4 ">
                         <View className="flex flex-col justify-center space-y-4">
                         <TouchableOpacity className="w-full bg-[#232635] p-2"
                                     onPress={() => {
-                                        setCurrentReqAge(null);
+                                        setCurrentSeatsmax(null);
                                         refRBSheet.current[2].close();
                                     }}
                                 >
@@ -191,15 +200,15 @@ const LicenseAgeFilter = () => {
                                         -
                                     </Text>
                                 </TouchableOpacity>
-                            {prefilledValuesAge.map((value) => (
+                            {prefilledSeats.map((value) => (
                                 <TouchableOpacity className="w-full bg-[#232635] p-2" key={value}
                                     onPress={() => {
-                                        setCurrentReqAge(value);
+                                        setCurrentSeatsmax(value);
                                         refRBSheet.current[2].close();
                                     }}
                                 >
                                     <Text className="text-center text-lg text-gray-200 font-semibold">
-                                        {value} Jahre
+                                        {value}
                                     </Text>
                                 </TouchableOpacity>
                             ))}
@@ -211,4 +220,4 @@ const LicenseAgeFilter = () => {
     );
 }
 
-export default LicenseAgeFilter;
+export default SeatsFilter;
