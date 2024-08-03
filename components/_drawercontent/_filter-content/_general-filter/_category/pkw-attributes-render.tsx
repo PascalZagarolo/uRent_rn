@@ -5,6 +5,9 @@ import AhkFilter from "../../_pkw-filter/ahk-filter";
 import FuelFilter from "../../_pkw-filter/fuel-filter";
 import TransmissionFilter from "../../_pkw-filter/transmission-filter";
 import DoorsFilter from "../../_pkw-filter/doors-filter";
+import PowerFilter from "../../_pkw-filter/power-filter";
+import InitialFilter from "../../_pkw-filter/initial-filter";
+import LoadingRoomFilter from "../../_pkw-filter/loading-room-filter";
 
 
 const PkwAttributeRender = () => {
@@ -29,6 +32,15 @@ const PkwAttributeRender = () => {
             </View>
             <View>
                 <DoorsFilter />
+            </View>
+            <View className="mt-4">
+                <PowerFilter />
+            </View>
+            <View className="mt-4">
+                <InitialFilter />
+            </View>
+            <View className="mt-4">
+                <LoadingRoomFilter />
             </View>
         </View>
      );
