@@ -143,7 +143,7 @@ const InitialFilter = () => {
                 }}>
                 <View className="p-4">
                     <Text className="text-base font-semibold text-gray-200">
-                        Türen auswählen
+                        Baujahr auswählen
                     </Text>
                     <ScrollView className="h-[160px] w-full p-4 ">
                         <View className="flex flex-col justify-center space-y-4">
@@ -198,7 +198,7 @@ const InitialFilter = () => {
                 }}>
                 <View className="p-4">
                     <Text className="text-base font-semibold text-gray-200">
-                        Max. Anzahl Türen auswählen
+                        max. Baujahr auswählen
                     </Text>
                     <ScrollView className="h-[160px] w-full p-4 ">
                         <View className="flex flex-col justify-center space-y-4">
