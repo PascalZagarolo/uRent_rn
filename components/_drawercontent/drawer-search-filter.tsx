@@ -12,6 +12,7 @@ import DynamicSearchLayout from './_filter-content/_general-filter/_dynamic-sear
 import ConditionsFilter from "./_filter-content/_general-filter/_conditions/conditions-fillter";
 import CategoryOverview from "./_filter-content/_general-filter/_category/category-overview";
 import { useSavedSearchParams } from "@/store";
+import { useRouter } from "expo-router";
 
 
 interface DrawerSearchFilterProps {
@@ -27,7 +28,9 @@ const DrawerSearchFilter: React.FC<DrawerSearchFilterProps> = ({
 
     const { searchParams, changeSearchParams, deleteSearchParams, removeAll } = useSavedSearchParams();
 
-    const currentObject = useSavedSearchParams((state) => state.searchParams)
+    const currentObject = useSavedSearchParams((state) => state.searchParams);
+
+    const router = useRouter();
 
     const onDelete = () => {
         removeAll();
