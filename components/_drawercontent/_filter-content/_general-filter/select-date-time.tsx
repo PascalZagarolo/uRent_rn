@@ -57,6 +57,18 @@ const SelectDateTime = () => {
         return `${formattedHours}:${formattedMinutes} Uhr`;
     }
 
+    useEffect(() => {
+        if(currentObject["startTime"] === undefined) {
+          setCurrentStartTime(undefined)
+        }
+    },[currentObject["startTime"]])
+  
+    useEffect(() => {
+        if(currentObject["endTime"] === undefined) {
+          setCurrentEndTime(undefined)
+        }
+    },[currentObject["endTime"]])
+
     return (
         <View>
             <View>
