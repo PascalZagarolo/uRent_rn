@@ -18,6 +18,8 @@ const PriceRange = () => {
     const [isStartFocused, setIsStartFocused] = useState(false);
     const [isEndFocused, setIsEndFocused] = useState(false);
 
+    
+
     const prefilledValues = [
         {
             price: 50,
@@ -113,6 +115,18 @@ const PriceRange = () => {
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    useEffect(() => {
+        if(!currentObject["start"]) {
+            setStartPrice(null)
+        }
+    },[currentObject["start"]])
+
+    useEffect(() => {
+        if(!currentObject["start"]) {
+            setEndPrice(null)
+        }
+    },[currentObject["end"]])
 
     useEffect(() => {
         if (startPrice) {
