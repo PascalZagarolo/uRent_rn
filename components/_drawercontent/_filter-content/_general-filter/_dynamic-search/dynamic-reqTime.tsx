@@ -64,6 +64,12 @@ const DynamicSearchReqTime : React.FC<DynamicSearchReqTimeProps> = ({
         }
     },[currentReqTime])
 
+    useEffect(() => {
+        if(!currentObject["reqTime"]) {
+            setCurrentReqTime(null)
+        }
+    },[currentObject["reqTime"]])
+
     
 
     
