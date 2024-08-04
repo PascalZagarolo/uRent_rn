@@ -20,7 +20,7 @@ const SelectDateTime = () => {
     const prefilledValues = [];
 
     useEffect(() => {
-        if(currentStartTime) {
+        if(currentStartTime !== undefined) {
             changeSearchParams("startTime", currentStartTime)
         } else {
             deleteSearchParams("startTime")
@@ -28,7 +28,7 @@ const SelectDateTime = () => {
     },[currentStartTime])
 
     useEffect(() => {
-        if(currentEndTime) {
+        if(currentEndTime !== undefined) {
             changeSearchParams("endTime", currentEndTime)
         } else {
             deleteSearchParams("endTime")
@@ -40,6 +40,11 @@ const SelectDateTime = () => {
     }
 
     function convertMinutesToGermanTime(minutes: number): string {
+        
+        if(minutes == 0) {
+            return "00:00 Uhr";
+        }
+
         // Calculate hours and remaining minutes
         const hours = Math.floor(minutes / 60);
         const remainingMinutes = minutes % 60;
@@ -64,7 +69,7 @@ const SelectDateTime = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentStartTime ? (
+                                currentStartTime !== undefined ? (
                                     <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentStartTime)}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Start</Text>
@@ -84,7 +89,7 @@ const SelectDateTime = () => {
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentEndTime ? (
+                                currentEndTime !== undefined ? (
                                     <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentEndTime)}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Ende</Text>
@@ -128,7 +133,7 @@ const SelectDateTime = () => {
                         <View className="flex flex-col justify-center space-y-4">
                         <TouchableOpacity className="w-full bg-[#232635] p-2"
                                     onPress={() => {
-                                        setCurrentStartTime(null);
+                                        setCurrentStartTime(undefined);
                                         refRBSheet.current[1].close();
                                     }}
                                 >
@@ -183,7 +188,7 @@ const SelectDateTime = () => {
                         <View className="flex flex-col justify-center space-y-4">
                         <TouchableOpacity className="w-full bg-[#232635] p-2"
                                     onPress={() => {
-                                        setCurrentEndTime(null);
+                                        setCurrentEndTime(undefined);
                                         refRBSheet.current[2].close();
                                     }}
                                 >
