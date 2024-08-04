@@ -25,6 +25,12 @@ const DynamicSearchLayout = () => {
 
     },[dynamicSearch])
 
+    useEffect(() => {
+        if(!currentObject["dynamicSearch"]) {
+            setDynamicSearch(false)
+        }
+    },[currentObject["dynamicSearch"]])
+
     return (
         <View>
             <View>

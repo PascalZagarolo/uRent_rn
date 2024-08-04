@@ -49,6 +49,18 @@ const DynamicSearchCalendar : React.FC<DynamicSearchCalendarProps> = ({
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
 
+    useEffect(() => {
+      if(!currentObject["startDateDynamic"]) {
+        setCurrentStartDate(null)
+      }
+  },[currentObject["startDateDynamic"]])
+
+  useEffect(() => {
+      if(!currentObject["endDateDynamic"]) {
+        setCurrentEndDate(null)
+      }
+  },[currentObject["endDateDynamic"]])
+
   return (
     <View>
       <View className="">
