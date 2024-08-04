@@ -5,6 +5,7 @@ import { Text, View } from "react-native";
 import PkwAttributeRender from "./pkw-attributes-render";
 import LkwAttributesRender from "./lkw-attributes-render";
 import TrailerAttributesRender from "./trailer-attributes-render";
+import TransportAttributesRender from "./transport-attributes-render";
 
 
 const CategoryOverview = () => {
@@ -83,7 +84,8 @@ const CategoryOverview = () => {
                     {
                     "PKW" : <PkwAttributeRender />,
                     "LKW" : <LkwAttributesRender />,
-                    "TRAILER" : <TrailerAttributesRender />
+                    "TRAILER" : <TrailerAttributesRender />,
+                    "TRANSPORT" : <TransportAttributesRender />
                     }[currentObject["thisCategory"]]
                 }
             </View>
