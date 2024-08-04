@@ -40,6 +40,18 @@ const SelectDateFilter = () => {
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
 
+    useEffect(() => {
+      if(!currentObject["periodBegin"]) {
+        setCurrentStartDate(null)
+      }
+  },[currentObject["periodBegin"]])
+
+  useEffect(() => {
+      if(!currentObject["periodEnd"]) {
+        setCurrentEndDate(null)
+      }
+  },[currentObject["periodEnd"]])
+
   return (
     <View>
       <View className="">
