@@ -4,6 +4,7 @@ import { Entypo, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 import PkwAttributeRender from "./pkw-attributes-render";
 import LkwAttributesRender from "./lkw-attributes-render";
+import TrailerAttributesRender from "./trailer-attributes-render";
 
 
 const CategoryOverview = () => {
@@ -82,6 +83,7 @@ const CategoryOverview = () => {
                     {
                     "PKW" : <PkwAttributeRender />,
                     "LKW" : <LkwAttributesRender />,
+                    "TRAILER" : <TrailerAttributesRender />
                     }[currentObject["thisCategory"]]
                 }
             </View>

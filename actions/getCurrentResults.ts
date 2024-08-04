@@ -234,7 +234,7 @@ export const getCurrentResults = async (values) => {
             
             const bAxis = searchedAxis ? minAxis <= pInserat?.trailerAttribute?.axis && maxAxis >= pInserat?.trailerAttribute?.axis : true;
 
-            const bType = trailerType ? trailerType === pInserat?.trailerAttribute?.type : true;
+            const bType = type ? type === pInserat?.trailerAttribute?.type : true;
             const bExtraType = extraType ? extraType === pInserat?.trailerAttribute?.extraType : true;
 
             const bCoupling = coupling ? coupling === pInserat?.trailerAttribute?.coupling : true;
