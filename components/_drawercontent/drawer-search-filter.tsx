@@ -25,9 +25,13 @@ const DrawerSearchFilter: React.FC<DrawerSearchFilterProps> = ({
     currentResults
 }) => {
 
-    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
+    const { searchParams, changeSearchParams, deleteSearchParams, removeAll } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const onDelete = () => {
+        removeAll();
+    }
 
     return (
 
@@ -47,14 +51,16 @@ const DrawerSearchFilter: React.FC<DrawerSearchFilterProps> = ({
                         </Text>
                     </View>
                     <View className="mt-2">
-                        <View className="flex flex-row items-center space-x-2">
+                        <TouchableOpacity className="flex flex-row items-center space-x-2"
+                        onPress={onDelete}
+                        >
                             <View className="w-1/12">
-                                <MaterialCommunityIcons name="delete" size={24} color="#fff" />
+                                <MaterialCommunityIcons name="delete" size={24} color="red" />
                             </View>
                             <Text className="text-gray-200/90 text-sm">
                                 Filter zurücksetzen
                             </Text>
-                        </View>
+                        </TouchableOpacity>
                     </View>
                     <View className="mt-2">
                         <View className="flex flex-row items-center space-x-2">
