@@ -35,6 +35,18 @@ const LicenseAgeFilter = () => {
         }
     },[currentReqAge])
 
+    useEffect(() => {
+        if(!currentObject["reqAge"]) {
+            setCurrentReqAge(undefined)
+        }
+    },[currentObject["reqAge"]])
+
+    useEffect(() => {
+        if(!currentObject["license"]) {
+            setCurrentLicense(undefined)
+        }
+    },[currentObject["license"]])
+
     const prefilledValuesAge = [];
 
     for (let i = 16; i <= 30; i++) {

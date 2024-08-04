@@ -40,14 +40,18 @@ const Caution = () => {
     const currentObject = useSavedSearchParams((state) => state.searchParams)
 
     useEffect(() => {
-        if (caution) {
+        if (caution !== undefined) {
             changeSearchParams("caution", caution)
         } else {
             deleteSearchParams("caution")
         }
     },[caution])
     
-
+    useEffect(() => {
+        if(currentObject["caution"] === undefined) {
+            setCaution(undefined)
+        }
+    },[currentObject["caution"]])
     
 
     return (
