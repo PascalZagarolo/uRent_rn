@@ -8,12 +8,14 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const LicenseAgeFilter = () => {
 
-    const [currentLicense, setCurrentLicense] = useState<any>();
-    const [currentReqAge, setCurrentReqAge] = useState<any>();
-
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [currentLicense, setCurrentLicense] = useState<any>(currentObject["license"]);
+    const [currentReqAge, setCurrentReqAge] = useState<any>(currentObject["reqAge"]);
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -35,6 +37,7 @@ const LicenseAgeFilter = () => {
         }
     },[currentReqAge])
 
+    /*
     useEffect(() => {
         if(!currentObject["reqAge"]) {
             setCurrentReqAge(undefined)
@@ -46,6 +49,7 @@ const LicenseAgeFilter = () => {
             setCurrentLicense(undefined)
         }
     },[currentObject["license"]])
+    */
 
     const prefilledValuesAge = [];
 
@@ -76,8 +80,8 @@ const LicenseAgeFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentLicense ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{currentLicense}</Text>
+                                currentObject["license"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{currentObject["license"]}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
@@ -96,8 +100,8 @@ const LicenseAgeFilter = () => {
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentReqAge ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{currentReqAge} Jahre</Text>
+                                currentObject["reqAge"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{currentObject["reqAge"]} Jahre</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
