@@ -156,7 +156,7 @@ const LicenseAgeFilter = () => {
                                     }}
                                 >
                                     <Text className="text-center text-lg text-gray-200 font-semibold">
-                                        {currentLicense}
+                                        {value}
                                     </Text>
                                 </TouchableOpacity>
                             ))}

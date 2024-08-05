@@ -92,6 +92,18 @@ const PowerFilter = () => {
         }
     }, [currentPsMax])
 
+    useEffect(() => {
+        if(currentObject["power"] === undefined) {
+            setCurrentPs(null)
+        }
+    },[currentObject["power"]])
+
+    useEffect(() => {
+        if(currentObject["powerMax"] === undefined) {
+            setCurrentPsMax(null)
+        }
+    },[currentObject["powerMax"]])
+
     return (
         <View className="">
             <View className="w-full">
