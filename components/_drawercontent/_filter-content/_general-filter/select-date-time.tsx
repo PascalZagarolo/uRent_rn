@@ -73,7 +73,7 @@ const SelectDateTime = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentObject["startTime"] !== undefined ? (
+                                (currentObject["startTime"] !== undefined && !currentObject["dynamicSearch"]) ? (
                                     <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentObject["startTime"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Start</Text>
@@ -93,7 +93,7 @@ const SelectDateTime = () => {
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentObject["endTime"] !== undefined ? (
+                                (currentObject["endTime"] !== undefined && !currentObject["dynamicSearch"]) ? (
                                     <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentObject["endTime"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Ende</Text>

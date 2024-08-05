@@ -79,8 +79,8 @@ const DynamicSearchStartTime : React.FC<DynamicSearchStartTimeProps> = ({
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                (currentStartTime !== undefined && !disabled) ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentStartTime)}</Text>
+                                (currentObject["startTime"] !== undefined && !disabled) ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentObject["startTime"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Start</Text>
                                 )
@@ -99,8 +99,8 @@ const DynamicSearchStartTime : React.FC<DynamicSearchStartTimeProps> = ({
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                (currentEndTime !== undefined  && !disabled) ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentEndTime)}</Text>
+                                (currentObject["endTime"] !== undefined  && !disabled) ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentObject["endTime"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Ende</Text>
                                 )
