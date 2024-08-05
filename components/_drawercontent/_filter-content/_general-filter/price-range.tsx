@@ -6,19 +6,24 @@ import RBSheet from 'react-native-raw-bottom-sheet';
 import { ScrollView } from "react-native-gesture-handler";
 import { set } from "date-fns";
 import { useSavedSearchParams } from "@/store";
+import { getSearchParamsFunction } from "@/actions/getSearchParams";
 
 const PriceRange = () => {
     
+    const firstRender = useRef(true);
+
     const refRBSheet = useRef([]);
 
+    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
     
-    const [startPrice, setStartPrice] = useState<number | string | null>();
-    const [endPrice, setEndPrice] = useState<number | string | null>();
+    const [startPrice, setStartPrice] = useState<number | string | null>(currentObject["start"]?.toString() || null);
+    const [endPrice, setEndPrice] = useState<number | string | null>(currentObject["end"]?.toString() || null);
     const [isStartFocused, setIsStartFocused] = useState(false);
     const [isEndFocused, setIsEndFocused] = useState(false);
 
-    
+    const local = getSearchParamsFunction();
 
     const prefilledValues = [
         {
@@ -77,19 +82,19 @@ const PriceRange = () => {
 
     const onPrefillValueSelectStart = (value: number) => {
         setStartPrice(value);
-        console.log(startPrice);
+        
         refRBSheet.current[1].close();
     }
 
     const onStartDelete = () => {
         setStartPrice(null);
-        console.log(startPrice);
+        
         refRBSheet.current[1].close();
     }
 
     const onEndDelete = () => {
         setEndPrice(null);
-        console.log(startPrice);
+        
         refRBSheet.current[2].close();
     }
 
@@ -112,21 +117,22 @@ const PriceRange = () => {
         return conValue;
     }
 
-    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
+    
+    
 
-    const currentObject = useSavedSearchParams((state) => state.searchParams)
-
-    useEffect(() => {
-        if(!currentObject["start"]) {
+    /*
+useEffect(() => {
+        if(!currentObject["start"] && !firstRender.current) {
             setStartPrice(null)
         }
     },[currentObject["start"]])
 
     useEffect(() => {
-        if(!currentObject["start"]) {
+        if(!currentObject["end"] && !firstRender.current) {
             setEndPrice(null)
         }
     },[currentObject["end"]])
+    */
 
     useEffect(() => {
         if (startPrice) {
@@ -139,12 +145,16 @@ const PriceRange = () => {
 
     useEffect(() => {
         if (endPrice) {
-            console.log(endPrice);
+            
             changeSearchParams("end", endPrice)
         } else {
             deleteSearchParams("end")
         }
     }, [endPrice])
+
+    if(firstRender.current) {
+        firstRender.current = false;
+    }
 
     return (
         <View className="">
@@ -168,7 +178,7 @@ const PriceRange = () => {
                                 placeholder="Startpreis"
                                 onFocus={() => setIsStartFocused(true)}
                                 onBlur={() => setIsStartFocused(false)}
-                                value={startPrice?.toString() || ''}  
+                                value={currentObject["start"]?.toString() || ''}  
                                 keyboardType="numeric"
                                 onChangeText={(text) => setStartPrice(onChangeConvert(text))} 
                             />
@@ -188,7 +198,7 @@ const PriceRange = () => {
                             <TextInput
                                 className="w-3/4 bg-[#1c1f2b] rounded-l-md text-base text-gray-200/90 p-4 font-semibold"
                                 placeholder="Endpreis"
-                                value={endPrice?.toString() || ''}  
+                                value={currentObject["end"]?.toString() || ''}  
                                 onChangeText={(text) => setEndPrice(onChangeConvert(text))}  
                                 keyboardType="numeric"
                                 onFocus={() => setIsEndFocused(true)}

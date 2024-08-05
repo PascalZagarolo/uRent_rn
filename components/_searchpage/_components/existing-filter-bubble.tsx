@@ -309,7 +309,7 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
             //@ts-ignore            
             thisCategory, ...filteredValues } = pFilteredValues;
 
-        console.log(filteredValues)
+        
         //@ts-ignore
         const usedStart = filteredValues.periodBegin;
         let usedEnd = null;

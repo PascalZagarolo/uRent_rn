@@ -100,9 +100,9 @@ const LoadingRoomFilter = () => {
 
     useEffect(() => {
         if (currentLiter) {
-            changeSearchParams("start", currentLiter)
+            changeSearchParams("volume", currentLiter)
         } else {
-            deleteSearchParams("start")
+            deleteSearchParams("volume")
         }
     },[currentLiter])
     
