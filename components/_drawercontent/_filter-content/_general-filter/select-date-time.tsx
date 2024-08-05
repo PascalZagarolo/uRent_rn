@@ -8,12 +8,15 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const SelectDateTime = () => {
 
-    const [currentStartTime, setCurrentStartTime] = useState<any>();
-    const [currentEndTime, setCurrentEndTime] = useState<any>();
 
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [currentStartTime, setCurrentStartTime] = useState<any>(currentObject["startTime"] !== undefined ? currentObject["startTime"] : undefined);
+    const [currentEndTime, setCurrentEndTime] = useState<any>(currentObject["endTime"] !== undefined ? currentObject["endTime"] : undefined);
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -27,6 +30,7 @@ const SelectDateTime = () => {
         }
     },[currentStartTime])
 
+    
     useEffect(() => {
         if(currentEndTime !== undefined) {
             changeSearchParams("endTime", currentEndTime)
@@ -34,7 +38,7 @@ const SelectDateTime = () => {
             deleteSearchParams("endTime")
         }
     },[currentEndTime])
-
+    
     for(let i = 0; i < 1440; i=i+30) {
         prefilledValues.push(i)
     }
@@ -56,19 +60,7 @@ const SelectDateTime = () => {
         // Combine hours and minutes with "Uhr"
         return `${formattedHours}:${formattedMinutes} Uhr`;
     }
-
-    useEffect(() => {
-        if(currentObject["startTime"] === undefined) {
-          setCurrentStartTime(undefined)
-        }
-    },[currentObject["startTime"]])
-  
-    useEffect(() => {
-        if(currentObject["endTime"] === undefined) {
-          setCurrentEndTime(undefined)
-        }
-    },[currentObject["endTime"]])
-
+    
     return (
         <View>
             <View>
@@ -81,8 +73,8 @@ const SelectDateTime = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentStartTime !== undefined ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentStartTime)}</Text>
+                                currentObject["startTime"] !== undefined ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentObject["startTime"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Start</Text>
                                 )
@@ -101,8 +93,8 @@ const SelectDateTime = () => {
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentEndTime !== undefined ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentEndTime)}</Text>
+                                currentObject["endTime"] !== undefined ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentObject["endTime"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Ende</Text>
                                 )
