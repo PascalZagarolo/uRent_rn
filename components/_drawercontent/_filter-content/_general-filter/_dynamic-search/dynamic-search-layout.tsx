@@ -10,11 +10,13 @@ import DynamicSearchStartTime from "./dynamic-search-startTime";
 
 const DynamicSearchLayout = () => {
 
-    const [dynamicSearch, setDynamicSearch] = useState<boolean>(false);
-
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [dynamicSearch, setDynamicSearch] = useState<boolean>(currentObject["dynamicSearch"] !== undefined ? currentObject["dynamicSearch"] : false);
+
+    
 
     useEffect(() => {
         if(dynamicSearch) {
@@ -25,11 +27,7 @@ const DynamicSearchLayout = () => {
 
     },[dynamicSearch])
 
-    useEffect(() => {
-        if(!currentObject["dynamicSearch"]) {
-            setDynamicSearch(false)
-        }
-    },[currentObject["dynamicSearch"]])
+    
 
     return (
         <View>
@@ -49,7 +47,7 @@ const DynamicSearchLayout = () => {
                         <View className="ml-auto flex justify-end">
                             <Switch
                             onChange={() => setDynamicSearch(!dynamicSearch)}
-                                value={dynamicSearch}
+                                value={currentObject["dynamicSearch"] ? true : false}
                             />
                         </View>
                     </View>
