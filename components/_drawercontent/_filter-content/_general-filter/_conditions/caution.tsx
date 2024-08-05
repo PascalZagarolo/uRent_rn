@@ -11,9 +11,11 @@ const Caution = () => {
     
     const refRBSheet = useRef([]);
 
+    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
     
-    const [caution, setCaution] = useState<number | string | null>();
+    const [caution, setCaution] = useState<number | string | null>(currentObject["caution"]);
     
     const [isStartFocused, setIsStartFocused] = useState(false);
     const [isEndFocused, setIsEndFocused] = useState(false);
@@ -35,9 +37,7 @@ const Caution = () => {
         return conValue;
     }
 
-    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
-
-    const currentObject = useSavedSearchParams((state) => state.searchParams)
+    
 
     useEffect(() => {
         if (caution !== undefined) {
@@ -47,12 +47,13 @@ const Caution = () => {
         }
     },[caution])
     
+    /* 
     useEffect(() => {
         if(currentObject["caution"] === undefined) {
             setCaution(undefined)
         }
     },[currentObject["caution"]])
-    
+    */
 
     return (
         <View className="">
@@ -69,7 +70,7 @@ const Caution = () => {
                                 placeholder="Kautionsbetrag.."
                                 onFocus={() => setIsStartFocused(true)}
                                 onBlur={() => setIsStartFocused(false)}
-                                value={caution?.toString() || ''}  
+                                value={currentObject["caution"]?.toString() || ''}  
                                 keyboardType="numeric"
                                 onChangeText={(text) => setCaution(onChangeConvert(text))} 
                             />
