@@ -10,12 +10,16 @@ import Popover from 'react-native-popover-view';
 
 const SelectDateFilter = () => {
 
-  const [currentStartDate, setCurrentStartDate] = useState<Date | null>(null);
-  const [currentEndDate, setCurrentEndDate] = useState<Date | null>(null);
+  const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
+
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+  const [currentStartDate, setCurrentStartDate] = useState<Date | null>(currentObject["periodBegin"] ? new Date(currentObject["periodBegin"]) : null );
+  const [currentEndDate, setCurrentEndDate] = useState<Date | null>(currentObject["periodEnd"] ? new Date(currentObject["periodEnd"]) : null);
 
   useEffect(() => {
     if(currentStartDate) {
-      console.log(currentStartDate + "!")
+      
       changeSearchParams("periodBegin", currentStartDate?.toISOString())
     } else {
       deleteSearchParams("periodBegin")
@@ -36,10 +40,9 @@ const SelectDateFilter = () => {
     }
   },[currentStartDate, currentEndDate])
 
-  const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
+  
 
-    const currentObject = useSavedSearchParams((state) => state.searchParams)
-
+    /* 
     useEffect(() => {
       if(!currentObject["periodBegin"]) {
         setCurrentStartDate(null)
@@ -51,6 +54,7 @@ const SelectDateFilter = () => {
         setCurrentEndDate(null)
       }
   },[currentObject["periodEnd"]])
+    */
 
   return (
     <View>
@@ -71,8 +75,8 @@ const SelectDateFilter = () => {
               from={(
                 <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row">
                   {
-                    currentStartDate ? (
-                      <Text className="text-base text-gray-200 font-semibold">{format(new Date(currentStartDate), "dd.MM.yy")}</Text>
+                    currentObject["periodBegin"] ? (
+                      <Text className="text-base text-gray-200 font-semibold">{format(new Date(currentObject["periodBegin"]), "dd.MM.yy")}</Text>
                     ) : (
                       <Text className="text-base text-gray-200/60">Start</Text>
                     )
@@ -119,8 +123,8 @@ const SelectDateFilter = () => {
                 from={(
                   <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row">
                     {
-                    currentEndDate ? (
-                      <Text className="text-base text-gray-200 font-semibold">{format(new Date(currentEndDate), "dd.MM.yy")}</Text>
+                    currentObject["periodEnd"] ? (
+                      <Text className="text-base text-gray-200 font-semibold">{format(new Date(currentObject["periodEnd"]), "dd.MM.yy")}</Text>
                     ) : (
                       <Text className="text-base text-gray-200/60">Ende</Text>
                     )

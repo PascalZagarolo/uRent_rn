@@ -8,7 +8,7 @@ export const getSearchParamsFunction = (currentCategory? : string, currentCatego
         category: searchParams.category,
         title: searchParams.title,
         location: searchParams.location,
-        periodBegin: searchParams.periodBeginv,
+        periodBegin: searchParams.periodBegin,
         periodEnd: searchParams.periodEnd,
         startTime : searchParams.startTime,
         endTime : searchParams.endTime,
