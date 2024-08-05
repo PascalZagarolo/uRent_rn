@@ -15,12 +15,14 @@ const DynamicSearchReqTime : React.FC<DynamicSearchReqTimeProps> = ({
     disabled
 }) => {
 
-    const [currentReqTime, setCurrentReqTime] = useState<any>();
-    
-
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [currentReqTime, setCurrentReqTime] = useState<any>(currentObject["reqTime"]);
+    
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -108,8 +110,8 @@ const DynamicSearchReqTime : React.FC<DynamicSearchReqTimeProps> = ({
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentReqTime ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{getFittingString(currentReqTime)}</Text>
+                                currentObject["reqTime"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{getFittingString(currentObject["reqTime"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60 line-clamp-1" numberOfLines={1}>Wähle die gewünschte Mietdauer..</Text>
                                 )
