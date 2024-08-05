@@ -15,12 +15,17 @@ const DynamicSearchStartTime : React.FC<DynamicSearchStartTimeProps> = ({
     disabled
 }) => {
 
-    const [currentStartTime, setCurrentStartTime] = useState<any>();
-    const [currentEndTime, setCurrentEndTime] = useState<any>();
 
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+   
+
+    const [currentStartTime, setCurrentStartTime] = useState<any>(currentObject["startTime"] !== undefined ? currentObject["startTime"] : undefined);
+    const [currentEndTime, setCurrentEndTime] = useState<any>(currentObject["endTime"] !== undefined ? currentObject["endTime"] : undefined);
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -42,17 +47,7 @@ const DynamicSearchStartTime : React.FC<DynamicSearchStartTimeProps> = ({
         }
     },[currentEndTime])
 
-    useEffect(() => {
-        if(currentObject["startTime"] === undefined) {
-          setCurrentStartTime(undefined)
-        }
-    },[currentObject["startTime"]])
-  
-    useEffect(() => {
-        if(currentObject["endTime"] === undefined) {
-          setCurrentEndTime(undefined)
-        }
-    },[currentObject["endTime"]])
+    
 
     for(let i = 0; i < 1440; i=i+30) {
         prefilledValues.push(i)
@@ -84,7 +79,7 @@ const DynamicSearchStartTime : React.FC<DynamicSearchStartTimeProps> = ({
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentStartTime !== undefined ? (
+                                (currentStartTime !== undefined && !disabled) ? (
                                     <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentStartTime)}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Start</Text>
@@ -104,7 +99,7 @@ const DynamicSearchStartTime : React.FC<DynamicSearchStartTimeProps> = ({
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentEndTime !== undefined ? (
+                                (currentEndTime !== undefined  && !disabled) ? (
                                     <Text className="text-base text-gray-200 font-semibold">{convertMinutesToGermanTime(currentEndTime)}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Ende</Text>
