@@ -12,10 +12,16 @@ const LoadingRoomFilter = () => {
     
     const refRBSheet = useRef([]);
 
+    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
     
-    const [currentLiter, setCurrentLiter] = useState<number | string | null>();
-    const [currentCubic, setCurrentCubic] = useState<number | string | null>();
+    const [currentLiter, setCurrentLiter] = useState<number | string | null>(
+        currentObject["volume"] ? Number(currentObject["volume"]) : null
+    );
+    const [currentCubic, setCurrentCubic] = useState<number | string | null>(
+        currentObject["volume"] ? Number(currentObject["volume"]) : null
+    );
     const [usesLiter, setUsesLiter] = useState<boolean>(true);
     const [isStartFocused, setIsStartFocused] = useState(false);
     const [isEndFocused, setIsEndFocused] = useState(false);
@@ -82,11 +88,7 @@ const LoadingRoomFilter = () => {
     
 
 
-    const handleDismissKeyboard = () => {
-        Keyboard.dismiss();
-        setIsStartFocused(false);
-        setIsEndFocused(false);
-    };
+    
 
 
     const onChangeConvert = (value: string) => {
@@ -94,9 +96,7 @@ const LoadingRoomFilter = () => {
         return conValue;
     }
 
-    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
-
-    const currentObject = useSavedSearchParams((state) => state.searchParams)
+    
 
     useEffect(() => {
         if (currentLiter) {
@@ -134,8 +134,7 @@ const LoadingRoomFilter = () => {
                                 }
                                 placeholder="Startpreis"
                                 editable={usesLiter}
-                                onFocus={() => setIsStartFocused(true)}
-                                onBlur={() => setIsStartFocused(false)}
+                                
                                 value={currentLiter?.toString() || ''}  
                                 keyboardType="numeric"
                                 onChangeText={(text) => 
@@ -172,8 +171,7 @@ const LoadingRoomFilter = () => {
                                     }
                                 }  
                                 keyboardType="numeric"
-                                onFocus={() => setIsEndFocused(true)}
-                                onBlur={() => setIsEndFocused(false)}
+                                
                             />
                             
                         </View>
