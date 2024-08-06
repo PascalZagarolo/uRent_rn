@@ -9,13 +9,15 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const LkwAxisFilter = () => {
 
-    const [currentAxis, setCurrentAxis] = useState<any>();
-    const [currentAxisMax, setCurrentAxisMax] = useState<any>();
-    
-
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [currentAxis, setCurrentAxis] = useState<any>(currentObject["axis"] ? currentObject["axis"] : null);
+    const [currentAxisMax, setCurrentAxisMax] = useState<any>(currentObject["axisMax"] ? currentObject["axisMax"] : null);
+    
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -89,8 +91,8 @@ const LkwAxisFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentAxis ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentAxis)}</Text>
+                                currentObject["axis"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentObject["axis"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
@@ -109,8 +111,8 @@ const LkwAxisFilter = () => {
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentAxisMax ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentAxisMax)}</Text>
+                                currentObject["axisMax"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentObject["axisMax"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60 flex flex-row items-center">Beliebig
                                     

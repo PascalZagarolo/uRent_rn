@@ -9,12 +9,14 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const DoorsFilter = () => {
 
-    const [currentDoors, setCurrentDoors] = useState<any>();
-    const [currentDoorsMax, setCurrentDoorsMax] = useState<any>();
-
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [currentDoors, setCurrentDoors] = useState<any>(currentObject["doors"] ? currentObject["doors"] : null);
+    const [currentDoorsMax, setCurrentDoorsMax] = useState<any>(currentObject["doorsMax"] ? currentObject["doorsMax"] : null);
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -82,8 +84,8 @@ const DoorsFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentDoors ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentDoors)}</Text>
+                                currentObject["doors"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentObject["doors"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
@@ -102,8 +104,8 @@ const DoorsFilter = () => {
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentDoorsMax ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentDoorsMax)}</Text>
+                                currentObject["doorsMax"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentObject["doorsMax"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60 flex flex-row items-center">Beliebig
                                     

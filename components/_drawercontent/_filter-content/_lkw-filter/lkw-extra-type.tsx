@@ -7,7 +7,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
 const LkwExtraTypeFilter = () => {
-    const [currentType, setCurrentType] = useState<any>();
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
+    const [currentType, setCurrentType] = useState<any>(currentObject["application"] ? currentObject["application"] : null);
     
     const { changeSearchParams, deleteSearchParams } = useSavedSearchParams();
     const refRBSheet = useRef([]); // Single ref for both sheets
@@ -59,8 +60,8 @@ const LkwExtraTypeFilter = () => {
                         <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row"
                             onPress={() => refRBSheet.current[1].open()}
                         >
-                            {currentType ? (
-                                <Text className="text-base text-gray-200 font-semibold line-clamp-1 w-3/4" numberOfLines={1}>{getWeightString(currentType)}</Text>
+                            {currentObject["application"] ? (
+                                <Text className="text-base text-gray-200 font-semibold line-clamp-1 w-3/4" numberOfLines={1}>{getWeightString(currentObject["application"])}</Text>
                             ) : (
                                 <Text className="text-base text-gray-200/60">Beliebig</Text>
                             )}

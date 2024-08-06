@@ -9,12 +9,14 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const TransportBrandFilter = () => {
 
-    const [currentBrand, setCurrentBrand] = useState<any>();
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [currentBrand, setCurrentBrand] = useState<any>(currentObject["transportBrand"] ? currentObject["transportBrand"] : null);
     
 
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
-    const currentObject = useSavedSearchParams((state) => state.searchParams)
+    
 
     const refRBSheet = useRef([]);
 
@@ -77,8 +79,8 @@ const TransportBrandFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                 currentBrand  ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentBrand)}</Text>
+                                 currentObject["transportBrand"]  ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentObject["transportBrand"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )

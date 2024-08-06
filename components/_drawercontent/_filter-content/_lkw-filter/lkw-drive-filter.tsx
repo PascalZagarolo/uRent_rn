@@ -8,9 +8,12 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
 const  LkwDriveFilter = () => {
-    const [currentType, setCurrentType] = useState<any>();
-    
+
     const { changeSearchParams, deleteSearchParams } = useSavedSearchParams();
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
+    const [currentType, setCurrentType] = useState<any>(currentObject["drive"] ? currentObject["drive"] : null);
+    
+    
     const refRBSheet = useRef([]); // Single ref for both sheets
 
     type givenType = {
@@ -59,8 +62,8 @@ const  LkwDriveFilter = () => {
                         <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row"
                             onPress={() => refRBSheet.current[1].open()}
                         >
-                            {currentType ? (
-                                <Text className="text-base text-gray-200 font-semibold line-clamp-1 w-3/4" numberOfLines={1}>{getWeightString(currentType)}</Text>
+                            {currentObject["drive"] ? (
+                                <Text className="text-base text-gray-200 font-semibold line-clamp-1 w-3/4" numberOfLines={1}>{getWeightString(currentObject["drive"])}</Text>
                             ) : (
                                 <Text className="text-base text-gray-200/60">Beliebig</Text>
                             )}
