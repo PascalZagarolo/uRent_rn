@@ -24,7 +24,7 @@ const LkwAttributesRender = () => {
                 <TransmissionFilter />
                 </View>
             </View>
-            <View className="mt-4">
+            <View className="">
                 <LkwWeightClassFilter />
             </View>
             <View className="flex items-center flex-row justify-center space-x-4">

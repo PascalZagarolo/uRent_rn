@@ -9,12 +9,15 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const InitialFilter = () => {
 
-    const [currentYear, setCurrentYear] = useState<any>();
-    const [currentYearMax, setCurrentYearMax] = useState<any>();
-
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+
+    const [currentYear, setCurrentYear] = useState<any>(currentObject["initial"] ? currentObject["initial"] : null);
+    const [currentYearMax, setCurrentYearMax] = useState<any>(currentObject["initialMax"] ? currentObject["initialMax"] : null);
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -81,8 +84,8 @@ const InitialFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentYear ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{currentYear}</Text>
+                                currentObject["initial"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{currentObject["initial"]}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
@@ -101,8 +104,8 @@ const InitialFilter = () => {
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentYearMax ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{currentYearMax}</Text>
+                                currentObject["initialMax"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{currentObject["initialMax"]}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60 flex flex-row items-center">Beliebig
                                     
