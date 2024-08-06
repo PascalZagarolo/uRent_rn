@@ -13,11 +13,13 @@ const LoadingSizeFilter = () => {
     const refRBSheet = useRef([]);
 
 
+    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
+
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
     
-    
-    const [currentLength, setCurrentLength] = useState<number | string | null>();
-    const [currentWidth, setCurrentWidth] = useState<number | string | null>();
-    const [currentHeight, setCurrentHeight] = useState<number | string | null>();
+    const [currentLength, setCurrentLength] = useState<number | string | null>(currentObject["loading_l"] ? Number(currentObject["loading_l"]) : null);
+    const [currentWidth, setCurrentWidth] = useState<number | string | null>(currentObject["loading_b"] ? Number(currentObject["loading_b"]) : null);
+    const [currentHeight, setCurrentHeight] = useState<number | string | null>(currentObject["loading_h"] ? Number(currentObject["loading_h"]) : null);
 
     
     const [isStartFocused, setIsStartFocused] = useState(false);
@@ -44,9 +46,7 @@ const LoadingSizeFilter = () => {
         return conValue;
     }
 
-    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
-
-    const currentObject = useSavedSearchParams((state) => state.searchParams)
+    
 
     useEffect(() => {
         if (currentLength) {
@@ -94,7 +94,7 @@ const LoadingSizeFilter = () => {
                                 
                                 onFocus={() => setIsStartFocused(true)}
                                 onBlur={() => setIsStartFocused(false)}
-                                value={currentLength?.toString() || ''}  
+                                value={currentObject["loading_l"]?.toString() || ''}  
                                 keyboardType="numeric"
                                 onChangeText={(text) => 
                                     {
@@ -117,7 +117,7 @@ const LoadingSizeFilter = () => {
                                 }
                                 placeholder="in Meter"
                                 
-                                value={currentWidth?.toString() || ''}  
+                                value={currentObject["loading_b"]?.toString() || ''}  
                                 onChangeText={(text) => 
                                     {
                                         setCurrentWidth(onChangeConvert(text))
@@ -145,7 +145,7 @@ const LoadingSizeFilter = () => {
                                 }
                                 placeholder="in Meter"
                                 
-                                value={currentHeight?.toString() || ''}  
+                                value={currentObject["loading_h"]?.toString() || ''}  
                                 onChangeText={(text) => 
                                     {
                                         setCurrentHeight(onChangeConvert(text))
