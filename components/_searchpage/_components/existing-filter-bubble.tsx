@@ -203,14 +203,16 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
                             return "ohne Bremsvorrichtung"
                     }
                 }
+            
             case 'coupling': {
                 switch (usedValue) {
-                    case 'KUGELKOPFKUPPLUNNG':
-                        return 'Kugelkopfkupplung'
+                    case 'KUGELKOPFKUPPLUNG':
+                        return 'Kugelkopfkupplung';
                     case 'MAULKUPPLUNG':
-                        return 'Maulkupplung'
+                        return 'Maulkupplung';
                 }
             }
+            
             case 'extraType': {
                 switch (usedValue) {
                     case "FAHRZEUGTRANSPORT":
