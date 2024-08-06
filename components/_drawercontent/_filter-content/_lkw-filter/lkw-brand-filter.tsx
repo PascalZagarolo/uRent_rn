@@ -9,12 +9,14 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const LkwBrandFilter = () => {
 
-    const [currentBrand, setCurrentBrand] = useState<any>();
-    
-
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [currentBrand, setCurrentBrand] = useState<any>(currentObject["lkwBrand"] ? currentObject["lkwBrand"] : null);
+    
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -77,8 +79,8 @@ const LkwBrandFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                 currentBrand  ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentBrand)}</Text>
+                                 currentObject["lkwBrand"]  ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentObject["lkwBrand"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
@@ -117,7 +119,7 @@ const LkwBrandFilter = () => {
                 }}>
                 <View className="p-4">
                     <Text className="text-base font-semibold text-gray-200">
-                        Treibstoff auswählen
+                        Marke auswählen
                     </Text>
                     <ScrollView className="h-[160px] w-full p-4 ">
                         <View className="flex flex-col justify-center space-y-4">

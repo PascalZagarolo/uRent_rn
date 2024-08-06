@@ -7,8 +7,9 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
 const TrailerWeightClassFilter = () => {
-    const [currentWeight, setCurrentWeight] = useState<any>();
-    const [currentWeightMax, setCurrentWeightMax] = useState<any>();
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
+    const [currentWeight, setCurrentWeight] = useState<any>(currentObject["weightClass"] ? currentObject["weightClass"] : null);
+    const [currentWeightMax, setCurrentWeightMax] = useState<any>(currentObject["weightClassMax"] ? currentObject["weightClassMax"] : null);
     const { changeSearchParams, deleteSearchParams } = useSavedSearchParams();
     const refRBSheet = useRef([]); // Single ref for both sheets
 
@@ -69,8 +70,8 @@ const TrailerWeightClassFilter = () => {
                         <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row"
                             onPress={() => refRBSheet.current[1].open()}
                         >
-                            {currentWeight ? (
-                                <Text className="text-base text-gray-200 font-semibold">{getWeightString(currentWeight)}</Text>
+                            {currentObject["weightClass"] ? (
+                                <Text className="text-base text-gray-200 font-semibold">{getWeightString(currentObject["weightClass"])}</Text>
                             ) : (
                                 <Text className="text-base text-gray-200/60">Beliebig</Text>
                             )}
@@ -84,8 +85,8 @@ const TrailerWeightClassFilter = () => {
                         <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row items-center mt-7"
                             onPress={() => refRBSheet.current[2].open()}
                         >
-                            {currentWeightMax ? (
-                                <Text className="text-base text-gray-200 font-semibold">{getWeightString(currentWeightMax)}</Text>
+                            {currentObject["weightClassMax"] ? (
+                                <Text className="text-base text-gray-200 font-semibold">{getWeightString(currentObject["weightClassMax"])}</Text>
                             ) : (
                                 <Text className="text-base text-gray-200/60 flex flex-row items-center">Beliebig</Text>
                             )}
@@ -102,7 +103,7 @@ const TrailerWeightClassFilter = () => {
                 title="Gewichtsklasse auswählen"
                 prefilledValues={prefilledWeight}
                 setCurrentValue={setCurrentWeight}
-                currentValue={currentWeight}
+                currentValue={currentObject["weightClass"] ? currentObject["weightClass"] : null}
                 refRBSheet={refRBSheet} 
             />
 
@@ -111,7 +112,7 @@ const TrailerWeightClassFilter = () => {
                 title="Gewichtsklasse auswählen"
                 prefilledValues={prefilledWeight}
                 setCurrentValue={setCurrentWeightMax}
-                currentValue={currentWeightMax}
+                currentValue={currentObject["weightClassMax"] ? currentObject["weightClassMax"] : null}
                 refRBSheet={refRBSheet} 
             />
         </View>

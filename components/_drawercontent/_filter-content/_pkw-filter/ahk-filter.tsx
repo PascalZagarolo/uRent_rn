@@ -9,13 +9,13 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const AhkFilter = () => {
 
-    const [hasAHK, setHasAHK] = useState<any>();
-    
 
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
 
+    const [hasAHK, setHasAHK] = useState<any>(currentObject["ahk"] ? currentObject["ahk"] === "true" : undefined);
+    
     const refRBSheet = useRef([]);
 
     
@@ -57,8 +57,8 @@ const AhkFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                 hasAHK != undefined ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{hasAHK ? "Vorhanden" : "Nicht vorhanden"}</Text>
+                                 currentObject["ahk"] != undefined ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{currentObject["ahk"] ? "Vorhanden" : "Nicht vorhanden"}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )

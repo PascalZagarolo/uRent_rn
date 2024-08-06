@@ -9,12 +9,14 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const BrandTypeFilter = () => {
 
-    const [currentBrand, setCurrentBrand] = useState<any>();
-    const [currentType, setCurrentType] = useState<any>();
-
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [currentBrand, setCurrentBrand] = useState<any>(currentObject["brand"] ? currentObject["brand"] : null);
+    const [currentType, setCurrentType] = useState<any>(currentObject["type"] ? currentObject["type"] : null);
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -138,8 +140,8 @@ const BrandTypeFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentBrand ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{removeUnderscore(currentBrand)}</Text>
+                                currentObject["brand"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{removeUnderscore(currentObject["brand"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
@@ -158,8 +160,8 @@ const BrandTypeFilter = () => {
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentType ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertType(currentType)}</Text>
+                                currentObject["type"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertType(currentObject["type"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60 flex flex-row items-center">Beliebig
                                     

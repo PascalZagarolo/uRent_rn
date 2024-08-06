@@ -9,12 +9,14 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const TrailerBrakeFilter = () => {
 
-    const [hasBrake, setHasBrake] = useState<any>();
-    
-
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [hasBrake, setHasBrake] = useState<any>(currentObject["brake"] ? currentObject["brake"] === "true" : null);
+    
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -57,9 +59,9 @@ const TrailerBrakeFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                 hasBrake != undefined ? (
+                                 currentObject["brake"] != undefined ? (
                                     <Text className="text-base text-gray-200 font-semibold w-3/4 line-clamp-1" numberOfLines={1}>
-                                        {hasBrake ? "Gebremst" : "Ungebremst"}</Text>
+                                        {currentObject["brake"] ? "Gebremst" : "Ungebremst"}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )

@@ -7,7 +7,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import RBSheet from "react-native-raw-bottom-sheet";
 
 const TrailerExtraTypeFilter = () => {
-    const [currentType, setCurrentType] = useState<any>();
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
+    const [currentType, setCurrentType] = useState<any>(currentObject["extraType"] ? currentObject["extraType"] : null);
     
     const { changeSearchParams, deleteSearchParams } = useSavedSearchParams();
     const refRBSheet = useRef([]); // Single ref for both sheets
@@ -42,9 +43,9 @@ const TrailerExtraTypeFilter = () => {
 
     useEffect(() => {
         if (currentType) {
-            changeSearchParams("type", currentType);
+            changeSearchParams("extraType", currentType);
         } else {
-            deleteSearchParams("type");
+            deleteSearchParams("extraType");
         }
     }, [currentType]);
 
@@ -61,8 +62,9 @@ const TrailerExtraTypeFilter = () => {
                         <TouchableOpacity className="w-full bg-[#171a24] p-4 rounded-md flex flex-row"
                             onPress={() => refRBSheet.current[1].open()}
                         >
-                            {currentType ? (
-                                <Text className="text-base text-gray-200 font-semibold line-clamp-1 w-3/4" numberOfLines={1}>{getWeightString(currentType)}</Text>
+                            {currentObject["extraType"] ? (
+                                <Text className="text-base text-gray-200 font-semibold line-clamp-1 w-3/4" numberOfLines={1}>
+                                    {getWeightString(currentObject["extraType"])}</Text>
                             ) : (
                                 <Text className="text-base text-gray-200/60">Beliebig</Text>
                             )}
@@ -81,7 +83,7 @@ const TrailerExtraTypeFilter = () => {
                 title="Erweiterte Fahrzeugkategorie auswählen"
                 prefilledValues={prefilledTransportTypes}
                 setCurrentValue={setCurrentType}
-                currentValue={currentType}
+                currentValue={currentObject["extraType"] ? currentObject["extraType"] : null}
                 refRBSheet={refRBSheet} 
             />
 

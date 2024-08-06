@@ -9,12 +9,14 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const TransmissionFilter = () => {
 
-    const [currentTransmission, setCurrentTransmission] = useState<any>();
-    
-
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [currentTransmission, setCurrentTransmission] = useState<any>(currentObject["transmission"] ? currentObject["transmission"] : null);
+    
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -76,8 +78,8 @@ const TransmissionFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                 currentTransmission  ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentTransmission)}</Text>
+                                 currentObject["transmission"]  ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentObject["transmission"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )

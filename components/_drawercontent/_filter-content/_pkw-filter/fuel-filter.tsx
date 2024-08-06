@@ -9,12 +9,13 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const FuelFilter = () => {
 
-    const [currentFuel, setCurrentFuel] = useState<any>();
+    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [currentFuel, setCurrentFuel] = useState<any>(currentObject["fuel"] ? currentObject["fuel"] : null);
     
 
-    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
-
-    const currentObject = useSavedSearchParams((state) => state.searchParams)
+    
 
     const refRBSheet = useRef([]);
 
@@ -87,8 +88,8 @@ const FuelFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                 currentFuel  ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentFuel)}</Text>
+                                 currentObject["fuel"]  ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{convertValues(currentObject["fuel"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )

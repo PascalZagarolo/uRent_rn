@@ -9,12 +9,14 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 const SeatsFilter = () => {
 
-    const [currentSeats, setCurrentSeats] = useState<any>();
-    const [currentSeatsmax, setCurrentSeatsmax] = useState<any>();
-
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
+
+    const [currentSeats, setCurrentSeats] = useState<any>(currentObject["seats"] ? currentObject["seats"] : null);
+    const [currentSeatsmax, setCurrentSeatsmax] = useState<any>(currentObject["seatsMax"] ? currentObject["seatsMax"] : null);
+
+    
 
     const refRBSheet = useRef([]);
 
@@ -69,8 +71,8 @@ const SeatsFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentSeats ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{currentSeats}</Text>
+                                currentObject["seats"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{currentObject["seats"]}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
@@ -89,8 +91,8 @@ const SeatsFilter = () => {
                         onPress={() => refRBSheet.current[2].open()}
                         >
                             {
-                                currentSeatsmax ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{currentSeatsmax}</Text>
+                                currentObject["seatsMax"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{currentObject["seatsMax"]}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60 flex flex-row items-center">Beliebig
                                     
