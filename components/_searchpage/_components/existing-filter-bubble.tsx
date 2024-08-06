@@ -22,7 +22,7 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
     value,
     pKey
 }) => {
-    
+
     function convertMinutesToGermanTime(minutes: number): string {
         // Calculate hours and remaining minutes
         const hours = Math.floor(minutes / 60);
@@ -41,7 +41,7 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
     const [isLoading, setIsLoading] = useState(false);
     const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
-    
+
 
     const displayKey = (usedKey: string, usedValue: string): string => {
 
@@ -58,6 +58,8 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
                         return "Anhänger"
                     case 'TRANSPORT':
                         return "Transporter"
+                    default:
+                        return usedValue;
                 }
             }
             case 'periodBegin':
@@ -107,6 +109,8 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
                         return 'Benzin';
                     case 'DIESEL':
                         return 'Diesel';
+                    default:
+                        return usedValue;
                 }
             case 'type':
                 switch (usedValue) {
@@ -168,6 +172,8 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
                         return 'Ab 34t'
                     case '5000':
                         return 'über 39t'
+                    default:
+                        return usedValue;
                 }
             }
             case 'weightClassMax': {
@@ -188,6 +194,8 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
                         return 'bis 34t'
                     case '5000':
                         return 'bis über 34t'
+                    default:
+                        return usedValue;
                 }
             }
             case "axis":
@@ -201,18 +209,22 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
                             return "mit Bremsvorrichtung"
                         case 'false':
                             return "ohne Bremsvorrichtung"
+                        default:
+                            return usedValue;
                     }
                 }
-            
+
             case 'coupling': {
                 switch (usedValue) {
                     case 'KUGELKOPFKUPPLUNG':
                         return 'Kugelkopfkupplung';
                     case 'MAULKUPPLUNG':
                         return 'Maulkupplung';
+                    default:
+                        return usedValue;
                 }
             }
-            
+
             case 'extraType': {
                 switch (usedValue) {
                     case "FAHRZEUGTRANSPORT":
@@ -243,6 +255,8 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
                         return "Pritsche";
                     case "VERANSTALTUNG":
                         return "Veranstaltung";
+                    default:
+                        return usedValue;
                 }
 
             }
@@ -261,6 +275,8 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
                         return 'Dynamische Suche';
                     case 'false':
                         return 'Statische Suche';
+                    default:
+                        return usedValue;
 
                 }
             }
@@ -280,6 +296,8 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
                         return '2 Wochen';
                     case '1m':
                         return '1 Monat';
+                    default:
+                        return usedValue;
                 }
             }
             default:
@@ -311,7 +329,7 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
             //@ts-ignore            
             thisCategory, ...filteredValues } = pFilteredValues;
 
-        
+
         //@ts-ignore
         const usedStart = filteredValues.periodBegin;
         let usedEnd = null;
@@ -349,13 +367,13 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
     }
     return (
         <TouchableOpacity className="flex flex-row items-center space-x-1 bg-[#1b1e2b] p-2 rounded-md"
-        onPress={onClickDelete}
-                >
-                    <Feather name="x" size={20} color={"white"} />
-                    <Text className="text-gray-200 font-semibold">
-                        {displayKey(pKey, value)}
-                    </Text>
-                </TouchableOpacity>
+            onPress={onClickDelete}
+        >
+            <Feather name="x" size={20} color={"white"} />
+            <Text className="text-gray-200 font-semibold">
+                {displayKey(pKey, value)}
+            </Text>
+        </TouchableOpacity>
     );
 }
 export default ExistingFilterBubble;
