@@ -11,10 +11,16 @@ const PowerFilter = () => {
     
     const refRBSheet = useRef([]);
 
+    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
 
+    const currentObject = useSavedSearchParams((state) => state.searchParams)
     
-    const [currentPs, setCurrentPs] = useState<number | string | null>();
-    const [currentPsMax, setCurrentPsMax] = useState<number | string | null>();
+    const [currentPs, setCurrentPs] = useState<number | string | null>(
+        currentObject["power"] === undefined ? null : Number(currentObject["power"])
+    );
+    const [currentPsMax, setCurrentPsMax] = useState<number | string | null>(
+        currentObject["powerMax"] === undefined ? null : Number(currentObject["powerMax"])
+    );
     
     const [isStartFocused, setIsStartFocused] = useState(false);
     const [isEndFocused, setIsEndFocused] = useState(false);
@@ -70,9 +76,7 @@ const PowerFilter = () => {
         return conValue;
     }
 
-    const { searchParams, changeSearchParams, deleteSearchParams } = useSavedSearchParams();
-
-    const currentObject = useSavedSearchParams((state) => state.searchParams)
+    
 
     useEffect(() => {
         if (currentPs) {
@@ -92,6 +96,7 @@ const PowerFilter = () => {
         }
     }, [currentPsMax])
 
+    /*
     useEffect(() => {
         if(currentObject["power"] === undefined) {
             setCurrentPs(null)
@@ -103,6 +108,7 @@ const PowerFilter = () => {
             setCurrentPsMax(null)
         }
     },[currentObject["powerMax"]])
+    */
 
     return (
         <View className="">

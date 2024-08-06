@@ -13,6 +13,7 @@ import LoadingRoomFilter from "../../_pkw-filter/loading-room-filter";
 const PkwAttributeRender = () => {
     return ( 
         <View>
+            
             <View>
                 <BrandTypeFilter />
             </View>
@@ -39,6 +40,7 @@ const PkwAttributeRender = () => {
             <View className="mt-4">
                 <InitialFilter />
             </View>
+    
             <View className="mt-4">
                 <LoadingRoomFilter />
             </View>
