@@ -4,7 +4,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useEffect, useRef, useState } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import RBSheet from "react-native-raw-bottom-sheet";
+
 
 const TrailerCouplingFilter = () => {
     const currentObject = useSavedSearchParams((state) => state.searchParams)
