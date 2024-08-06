@@ -13,7 +13,7 @@ const BrandTypeFilter = () => {
 
     const currentObject = useSavedSearchParams((state) => state.searchParams)
 
-    const [currentBrand, setCurrentBrand] = useState<any>(currentObject["brand"] ? currentObject["brand"] : null);
+    const [currentBrand, setCurrentBrand] = useState<any>(currentObject["thisBrand"] ? currentObject["thisBrand"] : null);
     const [currentType, setCurrentType] = useState<any>(currentObject["type"] ? currentObject["type"] : null);
 
     
@@ -140,8 +140,8 @@ const BrandTypeFilter = () => {
                         onPress={() => refRBSheet.current[1].open()}
                         >
                             {
-                                currentObject["brand"] ? (
-                                    <Text className="text-base text-gray-200 font-semibold">{removeUnderscore(currentObject["brand"])}</Text>
+                                currentObject["thisBrand"] ? (
+                                    <Text className="text-base text-gray-200 font-semibold">{removeUnderscore(currentObject["thisBrand"])}</Text>
                                 ) : (
                                     <Text className="text-base text-gray-200/60">Beliebig</Text>
                                 )
