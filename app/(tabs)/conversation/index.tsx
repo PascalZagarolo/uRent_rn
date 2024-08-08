@@ -2,11 +2,13 @@ import { getCurrentUser } from "@/actions/getCurrentUser";
 import DrawerContentProfile from "@/components/_drawercontent/drawer-content-profile";
 import Footer from "@/components/_searchpage/footer";
 import Header from "@/components/_searchpage/header";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SafeAreaView, ScrollView, View } from "react-native";
 import { useAuth } from "../AuthProvider";
 import { Drawer } from 'react-native-drawer-layout';
 import ConversationSearchHeader from "./_components/conversation-search-header";
+import { getConversations } from "@/actions/getConversations";
+import ConversationsRenderedList from "./_components/conversations-rendered-list";
 
 
 const ConversationPage = () => {
@@ -16,8 +18,17 @@ const ConversationPage = () => {
     const { currentUser, isLoading } = useAuth();
 
     const [isDrawerVisible, setIsDrawerVisible] = useState(false);
-
+    const [currentConversations, setCurrentConversations] = useState([]);
     const [currentTag, setCurrentTag] = useState("");
+
+    useMemo(() => {
+        const load = async () => {
+            const res = await getConversations(currentUser.id);
+            setCurrentConversations(res);
+        }
+
+        load();
+    },[])
 
     const toggleDrawer = () => {
         setIsDrawerVisible(!isDrawerVisible);
@@ -25,7 +36,12 @@ const ConversationPage = () => {
     };
 
     return (
-        <SafeAreaView className="flex-1  bg-[#1F2332] w-full">
+        
+
+        
+        <View className="flex-1  bg-[#202336] w-full"
+        
+        >
 
             <Drawer
                 open={isDrawerVisible}
@@ -41,19 +57,33 @@ const ConversationPage = () => {
                     )
                 }}
             >
+                <ScrollView>
+                
                 <Header
                     currentUser={currentUser}
                     toggleDrawer={toggleDrawer}
                 />
+                
                 <View className="">
-                    <ConversationSearchHeader />
+                    <ConversationSearchHeader 
+                    currentConversationsLength={currentConversations.length}
+                    setCurrentTag={setCurrentTag}
+                    />
                 </View>
-                <View className="mt-4">
+                <View className="">
+                <ConversationsRenderedList 
+                    foundConversations={currentConversations}
+                    />
+                </View>
+                <View className="">
                     <Footer />
                 </View>
+                </ScrollView>
             </Drawer>
-
-        </SafeAreaView>
+            
+        </View>
+        
+       
     );
 }
 

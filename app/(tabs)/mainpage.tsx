@@ -12,6 +12,8 @@ import { Drawer } from 'react-native-drawer-layout';
 import DrawerContentProfile from "@/components/_drawercontent/drawer-content-profile";
 import DrawerSearchFilter from "@/components/_drawercontent/drawer-search-filter";
 import { getSearchParamsFunction } from "@/actions/getSearchParams";
+import SearchBar from "@/components/_searchpage/search-bar";
+
 
 
 
@@ -116,11 +118,12 @@ const MainPage = () => {
     }
 
     return (
-        <SafeAreaView className="flex-1  bg-[#1F2332] w-full">
+        <View className="flex-1  bg-[#1F2332] w-full">
             <Drawer
                 open={isFilterVisible}
                 onOpen={() => { setIsFilterVisible(true) }}
                 onClose={() => { setIsFilterVisible(false) }}
+                
                 drawerPosition="left"
                 drawerType="slide"
                 drawerStyle={{ width: '100%' }}
@@ -147,16 +150,24 @@ const MainPage = () => {
                         )
                     }}
                 >
-                    <ScrollView className=" ">
+                    <View className=" bg-[#202336]">
+
+</View>
 
 
-
-                        <View className="">
                             <Header
                                 toggleDrawer={toggleDrawer}
                                 currentUser={currentUser}
                             />
-                        </View>
+                        
+                    <ScrollView className=" ">
+
+                    
+                        
+                        
+                        <View className="mt-4 px-2">
+        <SearchBar />
+      </View>
                         <View className="p-2">
                             <FilterBubbles
                             toggleFilter={toggleFilter}
@@ -173,11 +184,11 @@ const MainPage = () => {
                         </View>
 
 
-
+                        
                     </ScrollView>
-                </Drawer>
+                    </Drawer>
             </Drawer>
-        </SafeAreaView>
+        </View>
     );
 }
 

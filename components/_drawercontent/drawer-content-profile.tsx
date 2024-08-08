@@ -2,6 +2,7 @@ import { userTable } from "@/db/schema";
 import { Entypo, FontAwesome, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { Feather } from "lucide-react-native";
+import { SafeAreaView } from "react-native";
 import { Image, Text, TouchableOpacity } from "react-native";
 import { View } from "react-native";
 
@@ -17,7 +18,8 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
     const router = useRouter();
 
     return (
-        <View className="bg-[#1F2332] p-4 border-l border-gray-600 h-full flex-1">
+        <SafeAreaView className="bg-[#1F2332] p-4 border-l border-gray-600 h-full flex-1">
+            <View className="h-full p-4">
             <View className="">
                 <View>
                     <Image
@@ -97,7 +99,8 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
                     </Text>
                 </View>
             </View>
-        </View>
+            </View>
+        </SafeAreaView>
     );
 }
 
