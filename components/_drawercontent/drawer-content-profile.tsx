@@ -59,12 +59,14 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
                 </View>
 
                 <View className="mt-4">
-                    <View className="flex flex-row items-center space-x-4   p-4 rounded-md">
+                    <TouchableOpacity className="flex flex-row items-center space-x-4   p-4 rounded-md"
+                    onPress={() => {router.push(`/conversation`)}}
+                    >
                         <FontAwesome6 name="message" size={20} color="white" />
                         <Text className="text-sm text-gray-200 font-semibold">
                             Konversationen
                         </Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
 
                 <View className="mt-4">

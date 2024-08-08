@@ -16,7 +16,7 @@ const FilterBubbles: React.FC<FilterBubblesProps> = ({
 
     const params = getSearchParamsFunction();
 
-    console.log(params.periodBegin)
+    
 
     return (
         <View className="pb-2">
