@@ -20,7 +20,7 @@ const MainPage = () => {
     const [inserate, setInserate] = useState([]);
 
     const params = getSearchParamsFunction();
-    console.log(params["category"])
+    
 
     useEffect(() => {
         const load = async () => {
@@ -50,8 +50,8 @@ const MainPage = () => {
                 thisBrand: params?.["thisBrand"] as any,
                 doors: Number(params?.["doors"]),
                 doorsMax: Number(params?.["doorsMax"]),
-                initial: new Date(params?.["initial"]) as any,
-                initialMax: new Date(params?.["initialMax"]) as any,
+                initial: new Date(params?.["initial"] as any) ,
+                initialMax: new Date(params?.["initialMax"] as any),
                 power: Number(params?.["power"]),
                 powerMax: Number(params?.["powerMax"]),
                 seats: Number(params?.["seats"]) || null,
@@ -73,11 +73,11 @@ const MainPage = () => {
                 
                 trailerType: params?.["trailerType"],
                 coupling: params?.["coupling"] as any,
-                extraType: params?.["extraType"],
+                extraType: params?.["extraType"] as any,
                 axis: Number(params?.["axis"]),
                 axisMax: Number(params?.["axisMax"]),
-                brake: params?.["brake"] ? (params?.["brake"]?.toLowerCase()  == 'true') : null,
-                ahk: params?.["ahk"]  ? params?.["ahk"] : null,
+                brake: params?.["brake"] ? (String(params?.["brake"])?.toLowerCase()  == 'true') : null,
+                ahk: params?.["ahk"]  ? params?.["ahk"] as any : null,
                 
                 volume: params?.["volume"] as any,
                 loading_l: params?.["loading_l"] as any,
