@@ -29,9 +29,9 @@ const SearchBar = () => {
                         value={currentTitle}
                         onTextInput={(e) => setCurrentTitle(e.nativeEvent.text)}
                         placeholderTextColor="gray" 
-                        className="text-gray-200 w-10/12 bg-[#171923] p-4"
+                        className="text-gray-200 w-10/12 bg-[#171923] p-4 rounded-l-md"
                     />
-                    <View className=" flex justify-center bg-[#1E2839] w-2/12 p-4 rounded-r-md">
+                    <View className=" flex flex-row justify-center bg-[#1E2839] w-2/12 p-4 rounded-r-md">
                         <FontAwesome name="search" size={20} color="white" />
                     </View>
                 </View>

@@ -6,6 +6,7 @@ import { useRef, useState } from "react";
 import ActionSheet from "react-native-actions-sheet";
 import { Drawer } from 'react-native-drawer-layout';
 import { is } from "drizzle-orm";
+import { SafeAreaView } from "react-native";
 interface HeaderProps {
   currentUser: typeof userTable.$inferSelect;
   toggleDrawer: () => void;
@@ -21,10 +22,10 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer }) => {
 
   return (
     
-    <View className="bg-[#202336] p-4 border-b border-gray-700">
-      <View className="flex flex-row items-center">
+    <View className="bg-[#202336] p-4 border-b border-gray-800">
+      <SafeAreaView className="flex flex-row items-center">
         <TouchableOpacity
-          className="mr-4"
+          className="mr-4 p-4"
           
         >
           <FontAwesome name="bars" size={24} color="white" className="mr-4" />
@@ -45,10 +46,8 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer }) => {
             <FontAwesome name="user-circle" size={24} color="white" />
           </View>
         )}
-      </View>
-      <View className="mt-4">
-        <SearchBar />
-      </View>
+      </SafeAreaView>
+      
       
       
     </View>

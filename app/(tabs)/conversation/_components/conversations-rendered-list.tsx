@@ -1,0 +1,45 @@
+import { conversation } from "@/db/schema";
+import { useEffect, useMemo, useState } from "react";
+import { Text, View } from "react-native";
+import RenderedConversation from "./rendered-conversation";
+
+
+interface ConversationsRenderListProps {
+    foundConversations : typeof conversation.$inferSelect[];
+}
+
+const ConversationsRenderedList : React.FC<ConversationsRenderListProps> = ({
+    foundConversations
+}) => {
+    
+    const [usedConversations, setUsedConversations] = useState<any>(foundConversations)
+
+    
+
+    useMemo(() => {
+        const sortedConversations = [...foundConversations].sort((a, b) => {
+            const aLastMessage = a?.messages?.filter((message) => message?.createdAt)?.pop();
+            const bLastMessage = b?.messages?.filter((message) => message?.createdAt)?.pop();
+    
+            const aCreatedAt = aLastMessage?.createdAt ?? 0;
+            const bCreatedAt = bLastMessage?.createdAt ?? 0;
+    
+            return aCreatedAt < bCreatedAt ? 1 : -1;
+        });
+    
+        setUsedConversations(sortedConversations);
+    }, [foundConversations]);
+
+    return ( 
+        <View className="w-full flex-col">
+            
+            {usedConversations.map((conversation) => (
+                <RenderedConversation
+                    thisConversation={conversation} />
+            ))}
+            
+        </View>
+     );
+}
+ 
+export default ConversationsRenderedList;

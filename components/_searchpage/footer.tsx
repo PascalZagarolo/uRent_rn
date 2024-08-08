@@ -8,7 +8,7 @@ const Footer = () => {
     const router = useRouter();
 
     return ( 
-        <View className="p-4 border-t border-gray-800 bg-[#1a1c27] h-full">
+        <View className="p-4 border-t border-gray-800 bg-[#1a1c27] ">
             <View className="w-full flex flex-row py-4 space-x-4">
             <FontAwesome name="instagram" size={24} color="white" />
             <FontAwesome name="twitter" size={24} color="white" />
