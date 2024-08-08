@@ -6,6 +6,7 @@ import { format } from "date-fns";
 
 interface RenderedConversationProps {
     thisConversation: typeof conversation.$inferSelect | any;
+    
 }
 
 const RenderedConversation: React.FC<RenderedConversationProps> = ({
@@ -19,6 +20,8 @@ const RenderedConversation: React.FC<RenderedConversationProps> = ({
     const lastMessage = thisConversation.messages
         .filter((message) => message.createdAt !== undefined)
         .pop();
+
+    const lastMessageFromMe = lastMessage?.senderId === currentUser.id;
 
     
     return (
@@ -43,7 +46,7 @@ const RenderedConversation: React.FC<RenderedConversationProps> = ({
                     </View>
                     <View>
                         <Text className="text-sm text-gray-200/60 line-clamp-1" numberOfLines={1}>
-                            {lastMessage?.content}
+                           {lastMessageFromMe && "Ich: "} {lastMessage?.content}
                         </Text>
                     </View>
                 </View>
