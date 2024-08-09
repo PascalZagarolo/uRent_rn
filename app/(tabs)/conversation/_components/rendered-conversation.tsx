@@ -1,7 +1,8 @@
 import { conversation, message } from "@/db/schema";
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useAuth } from "../../AuthProvider";
 import { format } from "date-fns";
+import { useRouter } from "expo-router";
 
 
 interface RenderedConversationProps {
@@ -12,6 +13,8 @@ interface RenderedConversationProps {
 const RenderedConversation: React.FC<RenderedConversationProps> = ({
     thisConversation
 }) => {
+
+    const router = useRouter();
 
     const { currentUser } = useAuth();
 
@@ -25,7 +28,11 @@ const RenderedConversation: React.FC<RenderedConversationProps> = ({
 
     
     return (
-        <View className="border-b border-gray-800 py-4 px-2 ">
+        <TouchableOpacity className="border-b border-gray-800 py-4 px-2"
+        onPress={() => {
+            router.push(`/conversation/${thisConversation.id}`)
+        }}
+        >
             <View className="flex flex-row items-center">
                 <View className="w-2/12">
                     <Image
@@ -51,7 +58,7 @@ const RenderedConversation: React.FC<RenderedConversationProps> = ({
                     </View>
                 </View>
             </View>
-        </View>
+        </TouchableOpacity>
     );
 }
 
