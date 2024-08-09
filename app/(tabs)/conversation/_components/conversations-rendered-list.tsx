@@ -35,6 +35,7 @@ const ConversationsRenderedList : React.FC<ConversationsRenderListProps> = ({
             
             {usedConversations.map((conversation) => (
                 <RenderedConversation
+                key={conversation.id}
                     thisConversation={conversation} />
             ))}
             

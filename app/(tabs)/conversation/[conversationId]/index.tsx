@@ -1,37 +1,48 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
-import DrawerContentProfile from "@/components/_drawercontent/drawer-content-profile";
-import Footer from "@/components/_searchpage/footer";
-import Header from "@/components/_searchpage/header";
-import { useEffect, useMemo, useState } from "react";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
-
-import { Drawer } from 'react-native-drawer-layout';
-
-import { getConversations } from "@/actions/getConversations";
+import { useMemo, useState } from "react";
 import { useAuth } from "../../AuthProvider";
 import { useLocalSearchParams } from "expo-router";
 import { getSelectedConversation } from "@/actions/getSelectedConversation";
+import { ScrollView, View, Text, SafeAreaView, KeyboardAvoidingView } from "react-native";
+import { Drawer } from 'react-native-drawer-layout';
+import DrawerContentProfile from "@/components/_drawercontent/drawer-content-profile";
 
+import Header from "@/components/_searchpage/header";
+import Footer from "@/components/_searchpage/footer";
+import ConversationHeader from "./_components/conversation-header";
+import ConversationFooter from "./_components/conversation-footer";
+import MessageRender from "./_components/message-render";
 
 
 const ConversationChatPage = () => {
 
-    const { id } = useLocalSearchParams<{ id: string }>();
+    const { conversationId } = useLocalSearchParams<{ conversationId: string }>();
 
     const { currentUser, isLoading } = useAuth();
 
     const [isDrawerVisible, setIsDrawerVisible] = useState(false);
-    const [currentConversations, setCurrentConversations] = useState(null);
+    const [currentConversation, setCurrentConversation] = useState(null);
     const [currentTag, setCurrentTag] = useState("");
+
+    const [renderedMessages, setRenderedMessages] = useState([]);
+
+    const [otherUser, setOtherUser] = useState(null);
 
     useMemo(() => {
         const load = async () => {
-            const res = await getSelectedConversation(id);
-            setCurrentConversations(res);
+            const res = await getSelectedConversation(conversationId);
+            setCurrentConversation(res);
+            setRenderedMessages(res?.messages.filter((message) => message?.createdAt).sort((a, b) => {
+                return a.createdAt < b.createdAt ? 1 : -1;
+            }));
         }
 
         load();
-    },[])
+    }, [])
+
+    useMemo(() => {
+
+        setOtherUser(currentConversation?.user1Id === currentUser.id ? currentConversation?.user2 : currentConversation?.user1)
+    }, [currentConversation])
 
     const toggleDrawer = () => {
         setIsDrawerVisible(!isDrawerVisible);
@@ -39,49 +50,55 @@ const ConversationChatPage = () => {
     };
 
     return (
-        
 
-        
-        <View className="flex-1  bg-[#202336] w-full"
-        
+
+
+        <View className="flex-1 bg-[#202336] w-full h-full">
+        <Drawer
+            open={isDrawerVisible}
+            onOpen={() => setIsDrawerVisible(true)}
+            onClose={() => setIsDrawerVisible(false)}
+            drawerPosition="right"
+            drawerType="front"
+            renderDrawerContent={() => (
+                <DrawerContentProfile currentUser={currentUser} />
+            )}
         >
+            <SafeAreaView className="h-full">
+                {/* Header */}
+                <Header currentUser={currentUser} toggleDrawer={toggleDrawer} />
+                {(currentConversation && otherUser) && (
+                    <ConversationHeader
+                        username={otherUser?.name}
+                        imageUrl={otherUser?.image}
+                    />
+                )}
 
-            <Drawer
-                open={isDrawerVisible}
-                onOpen={() => { setIsDrawerVisible(true) }}
-                onClose={() => { setIsDrawerVisible(false) }}
-                drawerPosition="right"
-                drawerType="front"
-                renderDrawerContent={() => {
-                    return (
-                        <DrawerContentProfile
-                            currentUser={currentUser}
-                        />
-                    )
-                }}
-            >
-                <ScrollView>
-                
-                <Header
-                    currentUser={currentUser}
-                    toggleDrawer={toggleDrawer}
-                />
-                
-                <View className="">
-                   
-                </View>
-                <View className="">
-                
-                </View>
-                <View className="">
-                    <Footer />
-                </View>
+                {/* Message List */}
+                <ScrollView className="flex-1 gap-y-2 px-4  bg-[#222639]">
+                    {renderedMessages.map((message, index) => (
+                        <View className="w-full" key={index}>
+                            <MessageRender
+                                content={message.content}
+                                imageUrl={message.image}
+                                isOwn={message.senderId === currentUser.id}
+                                date={message.createdAt}
+                            />
+                        </View>
+                    ))}
                 </ScrollView>
-            </Drawer>
+
+                {/* Footer (Input Area) */}
+                
+            </SafeAreaView>
             
-        </View>
-        
-       
+        </Drawer>
+        <KeyboardAvoidingView behavior="padding">
+                    <ConversationFooter />
+                </KeyboardAvoidingView>
+    </View>
+
+
     );
 }
 
