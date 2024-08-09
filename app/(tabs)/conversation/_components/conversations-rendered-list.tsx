@@ -5,7 +5,7 @@ import RenderedConversation from "./rendered-conversation";
 
 
 interface ConversationsRenderListProps {
-    foundConversations : typeof conversation.$inferSelect[];
+    foundConversations : typeof conversation.$inferSelect[] | any;
 }
 
 const ConversationsRenderedList : React.FC<ConversationsRenderListProps> = ({
