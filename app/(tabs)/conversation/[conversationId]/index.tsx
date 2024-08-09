@@ -94,7 +94,9 @@ const ConversationChatPage = () => {
             
         </Drawer>
         <KeyboardAvoidingView behavior="padding">
-                    <ConversationFooter />
+                    <ConversationFooter 
+                    conversationId={conversationId}
+                    />
                 </KeyboardAvoidingView>
     </View>
 

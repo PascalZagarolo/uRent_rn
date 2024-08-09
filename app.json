@@ -4,7 +4,7 @@
     "slug": "urent_rn",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/urent-logo.png",
     "scheme": "urent",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -14,6 +14,7 @@
     },
     "ios": {
       "supportsTablet": true
+      
     },
     "android": {
       "adaptiveIcon": {
