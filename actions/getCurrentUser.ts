@@ -8,7 +8,11 @@ import JWT from "expo-jwt";
 
 export async function getCurrentUser(jwtString : string) {
     try {
-        const decodedToken = await JWT.decode(jwtString, "77375149353387154508860974358780");
+
+        console.log("..", process.env.EXPO_PUBLIC_JWT_TOKEN as string)
+        console.log("..", process.env.EXPO_PUBLIC_DATABASE_URL)
+        const decodedToken = await JWT.decode(jwtString, process.env.EXPO_PUBLIC_JWT_TOKEN as string);
+        
         
 
         if(!decodedToken.userId) {
