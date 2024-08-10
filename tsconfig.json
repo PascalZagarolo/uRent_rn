@@ -1,12 +1,17 @@
 {
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "baseUrl": "./",
     "strict": false,
     "paths": {
       "@/*": [
-        "./*"
+        "./*",
+        
+      ],
+      "crypto": [
+        "node_modules/crypto-js"
       ]
-    }
+    },
   },
   "include": [
     "**/*.ts",

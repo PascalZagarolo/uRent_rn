@@ -14,6 +14,7 @@ const ConversationFooter : React.FC<ConversationFooterProps> = ({
   conversationId
 }) => {
 
+  const apiUrl = process.env.EXPO_PUBLIC_BASE_URL;
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -36,12 +37,11 @@ const ConversationFooter : React.FC<ConversationFooterProps> = ({
         content : currentText,
       }
 
-      const res = await axios.post(`/api/conversation/message`, values)
-        .then(() => {
-          setCurrentText("");
-          
-        })
+      const response = await axios.post(`http://192.168.178.45:8081/api/message`, values)
+
       
+      
+      console.log(response.data)
 
     } catch(e : any) {
       console.log(e.message);
