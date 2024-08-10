@@ -8,6 +8,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from './(tabs)/AuthProvider';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
+import ActiveStatus from '@/components/ActiveStatus';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -32,6 +33,7 @@ export default function RootLayout() {
     <AuthProvider>
     <BottomSheetModalProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    
       <Stack screenOptions={{ headerShown: false }}>
 
       </Stack>
