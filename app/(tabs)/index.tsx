@@ -7,6 +7,11 @@ import { ThemedView } from '@/components/ThemedView';
 import { SafeAreaFrameContext } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
+import { AppRegistry } from 'react-native';
+
+
+
+
 
 export default function HomeScreen() {
 

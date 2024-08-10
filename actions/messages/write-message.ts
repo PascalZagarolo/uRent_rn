@@ -4,6 +4,7 @@ import db from "@/db/drizzle"
 import { conversation, message } from "@/db/schema"
 import { eq } from "drizzle-orm"
 import { getCurrentUser } from "../getCurrentUser"
+import { pusherServer } from "@/lib/pusher"
 
 export async function writeMessage(values : any) {
     try {
@@ -32,6 +33,8 @@ export async function writeMessage(values : any) {
             content : values?.content ? values.content : null,
             image : values?.image ? values.image : null
         }).returning();
+
+        await pusherServer.trigger(values.conversationId, 'messages:new', writtenMessage);
 
         return writtenMessage;
 
