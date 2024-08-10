@@ -4,6 +4,8 @@ import { useState } from "react";
 import { SafeAreaView, TextInput, TouchableOpacity, View } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 import axios from "axios";
+import { router } from "expo-router";
+import { writeMessage } from "@/actions/messages/write-message";
 
 
 interface ConversationFooterProps {
@@ -37,11 +39,15 @@ const ConversationFooter : React.FC<ConversationFooterProps> = ({
         content : currentText,
       }
 
-      const response = await axios.post(`http://192.168.178.45:8081/api/message`, values)
-
+      const response = await writeMessage(values)
+        .then((res) => {
+          console.log(res);
+          setCurrentText("");
+        })
+ 
       
       
-      console.log(response.data)
+      
 
     } catch(e : any) {
       console.log(e.message);
@@ -64,6 +70,7 @@ const ConversationFooter : React.FC<ConversationFooterProps> = ({
             className="w-full p-2.5 text-sm bg-[#202336] text-gray-200 font-semibold rounded-md"
             placeholder="Schreibe eine Nachricht.."
             placeholderTextColor="#888"
+            
             onChangeText={(e) => setCurrentText(e)}
             value={currentText}
           />

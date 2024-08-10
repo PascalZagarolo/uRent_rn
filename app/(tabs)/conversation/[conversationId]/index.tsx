@@ -32,7 +32,7 @@ const ConversationChatPage = () => {
             const res = await getSelectedConversation(conversationId);
             setCurrentConversation(res);
             setRenderedMessages(res?.messages.filter((message) => message?.createdAt).sort((a, b) => {
-                return a.createdAt < b.createdAt ? 1 : -1;
+                return a.createdAt > b.createdAt ? 1 : -1;
             }));
         }
 
@@ -40,7 +40,6 @@ const ConversationChatPage = () => {
     }, [])
 
     useMemo(() => {
-
         setOtherUser(currentConversation?.user1Id === currentUser.id ? currentConversation?.user2 : currentConversation?.user1)
     }, [currentConversation])
 
@@ -76,7 +75,7 @@ const ConversationChatPage = () => {
 
                 {/* Message List */}
                 <ScrollView className="flex-1 gap-y-2 px-4  bg-[#222639]">
-                    {renderedMessages.map((message, index) => (
+                    {renderedMessages.slice(renderedMessages.length - 10, renderedMessages.length).map((message, index) => (
                         <View className="w-full" key={index}>
                             <MessageRender
                                 content={message.content}

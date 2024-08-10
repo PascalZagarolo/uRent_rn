@@ -9,6 +9,7 @@ import {
     decimal,
     pgEnum,
     uuid,
+    pgSchema,
  
 
 } from "drizzle-orm/pg-core"
@@ -1375,3 +1376,4 @@ export const reportRelations = relations(report, ({ one }) => ({
         references : [conversation.id]
     })
 }))
+

@@ -25,6 +25,12 @@ export async function getCurrentUser(jwtString : string) {
             )
         })
 
+        const retrievedUser2 = await db.query.userTable.findFirst({
+            where : eq(
+                userTable.id, decodedToken.userId
+            )
+        })
+
         
 
         return retrievedUser;
