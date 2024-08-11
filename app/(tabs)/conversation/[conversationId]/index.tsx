@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../AuthProvider";
 import { useLocalSearchParams } from "expo-router";
 import { getSelectedConversation } from "@/actions/getSelectedConversation";
@@ -11,6 +11,9 @@ import Footer from "@/components/_searchpage/footer";
 import ConversationHeader from "./_components/conversation-header";
 import ConversationFooter from "./_components/conversation-footer";
 import MessageRender from "./_components/message-render";
+
+import  {socket}  from "@/lib/utils/socketService";
+import { set } from "date-fns";
 
 
 const ConversationChatPage = () => {
@@ -47,6 +50,14 @@ const ConversationChatPage = () => {
         setIsDrawerVisible(!isDrawerVisible);
 
     };
+
+    useEffect(() => {
+        socket.on("newMessageSend", (data) => {
+            console.log(data)
+            setRenderedMessages((prevMessages) => [...prevMessages, data]);
+        })
+    },[socket])
+    
 
     return (
 
