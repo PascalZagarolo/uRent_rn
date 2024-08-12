@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../../AuthProvider";
 import { useLocalSearchParams } from "expo-router";
 import { getSelectedConversation } from "@/actions/getSelectedConversation";
@@ -25,6 +25,8 @@ const ConversationChatPage = () => {
     const [isDrawerVisible, setIsDrawerVisible] = useState(false);
     const [currentConversation, setCurrentConversation] = useState(null);
     const [currentTag, setCurrentTag] = useState("");
+
+    const scrollViewRef = useRef(null);
 
     const [renderedMessages, setRenderedMessages] = useState([]);
 
@@ -55,6 +57,7 @@ const ConversationChatPage = () => {
         socket.on("newMessageSend", (data) => {
             console.log(data)
             setRenderedMessages((prevMessages) => [...prevMessages, data]);
+            scrollViewRef.current?.scrollToEnd({ animated: true });
         })
     },[socket])
     
@@ -85,7 +88,9 @@ const ConversationChatPage = () => {
                 )}
 
                 {/* Message List */}
-                <ScrollView className="flex-1 gap-y-2 px-4  bg-[#222639]">
+                <ScrollView className="flex-1 gap-y-2 px-4  bg-[#222639]"
+                ref={scrollViewRef}
+                >
                     {renderedMessages.slice(renderedMessages.length - 10, renderedMessages.length).map((message, index) => (
                         <View className="w-full" key={index}>
                             <MessageRender

@@ -5,6 +5,7 @@ import { conversation, message } from "@/db/schema"
 import { eq } from "drizzle-orm"
 import { getCurrentUser } from "../getCurrentUser"
 import {socket} from "@/lib/utils/socketService"
+import axios from "axios"
 
 export async function writeMessage(values : any) {
     try {
@@ -37,7 +38,7 @@ export async function writeMessage(values : any) {
         }).returning();
 
         
-
+        await axios.post(`https://www.urent-rental.de/api/public/${values.conversationId}/sent-message`, writtenMessage)
        
         socket.emit("newMessage", writtenMessage)
 
