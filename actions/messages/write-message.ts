@@ -43,7 +43,10 @@ export async function writeMessage(values : any) {
         
         await axios.post(`https://www.urent-rental.de/api/public/${values.conversationId}/sent-message`, writtenMessage)
        
-        socket.emit("newMessage", writtenMessage)
+        socket.emit("newMessage", {
+            sendMessage : writtenMessage,
+            conversationId : values.conversationId
+        })
 
         return writtenMessage;
 

@@ -1,3 +1,6 @@
+import { socket } from '@/lib/utils/socketService';
+import { conversation } from '../db/schema';
+
 const express = require("express");
 const app = express();
 const http = require("http").Server(app);
@@ -25,7 +28,8 @@ app.use(cors());
 
 
 socketIO.on("connection", (socket) => {
-  console.log(`${socket.id} hat sich verbunden`);
+
+ 
 
   socket.on("getAllGroups", () => {
     socket.emit("groupList", chatgroups);
@@ -43,7 +47,7 @@ socketIO.on("connection", (socket) => {
 
   socket.on("newMessage", (data) => {
     
-    socket.emit("newMessageSend", data);
+    socket.emit(data.conversationId, data.sendMessage);
   })
 
   socket.on("findGroup", (id) => {
@@ -62,6 +66,9 @@ socketIO.on("connection", (socket) => {
       currentUser,
       time: `${timeData.hr}:${timeData.mins}`,
     };
+
+    console.log(filteredGroup[0].currentGroupName);
+    console.log(222222);
 
     socket
       .to(filteredGroup[0].currentGroupName)
@@ -83,12 +90,17 @@ http.listen(PORT, () => {
 
 app.post('/api/messages/synchronize', async (req, res) => {
   try {
-      const sendMessage = await req.json();
+    console.log(1)
 
-      socketIO.emit("newMessageSend", sendMessage);
-      res.status(200).json({ message: "Message send" });
+    console.log(req.body)
+    const sendMessage = await req.body;
+    console.log(sendMessage.conversationId)
+    socketIO.emit(sendMessage.conversationId, sendMessage);
+    
 
-  } catch(e : any) {
+    res.status(200).json({ message: "Message send" });
+
+  } catch (e: any) {
     res.status(500).json({ message: "Server Error" });
   }
 })
