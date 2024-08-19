@@ -1,3 +1,4 @@
+
 'use server'
 
 import db from "@/db/drizzle"
@@ -31,14 +32,21 @@ export async function writeMessage(values : any) {
         }
     
         //@ts-ignore
-        const [writtenMessage] = await db.insert(message).values({
+        const [writtenMessage] : any = await db.insert(message).values({
             senderId : currentUser.id,
             conversationId : values.conversationId,
             content : values?.content ? values.content : null,
             image : values?.image ? values.image : null
         }).returning();
 
-        console.log(writtenMessage)
+        console.log(writtenMessage);
+
+        
+        const updateLastMessage = await db.update(conversation).set({
+            //@ts-ignore
+            message : writtenMessage,
+            lastMessageId : writtenMessage.id
+        }).where(eq(conversation.id, values.conversationId))
         
         
         await axios.post(`https://www.urent-rental.de/api/public/${values.conversationId}/sent-message`, writtenMessage)
