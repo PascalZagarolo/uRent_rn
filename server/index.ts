@@ -8,6 +8,9 @@ const socketIO = require("socket.io")(http, {
   },
 });
 
+
+
+
 const PORT = 4000;
 
 function createUniqueId() {
@@ -19,6 +22,7 @@ let chatgroups = [];
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cors());
+
 
 socketIO.on("connection", (socket) => {
   console.log(`${socket.id} hat sich verbunden`);
@@ -75,3 +79,16 @@ app.get("/api", (req, res) => {
 http.listen(PORT, () => {
   console.log(`Server is listeing on ${PORT}`);
 });
+
+
+app.post('/api/messages/synchronize', async (req, res) => {
+  try {
+      const sendMessage = await req.json();
+
+      socketIO.emit("newMessageSend", sendMessage);
+      res.status(200).json({ message: "Message send" });
+
+  } catch(e : any) {
+    res.status(500).json({ message: "Server Error" });
+  }
+})
