@@ -54,12 +54,22 @@ const ConversationChatPage = () => {
     };
 
     useEffect(() => {
-        socket.on("newMessageSend", (data) => {
-            console.log(data)
-            setRenderedMessages((prevMessages) => [...prevMessages, data]);
-            scrollViewRef.current?.scrollToEnd({ animated: true });
-        })
-    },[socket])
+        const handleMessageSend = (data) => {
+            
+            if (data.conversationId === conversationId) {
+                console.log(data);
+                setRenderedMessages((prevMessages) => [...prevMessages, data]);
+                scrollViewRef.current?.scrollToEnd({ animated: true });
+            }
+        };
+        
+        socket.on(conversationId, handleMessageSend);
+    
+        // Cleanup listener on component unmount
+        return () => {
+            socket.off(conversationId, handleMessageSend);
+        };
+    }, [socket, conversationId]);
     
 
     return (
