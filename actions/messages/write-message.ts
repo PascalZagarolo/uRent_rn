@@ -30,6 +30,7 @@ export async function writeMessage(values : any) {
             return null;
         }
     
+        //@ts-ignore
         const [writtenMessage] = await db.insert(message).values({
             senderId : currentUser.id,
             conversationId : values.conversationId,
@@ -37,6 +38,8 @@ export async function writeMessage(values : any) {
             image : values?.image ? values.image : null
         }).returning();
 
+        console.log(writtenMessage)
+        
         
         await axios.post(`https://www.urent-rental.de/api/public/${values.conversationId}/sent-message`, writtenMessage)
        
