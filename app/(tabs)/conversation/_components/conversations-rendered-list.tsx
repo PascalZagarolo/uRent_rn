@@ -10,16 +10,11 @@ interface ConversationsRenderListProps {
 
 const ConversationsRenderedList : React.FC<ConversationsRenderListProps> = ({
     foundConversations
-}) => {
-    
+}) => {    
     const [usedConversations, setUsedConversations] = useState<any>(foundConversations)
 
-    
-
     useMemo(() => {
-        const sortedConversations = [...foundConversations].sort((a, b) => {
-            
-    
+        const sortedConversations = [...foundConversations].sort((a, b) => {  
             return a.lastMessage.createdAt < b?.lastMessage.createdAt ? 1 : -1;
         });
     
