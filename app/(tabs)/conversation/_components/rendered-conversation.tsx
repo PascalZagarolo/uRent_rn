@@ -20,9 +20,7 @@ const RenderedConversation: React.FC<RenderedConversationProps> = ({
 
     const otherUser = thisConversation?.user1Id === currentUser.id ? thisConversation.user2 : thisConversation.user1;
 
-    const lastMessage = thisConversation.messages
-        .filter((message) => message.createdAt !== undefined)
-        .pop();
+    const lastMessage = thisConversation?.lastMessage
 
     const lastMessageFromMe = lastMessage?.senderId === currentUser.id;
 

@@ -9,7 +9,7 @@ import { Drawer } from 'react-native-drawer-layout';
 import ConversationSearchHeader from "./_components/conversation-search-header";
 import { getConversations } from "@/actions/getConversations";
 import ConversationsRenderedList from "./_components/conversations-rendered-list";
-import { connectPusher } from "@/lib/pusher";
+
 import { PusherEvent } from "@pusher/pusher-websocket-react-native";
 
 
@@ -20,17 +20,7 @@ const ConversationPage = () => {
     } 
 
 
-    useEffect(() => {
-        const initializePusher = async () => {
-            const pusher = await connectPusher();
-            let channel = pusher.subscribe({
-                channelName: "messages",
-                onEvent : (event : PusherEvent) => {
-                    console.log(event);
-                }
-            })
-        }
-    }, [])
+ 
 
 
     const { currentUser, isLoading } = useAuth();
