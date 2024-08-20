@@ -1,4 +1,9 @@
 
+
+
+
+
+
 import {
     timestamp,
     pgTable,
@@ -9,12 +14,10 @@ import {
     decimal,
     pgEnum,
     uuid,
-    pgSchema,
  
 
 } from "drizzle-orm/pg-core"
-//@ts-ignore
-import type { AdapterAccount } from '@auth/core/adapters'
+
 
 import {  relations, sql } from "drizzle-orm"
 import { z } from "zod"
@@ -24,7 +27,7 @@ import { z } from "zod"
 
 
 
-
+//@ts-ignore
 export const userTable = pgTable("user", {
     id: text("id").primaryKey(),
     name: text("name"),
@@ -103,7 +106,7 @@ export const businessAddress = pgTable("businessAddress", {
     state: text("state"),
     city : text("city"),
     street : text("street"),
-
+    title : text("title"),
     isPrimary : boolean("isPrimary").notNull().default(false),
 })
 
@@ -199,7 +202,7 @@ export const accounts = pgTable(
     {
         userId: text("userId")
             .references(() => userTable.id, { onDelete: "cascade" }).notNull(),
-        type: text("type").$type<AdapterAccount["type"]>().notNull(),
+        
         provider: text("provider").notNull(),
         providerAccountId: text("providerAccountId").notNull(),
         refresh_token: text("refresh_token"),
@@ -305,6 +308,19 @@ export const inserat = pgTable("inserat", {
             .references(() => transportAttribute.id),
     
     
+})
+
+export const conversationFolder = pgTable("conversationFolder", {
+    id: uuid("id").default(sql`gen_random_uuid()`).primaryKey(),
+    title : text("title"),
+    color : text("color"),
+    icon : text("icon"),
+    userId : text("userId")
+                .references(() => userTable.id, { onDelete: "cascade" }),
+    position : integer("position"),
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+    updatedAt: timestamp("updatedAt", { mode: "date" }).defaultNow(),
+
 })
 
 export const priceprofile = pgTable("priceprofile", {
@@ -719,6 +735,9 @@ export const conversation = pgTable("conversation", {
     id: uuid("id").default(sql`gen_random_uuid()`).primaryKey(),
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     blocked : boolean("blocked").notNull().default(false),
+    conversationFolder : text("conversationFolder"),
+    lastMessageId: uuid("lastMessageId")
+        .references(() => message.id, { onDelete: "set null" }),
     user1Id: text("user1").
         references(() => userTable.id, { onDelete: "cascade" }).notNull(),
     user2Id: text("user2").
@@ -1001,7 +1020,13 @@ export const block = pgTable("block", {
 
 //every array of a user => e.g liked posts etc..
 
-
+export const conversationFolderRelations = relations(conversationFolder, ({ one, many}) => ({
+    user : one(userTable, {
+        fields : [conversationFolder.userId],
+        references : [userTable.id]
+    }),
+    folderOnConversation : many(folderOnConversation)
+}))
 
 export const blockRelations = relations(block , ({ one }) => ({
     conversation : one(conversation, {
@@ -1025,7 +1050,28 @@ export const changeEmailTokenRelations = relations(changeEmailToken, ({ one }) =
     })
 }))
 
+export const folderOnConversation = pgTable("folder_conversation", {
+    folderId : uuid("folderId")
+                .references(() => conversationFolder.id, { onDelete: "cascade" }),
+    userId : text("userId"),
+    conversationId : uuid("conversationId")
+                .references(() => conversation.id, { onDelete: "cascade" }),
+    },
+    (t) => ({
+        primaryKey: primaryKey({ columns: [t.folderId, t.conversationId] }),
+    })
+    )
 
+export const folderOnConversationRelations = relations(folderOnConversation, ({ one }) => ({
+    conversationFolder : one(conversationFolder, {
+        fields : [folderOnConversation.folderId],
+        references : [conversationFolder.id]
+    }),
+    conversation : one(conversation, {
+        fields : [folderOnConversation.conversationId],
+        references : [conversation.id]
+    })
+}))
 
 export const userRelations = relations(userTable, ({ one, many }) => ({
     userAddress : one(userAddress, {
@@ -1069,6 +1115,7 @@ export const userRelations = relations(userTable, ({ one, many }) => ({
     notifications : many(notification),
     savedSearch : many(savedSearch),
     accounts : many(accounts),
+    conversationFolders : many(conversationFolder),
     
     
 }));
@@ -1313,6 +1360,7 @@ export const messageRelations = relations(message, ({ one }) => ({
         fields : [message.senderId],
         references : [userTable.id]
     }),
+    
     conversation : one(conversation, {
         fields : [message.conversationId],
         references : [conversation.id]
@@ -1347,8 +1395,14 @@ export const conversationRelations = relations(conversation, ({ one, many }) => 
         references : [userTable.id],
         relationName : "conversation_user2"
     }),
-    messages : many(message),
-    blocks : many(block)
+    lastMessage: one(message, {
+        fields: [conversation.lastMessageId],  // Corrected to refer to the field in the conversation table
+        references: [message.id],  // Corrected to refer to the primary key of the message table
+        relationName: "lastMessage"
+    }),
+    messages: many(message),
+    blocks : many(block),
+    folderOnConversation : many(folderOnConversation)
 }))
 
 export const notificationRelations = relations(notification, ({ one }) => ({
@@ -1376,4 +1430,3 @@ export const reportRelations = relations(report, ({ one }) => ({
         references : [conversation.id]
     })
 }))
-
