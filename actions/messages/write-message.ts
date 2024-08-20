@@ -91,6 +91,9 @@ export async function writeMessage(values: any) {
 
             await axios.post(`https://www.urent-rental.de/api/public/${values.conversationId}/sent-message`, parameters)
         } else {
+
+            console.log(currentUser?.image)
+
             const parameters = {
                 sentMessage: writtenMessage[0],
                 sender : {

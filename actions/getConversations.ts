@@ -14,7 +14,8 @@ export async function getConversations(userId : string) {
             ), with : {
                 messages : true,
                 user1 : true,
-                user2 : true
+                user2 : true,
+                lastMessage : true
             }
         }).prepare("findConversations");
 
