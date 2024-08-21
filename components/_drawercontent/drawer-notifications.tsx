@@ -54,6 +54,10 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
         {
             key: "Buchungen",
             value: "B"
+        },
+        {
+            key : "uRent - News",
+            value : "N"
         }
     ]
 
