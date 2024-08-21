@@ -6,9 +6,12 @@ import { useEffect } from 'react';
 import 'react-native-reanimated';
 
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { AuthProvider } from './(tabs)/AuthProvider';
+import { AuthProvider, useAuth } from './(tabs)/AuthProvider';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import ActiveStatus from '@/components/ActiveStatus';
+import { useDrawerSettings } from '@/store';
+import { Drawer } from 'react-native-drawer-layout';
+import { Text } from 'react-native';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -29,13 +32,19 @@ export default function RootLayout() {
     return null;
   }
 
+ 
+
+  
+
+  
+
   return (
     <AuthProvider>
     <BottomSheetModalProvider>
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-    
       <Stack screenOptions={{ headerShown: false }}>
-
+      
+              
       </Stack>
     </ThemeProvider>
     </BottomSheetModalProvider>

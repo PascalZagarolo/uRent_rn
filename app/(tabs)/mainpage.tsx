@@ -13,20 +13,24 @@ import DrawerContentProfile from "@/components/_drawercontent/drawer-content-pro
 import DrawerSearchFilter from "@/components/_drawercontent/drawer-search-filter";
 import { getSearchParamsFunction } from "@/actions/getSearchParams";
 import SearchBar from "@/components/_searchpage/search-bar";
+import { useDrawerSettings } from "@/store";
+import DrawerNotifications from "@/components/_drawercontent/drawer-notifications";
 
 
 
 
 const MainPage = () => {
-    
+
     const [inserate, setInserate] = useState([]);
 
     const params = getSearchParamsFunction();
-    
+
+    const { addDrawer, deleteDrawer, openDrawers } = useDrawerSettings();
+
 
     useEffect(() => {
         const load = async () => {
-            
+
             const res = await getInserate({
                 title: params?.["title"] as string,
                 thisCategory: params?.["category"] as any,
@@ -34,7 +38,7 @@ const MainPage = () => {
                 start: Number(params?.["start"]),
                 end: Number(params?.["end"]),
                 page: Number(params?.["page"]),
-                
+
                 periodBegin: params?.["periodBegin"] as any,
                 periodEnd: params?.["periodEnd"] as any,
                 startTime: params?.["startTime"] as any,
@@ -42,17 +46,17 @@ const MainPage = () => {
                 startDateDynamic: params?.["startDateDynamic"] as any,
                 endDateDynamic: params?.["endDateDynamic"] as any,
                 reqTime: params?.["reqTime"] as any,
-                
+
                 location: params?.["location"] as any,
                 amount: Number(params?.["amount"]),
-                
+
                 reqAge: Number(params?.["reqAge"]),
                 reqLicense: params?.["reqLicense"],
-                
+
                 thisBrand: params?.["thisBrand"] as any,
                 doors: Number(params?.["doors"]),
                 doorsMax: Number(params?.["doorsMax"]),
-                initial: new Date(params?.["initial"] as any) ,
+                initial: new Date(params?.["initial"] as any),
                 initialMax: new Date(params?.["initialMax"] as any),
                 power: Number(params?.["power"]),
                 powerMax: Number(params?.["powerMax"]),
@@ -63,34 +67,34 @@ const MainPage = () => {
                 thisType: params?.["thisType"],
                 freeMiles: Number(params?.["freeMiles"]),
                 extraCost: Number(params?.["extraCost"]),
-                
+
                 weightClass: Number(params?.["weightClass"]),
                 weightClassMax: Number(params?.["weightClassMax"]),
                 drive: params?.["drive"] as any,
                 loading: params?.["loading"] as any,
                 application: params?.["application"] as any,
                 lkwBrand: params?.["lkwBrand"] as any,
-                
+
                 transportBrand: params?.["transportBrand"] as any,
-                
+
                 trailerType: params?.["trailerType"],
                 coupling: params?.["coupling"] as any,
                 extraType: params?.["extraType"] as any,
                 axis: Number(params?.["axis"]),
                 axisMax: Number(params?.["axisMax"]),
-                brake: params?.["brake"] ? (String(params?.["brake"])?.toLowerCase()  == 'true') : null,
-                ahk: params?.["ahk"]  ? params?.["ahk"] as any : null,
-                
+                brake: params?.["brake"] ? (String(params?.["brake"])?.toLowerCase() == 'true') : null,
+                ahk: params?.["ahk"] ? params?.["ahk"] as any : null,
+
                 volume: params?.["volume"] as any,
                 loading_l: params?.["loading_l"] as any,
                 loading_b: params?.["loading_b"] as any,
                 loading_h: params?.["loading_h"] as any,
-                
+
                 radius: params?.["radius"] as any,
                 userId: params?.["userId"] as any,
                 caution: params?.["caution"] as any
             });
-            
+
             setInserate(res);
         }
         load();
@@ -100,93 +104,122 @@ const MainPage = () => {
 
     const [isDrawerVisible, setIsDrawerVisible] = useState(false);
     const [isFilterVisible, setIsFilterVisible] = useState(false);
+    const [isNotificationsVisible, setIsNotificationsVisible] = useState(false);
 
     const toggleDrawer = () => {
         setIsDrawerVisible(!isDrawerVisible);
         setIsFilterVisible(false);
+        setIsNotificationsVisible(false);
     };
 
     const toggleFilter = () => {
         setIsFilterVisible(!isFilterVisible);
         setIsDrawerVisible(false);
+        setIsNotificationsVisible(false);
     }
 
-    
+    const toggleNotifications = () => {
+        setIsNotificationsVisible(!isNotificationsVisible);
+        setIsDrawerVisible(false);
+        setIsFilterVisible(false);
+    }
+
 
     if (isLoading) {
         return <ActivityIndicator />;
     }
 
+    
+
     return (
         <View className="flex-1  bg-[#1F2332] w-full">
             <Drawer
-                open={isFilterVisible}
-                onOpen={() => { setIsFilterVisible(true) }}
-                onClose={() => { setIsFilterVisible(false) }}
-                
-                drawerPosition="left"
+                open={isNotificationsVisible}
+                onOpen={() => { setIsNotificationsVisible(true) }}
+                onClose={() => { setIsNotificationsVisible(false) }}
+
+                drawerPosition="right"
                 drawerType="slide"
                 drawerStyle={{ width: '100%' }}
                 renderDrawerContent={() => {
                     return (
-                        <DrawerSearchFilter
-                            toggleFilter={toggleFilter}
-                            currentResults={inserate.length as number}
+                        <DrawerNotifications
+                            toggleDrawerNotifications={toggleNotifications}
+                            foundNotifications={currentUser?.notifications}
                         />
                     )
                 }}
             >
                 <Drawer
-                    open={isDrawerVisible}
-                    onOpen={() => { setIsDrawerVisible(true) }}
-                    onClose={() => { setIsDrawerVisible(false) }}
-                    drawerPosition="right"
-                    drawerType="front"
+                    open={isFilterVisible}
+                    onOpen={() => { setIsFilterVisible(true) }}
+                    onClose={() => { setIsFilterVisible(false) }}
+
+                    drawerPosition="left"
+                    drawerType="slide"
+                    drawerStyle={{ width: '100%' }}
                     renderDrawerContent={() => {
                         return (
-                            <DrawerContentProfile
-                                currentUser={currentUser}
+                            <DrawerSearchFilter
+                                toggleFilter={toggleFilter}
+                                currentResults={inserate.length as number}
                             />
                         )
                     }}
                 >
-                    <View className=" bg-[#202336]">
+                    <Drawer
+                        open={isDrawerVisible}
+                        onOpen={() => { setIsDrawerVisible(true) }}
+                        onClose={() => { setIsDrawerVisible(false) }}
+                        drawerPosition="right"
+                        drawerType="front"
+                        renderDrawerContent={() => {
+                            return (
+                                <DrawerContentProfile
+                                    currentUser={currentUser}
+                                />
+                            )
+                        }}
+                    >
+                        <View className=" bg-[#202336]">
 
-</View>
-
-
-                            <Header
-                                toggleDrawer={toggleDrawer}
-                                currentUser={currentUser}
-                            />
-                        
-                    <ScrollView className=" ">
-
-                    
-                        
-                        
-                        <View className="mt-4 px-2">
-        <SearchBar />
-      </View>
-                        <View className="p-2">
-                            <FilterBubbles
-                            toggleFilter={toggleFilter}
-                                currentResults={inserate.length as number}
-                            />
                         </View>
-                        {inserate.map((pInserat) => (
-                            <View key={pInserat.id} className="border-t border-b border-gray-800 mb-2">
-                                <InseratCard thisInserat={pInserat} />
+
+
+                        <Header
+                            toggleDrawer={toggleDrawer}
+                            toggleNotifications={toggleNotifications}
+                            currentUser={currentUser}
+                        />
+
+                        <ScrollView className=" ">
+
+
+
+
+                            <View className="mt-4 px-2">
+                                <SearchBar />
                             </View>
-                        ))}
-                        <View className="mt-4">
-                            <Footer />
-                        </View>
+                            <View className="p-2">
+                                <FilterBubbles
+                                    toggleFilter={toggleFilter}
+                                    currentResults={inserate.length as number}
+                                />
+                            </View>
+                            {inserate.map((pInserat) => (
+                                <View key={pInserat.id} className="border-t border-b border-gray-800 mb-2">
+                                    <InseratCard thisInserat={pInserat} />
+                                </View>
+                            ))}
+                            <View className="mt-4">
+                                <Footer />
+                            </View>
 
 
-                        
-                    </ScrollView>
+
+                        </ScrollView>
                     </Drawer>
+                </Drawer>
             </Drawer>
         </View>
     );

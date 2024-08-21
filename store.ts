@@ -184,3 +184,28 @@ export const useDeleteParams = create<deleteParams>((set) => ({
         set({ removeAttributes : action })
     }
 }))
+
+type drawerSettings = {
+    openDrawers : string[],
+    addDrawer : (openDrawer : string) => void;
+    deleteDrawer : (openDrawer : string) => void;
+    getState : () => string[];
+}
+
+export const useDrawerSettings = create<drawerSettings>((set) => ({
+    openDrawers : [],
+    addDrawer : (openDrawer : string) => {
+        set((state) => ({
+            openDrawers : [...state.openDrawers, openDrawer]
+        }))
+    },
+    deleteDrawer : (openDrawer : string) => {
+        set((state) => {
+            const updatedDrawers = state.openDrawers.filter((drawer) => drawer !== openDrawer);
+            return { openDrawers : updatedDrawers }
+        })
+    },
+    getState() {
+        return this.openDrawers;
+    },
+}))
