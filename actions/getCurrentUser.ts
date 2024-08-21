@@ -2,7 +2,7 @@
 'use strict'
 
 import db from "@/db/drizzle";
-import { userTable } from "@/db/schema";
+import { notification, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import JWT from "expo-jwt";
 
@@ -22,14 +22,13 @@ export async function getCurrentUser(jwtString : string) {
         const retrievedUser = await db.query.userTable.findFirst({
             where : eq(
                 userTable.id, decodedToken.userId
-            )
+            ),
+            with: {
+                notifications: true
+            }
         })
 
-        const retrievedUser2 = await db.query.userTable.findFirst({
-            where : eq(
-                userTable.id, decodedToken.userId
-            )
-        })
+        
 
         
 

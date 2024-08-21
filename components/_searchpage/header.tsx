@@ -1,4 +1,4 @@
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import SearchBar from "./search-bar";
 import { userTable } from "@/db/schema";
@@ -10,9 +10,10 @@ import { SafeAreaView } from "react-native";
 interface HeaderProps {
   currentUser: typeof userTable.$inferSelect;
   toggleDrawer: () => void;
+  toggleNotifications?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer }) => {
+const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifications }) => {
 
     
 
@@ -31,21 +32,28 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer }) => {
           <FontAwesome name="bars" size={24} color="white" className="mr-4" />
         </TouchableOpacity>
         <Text className="text-xl font-semibold text-gray-200">uRent</Text>
+        
         {currentUser ? (
           
-            <TouchableOpacity className="ml-auto" onPress={toggleDrawer}>
+            <View className="ml-auto flex flex-row items-center space-x-8">
+              <TouchableOpacity onPress={toggleNotifications}>
+                <Ionicons name="notifications" size={24} color="white"  />
+              </TouchableOpacity>
+              <TouchableOpacity  onPress={toggleDrawer}>
           <Image
             source={{ uri: usedUrl }}
             alt="Profile Picture"
             className="w-12 h-12 rounded-full"
           />
         </TouchableOpacity>
+            </View>
          
         ) : (
           <View className="ml-auto">
             <FontAwesome name="user-circle" size={24} color="white" />
           </View>
         )}
+        
       </SafeAreaView>
       
       
