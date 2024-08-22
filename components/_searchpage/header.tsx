@@ -9,7 +9,7 @@ import { is } from "drizzle-orm";
 import { SafeAreaView } from "react-native";
 import { cn } from "@/~/lib/utils";
 interface HeaderProps {
-  currentUser: typeof userTable.$inferSelect;
+  currentUser: typeof userTable.$inferSelect | any;
   toggleDrawer: () => void;
   toggleNotifications?: () => void;
 }
