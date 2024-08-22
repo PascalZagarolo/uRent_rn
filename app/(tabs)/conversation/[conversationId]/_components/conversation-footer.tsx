@@ -34,11 +34,11 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
   const onImageUpload = async (mode: string) => {
     try {
       let result: ImagePickerResult;
-      
+
       if (mode === "gallery") {
         console.log("Requesting media library permissions...");
         await ImagePicker.requestMediaLibraryPermissionsAsync();
-  
+
         result = await ImagePicker.launchImageLibraryAsync({
           mediaTypes: ImagePicker.MediaTypeOptions.Images,
           allowsEditing: true,
@@ -49,7 +49,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
       } else {
         console.log("Requesting camera permissions...");
         await ImagePicker.requestCameraPermissionsAsync();
-  
+
         result = await ImagePicker.launchCameraAsync({
           allowsEditing: true,
           aspect: [1, 1],
@@ -57,17 +57,17 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
         });
         console.log("Camera result received.");
       }
-  
+
       // Check if the result is not canceled and has a URI
       if (!result.canceled && result.assets && result.assets.length > 0) {
         const uri = result.assets[0].uri;
         console.log("Image URI: ", uri);
-        refRBSheet.current[1].close();
+
         saveImage(uri);
       } else {
         console.log("Image picking was canceled or no URI found.");
       }
-  
+
     } catch (e: any) {
       console.log("Error during image upload:", e);
     }
@@ -76,7 +76,8 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
   const saveImage = async (persistedImage: string) => {
     try {
       setCurrentImage(persistedImage);
-      setImageDialogVisible(true);
+      refRBSheet.current[1].close();
+
     } catch (e: any) {
       console.log(e)
     }
@@ -139,27 +140,55 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
             "flex items-center justify-center w-2/12 bg-indigo-800 py-2 px-2 rounded-full",
             !currentText && "opacity-60"
           )}
-          onPress={() => {}}
+          onPress={() => { }}
           disabled={!currentText || isLoading}
         >
           <FontAwesome name="paper-plane" size={20} color="white" />
         </TouchableOpacity>
       </SafeAreaView>
-  
-      
+
+
       <Modal
         animationType="slide"
-        
+        transparent={true}
         visible={isImageDialogVisible}
-        
+        onRequestClose={() => {
+          setCurrentImage(null);
+          setImageDialogVisible(false);
+        }}
       >
         <View className="flex-1 justify-center items-center bg-black/80">
-          <View className="bg-[#1F2332] w-full rounded-lg overflow-hidden">
+          <View className="bg-[#151821] w-full rounded-lg overflow-hidden">
+            <View className="flex flex-row items-center">
+              <Text className="text-lg font-semibold text-gray-200 px-4 mt-4">
+                Bild versenden
+              </Text>
+              <TouchableOpacity className="ml-auto mr-4 mt-4"
+              onPress={() => setImageDialogVisible(false)}
+              >
+                <Feather
+                  name="x"
+                  size={24}
+                  color="white"
+                  className="absolute right-4 top-4"
+                   />
+              </TouchableOpacity>
+            </View>
             <Image
               source={{ uri: currentImage }}
               style={{ width: '100%', height: 300 }}
               resizeMode="contain"
+              className="mt-4"
             />
+            <View className="p-2">
+              <TextInput
+                className="w-full p-2.5 text-sm bg-[#202336] text-gray-200 font-semibold rounded-md"
+                placeholder="Schreibe eine Nachricht.."
+                placeholderTextColor="#888"
+                onChangeText={(e) => setCurrentText(e)}
+                value={currentText}
+              />
+            </View>
             <View className="flex-row justify-between p-4">
               <TouchableOpacity
                 className="flex-1 items-center py-2"
@@ -168,16 +197,18 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
                 <Text className="text-white text-lg">Abbrechen</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                className="flex-1 items-center py-2 bg-blue-600 rounded-lg"
-                onPress={() => {}}
+                className="flex-1 items-center  bg-indigo-800 rounded-md"
+                onPress={() => { }}
               >
-                <Text className="text-white text-lg">Senden</Text>
+                <View className="mt-2.5">
+                <FontAwesome name="paper-plane" size={24} color="white" />
+                </View>
               </TouchableOpacity>
             </View>
           </View>
         </View>
       </Modal>
-  
+
       <RBSheet
         ref={(ref) => (refRBSheet.current[1] = ref)}
         customStyles={{
@@ -196,6 +227,11 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
         }}
         customAvoidingViewProps={{
           enabled: false,
+        }}
+        onClose={() => {
+          if (currentImage) {
+            setImageDialogVisible(true);
+          }
         }}
       >
         <View className="flex-1 flex">
@@ -218,7 +254,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
                 Kamera
               </Text>
             </TouchableOpacity>
-  
+
             <TouchableOpacity
               className="w-1/3 flex-col justify-center items-center bg-[#262b3d] p-4 rounded-full"
               onPress={() => {
@@ -239,7 +275,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
       </RBSheet>
     </View>
   );
-  
+
 }
 
 export default ConversationFooter;
