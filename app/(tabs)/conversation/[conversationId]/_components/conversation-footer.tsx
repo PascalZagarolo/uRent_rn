@@ -83,6 +83,55 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
     }
   }
 
+  const onImageSend = async () => {
+    try {
+      setIsLoading(true);
+
+      const uploadedResult = await uploadImage(currentImage);
+
+      if(uploadedResult) {
+
+      } else {
+        console.log("Fehler beim Uploads");
+      }
+
+    } catch (e: any) {
+      console.log(e);
+      return null;
+    }
+  }
+
+  const uploadImage = async (image: string) => {
+    try {
+      const url = "https://api.cloudinary.com/v1_1/df1vnhnzp/image/upload";
+
+      const formData = new FormData();
+
+      let result;
+
+      formData.append("file", image);
+      formData.append("upload_preset", "oblbw2xl");
+
+      fetch(url, {
+        method : "POST",
+        body : formData
+      })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        result = data.secure_url;
+      });
+
+      if(result) {
+        return result;
+      }
+    } catch (e: any) {
+      console.log(e);
+      return null;
+    }
+  }
+
   const onMessageSend = async () => {
     try {
 
@@ -164,14 +213,14 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
                 Bild versenden
               </Text>
               <TouchableOpacity className="ml-auto mr-4 mt-4"
-              onPress={() => setImageDialogVisible(false)}
+                onPress={() => setImageDialogVisible(false)}
               >
                 <Feather
                   name="x"
                   size={24}
                   color="white"
                   className="absolute right-4 top-4"
-                   />
+                />
               </TouchableOpacity>
             </View>
             <Image
@@ -201,7 +250,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
                 onPress={() => { }}
               >
                 <View className="mt-2.5">
-                <FontAwesome name="paper-plane" size={24} color="white" />
+                  <FontAwesome name="paper-plane" size={24} color="white" />
                 </View>
               </TouchableOpacity>
             </View>
