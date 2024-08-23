@@ -86,10 +86,31 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
   const onImageSend = async () => {
     try {
       setIsLoading(true);
-
+      console.log(1)
       const uploadedResult = await uploadImage(currentImage);
 
-      if(uploadedResult) {
+      const token = await SecureStore.getItemAsync("authToken");
+      
+      if (!token) {
+
+        return null;
+      }
+      console.log(2)
+      if (uploadedResult) {
+        const values = {
+          image: uploadedResult,
+          conversationId: conversationId,
+          token: token,
+          content: currentText,
+        }
+        console.log(5)
+        await writeMessage(values)
+          .then(() => {
+            setCurrentImage(null);
+            setCurrentText("");
+            Keyboard.dismiss();
+            setImageDialogVisible(false);
+          })
 
       } else {
         console.log("Fehler beim Uploads");
@@ -101,7 +122,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
     }
   }
 
-  const uploadImage = async (image: string) => {
+  const uploadImage = async (imageUri: string) => {
     try {
       const url = "https://api.cloudinary.com/v1_1/df1vnhnzp/image/upload";
 
@@ -109,21 +130,39 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
 
       let result;
 
-      formData.append("file", image);
-      formData.append("upload_preset", "oblbw2xl");
-
-      fetch(url, {
-        method : "POST",
-        body : formData
-      })
-      .then((response) => {
-        return response.json();
-      })
-      .then((data) => {
-        result = data.secure_url;
+      const image = {
+        uri: imageUri,
+        type: 'image/jpeg', // Change according to your image type
+        name: 'upload.jpg', // Provide a name for the file
+      };
+  
+      // Here, we need to either convert the file to base64 or pass the actual bytes
+      // In a React Native environment, you might need an additional library like `react-native-fs`
+      // to read the file and convert it to base64.
+  
+      formData.append("file", {
+        uri: image.uri,
+        type: image.type,
+        name: image.name,
       });
+      formData.append("upload_preset", "oblbw2xl");
+      console.log(4)
+      await fetch(url, {
+        method: "POST",
+        body: formData
+      })
+        .then((response) => {
+          console.log(4.1);
+          console.log(image)
+          return response.json();
+        })
+        .then((data) => {
+          console.log(4.2)
+          console.log(data.secure_url)
+          result = data.secure_url;
+        });
 
-      if(result) {
+      if (result) {
         return result;
       }
     } catch (e: any) {
@@ -137,7 +176,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
 
       setIsLoading(true);
       const token = await SecureStore.getItemAsync("authToken");
-      console.log("1")
+      
       if (!token) {
 
         return null;
@@ -247,7 +286,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
               </TouchableOpacity>
               <TouchableOpacity
                 className="flex-1 items-center  bg-indigo-800 rounded-md"
-                onPress={() => { }}
+                onPress={onImageSend}
               >
                 <View className="mt-2.5">
                   <FontAwesome name="paper-plane" size={24} color="white" />
