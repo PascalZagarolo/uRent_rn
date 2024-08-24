@@ -51,7 +51,7 @@ const RenderedConversation: React.FC<RenderedConversationProps> = ({
                     </View>
                     <View>
                         <Text className="text-sm text-gray-200/60 line-clamp-1" numberOfLines={1}>
-                           {lastMessageFromMe && "Ich: "} {lastMessage?.content}
+                           {lastMessageFromMe && "Ich: "} {lastMessage?.content ? lastMessage.content : "Hat ein Bild gesendet."}
                         </Text>
                     </View>
                 </View>

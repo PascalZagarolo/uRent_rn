@@ -1,6 +1,7 @@
 import { cn } from "@/~/lib/utils";
-import { format } from "date-fns";
-import { Text, View, Image } from "react-native";
+import { format, set } from 'date-fns';
+import { useState } from "react";
+import { Text, View, Image, Modal, TouchableOpacity } from "react-native";
 
 interface MessageRenderProps {
     content?: string;
@@ -15,6 +16,9 @@ const MessageRender: React.FC<MessageRenderProps> = ({
     isOwn,
     date
 }) => {
+
+    const [isImageDialogVisible, setImageDialogVisible] = useState(false);
+
     return (
         <View
             className={cn(
@@ -31,10 +35,12 @@ const MessageRender: React.FC<MessageRenderProps> = ({
                 )}
             >
                 {imageUrl && (
-                    <Image
+                    <TouchableOpacity onPress={() => {setImageDialogVisible(true)}}>
+                        <Image
                         source={{ uri: imageUrl }}
                         className="w-48 h-48 mb-2 rounded-lg object-fill"
                     />
+                    </TouchableOpacity>
                 )}
                 <Text
                     className={cn(
@@ -48,6 +54,18 @@ const MessageRender: React.FC<MessageRenderProps> = ({
             <Text className="text-xs text-gray-200/60 mt-1">
                 {format(date, "HH:mm")}
             </Text>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={isImageDialogVisible}
+                onRequestClose={() => {
+                    setImageDialogVisible(false);
+                }}
+            >
+                <View>
+                    <Image source={{ uri: imageUrl }} className="w-full h-full" />
+                </View>
+            </Modal>
         </View>
     );
 };
