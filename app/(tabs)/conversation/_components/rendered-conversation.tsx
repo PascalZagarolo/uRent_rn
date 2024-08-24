@@ -3,6 +3,8 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useAuth } from "../../AuthProvider";
 import { format } from "date-fns";
 import { useRouter } from "expo-router";
+import { FontAwesome } from "@expo/vector-icons";
+import { cn } from "@/~/lib/utils";
 
 
 interface RenderedConversationProps {
@@ -50,8 +52,9 @@ const RenderedConversation: React.FC<RenderedConversationProps> = ({
                         )}
                     </View>
                     <View>
-                        <Text className="text-sm text-gray-200/60 line-clamp-1" numberOfLines={1}>
-                           {lastMessageFromMe && "Ich: "} {lastMessage?.content ? lastMessage.content : "Hat ein Bild gesendet."}
+                        <Text className={cn("text-sm text-gray-200/60 line-clamp-1", !lastMessage?.content && "font-semibold")} numberOfLines={1}>
+                           {lastMessageFromMe && "Ich: "} {lastMessage?.content ? lastMessage.content : 
+                            "Hat ein Foto gesendet."}
                         </Text>
                     </View>
                 </View>

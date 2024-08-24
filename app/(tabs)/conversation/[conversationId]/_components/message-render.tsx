@@ -1,7 +1,7 @@
 import { cn } from "@/~/lib/utils";
 import { format, set } from 'date-fns';
 import { useState } from "react";
-import { Text, View, Image, Modal, TouchableOpacity } from "react-native";
+import { Text, View, Image, Modal, TouchableOpacity, SafeAreaView } from "react-native";
 
 interface MessageRenderProps {
     content?: string;
@@ -62,9 +62,11 @@ const MessageRender: React.FC<MessageRenderProps> = ({
                     setImageDialogVisible(false);
                 }}
             >
-                <View>
-                    <Image source={{ uri: imageUrl }} className="w-full h-full" />
-                </View>
+                <SafeAreaView style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.8)' }}>
+                    <TouchableOpacity onPress={() => setImageDialogVisible(false)} style={{ width: '100%', height: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                        <Image source={{ uri: imageUrl }} style={{ width: '90%', height: '70%', borderRadius: 10, resizeMode: 'contain' }} />
+                    </TouchableOpacity>
+                </SafeAreaView>
             </Modal>
         </View>
     );
