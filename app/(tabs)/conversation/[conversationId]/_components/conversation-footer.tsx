@@ -139,7 +139,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
       // Here, we need to either convert the file to base64 or pass the actual bytes
       // In a React Native environment, you might need an additional library like `react-native-fs`
       // to read the file and convert it to base64.
-  
+      //@ts-ignore
       formData.append("file", {
         uri: image.uri,
         type: image.type,
@@ -178,7 +178,6 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
       const token = await SecureStore.getItemAsync("authToken");
       
       if (!token) {
-
         return null;
       }
       console.log("2")
