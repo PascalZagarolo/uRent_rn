@@ -1,6 +1,9 @@
+import { changeUser } from "@/actions/user/change-user";
 import { AntDesign, Feather, FontAwesome, FontAwesome6 } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { ImagePickerResult } from "expo-image-picker";
 import * as ImagePicker from 'expo-image-picker';
+import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View, Image, TouchableOpacity, Text, Modal } from "react-native";
 
@@ -68,52 +71,93 @@ const ChangeProfilePic: React.FC<ChangeProfilePicProps> = ({
 
     const uploadImage = async (imageUri: string) => {
         try {
-          const url = "https://api.cloudinary.com/v1_1/df1vnhnzp/image/upload";
-    
-          const formData = new FormData();
-    
-          let result;
-    
-          const image = {
-            uri: imageUri,
-            type: 'image/jpeg', // Change according to your image type
-            name: 'upload.jpg', // Provide a name for the file
-          };
-      
-          // Here, we need to either convert the file to base64 or pass the actual bytes
-          // In a React Native environment, you might need an additional library like `react-native-fs`
-          // to read the file and convert it to base64.
-          //@ts-ignore
-          formData.append("file", {
-            uri: image.uri,
-            type: image.type,
-            name: image.name,
-          });
-          formData.append("upload_preset", "oblbw2xl");
-          console.log(4)
-          await fetch(url, {
-            method: "POST",
-            body: formData
-          })
-            .then((response) => {
-              
-              console.log(image)
-              return response.json();
-            })
-            .then((data) => {
-              
-              console.log(data.secure_url)
-              result = data.secure_url;
+            const url = "https://api.cloudinary.com/v1_1/df1vnhnzp/image/upload";
+
+            const formData = new FormData();
+
+            let result;
+
+            const image = {
+                uri: imageUri,
+                type: 'image/jpeg', // Change according to your image type
+                name: 'upload.jpg', // Provide a name for the file
+            };
+
+            // Here, we need to either convert the file to base64 or pass the actual bytes
+            // In a React Native environment, you might need an additional library like `react-native-fs`
+            // to read the file and convert it to base64.
+            //@ts-ignore
+            formData.append("file", {
+                uri: image.uri,
+                type: image.type,
+                name: image.name,
             });
-    
-          if (result) {
-            return result;
-          }
+            formData.append("upload_preset", "oblbw2xl");
+            console.log(4)
+            await fetch(url, {
+                method: "POST",
+                body: formData
+            })
+                .then((response) => {
+
+                    console.log(image)
+                    return response.json();
+                })
+                .then((data) => {
+
+                    console.log(data.secure_url)
+                    result = data.secure_url;
+                });
+
+            if (result) {
+                return result;
+            }
         } catch (e: any) {
-          console.log(e);
-          return null;
+            console.log(e);
+            return null;
         }
-      }
+    }
+
+    const router = useRouter();
+
+    const onChangeProfilePic = async (mode: string) => {
+        try {
+
+            if (mode === "deleteExisting") {
+                const newLink = null;
+                
+                const authToken = AsyncStorage.getItem("authToken");
+
+                const values = {
+                    image: newLink
+                }
+                await changeUser(values, authToken)
+                .then(() => {
+                    setShowDialog(false);
+                })
+
+            } else {
+                const newLink = await uploadImage(currentImage)
+                
+                console.log(newLink)
+
+                const authToken = AsyncStorage.getItem("authToken");
+
+                const values = {
+                    image: newLink
+                }
+                await changeUser(values, authToken)
+                .then(() => {
+                    setShowDialog(false);
+                })
+
+            }
+
+        } catch (e: any) {
+            console.log(e);
+            return null;
+        }
+    }
 
     return (
         <View className="flex flex-col items-center">
@@ -167,9 +211,9 @@ const ChangeProfilePic: React.FC<ChangeProfilePicProps> = ({
                                 </View>
                                 <View className="flex flex-row items-center px-4 mt-4 space-x-4 justify-center w-full">
                                     <TouchableOpacity className=" p-2.5 rounded-md w-1/2"
-                                    onPress={() => {
-                                        setCurrentImage(null);
-                                    }}
+                                        onPress={() => {
+                                            setCurrentImage(null);
+                                        }}
                                     >
                                         <Text className="text-center text-base text-gray-200 font-semibold">
                                             Bild entfernen
