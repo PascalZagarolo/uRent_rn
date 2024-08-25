@@ -9,10 +9,12 @@ import { View } from "react-native";
 
 interface DrawerContentProfileProps {
     currentUser: typeof userTable.$inferSelect;
+    closeModal : () => void;
 }
 
 const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
-    currentUser
+    currentUser,
+    closeModal
 }) => {
 
     const router = useRouter();
@@ -85,12 +87,17 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
             </View>
             <View className="mt-auto border-t border-gray-600">
             <View className="mt-4">
-                    <View className="flex flex-row items-center space-x-4   py-4  rounded-md">
+                    <TouchableOpacity className="flex flex-row items-center space-x-4 py-4 rounded-md"
+                    onPress={() => {
+                        router.push(`/settings`);
+                        closeModal();
+                    }}
+                    >
                         <Ionicons name="settings" size={20} color="white" />
                         <Text className="text-sm text-gray-200 font-semibold">
                             Einstellungen
                         </Text>
-                    </View>
+                    </TouchableOpacity>
                 </View>
                 <View className="flex flex-row items-center space-x-4   py-4  rounded-md">
                     <Entypo name="login" size={20} color="white" />

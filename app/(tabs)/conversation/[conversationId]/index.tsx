@@ -84,7 +84,11 @@ const ConversationChatPage = () => {
             drawerPosition="right"
             drawerType="front"
             renderDrawerContent={() => (
-                <DrawerContentProfile currentUser={currentUser} />
+                <DrawerContentProfile currentUser={currentUser} 
+                    closeModal={
+                    () => setIsDrawerVisible(false)
+                    }
+                />
             )}
         >
             <SafeAreaView className="h-full">

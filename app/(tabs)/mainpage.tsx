@@ -177,6 +177,9 @@ const MainPage = () => {
                             return (
                                 <DrawerContentProfile
                                     currentUser={currentUser}
+                                    closeModal={
+                                        () => setIsDrawerVisible(false)
+                                    }
                                 />
                             )
                         }}
