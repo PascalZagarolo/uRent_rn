@@ -61,6 +61,9 @@ const ConversationPage = () => {
                     return (
                         <DrawerContentProfile
                             currentUser={currentUser}
+                            closeModal={
+                                () => setIsDrawerVisible(false)
+                            }
                         />
                     )
                 }}
