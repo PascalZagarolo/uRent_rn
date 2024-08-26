@@ -22,6 +22,8 @@ const PrivacyPart: React.FC<PrivacyPartProps> = ({
     const [shareEmail, setShareEmail] = useState(currentUser?.sharesEmail);
     const [sharePhone, setSharePhone] = useState(currentUser?.sharesPhoneNumber);
 
+    const [allowNewsletter, setAllowNewsletter] = useState(currentUser?.newsletter);
+
     const [hasChanged, setHasChanged] = useState(false);
 
     const { refetchUser } = useAuth();
@@ -33,17 +35,21 @@ const PrivacyPart: React.FC<PrivacyPartProps> = ({
             setHasChanged(true);
         } else if (currentUser?.sharesPhoneNumber !== sharePhone) {
             setHasChanged(true);
-        } else {
+        } else if (currentUser?.newsletter !== allowNewsletter) {
+            setHasChanged(true);
+        }
+        else {
             setHasChanged(false);
         }
-    },[ shareRealname, shareEmail, sharePhone ]);
+    }, [shareRealname, shareEmail, sharePhone, allowNewsletter]);
 
     const onSubmit = async () => {
         try {
             const values = {
-                sharesRealName : shareRealname,
-                sharesEmail : shareEmail,
-                sharesPhoneNumber : sharePhone
+                sharesRealName: shareRealname,
+                sharesEmail: shareEmail,
+                sharesPhoneNumber: sharePhone,
+                newsletter : allowNewsletter
             }
 
             const foundToken = await SecureStore.getItemAsync("authToken");
@@ -52,9 +58,9 @@ const PrivacyPart: React.FC<PrivacyPartProps> = ({
 
             refetchUser();
             setHasChanged(false);
-            
 
-        } catch(e : any) {
+
+        } catch (e: any) {
             console.log(e);
         }
     }
@@ -67,15 +73,15 @@ const PrivacyPart: React.FC<PrivacyPartProps> = ({
                     Privatsphäre
                 </Text>
             </View>
-            <View className="flex flex-col items-center justify-center mt-8 space-y-4">
+            <View className="flex flex-col justify-center mt-8 space-y-4">
                 <View className="flex flex-row items-center w-full">
                     <View className="w-1/4">
-                    <BouncyCheckbox
+                        <BouncyCheckbox
                             size={24}
                             fillColor="blue"
                             unFillColor="#FFFFFF"
                             className="flex justify-center items-center"
-                            
+
                             isChecked={shareEmail}
                             onPress={(isChecked: boolean) => { setShareEmail(isChecked) }}
                             disableText={true}
@@ -108,7 +114,7 @@ const PrivacyPart: React.FC<PrivacyPartProps> = ({
 
                 <View className="flex flex-row items-center w-full">
                     <View className="w-1/4">
-                    <BouncyCheckbox
+                        <BouncyCheckbox
                             size={24}
                             fillColor="blue"
                             unFillColor="#FFFFFF"
@@ -124,10 +130,39 @@ const PrivacyPart: React.FC<PrivacyPartProps> = ({
                         </Text>
                     </View>
                 </View>
+                <View>
+                    <View>
+                        <Text className="text-base font-semibold text-gray-200">
+                            Datennutzung
+                        </Text>
+                    </View>
+                    <View className="flex flex-row items-center w-full mt-4">
+                        <View className="w-1/4">
+                            <BouncyCheckbox
+                                size={24}
+                                fillColor="blue"
+                                unFillColor="#FFFFFF"
+                                className="flex justify-center items-center"
+                                isChecked={allowNewsletter}
+                                onPress={(isChecked: boolean) => { setAllowNewsletter(isChecked) }}
+                                disableText={true}
+                            />
+                        </View>
+                        <View className="flex flex-col w-3/4">
+                            <Text className="text-base text-gray-200/90 font-semibold">
+                                Newsletter und Werbe-Emails
+                            </Text>
+                            <Text className="text-sm text-gray-200/60">
+                            Ich möchte per E-Mail von uRent Angebote erhalten, 
+                            an Umfragen teilnehmen und Informationen über Produkte und Dienstleistungen von uRent erhalten.
+                            </Text>
+                        </View>
+                    </View>
+                </View>
                 <View className="w-full">
-                    <TouchableOpacity className={cn("p-4 bg-indigo-800 rounded-md" , !hasChanged && "bg-indigo-800/10")} 
-                    onPress={onSubmit}
-                    disabled={!hasChanged}>
+                    <TouchableOpacity className={cn("p-4 bg-indigo-800 rounded-md", !hasChanged && "bg-indigo-800/10")}
+                        onPress={onSubmit}
+                        disabled={!hasChanged}>
                         <Text className={cn("text-center text-gray-200 text-sm font-semibold", !hasChanged && "text-gray-200/60")}>
                             Änderungen speichern
                         </Text>
