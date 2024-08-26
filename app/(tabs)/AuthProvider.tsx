@@ -28,8 +28,21 @@ export const AuthProvider = ({ children }) => {
         retrieveCurrentUser();
     }, [])
 
+    const refetchUser = async () => {
+        try {
+            console.log("user refetched")
+            const foundToken = await SecureStore.getItemAsync("authToken");
+            if (foundToken) {
+                const res = await getCurrentUser(foundToken);
+                setCurrentUser(res);
+            }
+        } catch (error) {
+            console.error("Failed to retrieve current user:", error);
+        }
+    }
+
     return (
-        <AuthProviderContext.Provider value={{currentUser , setCurrentUser, isLoading}}>
+        <AuthProviderContext.Provider value={{currentUser , setCurrentUser, isLoading, refetchUser}}>
             {children}
         </AuthProviderContext.Provider>
     );
