@@ -6,6 +6,8 @@ import { SafeAreaView, ScrollView, Text, View } from "react-native";
 
 import AccountPart from "./_components/account";
 import { useAuth } from "../AuthProvider";
+import ViewsAndNotifications from "./_components/view-and-notifications";
+import PrivacyPart from "./_components/privacy";
 
 const SettingsPage = () => {0
 
@@ -33,8 +35,15 @@ const SettingsPage = () => {0
                             currentUser = {currentUser}
                             />
                         </View>
-                        <View>
-                        
+                        <View className="mt-8 p-4">
+                        <ViewsAndNotifications 
+                        currentUser = {currentUser}
+                        />
+                        </View>
+                        <View className="mt-8 p-4">
+                            <PrivacyPart 
+                            currentUser = {currentUser}
+                            />
                         </View>
                     </View>
                 </ScrollView>
