@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View, Image, TouchableOpacity, Text, Modal } from "react-native";
-
+import * as SecureStore from 'expo-secure-store';
 interface ChangeProfilePicProps {
     savedImage: string
 }
@@ -120,35 +120,36 @@ const ChangeProfilePic: React.FC<ChangeProfilePicProps> = ({
 
     const router = useRouter();
 
-    const onChangeProfilePic = async (mode: string) => {
+    const onChangeProfilePic = async (mode: string) => { 
         try {
 
             if (mode === "deleteExisting") {
                 const newLink = null;
                 
                 const authToken = AsyncStorage.getItem("authToken");
-
+                
                 const values = {
                     image: newLink
                 }
                 await changeUser(values, authToken)
                 .then(() => {
                     setShowDialog(false);
+                    setCurrentImage(null);
                 })
 
             } else {
+            
                 const newLink = await uploadImage(currentImage)
+
+                const foundToken = await SecureStore.getItemAsync("authToken");
                 
-                console.log(newLink)
-
-                const authToken = AsyncStorage.getItem("authToken");
-
                 const values = {
                     image: newLink
                 }
-                await changeUser(values, authToken)
+                await changeUser(values, foundToken)
                 .then(() => {
                     setShowDialog(false);
+                    setCurrentImage(null);
                 })
 
             }
@@ -219,7 +220,9 @@ const ChangeProfilePic: React.FC<ChangeProfilePicProps> = ({
                                             Bild entfernen
                                         </Text>
                                     </TouchableOpacity>
-                                    <TouchableOpacity className="w-1/2 bg-indigo-800 p-2.5 rounded-md flex flex-row items-center space-x-4">
+                                    <TouchableOpacity className="w-1/2 bg-indigo-800 p-2.5 rounded-md flex flex-row items-center space-x-4"
+                                    onPress={() => {onChangeProfilePic("upload")}}
+                                    >
                                         <FontAwesome name="save" size={20} color="white" />
                                         <Text className="text-center text-base text-gray-200 font-semibold">
                                             Bild speichern
