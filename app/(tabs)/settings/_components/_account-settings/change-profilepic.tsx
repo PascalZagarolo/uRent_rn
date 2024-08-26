@@ -7,6 +7,8 @@ import { useRouter } from "expo-router";
 import { useState } from "react";
 import { View, Image, TouchableOpacity, Text, Modal } from "react-native";
 import * as SecureStore from 'expo-secure-store';
+import { useAuth } from "@/app/(tabs)/AuthProvider";
+
 interface ChangeProfilePicProps {
     savedImage: string
 }
@@ -18,6 +20,8 @@ const ChangeProfilePic: React.FC<ChangeProfilePicProps> = ({
     const [showDialog, setShowDialog] = useState<boolean>(false);
 
     const [currentImage, setCurrentImage] = useState(null);
+
+    const { refetchUser } = useAuth();
 
     const onImageUpload = async (mode: string) => {
         try {
@@ -135,6 +139,7 @@ const ChangeProfilePic: React.FC<ChangeProfilePicProps> = ({
                 .then(() => {
                     setShowDialog(false);
                     setCurrentImage(null);
+                    refetchUser();
                 })
 
             } else {
@@ -150,10 +155,9 @@ const ChangeProfilePic: React.FC<ChangeProfilePicProps> = ({
                 .then(() => {
                     setShowDialog(false);
                     setCurrentImage(null);
+                    refetchUser();
                 })
-
             }
-
         } catch (e: any) {
             console.log(e);
             return null;
@@ -168,8 +172,9 @@ const ChangeProfilePic: React.FC<ChangeProfilePicProps> = ({
 
             }}>
                 <Image
+                    style={{ resizeMode: 'cover' }}
                     source={{ uri: savedImage }}
-                    className="w-24 h-24 rounded-full"
+                    className="w-28 h-28 rounded-full"
                 />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => {
