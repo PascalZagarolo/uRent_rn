@@ -130,12 +130,12 @@ const ChangeProfilePic: React.FC<ChangeProfilePicProps> = ({
             if (mode === "deleteExisting") {
                 const newLink = null;
                 
-                const authToken = AsyncStorage.getItem("authToken");
+                const foundToken = await SecureStore.getItemAsync("authToken");
                 
                 const values = {
                     image: newLink
                 }
-                await changeUser(values, authToken)
+                await changeUser(values, foundToken)
                 .then(() => {
                     setShowDialog(false);
                     setCurrentImage(null);
