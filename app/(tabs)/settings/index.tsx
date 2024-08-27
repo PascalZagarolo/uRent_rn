@@ -8,6 +8,7 @@ import AccountPart from "./_components/account";
 import { useAuth } from "../AuthProvider";
 import ViewsAndNotifications from "./_components/view-and-notifications";
 import PrivacyPart from "./_components/privacy";
+import DeleteAccount from "./_components/delete-account";
 
 const SettingsPage = () => {0
 
@@ -42,6 +43,11 @@ const SettingsPage = () => {0
                         </View>
                         <View className="mt-8 p-4">
                             <PrivacyPart 
+                            currentUser = {currentUser}
+                            />
+                        </View>
+                        <View className="mt-8 p-4">
+                            <DeleteAccount 
                             currentUser = {currentUser}
                             />
                         </View>
