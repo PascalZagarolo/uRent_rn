@@ -1,3 +1,5 @@
+'use server'
+
 import ConfirmUserDeletion from "@/mail/confirm-user-deletion";
 import { Resend } from "resend";
 
@@ -13,6 +15,8 @@ export const sendUserDeletedTokenMail = async (
         from: 'uRent <mail@urent-rental.de>',
         to: email,
         subject: "Bestätige die Löschung deines Accounts",
-        react : ConfirmUserDeletion({confirmLink}) ,
+        react : ConfirmUserDeletion({confirmLink}),
     });
+
+    return;
   }

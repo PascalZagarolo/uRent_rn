@@ -2,6 +2,9 @@ import { userTable } from "@/db/schema";
 import { AntDesign, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { View, Text, TouchableOpacity, Modal } from "react-native";
+import * as SecureStore from "expo-secure-store"
+import { ConfirmUserDeleteFunction } from "@/actions/emails/actions/confirm-user-deletion";
+
 
 
 interface DeleteAccountProps {
@@ -13,6 +16,18 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
 }) => {
 
     const [showDialog, setShowDialog] = useState(false);
+
+    const onDeleteRequest = async () => {
+        try {
+
+            const foundToken = await SecureStore.getItemAsync("authToken");
+            console.log("jajja")
+            await ConfirmUserDeleteFunction(foundToken);
+
+        } catch(e : any) {
+            console.log(e);
+        }
+    }
 
     return (
         <View>
@@ -26,7 +41,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
                 <Text className="text-gray-200/60 text-xs">
                     Lösche deinen Account und alle damit assoziierten Daten. Diese Aktion kann nicht rückgängig gemacht werden.
                 </Text>
-                <TouchableOpacity className="bg-rose-600 p-4 rounded-md mt-4">
+                <TouchableOpacity className="bg-rose-600 p-4 rounded-md mt-4" onPress={onDeleteRequest}>
                     <Text className="text-sm text-gray-200 font-semibold text-center">
                         Account löschen
                     </Text>
