@@ -23,7 +23,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
             const foundToken = await SecureStore.getItemAsync("authToken");
             console.log("jajja")
             await ConfirmUserDeleteFunction(foundToken);
-
+            setShowDialog(false);
         } catch(e : any) {
             console.log(e);
         }
@@ -41,7 +41,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
                 <Text className="text-gray-200/60 text-xs">
                     Lösche deinen Account und alle damit assoziierten Daten. Diese Aktion kann nicht rückgängig gemacht werden.
                 </Text>
-                <TouchableOpacity className="bg-rose-600 p-4 rounded-md mt-4" onPress={onDeleteRequest}>
+                <TouchableOpacity className="bg-rose-600 p-4 rounded-md mt-4" onPress={() => {setShowDialog(true)}}>
                     <Text className="text-sm text-gray-200 font-semibold text-center">
                         Account löschen
                     </Text>
@@ -57,15 +57,16 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
 
             >
                 <View className="flex-1 justify-center items-center bg-black/80">
-                    <View className="bg-[#151821] w-full rounded-lg overflow-hidden pb-8">
+                    <View className="bg-[#151821] w-full rounded-lg overflow-hidden pb-4">
                         <View className="flex flex-row items-center p-4">
                             <Text className="text-xl font-semibold text-gray-200">
-                                Account löschen
+                                Account wirklich löschen?
                             </Text>
                             <TouchableOpacity className="ml-auto">
                                 <FontAwesome name="close" size={24} color="white" onPress={() => { setShowDialog(false) }} />
                             </TouchableOpacity>
                         </View>
+                        <View className="px-4">
                         <View>
                             <Text className="text-xs text-gray-200/60">
                                 Bist du sicher, dass du deinen Account löschen möchtest?
@@ -73,17 +74,22 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
                                 Du bekommst eine Email mit der du deine Entscheidung bestätigen musst.
                             </Text>
                         </View>
-                        <View className="flex flex-row items-center">
-                            <TouchableOpacity className="p-4 bg-rose-600 rounded-md">
+                        <View className="flex flex-row items-center mt-4">
+                            <TouchableOpacity className="p-4 bg-rose-600 rounded-md w-1/2"
+                            onPress={onDeleteRequest}
+                            >
                                 <Text className="text-sm text-gray-200 font-semibold text-center">
                                     Account löschen
                                 </Text>
                             </TouchableOpacity>
-                            <TouchableOpacity className="bg-[#151821] p-4">
+                            <TouchableOpacity className="bg-[#151821] p-4 w-1/2"
+                            onPress={() => { setShowDialog(false) }}
+                            >
                                 <Text className="text-sm text-gray-200 font-semibold text-center">
                                     Abbrechen
                                 </Text>
                             </TouchableOpacity>
+                        </View>
                         </View>
                     </View>
                 </View>
