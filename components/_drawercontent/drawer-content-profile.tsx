@@ -7,6 +7,8 @@ import { Modal, SafeAreaView, Touchable } from 'react-native';
 import { Image, Text, TouchableOpacity } from "react-native";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
+import * as SecureStore from "expo-secure-store"
+import { useAuth } from "@/app/(tabs)/AuthProvider";
 
 
 interface DrawerContentProfileProps {
@@ -30,15 +32,19 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
         }, 1)
     }
 
+    const { refetchUser } = useAuth();
+
     const onLogOut = async () => {
         try {
             setShowDialog(false);
-            
+            await SecureStore.deleteItemAsync("authToken");
+            await refetchUser();
             setTimeout(() => {
                 Toast.show({
                     type: 'success',
                     text1: 'Erfolgreich ausgeloggt',
                     text2: "Bis bald! 👋",
+                    
                   });
         }, 10)
         } catch(e : any) {

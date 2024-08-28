@@ -17,6 +17,8 @@ export const AuthProvider = ({ children }) => {
                 if (foundToken) {
                     const res = await getCurrentUser(foundToken);
                     setCurrentUser(res);
+                } else {
+                    setCurrentUser(null);
                 }
             } catch (error) {
                 console.error("Failed to retrieve current user:", error);
@@ -30,11 +32,13 @@ export const AuthProvider = ({ children }) => {
 
     const refetchUser = async () => {
         try {
-            console.log("user refetched")
+            
             const foundToken = await SecureStore.getItemAsync("authToken");
             if (foundToken) {
                 const res = await getCurrentUser(foundToken);
                 setCurrentUser(res);
+            } else {
+                setCurrentUser(null);
             }
         } catch (error) {
             console.error("Failed to retrieve current user:", error);
