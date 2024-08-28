@@ -11,12 +11,68 @@ import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import ActiveStatus from '@/components/ActiveStatus';
 import { useDrawerSettings } from '@/store';
 import { Drawer } from 'react-native-drawer-layout';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
-export default function RootLayout() {
+const toastConfig = {
+  /*
+    Overwrite 'success' type,
+    by modifying the existing `BaseToast` component
+  */
+  success: (props) => (
+    <BaseToast
+    {...props}
+      
+    style={{ 
+      borderLeftColor: 'green', 
+      margin: 4, // Remove any margins
+      width: '96%', // Make the Toast span the full width
+       // Ensure no padding
+    }}
+      contentContainerStyle={{ paddingHorizontal: 15, backgroundColor: '#131620' }}
+      text1Style={{
+        fontSize: 14,
+        fontWeight: '600',
+        color: 'white', // Updated from 'textColor' to 'color',
+        // Ensure no padding
+      }}
+      
+    />
+  ),
+  /*
+    Overwrite 'error' type,
+    by modifying the existing `ErrorToast` component
+  */
+  error: (props) => (
+    <ErrorToast
+      {...props}
+      text1Style={{
+        fontSize: 17
+      }}
+      text2Style={{
+        fontSize: 15
+      }}
+    />
+  ),
+  /*
+    Or create a completely new type - `tomatoToast`,
+    building the layout from scratch.
+
+    I can consume any custom `props` I want.
+    They will be passed when calling the `show` method (see below)
+  */
+  tomatoToast: ({ text1, props }) => (
+    <View style={{ height: 60, width: '100%', backgroundColor: 'tomato' }}>
+      <Text>{text1}</Text>
+      <Text>{props.uuid}</Text>
+    </View>
+  )
+};
+
+export default function RootLayout(props) {
   const colorScheme = useColorScheme();
   const [loaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
@@ -32,22 +88,23 @@ export default function RootLayout() {
     return null;
   }
 
- 
 
-  
 
-  
+
+
+
 
   return (
     <AuthProvider>
-    <BottomSheetModalProvider>
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack screenOptions={{ headerShown: false }}>
-      
-              
-      </Stack>
-    </ThemeProvider>
-    </BottomSheetModalProvider>
+      <BottomSheetModalProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack screenOptions={{ headerShown: false }}>
+
+
+          </Stack>
+          <Toast config={toastConfig as any} />
+        </ThemeProvider>
+      </BottomSheetModalProvider>
     </AuthProvider>
   );
 }
