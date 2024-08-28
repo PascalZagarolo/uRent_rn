@@ -6,6 +6,7 @@ import { deleteUserToken } from "@/db/schema";
 import { eq, ne } from "drizzle-orm";
 
 import { sendUserDeletedTokenMail } from "../sendMails";
+import axios from "axios";
 
 export async function ConfirmUserDeleteFunction(authToken : string){
     try {
@@ -33,12 +34,19 @@ export async function ConfirmUserDeleteFunction(authToken : string){
         const createNewToken = await db.insert(deleteUserToken).values({
             userId : currentUser.id,
             token : generateToken as string,
-            expiresAt : expireInOneHour
+            expires : expireInOneHour,
         })
 
         //const sendCorresponingMail = await sendUserDeletedTokenMail(currentUser.email, generateToken);
         
+        const values = {
+            email : currentUser?.email,
+            token : generateToken,
+            secret : process.env.EXPO_PUBLIC_URENT_API_KEY
+        }
 
+        await axios.post("https://www.urent-rental.de/api/private/sent-mails/delete-user-request", values);
+    
         return;
 
     } catch(e : any) {
