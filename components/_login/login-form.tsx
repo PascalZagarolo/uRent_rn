@@ -4,33 +4,48 @@
 import { FontAwesome } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import * as SecureStore from 'expo-secure-store';
 import { createLogin } from "@/app/api";
+import Toast from "react-native-toast-message";
 
 const LoginForm = () => {
 
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("")
+    const [password, setPassword] = useState("");
+
+    const [showPassword, setShowPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
     const router = useRouter();
 
     const onSignUp = async () => {
-        console.log(email + "!!");
-        console.log(password + "!!")
-        await createLogin(email, password)
+        try {
+            setIsLoading(true);
+            await createLogin(email, password)
             .then((res : any) => {
                 if (res.error) {
                     console.log("schade");
                     return;
                 } else {
-                    console.log(res);
+                    
                     const token = res;
                     SecureStore.setItem("authToken", token);
+                    Toast.show({
+                        type: 'success',
+                        text1: 'Erfolgreich eingeloggt',
+                        visibilityTime: 4000
+                    })
                     router.replace("/")
                 }
             })
+        } catch(e : any) {
+            console.log(e);
+            return;
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     useEffect(() => {
@@ -51,7 +66,7 @@ const LoginForm = () => {
     
 
     return (
-        <View className="">
+        <View className="px-4">
 
             <View className="mt-4">
                 <Text className="text-md text-gray-200 font-semibold">
@@ -66,18 +81,31 @@ const LoginForm = () => {
                 <Text className="text-md text-gray-200 font-semibold">
                     Passwort
                 </Text>
-                <TextInput
-                    className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md mt-2"
-                    onChangeText={(text) => {setPassword(text)}}
-                    secureTextEntry={true}
-                />
+                <View className="flex flex-row items-center w-full">
+                    <TextInput
+                        className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md rounded-r-none mt-2 w-10/12"
+                        value={password}
+                        onChangeText={setPassword}
+                        secureTextEntry={!showPassword} // Hide password text based on showPassword state
+                    />
+                    <TouchableOpacity
+                        className="w-2/12 items-center justify-center bg-[#262a37] p-4 mt-2 rounded-md rounded-l-none" // Ensure the icon is centered
+                        onPress={() => setShowPassword(!showPassword)}
+                    >
+                        <FontAwesome name={showPassword ? "eye-slash" : "eye"} size={20} color="white" />
+                    </TouchableOpacity>
+                </View>
             </View>
             <View className="mt-8">
                 <TouchableOpacity className='px-8 py-4 rounded-md w-full bg-white  justify-center'
                     onPress={onSignUp}>
-                    <Text className=' justify-center text-gray-800 text-center font-semibold'>
-                        Einloggen
-                    </Text>
+                    {isLoading ? (
+                        <ActivityIndicator size="small" color="#000" />
+                    ) : (
+                        <Text className='justify-center text-gray-800 text-center font-semibold'>
+                            Einloggen
+                        </Text>
+                    )}
                 </TouchableOpacity>
             </View>
 

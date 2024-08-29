@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, ScrollView, SafeAreaView } from "react-native";
 import RegisterForm from "./register-form";
 import LoginForm from "./login-form";
 
@@ -16,7 +16,8 @@ const MainForm = () => {
     }
 
     return (
-        <View >
+        <SafeAreaView>
+            
             {currentForm === 'login' ? (
                 <View>
                     <View className="flex flex-col justify-center items-center">
@@ -65,7 +66,8 @@ const MainForm = () => {
                     </View>
                 )
             }
-        </View>
+        
+        </SafeAreaView>
     );
 }
 
