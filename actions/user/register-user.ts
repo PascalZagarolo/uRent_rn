@@ -3,12 +3,26 @@
 
 
 import db from "@/db/drizzle";
-import { userTable } from "@/db/schema";
+import { userTable, verificationTokens } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import bcrypt from 'bcryptjs';
 import BcryptReactNative from 'bcrypt-react-native';
 import isaac from "isaac";
-import { generateId } from "lucia";
+
+import uuid from 'react-native-uuid';
+import axios from "axios";
+
+function generateId(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    
+    return result;
+}
 
 export const registerUser = async (values) => {
     try {
@@ -42,20 +56,46 @@ export const registerUser = async (values) => {
             return buf.map(() => Math.floor(isaac.random() * 256));
         });
         
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hashSync(password, 10);
 
         const generatedId = generateId(15);
 
-        const createdUser = await db.insert(userTable).values({
+        const [createdUser] : any = await db.insert(userTable).values({
             id: generatedId,    
             name,
             email,
             password: hashedPassword,
+        }).returning()
+
+        const findExistingToken = await db.query.verificationTokens.findFirst({
+            where : eq(verificationTokens.email, createdUser.email)
         })
 
+        if(findExistingToken) {
+            await db.delete(verificationTokens).where(eq(verificationTokens.email, createdUser.email))
+        }
         
-        
+        const token = uuid.v4();
 
+        const today = new Date();
+
+        const expiryDate = new Date(today.setDate(today.getDate() + 7));
+        console.log("fast fast geschafft")
+        const createNewToken = await db.insert(verificationTokens).values({
+            email : createdUser.email,
+            token : token,
+            expires : expiryDate,
+            identifier : uuid.v4()
+        }).returning();
+        console.log("fast geschafft")
+        const sendValues = {
+            email : createdUser.email,
+            token : token,
+            secret : process.env.EXPO_PUBLIC_URENT_API_KEY
+        }
+
+        await axios.post(`https://www.urent-rental.de/api/private/sent-mails/confirm-registration`, sendValues)
+        console.log("geschafft")
         return;
 
     } catch (e: any) {
