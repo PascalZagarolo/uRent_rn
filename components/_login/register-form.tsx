@@ -3,14 +3,16 @@
 import { registerUser } from "@/actions/user/register-user";
 import { FontAwesome } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
+import { Keyboard, ScrollView } from "react-native";
+import { KeyboardAvoidingView } from "react-native";
 import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import Toast from "react-native-toast-message";
 
 interface RegisterFormProps {
-    switchLayout : () => void;
+    switchLayout: () => void;
 }
 
-const RegisterForm : React.FC<RegisterFormProps> = ({
+const RegisterForm: React.FC<RegisterFormProps> = ({
     switchLayout
 }) => {
 
@@ -18,22 +20,25 @@ const RegisterForm : React.FC<RegisterFormProps> = ({
     const [currentPassword, setCurrentPassword] = useState('');
     const [currentEmail, setCurrentEmail] = useState('');
 
+    const [currentError, setCurrentError] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
+
     const [isLoading, setIsLoading] = useState(false);
 
     const onSignUp = async () => {
         try {
             setIsLoading(true);
             const values = {
-                name : currentName,
-                password : currentPassword,
-                email : currentEmail,
+                name: currentName,
+                password: currentPassword,
+                email: currentEmail,
             }
 
             console.log(values);
 
             const res = await registerUser(values)
 
-            if(res?.success) {
+            if (res?.success) {
                 switchLayout();
                 Toast.show({
                     type: 'success',
@@ -41,23 +46,23 @@ const RegisterForm : React.FC<RegisterFormProps> = ({
                     text2: 'Bitte überprüfe deine Emails um deinen Account zu aktivieren und fortzufahren',
                     visibilityTime: 8000
                 })
-            } else if(res?.error) {
+            } else if (res?.error) {
                 Toast.show({
                     type: 'error',
                     text1: 'Fehler',
-                    
+
                 })
             }
 
-        } catch(e : any) {
+        } catch (e: any) {
             console.log(e);
-            
+
         } finally {
             setIsLoading(false);
         }
     }
 
-    
+
     const onSocial = () => {
         Toast.show({
             type: 'success',
@@ -68,7 +73,8 @@ const RegisterForm : React.FC<RegisterFormProps> = ({
     }
 
     return (
-        <View className="">
+        <View className="px-4">
+            <KeyboardAvoidingView>
             <View>
                 <Text className="text-md text-gray-200 font-semibold">
                     Nutzername
@@ -88,24 +94,33 @@ const RegisterForm : React.FC<RegisterFormProps> = ({
                     className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md mt-2"
                     value={currentEmail}
                     onChangeText={setCurrentEmail}
+                    keyboardType="email-address"
                 />
             </View>
             <View className="mt-4">
                 <Text className="text-md text-gray-200 font-semibold">
                     Passwort
                 </Text>
-                <TextInput
-                    className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md mt-2"
-                    value={currentPassword}
-                    onChangeText={setCurrentPassword}
-                    passwordRules={"true"}
-                />
+                <View className="flex flex-row items-center w-full">
+                    <TextInput
+                        className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md rounded-r-none mt-2 w-10/12"
+                        value={currentPassword}
+                        onChangeText={setCurrentPassword}
+                        secureTextEntry={!showPassword} // Hide password text based on showPassword state
+                    />
+                    <TouchableOpacity
+                        className="w-2/12 items-center justify-center bg-[#262a37] p-4 mt-2 rounded-md rounded-l-none" // Ensure the icon is centered
+                        onPress={() => setShowPassword(!showPassword)}
+                    >
+                        <FontAwesome name={showPassword ? "eye-slash" : "eye"} size={20} color="white" />
+                    </TouchableOpacity>
+                </View>
             </View>
             <View className="mt-8">
                 <TouchableOpacity className='px-8 py-4 rounded-md w-full bg-white  justify-center'
                     onPress={onSignUp}
                     disabled={isLoading}>
-                    
+
                     {isLoading ? (
                         <ActivityIndicator size="small" color="#000" />
                     ) : (
@@ -126,6 +141,7 @@ const RegisterForm : React.FC<RegisterFormProps> = ({
                     </Text>
                 </TouchableOpacity>
             </View>
+            </KeyboardAvoidingView>
         </View>
     );
 }
