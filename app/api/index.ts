@@ -1,7 +1,7 @@
 'use server'
 
 import JWT from 'expo-jwt';
-import BcryptReactNative from 'bcrypt-react-native';
+
 
 import { sign } from "react-native-pure-jwt";
 
@@ -20,16 +20,9 @@ export const createLogin = async (givenEmail: string, givenPassword: string) => 
 
         var bcrypt = require('bcryptjs');
 
-        
-        
-
         if (!givenEmail || !givenPassword) {
             return { error: "Ungültige Anmeldedaten" }
         }
-
-       
-
-        
 
         const findExistingUser = await db.query.userTable.findFirst({
             where: eq(
@@ -40,11 +33,8 @@ export const createLogin = async (givenEmail: string, givenPassword: string) => 
         if (!findExistingUser) {
             return { error: "Dieser Nutzer existiert nicht" }
         }
-        console.log(findExistingUser.password)
         
-
-        
-        
+      
         const passwordsMatch = await bcrypt.compareSync(givenPassword, findExistingUser?.password);
         
         console.log(passwordsMatch)
@@ -53,21 +43,16 @@ export const createLogin = async (givenEmail: string, givenPassword: string) => 
             return { error: "Falsche Anmeldedaten" }
         }
 
-       
-
         const usedSecret = "77375149353387154508860974358780";
         const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
-        
 
         console.log(usedSecret)
 
-        
         const generatedTokenJWT = JWT.encode({
             userId : findExistingUser.id,
             exp : oneMonthInMilliseconds
         },
         usedSecret
-        
         )
 
         return generatedTokenJWT;

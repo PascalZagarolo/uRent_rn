@@ -8,6 +8,7 @@ import { Drawer } from 'react-native-drawer-layout';
 import { is } from "drizzle-orm";
 import { SafeAreaView } from "react-native";
 import { cn } from "@/~/lib/utils";
+import { router } from "expo-router";
 interface HeaderProps {
   currentUser: typeof userTable.$inferSelect | any;
   toggleDrawer: () => void;
@@ -30,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
       <SafeAreaView className="flex flex-row items-center">
         <TouchableOpacity
           className="mr-4 p-4"
-
+          
         >
           <FontAwesome name="bars" size={24} color="white" className="mr-4" />
         </TouchableOpacity>
@@ -57,9 +58,9 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
           </View>
 
         ) : (
-          <View className="ml-auto">
+          <TouchableOpacity className="ml-auto" onPress={() => { router.push("/login")}}>
             <FontAwesome name="user-circle" size={24} color="white" />
-          </View>
+          </TouchableOpacity>
         )}
 
       </SafeAreaView>

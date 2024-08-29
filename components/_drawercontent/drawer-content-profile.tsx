@@ -58,12 +58,12 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
                 <View className="">
                     <View>
                         <Image
-                            source={{ uri: currentUser.image }}
+                            source={{ uri: currentUser?.image }}
                             className="w-20 h-20 rounded-full"
                         />
                     </View>
                     <Text className="text-lg mt-4 font-semibold text-gray-200">
-                        {currentUser.name}
+                        {currentUser?.name}
                     </Text>
                     {(currentUser?.vorname || currentUser?.nachname) && (
                         <Text className="text-gray-200/90">
@@ -71,7 +71,7 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
                         </Text>
                     )}
                     <Text className="text-sm text-gray-200/90 font-semibold">
-                        {currentUser.email}
+                        {currentUser?.email}
                     </Text>
                 </View>
                 <View className="mt-4 border-t border-gray-600">

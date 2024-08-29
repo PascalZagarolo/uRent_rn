@@ -20,7 +20,7 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
 
     const filterBubble = (title: string, value: string) => {
         return (
-            <TouchableOpacity className={cn("rounded-full bg-[#191c28] p-2",
+            <TouchableOpacity key={value} className={cn("rounded-full bg-[#191c28] p-2",
                 currentFilter === value && "border-2 border-blue-800")}
                 onPress={() => setCurrentFilter(value)}
             >
@@ -35,7 +35,7 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
 
     const [currentFilter, setCurrentFilter] = useState("A");
     const [renderedNotifications, setRenderedNotifications] = useState<any[]>(
-        foundNotifications.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+        foundNotifications?.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
     );
 
     const usedFilter = [
@@ -167,7 +167,7 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
         const lastMonth: any[] = [];
         const older: any[] = [];
 
-        renderedNotifications.forEach(notification => {
+        renderedNotifications?.forEach(notification => {
             const createdAt = new Date(notification.createdAt);
 
             if (isToday(createdAt)) {
@@ -198,7 +198,7 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
         return (
             <>
                 {renderDateSeparation(label)}
-                {notifications.map((notification, _index) => (
+                {notifications?.map((notification, _index) => (
                     <View key={_index} className="px-4">
                         {returnedNotificationRender(notification)}
                     </View>
