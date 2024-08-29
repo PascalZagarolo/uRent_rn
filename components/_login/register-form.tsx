@@ -2,18 +2,27 @@
 
 import { registerUser } from "@/actions/user/register-user";
 import { FontAwesome } from "@expo/vector-icons";
-import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import { useEffect, useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
+import Toast from "react-native-toast-message";
 
-const RegisterForm = () => {
+interface RegisterFormProps {
+    switchLayout : () => void;
+}
+
+const RegisterForm : React.FC<RegisterFormProps> = ({
+    switchLayout
+}) => {
 
     const [currentName, setCurrentName] = useState('');
     const [currentPassword, setCurrentPassword] = useState('');
     const [currentEmail, setCurrentEmail] = useState('');
 
+    const [isLoading, setIsLoading] = useState(false);
+
     const onSignUp = async () => {
         try {
-
+            setIsLoading(true);
             const values = {
                 name : currentName,
                 password : currentPassword,
@@ -24,14 +33,38 @@ const RegisterForm = () => {
 
             const res = await registerUser(values)
 
-            if(res) {
-                console.log(res);
+            if(res?.success) {
+                switchLayout();
+                Toast.show({
+                    type: 'success',
+                    text1: 'Bestätigungs Email gesendet',
+                    text2: 'Bitte überprüfe deine Emails um deinen Account zu aktivieren und fortzufahren',
+                    visibilityTime: 8000
+                })
+            } else if(res?.error) {
+                Toast.show({
+                    type: 'error',
+                    text1: 'Fehler',
+                    
+                })
             }
 
         } catch(e : any) {
             console.log(e);
             
+        } finally {
+            setIsLoading(false);
         }
+    }
+
+    
+    const onSocial = () => {
+        Toast.show({
+            type: 'success',
+            text1: 'Bestätigungs Email gesendet',
+            text2: 'Bitte überprüfe deine Emails um deinen Account zu aktivieren und fortzufahren',
+            visibilityTime: 8000
+        })
     }
 
     return (
@@ -70,17 +103,23 @@ const RegisterForm = () => {
             </View>
             <View className="mt-8">
                 <TouchableOpacity className='px-8 py-4 rounded-md w-full bg-white  justify-center'
-                    onPress={onSignUp}>
-                    <Text className=' justify-center text-gray-800 text-center font-semibold'>
-                        Account erstellen
-                    </Text>
+                    onPress={onSignUp}
+                    disabled={isLoading}>
+                    
+                    {isLoading ? (
+                        <ActivityIndicator size="small" color="#000" />
+                    ) : (
+                        <Text className='justify-center text-gray-800 text-center font-semibold'>
+                            Account erstellen
+                        </Text>
+                    )}
                 </TouchableOpacity>
             </View>
 
             <View className="mt-2">
                 <TouchableOpacity
                     className='py-4 rounded-md w-full bg-[#1A1C2C] flex items-center flex-row justify-center'
-                    onPress={onSignUp}>
+                    onPress={onSocial}>
                     <FontAwesome name="google" size={24} color="white" />
                     <Text className='ml-2 text-gray-200 text-center font-semibold'>
                         Mit Google anmelden

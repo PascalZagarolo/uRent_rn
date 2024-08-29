@@ -11,6 +11,10 @@ const MainForm = () => {
 
     const [currentForm, setCurrentForm] = useState<"login" | "register">('register');
 
+    const onSwitchLayout = () => {
+        setCurrentForm(currentForm === 'login' ? 'register' : 'login');
+    }
+
     return (
         <View >
             {currentForm === 'login' ? (
@@ -35,7 +39,9 @@ const MainForm = () => {
 
                     </View>
                     <View className="mt-8">
-                        <RegisterForm />
+                        <RegisterForm 
+                        switchLayout={onSwitchLayout}
+                        />
                     </View>
                 </View>
             )}

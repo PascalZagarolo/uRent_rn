@@ -48,6 +48,8 @@ const LoginForm = () => {
         checkLoginStatus()
     }, [])
 
+    
+
     return (
         <View className="">
 
