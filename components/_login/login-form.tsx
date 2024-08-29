@@ -20,9 +20,10 @@ const LoginForm = () => {
         console.log(email + "!!");
         console.log(password + "!!")
         await createLogin(email, password)
-            .then((res) => {
+            .then((res : any) => {
                 if (res.error) {
-                    console.log("schade")
+                    console.log("schade");
+                    return;
                 } else {
                     console.log(res);
                     const token = res;

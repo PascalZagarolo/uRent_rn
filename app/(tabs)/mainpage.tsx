@@ -160,10 +160,12 @@ const MainPage = () => {
                     drawerStyle={{ width: '100%' }}
                     renderDrawerContent={() => {
                         return (
-                            <DrawerSearchFilter
+                            currentUser && (
+                                <DrawerSearchFilter
                                 toggleFilter={toggleFilter}
                                 currentResults={inserate.length as number}
                             />
+                            )
                         )
                     }}
                 >

@@ -1,12 +1,37 @@
 'use client'
 
+import { registerUser } from "@/actions/user/register-user";
 import { FontAwesome } from "@expo/vector-icons";
+import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 
 const RegisterForm = () => {
 
-    const onSignUp = () => {
-        console.log('Sign up')
+    const [currentName, setCurrentName] = useState('');
+    const [currentPassword, setCurrentPassword] = useState('');
+    const [currentEmail, setCurrentEmail] = useState('');
+
+    const onSignUp = async () => {
+        try {
+
+            const values = {
+                name : currentName,
+                password : currentPassword,
+                email : currentEmail,
+            }
+
+            console.log(values);
+
+            const res = await registerUser(values)
+
+            if(res) {
+                console.log(res);
+            }
+
+        } catch(e : any) {
+            console.log(e);
+            
+        }
     }
 
     return (
@@ -17,6 +42,9 @@ const RegisterForm = () => {
                 </Text>
                 <TextInput
                     className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md mt-2"
+                    value={currentName}
+                    onChangeText={setCurrentName}
+
                 />
             </View>
             <View className="mt-4">
@@ -25,6 +53,8 @@ const RegisterForm = () => {
                 </Text>
                 <TextInput
                     className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md mt-2"
+                    value={currentEmail}
+                    onChangeText={setCurrentEmail}
                 />
             </View>
             <View className="mt-4">
@@ -33,6 +63,8 @@ const RegisterForm = () => {
                 </Text>
                 <TextInput
                     className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md mt-2"
+                    value={currentPassword}
+                    onChangeText={setCurrentPassword}
                     passwordRules={"true"}
                 />
             </View>
