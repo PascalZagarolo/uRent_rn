@@ -31,23 +31,22 @@ export const registerUser = async (values) => {
 
         const { name, email, password } = values;
 
-        console.log("11");
-
+        
         const existingEmail = await db.query.userTable.findFirst({
             where: eq(userTable.email, email)
         })
 
 
-        console.log("12");
+        
 
         if (existingEmail) {
-            return new Error("Email already exists")
+            return { error : "Email wird bereits benutzt" }
         }
 
         console.log("13");
 
         if (!name || !email || !password) {
-            return new Error("Please fill in all fields")
+            return { error : "Ungültige Anmeldedaten" }
         }
         
         bcrypt.setRandomFallback((len) => {
@@ -80,14 +79,16 @@ export const registerUser = async (values) => {
         const today = new Date();
 
         const expiryDate = new Date(today.setDate(today.getDate() + 7));
-        console.log("fast fast geschafft")
+       
+        
         const createNewToken = await db.insert(verificationTokens).values({
+            //@ts-ignore
             email : createdUser.email,
             token : token,
             expires : expiryDate,
             identifier : uuid.v4()
         }).returning();
-        console.log("fast geschafft")
+        
         const sendValues = {
             email : createdUser.email,
             token : token,
@@ -95,8 +96,8 @@ export const registerUser = async (values) => {
         }
 
         await axios.post(`https://www.urent-rental.de/api/private/sent-mails/confirm-registration`, sendValues)
-        console.log("geschafft")
-        return;
+        
+        return { success: true }
 
     } catch (e: any) {
         console.log(e)

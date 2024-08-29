@@ -25,19 +25,25 @@ const toastConfig = {
   success: (props) => (
     <BaseToast
     {...props}
-      
+    activeOpacity={8}
     style={{ 
       borderLeftColor: 'green', 
       margin: 4, // Remove any margins
       width: '96%', // Make the Toast span the full width
+      height: 100, // Set the height
        // Ensure no padding
     }}
-      contentContainerStyle={{ paddingHorizontal: 15, backgroundColor: '#131620' }}
+      contentContainerStyle={{ paddingHorizontal: 15, paddingVertical: 0, backgroundColor: '#131620' }}
       text1Style={{
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: '600',
         color: 'white', // Updated from 'textColor' to 'color',
         // Ensure no padding
+      }}
+      text2NumberOfLines={2}
+      text2Style= {{
+        fontSize: 12,
+        
       }}
       
     />
