@@ -1,3 +1,4 @@
+
 'use server'
 
 import JWT from 'expo-jwt';
@@ -6,13 +7,24 @@ import JWT from 'expo-jwt';
 import { sign } from "react-native-pure-jwt";
 
 import db from "@/db/drizzle"
-import { userTable } from "@/db/schema"
+import { twoFactorToken, userTable } from "@/db/schema"
 import { eq } from "drizzle-orm"
 import bcrypt from 'bcryptjs';
+import axios from 'axios';
 
 
 
-
+function generateId(length) {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let result = '';
+    const charactersLength = characters.length;
+    
+    for (let i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    
+    return result;
+}
 
 
 export const createLogin = async (givenEmail: string, givenPassword: string) => {
@@ -43,10 +55,45 @@ export const createLogin = async (givenEmail: string, givenPassword: string) => 
             return { error: "Falsche Anmeldedaten" }
         }
 
+        if(findExistingUser?.usesTwoFactor) {
+
+            const findExistingToken = await db.query.twoFactorToken.findFirst({
+                where : eq(
+                    twoFactorToken.email, givenEmail
+                )
+            })
+
+            if(findExistingToken) {
+                await db.delete(twoFactorToken).where(eq(twoFactorToken.email, givenEmail))
+            }
+
+            const today = new Date();
+            const expirationDate = new Date(today.setDate(today.getDate() + 1))
+            const usedToken = generateId(16);
+            
+            const [createNewTwoFactorToken] : any = await db.insert(twoFactorToken).values({
+                
+                email : givenEmail,
+                token : usedToken,
+                expires : expirationDate,
+                
+            }).returning()
+
+            const values = {
+                token : createNewTwoFactorToken.token,
+                email : givenEmail,
+                secret : process.env.EXPO_PUBLIC_URENT_API_KEY
+            }
+
+            await axios.post(`https://www.urent-rental.de/api/private/sent-mails/two-fa`, values);
+
+            return { twoFa : true, user : findExistingUser}
+        }
+
         const usedSecret = "77375149353387154508860974358780";
         const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
 
-        console.log(usedSecret)
+        
 
         const generatedTokenJWT = JWT.encode({
             userId : findExistingUser.id,
@@ -55,7 +102,7 @@ export const createLogin = async (givenEmail: string, givenPassword: string) => 
         usedSecret
         )
 
-        return generatedTokenJWT;
+        return { token : generatedTokenJWT}
 
     } catch (e: any) {
         console.log(e)

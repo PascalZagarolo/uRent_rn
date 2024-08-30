@@ -9,8 +9,17 @@ import { useRouter } from "expo-router";
 import * as SecureStore from 'expo-secure-store';
 import { createLogin } from "@/app/api";
 import Toast from "react-native-toast-message";
+import Twofa from "./_components/2fa";
 
-const LoginForm = () => {
+interface LoginFormProps {
+    show2Fa : boolean;
+    show2FaVoid : (value : boolean) => void;
+}
+
+const LoginForm : React.FC<LoginFormProps> = ({
+    show2Fa,
+    show2FaVoid
+}) => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -18,26 +27,37 @@ const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    
+    const [foundUser, setFoundUser] = useState(null);
+
     const router = useRouter();
+
+    
 
     const onSignUp = async () => {
         try {
             setIsLoading(true);
             await createLogin(email, password)
             .then((res : any) => {
-                if (res.error) {
+                if (res?.error) {
                     console.log("schade");
                     return;
                 } else {
                     
-                    const token = res;
+                    if(res?.token) {
+                        const token = res.token;
                     SecureStore.setItem("authToken", token);
                     Toast.show({
                         type: 'success',
                         text1: 'Erfolgreich eingeloggt',
                         visibilityTime: 4000
                     })
-                    router.replace("/")
+                        router.replace("/")
+                    } else if(res?.twoFa) {
+                        setFoundUser(res.user);
+                        show2FaVoid(true);
+                        
+                    }
                 }
             })
         } catch(e : any) {
@@ -68,6 +88,12 @@ const LoginForm = () => {
     return (
         <View className="px-4">
 
+            {show2Fa ? (
+            <Twofa 
+            foundUser = {foundUser}
+            />
+            ) : (
+                <View>
             <View className="mt-4">
                 <Text className="text-md text-gray-200 font-semibold">
                     Email
@@ -119,6 +145,8 @@ const LoginForm = () => {
                     </Text>
                 </TouchableOpacity>
             </View>
+            </View>
+            )}
         </View>
     );
 }
