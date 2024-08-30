@@ -21,6 +21,8 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
     currentUser?.notifications.filter(n => !n.seen).length
   )
 
+  const [showModal, setShowModal] = useState(false);
+
   const usedUrl = currentUser?.image
     ? currentUser.image
     : "https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png";
@@ -30,16 +32,19 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
     <View className="bg-[#202336] p-4 border-b border-gray-800">
       <SafeAreaView className="flex flex-row items-center">
         <TouchableOpacity
-          className="mr-4 p-4"
-          
+          className="p-4"
         >
-          <FontAwesome name="bars" size={24} color="white" className="mr-4" />
+          <FontAwesome name="bars" size={24} color="white" className="" />
         </TouchableOpacity>
         <Text className="text-xl font-semibold text-gray-200">uRent</Text>
 
         {currentUser ? (
 
           <View className="ml-auto flex flex-row items-center space-x-8">
+            <TouchableOpacity onPress={toggleNotifications}>
+              <Ionicons name="add-circle-outline" size={24} color="white" />
+              
+            </TouchableOpacity>
             <TouchableOpacity onPress={toggleNotifications}>
               <Ionicons name="notifications" size={24} color="white" />
               <View className={cn("absolute -top-1.5 -right-1.5 rounded-full px-1 py-0.5", 

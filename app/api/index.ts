@@ -70,9 +70,9 @@ export const createLogin = async (givenEmail: string, givenPassword: string) => 
             const today = new Date();
             const expirationDate = new Date(today.setDate(today.getDate() + 1))
             const usedToken = generateId(16);
-            
+
             const [createNewTwoFactorToken] : any = await db.insert(twoFactorToken).values({
-                
+                //@ts-ignore
                 email : givenEmail,
                 token : usedToken,
                 expires : expirationDate,
