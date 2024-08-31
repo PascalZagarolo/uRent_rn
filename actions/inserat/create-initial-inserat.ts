@@ -25,13 +25,13 @@ export const createInitialInserat = async (values) => {
             return { error : "Nicht eingeloggt."}
         }
 
-        const [createdInserat] : typeof inserat.$inferSelect = await db.insert(inserat).values({
+        const createdInserat : typeof inserat.$inferSelect = await db.insert(inserat).values({
             title : title,
             category : category,
             userId : currentUser.id
         }).returning();
 
-        return { success : "Inserat erstellt", inseratId : createdInserat.id }
+        return { success : "Inserat erstellt", inseratId : createdInserat[0].id }
 
     } catch(e : any) {
         console.log(e);
