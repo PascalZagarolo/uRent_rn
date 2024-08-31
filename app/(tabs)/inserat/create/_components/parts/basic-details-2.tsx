@@ -1,105 +1,94 @@
 import { inserat } from "@/db/schema";
-import { cn } from "@/~/lib/utils";
-import { Feather, FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { Feather, FontAwesome } from "@expo/vector-icons";
+import React, { useEffect, useState } from "react";
 import {
-    Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
+    Text, View, TouchableOpacity, KeyboardAvoidingView,
     Keyboard, TouchableWithoutFeedback,
-    Modal,
-    Image
+    Modal, Image,
+    ScrollView
 } from "react-native";
-import { ImagePickerResult } from "expo-image-picker";
 import * as ImagePicker from 'expo-image-picker';
 import DraggableFlatList, { ScaleDecorator } from "react-native-draggable-flatlist";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { set } from "date-fns";
 
 interface BasicDetails2Props {
     thisInserat: typeof inserat.$inferSelect;
-
 }
 
 const BasicDetails2: React.FC<BasicDetails2Props> = ({
     thisInserat,
-
-
 }) => {
-
     const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
     const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
     const [currentCategory, setCurrentCategory] = useState<string>(thisInserat.category);
-
     const [showModal, setShowModal] = useState(false);
 
     type PictureObject = {
         url: string,
         position: number
-    }
+    };
 
-    const [currentPicture, setCurrentPicture] = useState<null | PictureObject[]>([]);
+    
+
+    const [currentPicture, setCurrentPicture] = useState<PictureObject[]>([]);
+
+    useEffect(() => {
+        console.log("Current Picture:", currentPicture);
+    },[currentPicture])
 
     const onImageUpload = async (mode: string) => {
         try {
-            let result: ImagePickerResult;
+            let result: ImagePicker.ImagePickerResult;
 
             if (mode === "gallery") {
-                console.log("Requesting media library permissions...");
                 await ImagePicker.requestMediaLibraryPermissionsAsync();
-
                 result = await ImagePicker.launchImageLibraryAsync({
                     mediaTypes: ImagePicker.MediaTypeOptions.Images,
                     allowsEditing: true,
                     aspect: [1, 1],
                     quality: 1,
                 });
-                console.log("Gallery result received.");
             } else {
-                console.log("Requesting camera permissions...");
                 await ImagePicker.requestCameraPermissionsAsync();
-
                 result = await ImagePicker.launchCameraAsync({
                     allowsEditing: true,
                     aspect: [1, 1],
                     quality: 1,
                 });
-                console.log("Camera result received.");
             }
 
-            // Check if the result is not canceled and has a URI
             if (!result.canceled && result.assets && result.assets.length > 0) {
                 const uri = result.assets[0].uri;
-                console.log("Image URI: ", uri);
 
-                const newImage = {
+                const newImage: PictureObject = {
                     url: uri,
-                    position: currentPicture ? currentPicture?.length + 1 : 1
-                }
-                console.log(newImage)
+                    position: currentPicture.length
+                };
+
                 setCurrentPicture([...currentPicture, newImage]);
                 setShowModal(false);
-            } else {
-                console.log("Image picking was canceled or no URI found.");
             }
         } catch (e: any) {
             console.log("Error during image upload:", e);
         }
     };
 
-
     const renderItem = ({ item, drag, isActive }: { item: PictureObject, drag: () => void, isActive: boolean }) => {
         return (
-            <ScaleDecorator>
+            <ScaleDecorator
+            
+            >
                 <TouchableOpacity
                     onLongPress={drag}
                     disabled={isActive}
-                    style={[
-                        {
-                            backgroundColor: isActive ? "lightgrey" : "transparent",
-                            marginVertical: 10,
-                        }
-                    ]}
+                    className="w-full h-30 mb-4"  // Add margin-bottom to space out items
                 >
                     <Image
                         source={{ uri: item.url }}
-                        style={{ width: 100, height: 100, objectFit: "cover" }}
+                        style={{ width: '100%', height: 200 }}
+                        resizeMode="cover" 
+                        className="w-full"
                     />
                 </TouchableOpacity>
             </ScaleDecorator>
@@ -131,15 +120,30 @@ const BasicDetails2: React.FC<BasicDetails2Props> = ({
                             </Text>
                         </TouchableOpacity>
                     </View>
-                    <View className="w-full mt-4">
+                    <GestureHandlerRootView className="w-full h-full mt-4 flex-col flex">
                         <DraggableFlatList
                             data={currentPicture}
-                            onDragEnd={({ data }) => setCurrentPicture(data)}
+                            onDragEnd={({ data, from, to }) => {
+                                // Log the starting index and the final index
+                                console.log("Dragged item from index:", from, "to index:", to);
+                                
+                                // Update the positions in the new array
+                                const updatedData = data.map((item, index) => ({
+                                    ...item,
+                                    position: index,  // Update the position based on the new index
+                                }));
+                                
+                                // Update the state with the new data
+                                setCurrentPicture(updatedData);
+
+                            }}
+                            
                             keyExtractor={(item) => item.url}
                             renderItem={renderItem}
-                            horizontal={true} // If you want horizontal scrolling of images
+                            
+                            
                         />
-                    </View>
+                    </GestureHandlerRootView>
                 </View>
                 <Modal
                     animationType="slide"
@@ -196,8 +200,8 @@ const BasicDetails2: React.FC<BasicDetails2Props> = ({
                     </View>
                 </Modal>
             </View>
-        </TouchableWithoutFeedback> 
-        );
+        </TouchableWithoutFeedback>
+    );
 }
 
 export default BasicDetails2;
