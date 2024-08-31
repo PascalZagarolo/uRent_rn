@@ -4,6 +4,7 @@ import BasicDetails from "./_components/parts/basic-details";
 import { FontAwesome } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { getThisInserat } from "@/actions/inserat/getThisInserat";
+import BasicDetails2 from "./_components/parts/basic-details-2";
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -46,12 +47,14 @@ const InseratCreationPage = () => {
         {
             number: 0,
             title: "Grundlegende Details (1/2)",
-            description: "Gebe die grundlegenden Details deines Inserats an, wie z.B. den Titel, die Kategorie und den Preis."
+            description: "Gebe die grundlegenden Details deines Inserats an, wie z.B. den Titel, die Kategorie und den Preis.",
+            segment : <BasicDetails thisInserat={thisInserat} />
         },
         {
             number: 1,
-            title: "Weitere Details (2/2)",
-            description: "Gebe die weiteren Details deines Inserats an, wie z.B. die Beschreibung und Fotos."
+            title: "Grundlegende Details (2/2)",
+            description: "Gebe die weiteren Details deines Inserats an, wie z.B. die Beschreibung und Fotos.",
+            segment : <BasicDetails2 thisInserat={thisInserat} />
         }
     ];
 
@@ -66,6 +69,7 @@ const InseratCreationPage = () => {
                         Inserat erstellen
                     </Text>
                 </View>
+                <View className="h-10/12">
                 <View className="px-4">
                     <Text className="text-lg font-semibold text-gray-200/90">
                         {pageInfo[currentPage].title}
@@ -74,8 +78,30 @@ const InseratCreationPage = () => {
                         {pageInfo[currentPage].description}
                     </Text>
                 </View>
-                <View className="p-4">
-                    <BasicDetails thisInserat={thisInserat} />
+                <View className="px-4 ">
+                    {pageInfo[currentPage].segment}
+                </View>
+                </View>
+                <View className=" flex flex-row items-center justify-evenly w-full px-4 mt-auto">
+                    <TouchableOpacity className=" w-4/12 p-4 flex-col justify-center items-center rounded-md"
+                    onPress={() => setCurrentPage(currentPage - 1)}
+                    >
+                        <Text className="text-gray-200 text-base font-medium text-center">
+                            Zurück
+                        </Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity className="bg-indigo-800 w-8/12 p-4 flex-row justify-center
+                                 space-x-2 items-center rounded-md"
+                        onPress={() => setCurrentPage(currentPage + 1)}>
+                   
+                        <Text className="text-gray-200 text-sm font-medium text-center ">
+                            {pageInfo[currentPage + 1]?.title}
+                        </Text>
+                        <View>
+                            <FontAwesome name="chevron-right" size={16} color="#fff" />
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </SafeAreaView>
         </View>
