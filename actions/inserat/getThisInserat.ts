@@ -1,0 +1,23 @@
+'use strict';
+'use server'
+
+import db from "@/db/drizzle";
+import { inserat } from "@/db/schema";
+import { eq } from "drizzle-orm";
+
+export const getThisInserat = async (id : string) => {
+    try {
+
+        const thisInserat = await db.query.inserat.findFirst({
+            where : eq(
+                inserat.id, id
+            )
+        })
+
+        return thisInserat;
+
+    } catch(e : any) {
+        return { error : e.message }
+        return null;
+    }
+}
