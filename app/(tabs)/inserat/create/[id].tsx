@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { SafeAreaView, Text, View, TouchableOpacity, ActivityIndicator } from "react-native";
+import { SafeAreaView, Text, View, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native";
 import BasicDetails from "./_components/parts/basic-details";
 import { FontAwesome } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -52,8 +52,9 @@ const InseratCreationPage = () => {
         },
         {
             number: 1,
-            title: "Grundlegende Details (2/2)",
-            description: "Gebe die weiteren Details deines Inserats an, wie z.B. die Beschreibung und Fotos.",
+            title: "Bilder hochladen - Grundlegende Details (2/2)",
+            description: `Halte hochgeladene Fotos, um sie zu verschieben.
+            `,
             segment : <BasicDetails2 thisInserat={thisInserat} />
         }
     ];
@@ -69,7 +70,7 @@ const InseratCreationPage = () => {
                         Inserat erstellen
                     </Text>
                 </View>
-                <View className="h-10/12">
+                <View className="flex-grow">
                 <View className="px-4">
                     <Text className="text-lg font-semibold text-gray-200/90">
                         {pageInfo[currentPage].title}
@@ -78,11 +79,11 @@ const InseratCreationPage = () => {
                         {pageInfo[currentPage].description}
                     </Text>
                 </View>
-                <View className="px-4 ">
+                <View className="px-4">
                     {pageInfo[currentPage].segment}
                 </View>
                 </View>
-                <View className=" flex flex-row items-center justify-evenly w-full px-4 mt-auto">
+                <View className=" flex flex-row items-center justify-evenly w-full px-4 mt-auto h-1/12">
                     <TouchableOpacity className=" w-4/12 p-4 flex-col justify-center items-center rounded-md"
                     onPress={() => setCurrentPage(currentPage - 1)}
                     >

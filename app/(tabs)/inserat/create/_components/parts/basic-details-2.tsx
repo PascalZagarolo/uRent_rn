@@ -86,9 +86,9 @@ const BasicDetails2: React.FC<BasicDetails2Props> = ({
                 >
                     <Image
                         source={{ uri: item.url }}
-                        style={{ width: '100%', height: 200 }}
+                        style={{ width: '100%', height: 100 }}
                         resizeMode="cover" 
-                        className="w-full"
+                        className="w-full rounded-md"
                     />
                 </TouchableOpacity>
             </ScaleDecorator>
@@ -96,17 +96,10 @@ const BasicDetails2: React.FC<BasicDetails2Props> = ({
     };
 
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} className="h-full">
+            <View className="h-full">
                 <View className="flex flex-col items-center w-full">
-                    <View className="w-full mt-4">
-                        <Text className="text-lg font-semibold text-gray-200">
-                            Bilder hochladen
-                        </Text>
-                        <Text className="text-xs text-gray-200/60">
-                            Lade Bilder von deinem Fahrzeug hoch, um es besser zu präsentieren.
-                        </Text>
-                    </View>
+                    
                     <View className="w-full">
                         <TouchableOpacity className="w-full bg-[#1a1e29] p-4 rounded-lg mt-4 
                     flex-row items-center justify-center space-x-4"
