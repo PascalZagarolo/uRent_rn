@@ -1,16 +1,21 @@
 import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useState } from "react";
-import { Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView } from "react-native";
+import { Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, 
+    Keyboard, TouchableWithoutFeedback } from "react-native";
+
 
 
 interface BasicDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
+    
 }
 
 const BasicDetails: React.FC<BasicDetailsProps> = ({
-    thisInserat
+    thisInserat,
+    
+    
 }) => {
 
     const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
@@ -18,10 +23,10 @@ const BasicDetails: React.FC<BasicDetailsProps> = ({
     const [currentCategory, setCurrentCategory] = useState<string>(thisInserat.category);
 
     return (
-        <View className="">
-            <View className="flex flex-col items-center w-full">
-                <View className="w-full mt-4">
-                    <Text className="text-base font-semibold text-gray-200">
+        <TouchableWithoutFeedback className="" onPress={Keyboard.dismiss}>
+            <View className="flex flex-col items-center w-full mt-4">
+                <View className="w-full">
+                    <Text className="text-lg font-semibold text-gray-200">
                         Titel
                     </Text>
                     <TextInput
@@ -32,11 +37,11 @@ const BasicDetails: React.FC<BasicDetailsProps> = ({
 
                 </View>
 
-                <View className="w-full mt-8">
-                    <Text className="text-base font-semibold text-gray-200">
+                <View className="w-full mt-4">
+                    <Text className="text-lg font-semibold text-gray-200">
                         Beschreibung
                     </Text>
-                    <KeyboardAvoidingView>
+                    <KeyboardAvoidingView >
                     <TextInput
                         placeholder="Beschreibe dein Fahrzeug... Farbe, Zustand, etc."
                         value={currentDescription}
@@ -50,12 +55,12 @@ const BasicDetails: React.FC<BasicDetailsProps> = ({
 
                 </View>
 
-                <View className="mt-8">
-                    <Text className="text-base font-semibold text-gray-200">
+                <View className="mt-4 w-full">
+                    <Text className="text-lg font-semibold text-gray-200">
                         Fahrzeugkategorie
                     </Text>
-                    <View className="flex flex-col items-center space-y-4 mt-4">
-                        <View className="flex flex-row items-center w-full justify-evenly gap-x-16">
+                    <View className="flex flex-col items-center space-y-4 ">
+                        <View className="flex flex-row items-center w-full justify-evenly">
                             <TouchableOpacity className={cn("bg-[#1a1e29] w-5/12 p-4 flex-col justify-center items-center rounded-md",
                                 currentCategory === "PKW" && "border border-indigo-800"
                             )}
@@ -87,7 +92,7 @@ const BasicDetails: React.FC<BasicDetailsProps> = ({
                             </TouchableOpacity>
                         </View>
 
-                        <View className="flex flex-row items-center w-full justify-evenly gap-x-16">
+                        <View className="flex flex-row items-center w-full justify-evenly">
                             <TouchableOpacity className={cn("bg-[#1a1e29] w-5/12 p-4 flex-col justify-center items-center rounded-md",
                                 currentCategory === "TRAILER" && "border border-indigo-800"
                             )}
@@ -118,12 +123,15 @@ const BasicDetails: React.FC<BasicDetailsProps> = ({
                                 </Text>
                             </TouchableOpacity>
                         </View>
-
+                        
+                        
 
                     </View>
+                    
                 </View>
+                
             </View>
-        </View>
+        </TouchableWithoutFeedback>
     );
 }
 
