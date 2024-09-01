@@ -1,7 +1,7 @@
 import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import { Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, 
     Keyboard, TouchableWithoutFeedback } from "react-native";
 
@@ -9,18 +9,24 @@ import { Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
 
 interface BasicDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-    
+   
 }
 
-const BasicDetails: React.FC<BasicDetailsProps> = ({
-    thisInserat,
-    
-    
-}) => {
+const BasicDetails = forwardRef(({ thisInserat }: BasicDetailsProps, ref) => {
+
+    useImperativeHandle(ref, () => ({
+        onSave: () => {
+            console.log("Child onSave called");
+            console.log("Saving:", currentTitle, currentDescription);
+        }
+    }));
 
     const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
     const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
-    const [currentCategory, setCurrentCategory] = useState<string>(thisInserat.category);
+    const [currentCategory, setCurrentCategory] = useState(thisInserat.description);
+   
+
+    
 
     return (
         <TouchableWithoutFeedback className="" onPress={Keyboard.dismiss}>
@@ -55,6 +61,7 @@ const BasicDetails: React.FC<BasicDetailsProps> = ({
 
                 </View>
 
+               {/*
                 <View className="mt-4 w-full">
                     <Text className="text-lg font-semibold text-gray-200">
                         Fahrzeugkategorie
@@ -129,10 +136,11 @@ const BasicDetails: React.FC<BasicDetailsProps> = ({
                     </View>
                     
                 </View>
+               */}
                 
             </View>
         </TouchableWithoutFeedback>
     );
-}
+});
 
 export default BasicDetails;
