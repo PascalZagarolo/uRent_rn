@@ -7,12 +7,12 @@ import { Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
 
 
 
-interface BasicDetailsProps {
+interface PriceDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
    
 }
 
-const BasicDetails = forwardRef(({ thisInserat }: BasicDetailsProps, ref) => {
+const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {
@@ -33,7 +33,7 @@ const BasicDetails = forwardRef(({ thisInserat }: BasicDetailsProps, ref) => {
             <View className="flex flex-col items-center w-full mt-4 h-full">
                 <View className="w-full">
                     <Text className="text-lg font-semibold text-gray-200">
-                        Titel
+                        Preis (pro Tag)
                     </Text>
                     <TextInput
                         placeholder="Titel deines Inserats..."
@@ -43,22 +43,29 @@ const BasicDetails = forwardRef(({ thisInserat }: BasicDetailsProps, ref) => {
 
                 </View>
 
-                <View className="w-full mt-8 h-full">
+                <View className="w-full mt-8 ">
                     <Text className="text-lg font-semibold text-gray-200">
-                        Beschreibung
+                        Meine Preisprofile
                     </Text>
-                    <KeyboardAvoidingView className="mt-2">
-                    <TextInput
-                        placeholder="Beschreibe dein Fahrzeug... Farbe, Zustand, etc."
-                        value={currentDescription}
-                        onChangeText={(text) => setCurrentDescription(text)}
-                        multiline={true}
-                        numberOfLines={8}
-                        className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg h-2/3"
-                        textAlignVertical="top"
-                    />
-                    </KeyboardAvoidingView>
+                    
+                    <TouchableOpacity className="bg-[#1a1e29] w-full p-4 flex-row justify-center items-center rounded-md mt-2">
+                        <View className="mr-4">
+                            <FontAwesome5 name="plus" size={20} color="#fff" />
+                        </View>
+                        <Text className="text-gray-200/60 text-base font-medium text-center">
+                            Preisprofil hinzufügen
+                        </Text>
+                    </TouchableOpacity>
+                </View>
 
+                <View className="w-full mt-4 h-full">
+
+                    
+                    <View className="mt-4">
+                        <Text className="text-center text-sm text-gray-200/40">
+                        Noch keine Preisprofile hinzugefügt..
+                        </Text>
+                    </View>
                 </View>
 
                {/*
@@ -143,4 +150,4 @@ const BasicDetails = forwardRef(({ thisInserat }: BasicDetailsProps, ref) => {
     );
 });
 
-export default BasicDetails;
+export default PriceDetails;

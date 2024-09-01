@@ -6,6 +6,7 @@ import { useLocalSearchParams, useRouter } from "expo-router";
 import { getThisInserat } from "@/actions/inserat/getThisInserat";
 import BasicDetails2 from "./_components/parts/basic-details-2";
 import BasicDetails3 from "./_components/parts/basic-details-3";
+import PriceDetails from "./_components/parts/price-details";
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -17,6 +18,7 @@ const InseratCreationPage = () => {
     const basicDetailsRef = useRef(null);
     const basicDetails2Ref = useRef(null);
     const basicDetails3Ref = useRef(null);
+    const priceDetails = useRef(null);
 
     useEffect(() => {
         const loadInserat = async () => {
@@ -67,6 +69,12 @@ const InseratCreationPage = () => {
             title : "Zusätzliche Details",
             description : "Füge zusätzliche Details hinzu, wie Preis, Fahrzeugkategorie etc. um dein Inserat zu vervollständigen.",
             segment : <BasicDetails3 thisInserat={thisInserat} ref={basicDetails3Ref} />
+        },
+        {
+            number : 3,
+            title : "Preisdetails",
+            description : "Gebe die Preisdetails deines Inserats an.",
+            segment : <PriceDetails thisInserat={thisInserat} ref={priceDetails} />
         }
     ];
 
@@ -90,7 +98,7 @@ const InseratCreationPage = () => {
                 </View>
                 <View className="flex-grow">
                 <View className="px-4">
-                    <Text className="text-lg font-semibold text-gray-200/90">
+                    <Text className="text-2xl font-semibold text-gray-200/90">
                         {pageInfo[currentPage].title}
                     </Text>
                     <Text className="text-gray-200/60 text-xs">

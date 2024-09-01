@@ -223,14 +223,9 @@ const BasicDetails3 = forwardRef(({ thisInserat }: BasicDetails3Props, ref) => {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                        
-                        
-
                     </View>
-                    
                 </View>
-
-                <View className="w-full mt-4">
+                <View className="w-full mt-8">
                 <Text className="text-lg font-semibold text-gray-200">
                         Erw. Fahrzeugkategorie
                     </Text>
