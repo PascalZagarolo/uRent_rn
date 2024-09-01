@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { SafeAreaView, Text, View, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native";
 import BasicDetails from "./_components/parts/basic-details";
 import { FontAwesome } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { getThisInserat } from "@/actions/inserat/getThisInserat";
 import BasicDetails2 from "./_components/parts/basic-details-2";
+import BasicDetails3 from "./_components/parts/basic-details-3";
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -12,6 +13,10 @@ const InseratCreationPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(0);
     const router = useRouter();
+
+    const basicDetailsRef = useRef(null);
+    const basicDetails2Ref = useRef(null);
+    const basicDetails3Ref = useRef(null);
 
     useEffect(() => {
         const loadInserat = async () => {
@@ -47,17 +52,30 @@ const InseratCreationPage = () => {
         {
             number: 0,
             title: "Grundlegende Details (1/2)",
-            description: "Gebe die grundlegenden Details deines Inserats an, wie z.B. den Titel, die Kategorie und den Preis.",
-            segment : <BasicDetails thisInserat={thisInserat} />
+            description: "Gebe die grundlegenden Details deines Inserats an, wie z.B. den Titel und Beschreibung.",
+            segment : <BasicDetails thisInserat={thisInserat} ref={basicDetailsRef}/>
         },
         {
             number: 1,
             title: "Bilder hochladen - Grundlegende Details (2/2)",
             description: `Halte hochgeladene Fotos, um sie zu verschieben.
             `,
-            segment : <BasicDetails2 thisInserat={thisInserat} />
+            segment : <BasicDetails2 thisInserat={thisInserat} ref={basicDetails2Ref} />
+        },
+        {
+            number : 2,
+            title : "Zusätzliche Details",
+            description : "Füge zusätzliche Details hinzu, wie Preis, Fahrzeugkategorie etc. um dein Inserat zu vervollständigen.",
+            segment : <BasicDetails3 thisInserat={thisInserat} ref={basicDetails3Ref} />
         }
     ];
+
+    const handleNext = () => {
+        if (basicDetailsRef.current) {
+            basicDetailsRef.current.onSave(); 
+        }
+        setCurrentPage((prevPage) => prevPage + 1); 
+    };
 
     return (
         <View className="flex flex-1 w-full bg-[#1F2332]">
@@ -94,10 +112,10 @@ const InseratCreationPage = () => {
 
                     <TouchableOpacity className="bg-indigo-800 w-8/12 p-4 flex-row justify-center
                                  space-x-2 items-center rounded-md"
-                        onPress={() => setCurrentPage(currentPage + 1)}>
+                        onPress={handleNext}>
                    
                         <Text className="text-gray-200 text-sm font-medium text-center ">
-                            {pageInfo[currentPage + 1]?.title}
+                            Speichern & Weiter
                         </Text>
                         <View>
                             <FontAwesome name="chevron-right" size={16} color="#fff" />

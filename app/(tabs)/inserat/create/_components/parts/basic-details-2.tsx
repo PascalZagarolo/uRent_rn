@@ -1,6 +1,6 @@
 import { inserat } from "@/db/schema";
 import { Feather, FontAwesome } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
+import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import {
     Text, View, TouchableOpacity, KeyboardAvoidingView,
     Keyboard, TouchableWithoutFeedback,
@@ -10,32 +10,32 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import DraggableFlatList, { ScaleDecorator } from "react-native-draggable-flatlist";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
-import { set } from "date-fns";
+
+
 
 interface BasicDetails2Props {
-    thisInserat: typeof inserat.$inferSelect;
+    thisInserat : typeof inserat.$inferSelect;
 }
 
-const BasicDetails2: React.FC<BasicDetails2Props> = ({
-    thisInserat,
-}) => {
+const BasicDetails2 = forwardRef(({ thisInserat }: BasicDetails2Props, ref) => {
     const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
     const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
     const [currentCategory, setCurrentCategory] = useState<string>(thisInserat.category);
     const [showModal, setShowModal] = useState(false);
 
+    useImperativeHandle(ref, () => ({
+        onSave: () => {
+            console.log("Child onSave called");
+            console.log("Saving:");
+        }
+    }));
+
     type PictureObject = {
         url: string,
         position: number
     };
-
-    
-
+ 
     const [currentPicture, setCurrentPicture] = useState<PictureObject[]>([]);
-
-    useEffect(() => {
-        console.log("Current Picture:", currentPicture);
-    },[currentPicture])
 
     const onImageUpload = async (mode: string) => {
         try {
@@ -195,6 +195,6 @@ const BasicDetails2: React.FC<BasicDetails2Props> = ({
             </View>
         </TouchableWithoutFeedback>
     );
-}
+});
 
 export default BasicDetails2;
