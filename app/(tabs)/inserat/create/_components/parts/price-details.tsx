@@ -2,14 +2,18 @@ import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, 
-    Keyboard, TouchableWithoutFeedback } from "react-native";
+import {
+    Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
+    Keyboard, TouchableWithoutFeedback,
+    Modal
+} from "react-native";
+import CreatePriceProfile from "./price-details/create-price-detail";
 
 
 
 interface PriceDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-   
+
 }
 
 const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
@@ -24,9 +28,11 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
     const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
     const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
     const [currentCategory, setCurrentCategory] = useState(thisInserat.description);
-   
 
-    
+    const [showModal, setShowModal] = useState(false);
+
+
+
 
     return (
         <TouchableWithoutFeedback className="h-full" onPress={Keyboard.dismiss}>
@@ -47,7 +53,7 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                     <Text className="text-lg font-semibold text-gray-200">
                         Meine Preisprofile
                     </Text>
-                    
+
                     <TouchableOpacity className="bg-[#1a1e29] w-full p-4 flex-row justify-center items-center rounded-md mt-2">
                         <View className="mr-4">
                             <FontAwesome5 name="plus" size={20} color="#fff" />
@@ -60,91 +66,26 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
 
                 <View className="w-full mt-4 h-full">
 
-                    
+
                     <View className="mt-4">
                         <Text className="text-center text-sm text-gray-200/40">
-                        Noch keine Preisprofile hinzugefügt..
+                            Noch keine Preisprofile hinzugefügt..
                         </Text>
                     </View>
                 </View>
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={showModal}
+                    onRequestClose={() => {
+                        setShowModal(false);
+                    }}
 
-               {/*
-                <View className="mt-4 w-full">
-                    <Text className="text-lg font-semibold text-gray-200">
-                        Fahrzeugkategorie
-                    </Text>
-                    <View className="flex flex-col items-center space-y-4 ">
-                        <View className="flex flex-row items-center w-full justify-evenly">
-                            <TouchableOpacity className={cn("bg-[#1a1e29] w-5/12 p-4 flex-col justify-center items-center rounded-md",
-                                currentCategory === "PKW" && "border border-indigo-800"
-                            )}
-                                onPress={() => {
-                                    currentCategory === "PKW" ? setCurrentCategory("") : setCurrentCategory("PKW")
-                                }}>
-                                <View className="flex justify-center">
-                                    <Ionicons name="car-outline" size={32} color="#fff" />
-                                </View>
-                                <Text className={cn("text-gray-200/40 text-base font-medium text-center",
-                                    currentCategory === "PKW" && "text-gray-200/90 font-semibold")}>
-                                    PKW
-                                </Text>
-                            </TouchableOpacity>
+                >
+                    <CreatePriceProfile onClose={() => setShowModal(false)} />
+                </Modal>
 
-                            <TouchableOpacity className={cn("bg-[#1a1e29] w-5/12 p-4 flex-col justify-center items-center rounded-md",
-                                currentCategory === "LKW" && "border border-indigo-800"
-                            )}
-                                onPress={() => {
-                                    currentCategory === "LKW" ? setCurrentCategory("") : setCurrentCategory("LKW")
-                                }}>
-                                <View className="flex justify-center">
-                                    <MaterialCommunityIcons name="truck" size={32} color="#fff" />
-                                </View>
-                                <Text className={cn("text-gray-200/40 text-base font-medium text-center",
-                                    currentCategory === "LKW" && "text-gray-200/90 font-semibold")}>
-                                    LKW
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
 
-                        <View className="flex flex-row items-center w-full justify-evenly">
-                            <TouchableOpacity className={cn("bg-[#1a1e29] w-5/12 p-4 flex-col justify-center items-center rounded-md",
-                                currentCategory === "TRAILER" && "border border-indigo-800"
-                            )}
-                                onPress={() => {
-                                    currentCategory === "TRAILER" ? setCurrentCategory("") : setCurrentCategory("TRAILER")
-                                }}>
-                                <View className="flex justify-center">
-                                    <MaterialCommunityIcons name="truck-trailer" size={32} color="#fff" />
-                                </View>
-                                <Text className={cn("text-gray-200/40 text-base font-medium text-center",
-                                    currentCategory === "TRAILER" && "text-gray-200/90 font-semibold")}>
-                                    Anhänger
-                                </Text>
-                            </TouchableOpacity>
-
-                            <TouchableOpacity className={cn("bg-[#1a1e29] w-5/12 p-4 flex-col justify-center items-center rounded-md",
-                                currentCategory === "TRANSPORT" && "border border-indigo-800"
-                            )}
-                                onPress={() => {
-                                    currentCategory === "TRANSPORT" ? setCurrentCategory("") : setCurrentCategory("TRANSPORT")
-                                }}>
-                                <View className="flex justify-center">
-                                    <MaterialCommunityIcons name="van-utility" size={32} color="#fff" />
-                                </View>
-                                <Text className={cn("text-gray-200/40 text-base font-medium text-center",
-                                    currentCategory === "TRANSPORT" && "text-gray-200/90 font-semibold")}>
-                                    Transporter
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-                        
-                        
-
-                    </View>
-                    
-                </View>
-               */}
-                
             </View>
         </TouchableWithoutFeedback>
     );
