@@ -146,7 +146,7 @@ const BasicDetails2 = forwardRef(({ thisInserat }: BasicDetails2Props, ref) => {
                         setShowModal(false);
                     }}
                 >
-                    <View className="flex-1 justify-center items-center bg-black/80">
+                    <View className="flex-1 justify-center items-center bg-black/95">
                         <View className="bg-[#151821] w-full rounded-lg overflow-hidden pb-8">
                             <View className="flex flex-row items-center p-4">
                                 <Text className="text-xl font-semibold text-gray-200">
