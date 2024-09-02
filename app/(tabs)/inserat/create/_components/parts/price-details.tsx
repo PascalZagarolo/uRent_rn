@@ -25,7 +25,7 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
         }
     }));
 
-    const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
+    const [currentTitle, setCurrentTitle] = useState(thisInserat.price);
     const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
     const [currentCategory, setCurrentCategory] = useState(thisInserat.description);
 
@@ -54,7 +54,9 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                         Meine Preisprofile
                     </Text>
 
-                    <TouchableOpacity className="bg-[#1a1e29] w-full p-4 flex-row justify-center items-center rounded-md mt-2">
+                    <TouchableOpacity className="bg-[#1a1e29] w-full p-4 flex-row justify-center items-center rounded-md mt-2"
+                    onPress={() => {setShowModal(true)}}
+                    >
                         <View className="mr-4">
                             <FontAwesome5 name="plus" size={20} color="#fff" />
                         </View>
@@ -82,7 +84,7 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                     }}
 
                 >
-                    <CreatePriceProfile onClose={() => setShowModal(false)} />
+                    <CreatePriceProfile onClose={() => setShowModal(false)} inseratId={thisInserat.id}/>
                 </Modal>
 
 
