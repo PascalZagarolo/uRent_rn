@@ -8,11 +8,13 @@ import {
     Modal
 } from "react-native";
 import CreatePriceProfile from "./price-details/create-price-detail";
+import DeletePriceDetails from "./price-details/delete-price-details";
+import EditPriceProfile from "./price-details/edit-price-profile";
 
 
 
 interface PriceDetailsProps {
-    thisInserat: typeof inserat.$inferSelect;
+    thisInserat: typeof inserat.$inferSelect | any;
 
 }
 
@@ -75,7 +77,7 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                     <View className="">
                         {currentPriceProfiles.length > 0 ? (
                             currentPriceProfiles.map((profile) => (
-                                <View className="flex flex-row items-center w-full bg-[#1a1e29] p-4">
+                                <View className="flex flex-row items-center w-full bg-[#1a1e29] p-4" key={profile.id}>
                                     <View className="flex-col w-3/4">
                                         <Text className="text-gray-200 text-base font-semibold">
                                             {profile?.title}
@@ -91,14 +93,20 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                                     </View>
                                     <View className="w-1/4 flex flex-row items-center justify-evenly">
                                         <View>
-                                            <TouchableOpacity>
-                                                <FontAwesome name="edit" size={24} color="white" />
-                                            </TouchableOpacity>
+                                            <EditPriceProfile 
+                                            thisProfile={profile}
+                                            onEdit={(profile) => {
+                                                setCurrentPriceProfiles(currentPriceProfiles.map((p) => {
+                                                    if(p.id === profile.id) {
+                                                        return profile;
+                                                    }
+                                                    return p;
+                                                }))
+                                            }}
+                                            />
                                         </View>
                                         <View>
-                                            <TouchableOpacity>
-                                                <FontAwesome name="trash" size={24} color="white" />
-                                            </TouchableOpacity>
+                                        <DeletePriceDetails />
                                     </View>
                                     </View>
                                 </View>
@@ -119,7 +127,14 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                 }}
 
             >
-                <CreatePriceProfile onClose={() => setShowModal(false)} inseratId={thisInserat.id} />
+                <CreatePriceProfile 
+                onClose={() => setShowModal(false)} 
+                inseratId={thisInserat.id} 
+                addPriceProfile={(profile) => {
+                    console.log(profile + 2)
+                    setCurrentPriceProfiles([...currentPriceProfiles, profile]);
+                }}
+                />
             </Modal>
 
 

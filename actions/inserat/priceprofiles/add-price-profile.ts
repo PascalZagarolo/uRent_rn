@@ -50,9 +50,9 @@ export const addPriceProfile = async (values) => {
             extraCost,
             inseratId : inseratId,
             position : newPosition
-        })
+        }).returning();
         console.log("1")
-        return { success : true, data : newPriceProfile };
+        return { success : true, data : newPriceProfile[0] };
 
     } catch(e : any) {
         console.log(e);

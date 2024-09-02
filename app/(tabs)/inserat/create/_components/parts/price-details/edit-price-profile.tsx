@@ -1,37 +1,37 @@
-import { FontAwesome } from "@expo/vector-icons";
-import { Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-
-import { useState } from "react";
-import { set } from 'date-fns';
-import { Keyboard } from "react-native";
+import { priceprofile } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
-import * as SecureStore from 'expo-secure-store';
-import { addPriceProfile } from "@/actions/inserat/priceprofiles/add-price-profile";
+import { FontAwesome } from "@expo/vector-icons";
+import { useState } from "react";
+import { Modal, TextInput, TouchableOpacity,
+     TouchableWithoutFeedback, View, Text, 
+     Keyboard} from "react-native";
+import * as SecureStore from "expo-secure-store";
+import { editPriceProfile } from "@/actions/inserat/priceprofiles/edit-price-profile";
 import Toast from "react-native-toast-message";
 
-interface CreatePriceProfileProps {
-    onClose: () => void;
-    addPriceProfile: (values: any) => void;
-    inseratId : string;
+interface EditPriceProfileProps {
+    thisProfile : typeof priceprofile.$inferSelect;
+    onEdit : (values : any) => void;
 }
 
-const CreatePriceProfile = ({ onClose, inseratId, addPriceProfile }: CreatePriceProfileProps) => {
-    const [currentTitle, setCurrentTitle] = useState(null);
-    const [currentPrice, setCurrentPrice] = useState(null);
-    const [currentFreemiles, setCurrentFreemiles] = useState(null);
-    const [currentExtraprice, setCurrentExtraprice] = useState(null);
-    const [currentDescription, setCurrentDescription] = useState(null);
+const EditPriceProfile = ({ thisProfile, onEdit } : EditPriceProfileProps) => {
+
+    const [showModal, setShowModal] = useState(false);
+
+    const [currentTitle, setCurrentTitle] = useState(thisProfile?.title);
+    const [currentPrice, setCurrentPrice] = useState(thisProfile?.price);
+    const [currentFreemiles, setCurrentFreemiles] = useState<any>(thisProfile?.freeMiles);
+    const [currentExtraprice, setCurrentExtraprice] = useState(thisProfile?.extraCost);
+    const [currentDescription, setCurrentDescription] = useState(thisProfile?.description);
 
     const [isLoading, setIsLoading] = useState(false);
+
+    const isDisabled = !currentTitle || !currentPrice;
 
     const onSubmit = async () => {
         try {
 
-            const authToken = await SecureStore.getItemAsync('authToken');
-
-            if(!authToken) {
-                return null;
-            }
+            const authToken = await SecureStore.getItemAsync('authToken')
 
             const values = {
                 title : currentTitle,
@@ -40,15 +40,15 @@ const CreatePriceProfile = ({ onClose, inseratId, addPriceProfile }: CreatePrice
                 freemiles : currentFreemiles,
                 extraCost : currentExtraprice,
                 token : authToken,
-                inseratId : inseratId,
+                profileId : thisProfile?.id,
             }
 
-            const added = await addPriceProfile(values);
-            addPriceProfile(values);
-            onClose();
+            await editPriceProfile(values);
+            onEdit(values);
+            setShowModal(false);
             Toast.show({
-                text1: "Preisprofil hinzugefügt",
-                text2: "Dein Preisprofil wurde erfolgreich hinzugefügt.",
+                text1: "Preisprofil bearbeitet",
+                text2: "Dein Preisprofil wurde erfolgreich bearbeitet.",
                 type: "success"
             })
 
@@ -60,18 +60,29 @@ const CreatePriceProfile = ({ onClose, inseratId, addPriceProfile }: CreatePrice
         }
     }
 
-    const isDisabled = !currentTitle || !currentPrice;
+    return ( 
+        <View>
+            <TouchableOpacity onPress={() => {setShowModal(true)}}>
+                <FontAwesome name="edit" size={24} color="white" />
+            </TouchableOpacity>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={showModal}
+                onRequestClose={() => {
+                    setShowModal(false);
+                }}
 
-    return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            >
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View className="flex-1 justify-center items-center bg-black/95">
             <View className="bg-[#151821] w-full rounded-lg overflow-hidden pb-4">
                 <View className="flex flex-row items-center p-4">
                     <Text className="text-xl font-semibold text-gray-200">
-                        Preisprofil hinzufügen
+                        Preisprofil bearbeiten
                     </Text>
                     <TouchableOpacity className="ml-auto">
-                        <FontAwesome name="close" size={24} color="white" onPress={onClose} />
+                        <FontAwesome name="close" size={24} color="white" onPress={() => {setShowModal(false)}} />
                     </TouchableOpacity>
                 </View>
                 <View className="flex flex-col space-y-4 px-4">
@@ -148,7 +159,7 @@ const CreatePriceProfile = ({ onClose, inseratId, addPriceProfile }: CreatePrice
                     <TouchableOpacity className="rounded-md" onPress={onSubmit} disabled={isDisabled}>
                         <Text className={cn("text-center text-base font-semibold text-gray-200 bg-indigo-800 p-4", 
                         isDisabled && "text-gray-200/60 bg-indigo-800/20")}>
-                            Preisprofil hinzufügen
+                            Änderungen bearbeiten
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -157,7 +168,9 @@ const CreatePriceProfile = ({ onClose, inseratId, addPriceProfile }: CreatePrice
             
         </View>
         </TouchableWithoutFeedback>
-    );
+            </Modal>
+        </View>
+     );
 }
-
-export default CreatePriceProfile;
+ 
+export default EditPriceProfile;
