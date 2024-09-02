@@ -6,6 +6,7 @@ import { set } from 'date-fns';
 import { Keyboard } from "react-native";
 import { cn } from "@/~/lib/utils";
 import * as SecureStore from 'expo-secure-store';
+import { addPriceProfile } from "@/actions/inserat/priceprofiles/add-price-profile";
 
 interface CreatePriceProfileProps {
     onClose: () => void;
@@ -18,6 +19,8 @@ const CreatePriceProfile = ({ onClose, inseratId }: CreatePriceProfileProps) => 
     const [currentFreemiles, setCurrentFreemiles] = useState(null);
     const [currentExtraprice, setCurrentExtraprice] = useState(null);
     const [currentDescription, setCurrentDescription] = useState(null);
+
+    const [isLoading, setIsLoading] = useState(false);
 
     const onSubmit = async () => {
         try {
@@ -38,9 +41,14 @@ const CreatePriceProfile = ({ onClose, inseratId }: CreatePriceProfileProps) => 
                 inseratId : inseratId,
             }
 
+            await addPriceProfile(values);
+            onClose();
+
         } catch(e : any) {
             console.log(e);
             return;
+        } finally {
+            setIsLoading(false);
         }
     }
 
