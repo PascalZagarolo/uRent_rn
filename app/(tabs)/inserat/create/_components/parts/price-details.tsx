@@ -31,6 +31,7 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
 
     const [showModal, setShowModal] = useState(false);
 
+    const [currentPriceProfiles, setCurrentPriceProfiles] = useState(thisInserat.priceprofiles);
 
 
 
@@ -55,7 +56,7 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                     </Text>
 
                     <TouchableOpacity className="bg-[#1a1e29] w-full p-4 flex-row justify-center items-center rounded-md mt-2"
-                    onPress={() => {setShowModal(true)}}
+                        onPress={() => { setShowModal(true) }}
                     >
                         <View className="mr-4">
                             <FontAwesome5 name="plus" size={20} color="#fff" />
@@ -68,28 +69,62 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
 
                 <View className="w-full mt-4 h-full">
 
-
-                    <View className="mt-4">
-                        <Text className="text-center text-sm text-gray-200/40">
+                    <Text className="text-lg text-gray-200 font-semibold">
+                        Preisprofile verwalten ({currentPriceProfiles?.length})
+                    </Text>
+                    <View className="">
+                        {currentPriceProfiles.length > 0 ? (
+                            currentPriceProfiles.map((profile) => (
+                                <View className="flex flex-row items-center w-full bg-[#1a1e29] p-4">
+                                    <View className="flex-col w-3/4">
+                                        <Text className="text-gray-200 text-base font-semibold">
+                                            {profile?.title}
+                                        </Text>
+                                        <Text className="mt-2 text-gray-200/90 text-base font-medium">
+                                            {profile?.price}€
+                                        </Text>
+                                        {profile?.freeMiles && (
+                                            <Text className="mt-2 text-gray-200/90 text-base font-medium">
+                                                {profile?.freeMiles} Freikilometer
+                                            </Text>
+                                        )}
+                                    </View>
+                                    <View className="w-1/4 flex flex-row items-center justify-evenly">
+                                        <View>
+                                            <TouchableOpacity>
+                                                <FontAwesome name="edit" size={24} color="white" />
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View>
+                                            <TouchableOpacity>
+                                                <FontAwesome name="trash" size={24} color="white" />
+                                            </TouchableOpacity>
+                                    </View>
+                                    </View>
+                                </View>
+                            ))
+                        ): (
+                                <Text className = "text-center text-sm text-gray-200/40">
                             Noch keine Preisprofile hinzugefügt..
-                        </Text>
-                    </View>
+                    </Text>
+                        )}
                 </View>
-                <Modal
-                    animationType="slide"
-                    transparent={true}
-                    visible={showModal}
-                    onRequestClose={() => {
-                        setShowModal(false);
-                    }}
-
-                >
-                    <CreatePriceProfile onClose={() => setShowModal(false)} inseratId={thisInserat.id}/>
-                </Modal>
-
-
             </View>
-        </TouchableWithoutFeedback>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={showModal}
+                onRequestClose={() => {
+                    setShowModal(false);
+                }}
+
+            >
+                <CreatePriceProfile onClose={() => setShowModal(false)} inseratId={thisInserat.id} />
+            </Modal>
+
+
+        </View>
+        </TouchableWithoutFeedback >
     );
 });
 

@@ -2,6 +2,7 @@ import { getCurrentUser } from "@/actions/getCurrentUser";
 import db from "@/db/drizzle";
 import { inserat, priceprofile } from "@/db/schema";
 import { and, count, eq } from "drizzle-orm";
+import { posix } from "path";
 
 export const addPriceProfile = async (values) => {
     try {
@@ -45,11 +46,12 @@ export const addPriceProfile = async (values) => {
             title,
             description,
             price,
-            freemiles,
+            freeMiles : freemiles,
             extraCost,
-            inseratId : inseratId
+            inseratId : inseratId,
+            position : newPosition
         })
-
+        console.log("1")
         return { success : true, data : newPriceProfile };
 
     } catch(e : any) {

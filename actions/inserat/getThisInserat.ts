@@ -2,7 +2,7 @@
 'use server'
 
 import db from "@/db/drizzle";
-import { inserat } from "@/db/schema";
+import { inserat, priceprofile } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export const getThisInserat = async (id : string) => {
@@ -11,7 +11,10 @@ export const getThisInserat = async (id : string) => {
         const thisInserat = await db.query.inserat.findFirst({
             where : eq(
                 inserat.id, id
-            )
+            ),
+            with : {
+                priceprofiles : true
+            }
         })
 
         return thisInserat;
