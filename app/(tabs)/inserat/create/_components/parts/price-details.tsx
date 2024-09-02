@@ -106,7 +106,12 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                                             />
                                         </View>
                                         <View>
-                                        <DeletePriceDetails />
+                                        <DeletePriceDetails
+                                        thisProfile={profile} 
+                                        onDelete={(profile) => {
+                                            setCurrentPriceProfiles(currentPriceProfiles.filter((p) => p.id !== profile.id));
+                                        }}
+                                        />
                                     </View>
                                     </View>
                                 </View>
