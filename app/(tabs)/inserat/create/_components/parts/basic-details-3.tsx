@@ -270,7 +270,7 @@ const BasicDetails3 = forwardRef(({ thisInserat }: BasicDetails3Props, ref) => {
                             <TextInput className={cn("text-base text-gray-200 font-semibold p-4 bg-[#1a1e29] w-full", 
                             !isMulti && "text-gray-200/40 font-medium")}
                             value={isMulti ? amount.toString() : "1"}
-                            onChange={(e) => setAmount(isMulti ? parseInt(e.target.value) || 0 : 1)}
+                            onChangeText={(e) => setAmount(isMulti ? parseInt(e) || 0 : 1)}
                             />
                             
 
