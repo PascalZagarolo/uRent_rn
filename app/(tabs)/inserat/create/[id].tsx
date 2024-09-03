@@ -90,9 +90,14 @@ const InseratCreationPage = () => {
         {
             number : 5,
             title : "Zeitraum",
-            description : `Gebe Zeitraum-Details deines Inserats an, wie z.B. die Mindestmietdauer.`
-            ,
+            description : `Gebe Zeitraum-Details deines Inserats an, wie z.B. die Mindestmietdauer.`,
             segment : <TimespanDetails thisInserat={thisInserat} ref={timespanDetails} />
+        },
+        {
+            number : 6,
+            title : "Kontaktdetails",
+            description : "Gebe deine Kontaktdetails wie Telefonnummer und E-Mail-Adresse an & Standort des Fahrzeuges an.",
+            segment : ""
         }
     ];
 
