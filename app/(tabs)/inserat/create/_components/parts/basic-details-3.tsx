@@ -160,11 +160,11 @@ const BasicDetails3 = forwardRef(({ thisInserat }: BasicDetails3Props, ref) => {
 
 
 
-                    <View className="mt-4 w-full">
+                    <View className="w-full">
                         <Text className="text-lg font-semibold text-gray-200">
                             Fahrzeugkategorie
                         </Text>
-                        <View className="flex flex-col items-center space-y-4 mt-2">
+                        <View className="flex flex-col items-center space-y-4 mt-4">
                             <View className="flex flex-row items-center w-full justify-evenly">
                                 <TouchableOpacity className={cn("bg-[#1a1e29] w-5/12 p-4 flex-col justify-center items-center rounded-md",
                                     currentCategory === "PKW" && "border border-indigo-800"
@@ -230,11 +230,11 @@ const BasicDetails3 = forwardRef(({ thisInserat }: BasicDetails3Props, ref) => {
                             </View>
                         </View>
                     </View>
-                    <View className="w-full mt-8">
+                    <View className="w-full mt-4">
                         <Text className="text-lg font-semibold text-gray-200">
                             Erw. Fahrzeugkategorie
                         </Text>
-                        <TouchableOpacity className="bg-[#1a1e29] p-4 flex flex-row items-center mt-2 rounded-md"
+                        <TouchableOpacity className="bg-[#1a1e29] p-4 flex flex-row items-center rounded-md"
                             onPress={() => refRBSheet.current[1].open()}
                         >
                             <Text className={cn("text-base text-gray-200 font-semibold", !currentExtraCategory && "text-gray-200/40 font-medium")}>
@@ -246,11 +246,11 @@ const BasicDetails3 = forwardRef(({ thisInserat }: BasicDetails3Props, ref) => {
                         </TouchableOpacity>
                     </View>
 
-                    <View className="w-full mt-8">
+                    <View className="w-full mt-4">
                         <Text className="text-lg font-semibold text-gray-200">
                             Art des Inserates
                         </Text>
-                        <TouchableOpacity className="bg-[#1a1e29] p-4 flex flex-row items-center mt-2 rounded-md"
+                        <TouchableOpacity className="bg-[#1a1e29] p-4 flex flex-row items-center rounded-md"
                             onPress={() => refRBSheet.current[2].open()}
                         >
                             <Text className={cn("text-base text-gray-200 font-semibold", )}>
@@ -262,12 +262,12 @@ const BasicDetails3 = forwardRef(({ thisInserat }: BasicDetails3Props, ref) => {
                         </TouchableOpacity>
                     </View>
 
-                    <View className="w-full mt-8">
+                    <View className="w-full mt-4">
                         <Text className="text-lg font-semibold text-gray-200">
                             Anzahl Fahrzeuge
                         </Text>
                        
-                            <TextInput className={cn("text-base text-gray-200 font-semibold p-4 bg-[#1a1e29] w-full", 
+                            <TextInput className={cn("text-base text-gray-200 font-semibold rounded-md p-4 bg-[#1a1e29] w-full", 
                             !isMulti && "text-gray-200/40 font-medium")}
                             value={isMulti ? amount.toString() : "1"}
                             onChangeText={(e) => setAmount(isMulti ? parseInt(e) || 0 : 1)}

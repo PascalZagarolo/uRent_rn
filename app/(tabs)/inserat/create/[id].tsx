@@ -7,6 +7,8 @@ import { getThisInserat } from "@/actions/inserat/getThisInserat";
 import BasicDetails2 from "./_components/parts/basic-details-2";
 import BasicDetails3 from "./_components/parts/basic-details-3";
 import PriceDetails from "./_components/parts/price-details";
+import ConditionsDetails from "./_components/parts/conditions-details";
+import TimespanDetails from "./_components/parts/timespan-details";
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -19,6 +21,8 @@ const InseratCreationPage = () => {
     const basicDetails2Ref = useRef(null);
     const basicDetails3Ref = useRef(null);
     const priceDetails = useRef(null);
+    const conditionsDetails = useRef(null);
+    const timespanDetails = useRef(null);
 
     useEffect(() => {
         const loadInserat = async () => {
@@ -71,10 +75,24 @@ const InseratCreationPage = () => {
             segment : <BasicDetails3 thisInserat={thisInserat} ref={basicDetails3Ref} />
         },
         {
+
             number : 3,
             title : "Preisdetails",
             description : "Gebe die Preisdetails deines Inserats an.",
             segment : <PriceDetails thisInserat={thisInserat} ref={priceDetails} />
+        },
+        {
+            number : 4,
+            title : "Rahmenbedingungen",
+            description : "Gebe die Rahmenbedingungen deines Inserats an.",
+            segment : <ConditionsDetails thisInserat={thisInserat} ref={conditionsDetails} />
+        },
+        {
+            number : 5,
+            title : "Zeitraum",
+            description : `Gebe Zeitraum-Details deines Inserats an, wie z.B. die Mindestmietdauer.`
+            ,
+            segment : <TimespanDetails thisInserat={thisInserat} ref={timespanDetails} />
         }
     ];
 
@@ -110,13 +128,15 @@ const InseratCreationPage = () => {
                 </View>
                 </View>
                 <View className=" flex flex-row items-center justify-evenly w-full px-4 mt-auto h-1/12">
-                    <TouchableOpacity className=" w-4/12 p-4 flex-col justify-center items-center rounded-md"
-                    onPress={() => setCurrentPage(currentPage - 1)}
-                    >
-                        <Text className="text-gray-200 text-base font-medium text-center">
-                            Zurück
-                        </Text>
-                    </TouchableOpacity>
+                    {currentPage > 0 && (
+                        <TouchableOpacity className=" w-4/12 p-4 flex-col justify-center items-center rounded-md"
+                        onPress={() => setCurrentPage(currentPage - 1)}
+                        >
+                            <Text className="text-gray-200 text-base font-medium text-center">
+                                Zurück
+                            </Text>
+                        </TouchableOpacity>
+                    )}
 
                     <TouchableOpacity className="bg-indigo-800 w-8/12 p-4 flex-row justify-center
                                  space-x-2 items-center rounded-md"
