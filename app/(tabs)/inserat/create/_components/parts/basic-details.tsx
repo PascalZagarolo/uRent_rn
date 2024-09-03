@@ -39,7 +39,7 @@ const BasicDetails = forwardRef(({ thisInserat }: BasicDetailsProps, ref) => {
                         placeholder="Titel deines Inserats..."
                         value={currentTitle}
                         onChangeText={(text) => setCurrentTitle(text)}
-                        className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg mt-2" />
+                        className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg" />
 
                 </View>
 
@@ -47,7 +47,7 @@ const BasicDetails = forwardRef(({ thisInserat }: BasicDetailsProps, ref) => {
                     <Text className="text-lg font-semibold text-gray-200">
                         Beschreibung
                     </Text>
-                    <KeyboardAvoidingView className="mt-2">
+                    <KeyboardAvoidingView className="">
                     <TextInput
                         placeholder="Beschreibe dein Fahrzeug... Farbe, Zustand, etc."
                         value={currentDescription}

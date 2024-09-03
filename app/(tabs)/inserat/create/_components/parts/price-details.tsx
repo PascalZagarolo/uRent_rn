@@ -48,7 +48,7 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                         placeholder="Titel deines Inserats..."
                         value={currentTitle}
                         onChangeText={(text) => setCurrentTitle(text)}
-                        className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg mt-2" />
+                        className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg" />
 
                 </View>
 
@@ -57,7 +57,7 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                         Meine Preisprofile
                     </Text>
 
-                    <TouchableOpacity className="bg-[#1a1e29] w-full p-4 flex-row justify-center items-center rounded-md mt-2"
+                    <TouchableOpacity className="bg-[#1a1e29] w-full p-4 flex-row justify-center items-center rounded-md"
                         onPress={() => { setShowModal(true) }}
                     >
                         <View className="mr-4">
