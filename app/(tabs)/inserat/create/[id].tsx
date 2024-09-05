@@ -10,6 +10,11 @@ import PriceDetails from "./_components/parts/price-details";
 import ConditionsDetails from "./_components/parts/conditions-details";
 import TimespanDetails from "./_components/parts/timespan-details";
 
+import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import AddressDetails from "./_components/parts/address-details";
+import ContactDetails from "./_components/parts/contact-details";
+import PkwDetails from "./_components/parts/categories/pkw-details";
+
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
     const [thisInserat, setThisInserat] = useState(null);
@@ -23,6 +28,13 @@ const InseratCreationPage = () => {
     const priceDetails = useRef(null);
     const conditionsDetails = useRef(null);
     const timespanDetails = useRef(null);
+    const addressDetails = useRef(null);
+    const contactDetails = useRef(null);
+
+    const pkwDetails = useRef(null);
+    const lkwDetails = useRef(null);
+    const transporterDetails = useRef(null);
+    const anhaengerDetails = useRef(null);
 
     useEffect(() => {
         const loadInserat = async () => {
@@ -54,63 +66,105 @@ const InseratCreationPage = () => {
         );
     }
 
+    let usedTitle;
+    let usedSegment;
+
+    
+
+
+    switch(thisInserat?.category) {
+        case "PKW":
+            usedTitle = "Pkw";
+            break;
+        case "LKW":
+            usedTitle = "Lkw";
+            break;
+        case "TRANSPORT":
+            usedTitle = "Transporter";
+            break;
+        case "ANHÄNGER":
+            usedTitle = "Anhänger";
+            break;
+    }
+
+    switch(thisInserat?.category) {
+        case "PKW":
+            usedSegment = <PkwDetails thisInserat={thisInserat} ref={pkwDetails}/>;
+            break;
+        case "LKW":
+
+    }
+
     const pageInfo = [
         {
             number: 0,
             title: "Grundlegende Details (1/2)",
             description: "Gebe die grundlegenden Details deines Inserats an, wie z.B. den Titel und Beschreibung.",
-            segment : <BasicDetails thisInserat={thisInserat} ref={basicDetailsRef}/>
+            segment: <BasicDetails thisInserat={thisInserat} ref={basicDetailsRef} />
         },
         {
             number: 1,
             title: "Bilder hochladen - Grundlegende Details (2/2)",
             description: `Halte hochgeladene Fotos, um sie zu verschieben.
             `,
-            segment : <BasicDetails2 thisInserat={thisInserat} ref={basicDetails2Ref} />
+            segment: <BasicDetails2 thisInserat={thisInserat} ref={basicDetails2Ref} />
         },
         {
-            number : 2,
-            title : "Zusätzliche Details",
-            description : "Füge zusätzliche Details hinzu, wie Preis, Fahrzeugkategorie etc. um dein Inserat zu vervollständigen.",
-            segment : <BasicDetails3 thisInserat={thisInserat} ref={basicDetails3Ref} />
+            number: 2,
+            title: "Zusätzliche Details",
+            description: "Füge zusätzliche Details hinzu, wie Preis, Fahrzeugkategorie etc. um dein Inserat zu vervollständigen.",
+            segment: <BasicDetails3 thisInserat={thisInserat} ref={basicDetails3Ref} />
         },
         {
 
-            number : 3,
-            title : "Preisdetails",
-            description : "Gebe die Preisdetails deines Inserats an.",
-            segment : <PriceDetails thisInserat={thisInserat} ref={priceDetails} />
+            number: 3,
+            title: "Preisdetails",
+            description: "Gebe die Preisdetails deines Inserats an.",
+            segment: <PriceDetails thisInserat={thisInserat} ref={priceDetails} />
         },
         {
-            number : 4,
-            title : "Rahmenbedingungen",
-            description : "Gebe die Rahmenbedingungen deines Inserats an.",
-            segment : <ConditionsDetails thisInserat={thisInserat} ref={conditionsDetails} />
+            number: 4,
+            title: "Rahmenbedingungen",
+            description: "Gebe die Rahmenbedingungen deines Inserats an.",
+            segment: <ConditionsDetails thisInserat={thisInserat} ref={conditionsDetails} />
         },
         {
-            number : 5,
-            title : "Zeitraum",
-            description : `Gebe Zeitraum-Details deines Inserats an, wie z.B. die Mindestmietdauer.`,
-            segment : <TimespanDetails thisInserat={thisInserat} ref={timespanDetails} />
+            number: 5,
+            title: "Zeitraum",
+            description: `Gebe Zeitraum-Details deines Inserats an, wie z.B. die Mindestmietdauer.`,
+            segment: <TimespanDetails thisInserat={thisInserat} ref={timespanDetails} />
         },
         {
-            number : 6,
+            number: 6,
+            title: "Addressdetails",
+            description: "Gebe an wo sich dein Inserat befindet, bzw. wo es abgeholt werden kann.",
+            segment: <AddressDetails thisInserat={thisInserat} ref={addressDetails} />
+        },
+        {
+            number : 7,
             title : "Kontaktdetails",
-            description : "Gebe deine Kontaktdetails wie Telefonnummer und E-Mail-Adresse an & Standort des Fahrzeuges an.",
-            segment : ""
+            description : "Gebe deine Kontaktdetails an, damit Interessenten dich auch ausserhalb von uRent kontaktieren können.",
+            segment : <ContactDetails thisInserat={thisInserat} ref={contactDetails} />
+        },
+        {
+            number : 8,
+            title : usedTitle,
+            description : "Gebe spezifische Details zu deinem Fahrzeug an.",
+            segment : usedSegment
         }
     ];
 
     const handleNext = () => {
         if (basicDetailsRef.current) {
-            basicDetailsRef.current.onSave(); 
+            basicDetailsRef.current.onSave();
         }
-        setCurrentPage((prevPage) => prevPage + 1); 
+        setCurrentPage((prevPage) => prevPage + 1);
     };
 
+    const usedKey = process.env.EXPO_PUBLIC_GOOGLE_CLOUD_SECRET;
+
     return (
-        <View className="flex flex-1 w-full bg-[#1F2332]">
-            <SafeAreaView className="flex-1 flex w-full h-full">
+        <SafeAreaView className="flex-1 flex w-full h-full bg-[#161923]" style={{ width : '100%', height : '100%'}}>
                 <View className="p-4 flex flex-row items-center space-x-4">
                     <TouchableOpacity onPress={() => router.back()}>
                         <FontAwesome name="chevron-left" size={24} color="white" />
@@ -156,7 +210,6 @@ const InseratCreationPage = () => {
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>
-        </View>
     );
 };
 
