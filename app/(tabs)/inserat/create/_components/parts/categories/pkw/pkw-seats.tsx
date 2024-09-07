@@ -5,23 +5,29 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRef } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 
-interface PkwBrandProps {
+interface PkwSeatsProps {
     label: string;
     currentValue: string;
     setValue: (brand: string) => void;
 }
 
 
-const PkwBrand = ({ currentValue, setValue, label }: PkwBrandProps) => {
+const PkwSeats = ({ currentValue, setValue, label }: PkwSeatsProps) => {
 
     const refRBSheet = useRef([]);
 
-    const usedValues = Object.values(BrandEnumRender).map(value => ({
-        string: value,  // Change "label" to "string"
-        value: value
-    }));
+    const usedValues = ([
+        { string: "1", value: "1" },
+        { string: "2", value: "2" },
+        { string: "3", value: "3" },
+        { string: "4", value: "4" },
+        { string: "5", value: "5" },
+        { string: "6", value: "6" },
+        { string: "7", value: "7" },
+        { string: ">7", value: "8" },
 
-    console.log(usedValues);
+    ]);
+
 
     return (
         <View>
@@ -40,7 +46,7 @@ const PkwBrand = ({ currentValue, setValue, label }: PkwBrandProps) => {
             </TouchableOpacity>
             <RbSheetCostum
                 index={1}
-                title="Automarke auswählen"
+                title="Anzahl Sitze auswählen"
                 prefilledValues={usedValues}
                 setCurrentValue={setValue}
                 currentValue={currentValue}
@@ -51,4 +57,4 @@ const PkwBrand = ({ currentValue, setValue, label }: PkwBrandProps) => {
 }
 
 
-export default PkwBrand;
+export default PkwSeats;

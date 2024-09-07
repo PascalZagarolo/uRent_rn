@@ -149,7 +149,7 @@ const InseratCreationPage = () => {
         },
         {
             number : 8,
-            title : usedTitle,
+            title : usedTitle ? `${usedTitle} Details` : "Fahrzeugdetails",
             description : "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment : usedSegment
         }
