@@ -12,7 +12,7 @@ import TimespanDetails from "./_components/parts/timespan-details";
 
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
 import AddressDetails from "./_components/parts/address-details";
-import ContactDetails from "./_components/parts/contact-details";
+
 import PkwDetails from "./_components/parts/categories/pkw-details";
 
 const InseratCreationPage = () => {
