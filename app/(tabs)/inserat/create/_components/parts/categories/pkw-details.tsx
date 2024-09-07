@@ -6,6 +6,8 @@ import { Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
     Keyboard, TouchableWithoutFeedback } from "react-native";
 import PkwBrand from "./pkw/pkw-brand";
 import PkwSeats from "./pkw/pkw-seats";
+import PkwExtraType from "./pkw/pkw-extra-type";
+import PkwTransmission from "./pkw/pkw-transmission";
 
 
 
@@ -38,10 +40,14 @@ const PkwDetails = forwardRef(({ thisInserat }: PkwDetailsProps, ref) => {
                     <PkwBrand label="Marke" currentValue={currentBrand} setValue={setCurrentBrand} />
                 </View>
                 <View className="w-full mt-4">
-                    <PkwSeats label="Marke" currentValue={currentSeats} setValue={setCurrentSeats} />
+                    <PkwSeats label="Anzahl der Sitze" currentValue={currentSeats} setValue={setCurrentSeats} />
                 </View>
-               
-                
+                <View className="w-full mt-4">
+                    <PkwExtraType label="Fahrzeugtyp" currentValue={currentSeats} setValue={setCurrentSeats} />
+                </View>
+                <View className="w-full mt-4">
+                    <PkwTransmission label="Getriebe" currentValue={currentSeats} setValue={setCurrentSeats} />
+                </View>
             </View>
         </TouchableWithoutFeedback>
     );

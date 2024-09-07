@@ -5,21 +5,32 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRef } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 
-interface PkwBrandProps {
+interface PkwExtraTypeProps {
     label: string;
     currentValue: string;
     setValue: (brand: string) => void;
 }
 
 
-const PkwBrand = ({ currentValue, setValue, label }: PkwBrandProps) => {
+const PkwExtraType = ({ currentValue, setValue, label }: PkwExtraTypeProps) => {
 
     const refRBSheet = useRef([]);
 
-    const usedValues = Object.values(BrandEnumRender).map(value => ({
-        string: value,  // Change "label" to "string"
-        value: value
-    }));
+    const usedValues = [
+        { string: "Beliebig", value: null },
+        { string: "Cabrio", value: "CABRIO" },
+        { string: "Coupe", value: "COUPE" },
+        { string: "Geländewagen/Pickup", value: "PICKUP" },
+        { string: "Kastenwagen", value: "KASTENWAGEN" },
+        { string: "Kleinbus", value: "KLEINBUS" },
+        { string: "Kleinwagen", value: "KLEIN" },
+        { string: "Kombi", value: "KOMBI" },
+        { string: "Limousine", value: "LIMOUSINE" },
+        { string: "Sportwagen", value: "SPORT" },
+        { string: "Supersportwagen", value: "SUPERSPORT" },
+        { string: "SUV", value: "SUV" },
+        { string: "Van", value: "VAN" }
+    ];
 
 
     return (
@@ -39,7 +50,7 @@ const PkwBrand = ({ currentValue, setValue, label }: PkwBrandProps) => {
             </TouchableOpacity>
             <RbSheetCostum
                 index={1}
-                title="Automarke auswählen"
+                title="Fahrzeugtyp wählen"
                 prefilledValues={usedValues}
                 setCurrentValue={setValue}
                 currentValue={currentValue}
@@ -50,4 +61,4 @@ const PkwBrand = ({ currentValue, setValue, label }: PkwBrandProps) => {
 }
 
 
-export default PkwBrand;
+export default PkwExtraType;

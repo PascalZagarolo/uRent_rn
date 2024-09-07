@@ -5,21 +5,22 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRef } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 
-interface PkwBrandProps {
+interface PkwTransmissionProps {
     label: string;
     currentValue: string;
     setValue: (brand: string) => void;
 }
 
 
-const PkwBrand = ({ currentValue, setValue, label }: PkwBrandProps) => {
+const PkwTransmission = ({ currentValue, setValue, label }: PkwTransmissionProps) => {
 
     const refRBSheet = useRef([]);
 
-    const usedValues = Object.values(BrandEnumRender).map(value => ({
-        string: value,  // Change "label" to "string"
-        value: value
-    }));
+    const usedValues = [
+        { string: "Manuell", value: "MANUAL" },
+        { string: "Automatisch", value: "AUTOMATIC" },
+        
+    ];
 
 
     return (
@@ -39,7 +40,7 @@ const PkwBrand = ({ currentValue, setValue, label }: PkwBrandProps) => {
             </TouchableOpacity>
             <RbSheetCostum
                 index={1}
-                title="Automarke auswählen"
+                title="Getriebe wählen"
                 prefilledValues={usedValues}
                 setCurrentValue={setValue}
                 currentValue={currentValue}
@@ -50,4 +51,4 @@ const PkwBrand = ({ currentValue, setValue, label }: PkwBrandProps) => {
 }
 
 
-export default PkwBrand;
+export default PkwTransmission;
