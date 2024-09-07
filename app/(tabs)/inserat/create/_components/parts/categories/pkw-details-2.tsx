@@ -8,15 +8,18 @@ import PkwBrand from "./pkw/pkw-brand";
 import PkwSeats from "./pkw/pkw-seats";
 import PkwExtraType from "./pkw/pkw-extra-type";
 import PkwTransmission from "./pkw/pkw-transmission";
+import PkwFuel from "./pkw/pkw-fuel";
+import PkwDoors from "./pkw/pkw-doors";
+import PkwAhk from "./pkw/pkw-ahk";
 
 
 
-interface PkwDetailsProps {
+interface PkwDetails2Props {
     thisInserat: typeof inserat.$inferSelect;
    
 }
 
-const PkwDetails = forwardRef(({ thisInserat }: PkwDetailsProps, ref) => {
+const PkwDetails2 = forwardRef(({ thisInserat }: PkwDetails2Props, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {
@@ -24,12 +27,12 @@ const PkwDetails = forwardRef(({ thisInserat }: PkwDetailsProps, ref) => {
         }
     }));
 
-    const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
     
-   const [currentBrand, setCurrentBrand] = useState(null);
-   const [currentSeats, setCurrentSeats] = useState(null);
-   const [currentExtratype, setCurrentExtratype] = useState(null);
-   const [currentTransmission, setCurrentTransmission] = useState(null);
+    
+    const [currentFuel, setCurrentFuel] = useState(null);
+    const [currentDoors, setCurrentDoors] = useState(null);
+    const [currentAhk, setCurrentAhk] = useState(null);
+    
 
     
 
@@ -39,20 +42,17 @@ const PkwDetails = forwardRef(({ thisInserat }: PkwDetailsProps, ref) => {
                 
 
                 <View className="w-full mt-4">
-                    <PkwBrand label="Marke" currentValue={currentBrand} setValue={setCurrentBrand} />
+                <PkwFuel label="Treibstoff" currentValue={currentFuel} setValue={setCurrentFuel} />  
                 </View>
                 <View className="w-full mt-4">
-                    <PkwSeats label="Anzahl der Sitze" currentValue={currentSeats} setValue={setCurrentSeats} />
+                    <PkwDoors label="Anzahl Türen" currentValue={currentDoors} setValue={setCurrentDoors} />
                 </View>
                 <View className="w-full mt-4">
-                    <PkwExtraType label="Fahrzeugtyp" currentValue={currentExtratype} setValue={setCurrentExtratype} />
-                </View>
-                <View className="w-full mt-4">
-                    <PkwTransmission label="Getriebe" currentValue={currentTransmission} setValue={setCurrentTransmission} />
+                    <PkwAhk label="Anhängerkupplung" currentValue={currentAhk} setValue={setCurrentAhk} />
                 </View>
             </View>
         </TouchableWithoutFeedback>
     );
 });
 
-export default PkwDetails;
+export default PkwDetails2;
