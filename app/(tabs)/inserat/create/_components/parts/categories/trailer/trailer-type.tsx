@@ -23,7 +23,6 @@ const TrailerType = ({ currentValue, setValue, label }: TrailerTypeProps) => {
         { value: "KLEIN", string: "Kleinanhänger" },
     ];
 
-
     return (
         <View>
             <Text className="text-lg font-semibold text-gray-200">
