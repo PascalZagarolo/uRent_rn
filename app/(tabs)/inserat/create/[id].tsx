@@ -69,7 +69,7 @@ const InseratCreationPage = () => {
     }
 
     let usedTitle;
-    let usedSegment : { firstSegment, secondSegment };
+    let usedSegment : { firstSegment, secondSegment } = { firstSegment : null, secondSegment : null };
 
     
 
@@ -151,15 +151,15 @@ const InseratCreationPage = () => {
         },
         {
             number : 8,
-            title : usedTitle ? `${usedTitle} Details` : "Fahrzeugdetails",
+            title : usedTitle ? `${usedTitle} Details (1/2)` : "Fahrzeugdetails",
             description : "Gebe spezifische Details zu deinem Fahrzeug an.",
-            segment : usedSegment
+            segment : usedSegment?.firstSegment
         },
         {
             number : 9,
-            title : usedTitle ? `${usedTitle} Details` : "Fahrzeugdetails",
+            title : usedTitle ? `${usedTitle} Details (2/2)` : "Fahrzeugdetails",
             description : "Gebe spezifische Details zu deinem Fahrzeug an.",
-            segment : usedSegment.firstSegment
+            segment : usedSegment?.secondSegment
         }
     ];
 
