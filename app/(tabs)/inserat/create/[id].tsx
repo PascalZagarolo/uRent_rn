@@ -15,6 +15,7 @@ import AddressDetails from "./_components/parts/address-details";
 
 import PkwDetails from "./_components/parts/categories/pkw-details";
 import ContactDetails from "./_components/parts/contact-details";
+import PkwDetails2 from "./_components/parts/categories/pkw-details-2";
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -68,7 +69,7 @@ const InseratCreationPage = () => {
     }
 
     let usedTitle;
-    let usedSegment;
+    let usedSegment : { firstSegment, secondSegment };
 
     
 
@@ -90,7 +91,8 @@ const InseratCreationPage = () => {
 
     switch(thisInserat?.category) {
         case "PKW":
-            usedSegment = <PkwDetails thisInserat={thisInserat} ref={pkwDetails}/>;
+            usedSegment.firstSegment = <PkwDetails thisInserat={thisInserat} ref={pkwDetails}/>;
+            usedSegment.secondSegment = <PkwDetails2 thisInserat={thisInserat} ref={pkwDetails}/>;
             break;
         case "LKW":
 
@@ -152,6 +154,12 @@ const InseratCreationPage = () => {
             title : usedTitle ? `${usedTitle} Details` : "Fahrzeugdetails",
             description : "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment : usedSegment
+        },
+        {
+            number : 9,
+            title : usedTitle ? `${usedTitle} Details` : "Fahrzeugdetails",
+            description : "Gebe spezifische Details zu deinem Fahrzeug an.",
+            segment : usedSegment.firstSegment
         }
     ];
 
