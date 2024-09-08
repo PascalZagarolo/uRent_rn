@@ -5,25 +5,23 @@ import { FontAwesome } from "@expo/vector-icons";
 import { useRef } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 
-interface LkwAxisProps {
+interface TransportWeightclassProps {
     label: string;
     currentValue: string;
     setValue: (brand: string) => void;
 }
 
 
-const LkwAxis = ({ currentValue, setValue, label }: LkwAxisProps) => {
+const TransportWeightclass = ({ currentValue, setValue, label }: TransportWeightclassProps) => {
 
     const refRBSheet = useRef([]);
 
     const usedValues = ([
-        { value : "2", string : "2" },
-        { value : "3", string : "3" },
-        { value : "4", string : "4" },
-        { value : "5", string : ">4" }
-
+        { value: 280, string: "2,8 t" },
+        { value: 350, string: "3,5 t" },
+        { value: 550, string: "5,5 t" },
     ]);
-    
+
 
     return (
         <View>
@@ -42,7 +40,7 @@ const LkwAxis = ({ currentValue, setValue, label }: LkwAxisProps) => {
             </TouchableOpacity>
             <RbSheetCostum
                 index={1}
-                title="Anzahl Achsen auswählen"
+                title="Gewichtsklasse auswählen"
                 prefilledValues={usedValues}
                 setCurrentValue={setValue}
                 currentValue={currentValue}
@@ -53,4 +51,4 @@ const LkwAxis = ({ currentValue, setValue, label }: LkwAxisProps) => {
 }
 
 
-export default LkwAxis;
+export default TransportWeightclass;
