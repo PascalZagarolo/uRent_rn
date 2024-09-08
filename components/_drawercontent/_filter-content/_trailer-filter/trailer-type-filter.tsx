@@ -22,9 +22,7 @@ const TrailerTypeFilter = () => {
         { value : "SATTEL", string: "Auflieger" },
         { value: "ANHAENGER", string: "Anhänger" },
         { value : "VERANSTALTUNG", string: "Freizeit & Veranstaltung" },
-        
         { value: "KLEIN", string: "Kleinanhänger" },
-        
     ];
 
     function getWeightString(value) {
