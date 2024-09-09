@@ -22,6 +22,8 @@ import TrailerDetails from "./_components/parts/categories/trailer-details";
 import TrailerDetails2 from "./_components/parts/categories/trailer-details-2";
 import TransportDetails from "./_components/parts/categories/transport-details";
 import TransportDetails2 from "./_components/parts/categories/transport-details-2";
+import { desc } from "drizzle-orm";
+import FurtherDetails from "./_components/parts/categories/further-details";
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -40,9 +42,13 @@ const InseratCreationPage = () => {
     const contactDetails = useRef(null);
 
     const pkwDetails = useRef(null);
+    const pkwDetails2 = useRef(null);
     const lkwDetails = useRef(null);
+    const lkwDetails2 = useRef(null);
     const transporterDetails = useRef(null);
+    const transporterDetails2 = useRef(null);
     const anhaengerDetails = useRef(null);
+    const anhaengerDetails2 = useRef(null);
 
     useEffect(() => {
         const loadInserat = async () => {
@@ -98,17 +104,17 @@ const InseratCreationPage = () => {
     switch(thisInserat?.category) {
         case "PKW":
             usedSegment.firstSegment = <PkwDetails thisInserat={thisInserat} ref={pkwDetails}/>;
-            usedSegment.secondSegment = <PkwDetails2 thisInserat={thisInserat} ref={pkwDetails}/>;
+            usedSegment.secondSegment = <PkwDetails2 thisInserat={thisInserat} ref={pkwDetails2}/>;
             break;
         case "LKW":
             usedSegment.firstSegment = <LkwDetails thisInserat={thisInserat} ref={lkwDetails}/>;
-            usedSegment.secondSegment = <LkwDetails2 thisInserat={thisInserat} ref={pkwDetails}/>;
+            usedSegment.secondSegment = <LkwDetails2 thisInserat={thisInserat} ref={lkwDetails2}/>;
         case "TRANSPORT":
             usedSegment.firstSegment = <TransportDetails thisInserat={thisInserat} ref={transporterDetails}/>;
-            usedSegment.secondSegment = <TransportDetails2 thisInserat={thisInserat} ref={transporterDetails}/>;
+            usedSegment.secondSegment = <TransportDetails2 thisInserat={thisInserat} ref={transporterDetails2}/>;
         case "ANHÄNGER":
             usedSegment.firstSegment = <TrailerDetails thisInserat={thisInserat} ref={anhaengerDetails}/>;
-            usedSegment.secondSegment = <TrailerDetails2 thisInserat={thisInserat} ref={anhaengerDetails}/>;
+            usedSegment.secondSegment = <TrailerDetails2 thisInserat={thisInserat} ref={anhaengerDetails2}/>;
     }
 
     const pageInfo = [
@@ -164,15 +170,21 @@ const InseratCreationPage = () => {
         },
         {
             number : 8,
-            title : usedTitle ? `${usedTitle} Details (1/2)` : "Fahrzeugdetails",
+            title : usedTitle ? `${usedTitle} Details (1/3)` : "Fahrzeugdetails",
             description : "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment : usedSegment?.firstSegment
         },
         {
             number : 9,
-            title : usedTitle ? `${usedTitle} Details (2/2)` : "Fahrzeugdetails",
+            title : usedTitle ? `${usedTitle} Details (2/3)` : "Fahrzeugdetails",
             description : "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment : usedSegment?.secondSegment
+        },
+        {
+            number : 10,
+            title : usedTitle ? `${usedTitle} Details (3/3)` : "Fahrzeugdetails",
+            description : "Gebe spezifische Details zu deinem Fahrzeug an.",
+            segment : <FurtherDetails thisInserat={thisInserat} />
         }
     ];
 

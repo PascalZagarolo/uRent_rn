@@ -193,11 +193,6 @@ const LoadingRoomFilter = () => {
                         </Text>
                 </View>
             </View>
-
-
-            
-
-            
         </View>
     );
 }

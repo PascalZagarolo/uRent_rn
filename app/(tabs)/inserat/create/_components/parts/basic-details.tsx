@@ -39,7 +39,7 @@ const BasicDetails = forwardRef(({ thisInserat }: BasicDetailsProps, ref) => {
                         placeholder="Titel deines Inserats..."
                         value={currentTitle}
                         onChangeText={(text) => setCurrentTitle(text)}
-                        className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg" />
+                        className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg" />
 
                 </View>
 
@@ -54,7 +54,7 @@ const BasicDetails = forwardRef(({ thisInserat }: BasicDetailsProps, ref) => {
                         onChangeText={(text) => setCurrentDescription(text)}
                         multiline={true}
                         numberOfLines={8}
-                        className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg h-2/3"
+                        className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg h-2/3"
                         textAlignVertical="top"
                     />
                     </KeyboardAvoidingView>
