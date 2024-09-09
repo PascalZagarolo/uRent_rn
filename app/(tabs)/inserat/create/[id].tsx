@@ -16,6 +16,10 @@ import AddressDetails from "./_components/parts/address-details";
 import PkwDetails from "./_components/parts/categories/pkw-details";
 import ContactDetails from "./_components/parts/contact-details";
 import PkwDetails2 from "./_components/parts/categories/pkw-details-2";
+import LkwDetails from "./_components/parts/categories/lkw-details";
+import LkwDetails2 from "./_components/parts/categories/lkw-details-2";
+import TrailerDetails from "./_components/parts/categories/trailer-details";
+import TrailerDetails2 from "./_components/parts/categories/trailer-details-2";
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -95,7 +99,13 @@ const InseratCreationPage = () => {
             usedSegment.secondSegment = <PkwDetails2 thisInserat={thisInserat} ref={pkwDetails}/>;
             break;
         case "LKW":
+            usedSegment.firstSegment = <LkwDetails thisInserat={thisInserat} ref={lkwDetails}/>;
+            usedSegment.secondSegment = <LkwDetails2 thisInserat={thisInserat} ref={pkwDetails}/>;
+        case "TRANSPORT":
 
+        case "ANHÄNGER":
+            usedSegment.firstSegment = <TrailerDetails thisInserat={thisInserat} ref={anhaengerDetails}/>;
+            usedSegment.secondSegment = <TrailerDetails2 thisInserat={thisInserat} ref={anhaengerDetails}/>;
     }
 
     const pageInfo = [
