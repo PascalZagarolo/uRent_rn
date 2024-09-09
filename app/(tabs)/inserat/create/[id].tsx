@@ -20,6 +20,8 @@ import LkwDetails from "./_components/parts/categories/lkw-details";
 import LkwDetails2 from "./_components/parts/categories/lkw-details-2";
 import TrailerDetails from "./_components/parts/categories/trailer-details";
 import TrailerDetails2 from "./_components/parts/categories/trailer-details-2";
+import TransportDetails from "./_components/parts/categories/transport-details";
+import TransportDetails2 from "./_components/parts/categories/transport-details-2";
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
