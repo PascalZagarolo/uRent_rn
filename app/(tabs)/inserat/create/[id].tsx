@@ -102,7 +102,8 @@ const InseratCreationPage = () => {
             usedSegment.firstSegment = <LkwDetails thisInserat={thisInserat} ref={lkwDetails}/>;
             usedSegment.secondSegment = <LkwDetails2 thisInserat={thisInserat} ref={pkwDetails}/>;
         case "TRANSPORT":
-
+            usedSegment.firstSegment = <TransportDetails thisInserat={thisInserat} ref={transporterDetails}/>;
+            usedSegment.secondSegment = <TransportDetails2 thisInserat={thisInserat} ref={transporterDetails}/>;
         case "ANHÄNGER":
             usedSegment.firstSegment = <TrailerDetails thisInserat={thisInserat} ref={anhaengerDetails}/>;
             usedSegment.secondSegment = <TrailerDetails2 thisInserat={thisInserat} ref={anhaengerDetails}/>;
