@@ -9,20 +9,42 @@ import {
     ScrollView
 } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
+import * as SecureStorage from 'expo-secure-store';
+import { editInseratBasic } from "@/actions/inserat/edit/edit-inserat-basic";
 
 
 
 interface BasicDetails3Props {
     thisInserat: typeof inserat.$inferSelect;
-
+    refetchInserat : () => void;
 }
 
-const BasicDetails3 = forwardRef(({ thisInserat }: BasicDetails3Props, ref) => {
+const BasicDetails3 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails3Props, ref) => {
+
+    const [isLoading, setIsLoading] = useState(false);
 
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
-            console.log("Saving:", currentCategory);
+        onSave: async () => {
+            try {
+                console.log("2000")
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    category : currentCategory,
+                    extraCategory : currentExtraCategory,
+                    multi : isMulti,
+                    amount : amount
+                } 
+                await editInseratBasic(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
@@ -234,7 +256,7 @@ const BasicDetails3 = forwardRef(({ thisInserat }: BasicDetails3Props, ref) => {
                         <Text className="text-lg font-semibold text-gray-200">
                             Erw. Fahrzeugkategorie
                         </Text>
-                        <TouchableOpacity className="bg-[#1a1e29] p-4 flex flex-row items-center rounded-md"
+                        <TouchableOpacity className="bg-[#1a1d29] p-4 flex flex-row items-center rounded-md"
                             onPress={() => refRBSheet.current[1].open()}
                         >
                             <Text className={cn("text-base text-gray-200 font-semibold", !currentExtraCategory && "text-gray-200/40 font-medium")}>
@@ -250,7 +272,7 @@ const BasicDetails3 = forwardRef(({ thisInserat }: BasicDetails3Props, ref) => {
                         <Text className="text-lg font-semibold text-gray-200">
                             Art des Inserates
                         </Text>
-                        <TouchableOpacity className="bg-[#1a1e29] p-4 flex flex-row items-center rounded-md"
+                        <TouchableOpacity className="bg-[#1a1d29] p-4 flex flex-row items-center rounded-md"
                             onPress={() => refRBSheet.current[2].open()}
                         >
                             <Text className={cn("text-base text-gray-200 font-semibold", )}>
@@ -267,8 +289,9 @@ const BasicDetails3 = forwardRef(({ thisInserat }: BasicDetails3Props, ref) => {
                             Anzahl Fahrzeuge
                         </Text>
                        
-                            <TextInput className={cn("text-base text-gray-200 font-semibold rounded-md p-4 bg-[#1a1e29] w-full", 
+                            <TextInput className={cn("text-base text-gray-200 font-semibold rounded-md p-4 bg-[#1f2330] w-full", 
                             !isMulti && "text-gray-200/40 font-medium")}
+                            editable={isMulti}
                             value={isMulti ? amount.toString() : "1"}
                             onChangeText={(e) => setAmount(isMulti ? parseInt(e) || 0 : 1)}
                             />

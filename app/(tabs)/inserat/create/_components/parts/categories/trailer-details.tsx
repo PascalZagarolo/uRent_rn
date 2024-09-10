@@ -22,10 +22,10 @@ import TrailerBrak from "./trailer/trailer-brake";
 
 interface TrailerDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-
+    refetchInserat : () => void;
 }
 
-const TrailerDetails = forwardRef(({ thisInserat }: TrailerDetailsProps, ref) => {
+const TrailerDetails = forwardRef(({ thisInserat, refetchInserat }: TrailerDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {

@@ -15,12 +15,11 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 interface BasicDetails2Props {
     thisInserat : typeof inserat.$inferSelect;
+    refetchInserat : () => void;
 }
 
-const BasicDetails2 = forwardRef(({ thisInserat }: BasicDetails2Props, ref) => {
-    const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
-    const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
-    const [currentCategory, setCurrentCategory] = useState<string>(thisInserat.category);
+const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2Props, ref) => {
+
     const [showModal, setShowModal] = useState(false);
 
     useImperativeHandle(ref, () => ({
@@ -101,8 +100,8 @@ const BasicDetails2 = forwardRef(({ thisInserat }: BasicDetails2Props, ref) => {
                 <View className="flex flex-col items-center w-full">
                     
                     <View className="w-full">
-                        <TouchableOpacity className="w-full bg-[#1a1e29] p-4 rounded-lg mt-4 
-                    flex-row items-center justify-center space-x-4"
+                        <TouchableOpacity className="w-full bg-indigo-800 p-4 rounded-lg mt-4 
+                    flex-row items-center justify-center space-x-4 border "
                             onPress={() => setShowModal(true)}
                         >
                             <View>

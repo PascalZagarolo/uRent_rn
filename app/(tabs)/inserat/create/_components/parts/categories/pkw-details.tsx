@@ -13,10 +13,10 @@ import PkwTransmission from "./pkw/pkw-transmission";
 
 interface PkwDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-   
+    refetchInserat : () => void;
 }
 
-const PkwDetails = forwardRef(({ thisInserat }: PkwDetailsProps, ref) => {
+const PkwDetails = forwardRef(({ thisInserat, refetchInserat }: PkwDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {

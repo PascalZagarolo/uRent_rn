@@ -46,7 +46,7 @@ const LoadingVolume = ({ currentValue, currentValue2, setValue, setValue2, label
             <View className="">
                 <View className="w-full">
                    
-                    <View className="flex flex-row w-full mt-2 justify-center space-x-4 px-8">
+                    <View className="flex flex-row w-full mt-2 justify-center space-x-4 px-2">
                         <View className="w-1/2">
                             <Text className="text-base font-semibold text-gray-200">
                                 Liter
@@ -54,8 +54,8 @@ const LoadingVolume = ({ currentValue, currentValue2, setValue, setValue2, label
                             <View className="flex flex-row w-full">
                                 <TextInput
                                     className={
-                                        cn("w-full bg-[#181b25] rounded-l-md text-base text-gray-200/90 p-4 font-semibold",
-                                            !usesLiter && "bg-[#1d202c] text-gray-200/60"
+                                        cn("w-full bg-[#212533] rounded-md text-base text-gray-200/90 p-4 font-semibold ",
+                                            !usesLiter ? "border-none text-gray-200/40 font-normal bg-[#1a1d29] " : "border border-indigo-900"
                                         )
                                     }
                                     placeholder="Startpreis"
@@ -80,8 +80,8 @@ const LoadingVolume = ({ currentValue, currentValue2, setValue, setValue2, label
                             <View className="flex flex-row w-full">
                                 <TextInput
                                     className={
-                                        cn("w-full bg-[#181b25] rounded-l-md text-base text-gray-200/90 p-4 font-semibold",
-                                            usesLiter && "bg-[#1d202c] text-gray-200/60"
+                                        cn("w-full bg-[#212533] rounded-md text-base text-gray-200/90 p-4 font-semibold ",
+                                            usesLiter ? "border-none text-gray-200/40 font-normal bg-[#1a1d29] " : "border border-indigo-900"
                                         )
                                     }
                                     placeholder="Endpreis"

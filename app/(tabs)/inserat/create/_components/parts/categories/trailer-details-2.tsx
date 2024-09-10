@@ -24,10 +24,10 @@ import TrailerLoading from "./trailer/trailer-loading";
 
 interface TrailerDetails2Props {
     thisInserat: typeof inserat.$inferSelect;
-
+    refetchInserat : () => void;
 }
 
-const TrailerDetails2 = forwardRef(({ thisInserat }: TrailerDetails2Props, ref) => {
+const TrailerDetails2 = forwardRef(({ thisInserat, refetchInserat }: TrailerDetails2Props, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {

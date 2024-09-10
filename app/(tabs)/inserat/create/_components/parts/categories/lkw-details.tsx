@@ -16,10 +16,10 @@ import LkwBrand from "./lkw/lkw-brand";
 
 interface LkwDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-   
+    refetchInserat : () => void;
 }
 
-const LkwDetails = forwardRef(({ thisInserat }: LkwDetailsProps, ref) => {
+const LkwDetails = forwardRef(({ thisInserat, refetchInserat }: LkwDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {

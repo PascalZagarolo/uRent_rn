@@ -42,7 +42,7 @@ const LoadingSize = ({ currentValue, currentValue2, currentValue3,
 
     return (
         <View>
-            <View className="flex flex-row w-full mt-2 justify-center space-x-4 px-10">
+            <View className="flex flex-row w-full mt-2 justify-center space-x-4 px-4">
                     <View className="w-1/3">
                         <Text className="text-base font-semibold text-gray-200">
                         Länge
@@ -50,7 +50,7 @@ const LoadingSize = ({ currentValue, currentValue2, currentValue3,
                         <View className="flex flex-row w-full">
                             <TextInput
                                 className={
-                                    cn("w-full bg-[#181b25] rounded-l-md text-base text-gray-200/90 p-4 font-semibold")
+                                    cn("w-full bg-[#1f2330] rounded-md text-base text-gray-200/90 p-4 font-semibold")
                                 }
                                 placeholder="in Meter"
 
@@ -73,7 +73,7 @@ const LoadingSize = ({ currentValue, currentValue2, currentValue3,
                         <View className="flex flex-row w-full">
                             <TextInput
                                 className={
-                                    cn("w-full bg-[#181b25] rounded-l-md text-base text-gray-200/90 p-4 font-semibold")
+                                    cn("w-full bg-[#1f2330] rounded-md text-base text-gray-200/90 p-4 font-semibold")
                                 }
                                 placeholder="in Meter"
                                 
@@ -98,7 +98,7 @@ const LoadingSize = ({ currentValue, currentValue2, currentValue3,
                         <View className="flex flex-row w-full">
                             <TextInput
                                 className={
-                                    cn("w-full bg-[#181b25] rounded-l-md text-base text-gray-200/90 p-4 font-semibold",
+                                    cn("w-full bg-[#1f2330] rounded-md text-base text-gray-200/90 p-4 font-semibold",
                                     
                                     )
                                 }

@@ -20,10 +20,10 @@ import LkwLoading from "./lkw/lkw-loading";
 
 interface LkwDetails2Props {
     thisInserat: typeof inserat.$inferSelect;
-
+    refetchInserat : () => void;
 }
 
-const LkwDetails2 = forwardRef(({ thisInserat }: LkwDetails2Props, ref) => {
+const LkwDetails2 = forwardRef(({ thisInserat, refetchInserat }: LkwDetails2Props, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {

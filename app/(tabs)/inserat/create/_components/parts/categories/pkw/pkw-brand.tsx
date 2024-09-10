@@ -27,7 +27,7 @@ const PkwBrand = ({ currentValue, setValue, label }: PkwBrandProps) => {
             <Text className="text-lg font-semibold text-gray-200">
                 {label}
             </Text>
-            <TouchableOpacity className="bg-[#1a1e29] p-4 flex flex-row items-center rounded-md"
+            <TouchableOpacity className="bg-[#1a1d29] p-4 flex flex-row items-center rounded-md"
                 onPress={() => refRBSheet.current[1].open()}
             >
                 <Text className={cn("text-base text-gray-200 font-semibold", !currentValue && "text-gray-200/40 font-medium")}>

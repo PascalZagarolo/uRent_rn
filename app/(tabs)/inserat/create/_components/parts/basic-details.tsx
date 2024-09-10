@@ -1,29 +1,49 @@
+import { editInseratBasic } from "@/actions/inserat/edit/edit-inserat-basic";
 import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, 
     Keyboard, TouchableWithoutFeedback } from "react-native";
-
+import * as SecureStorage from "expo-secure-store";
 
 
 interface BasicDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-   
+    refetchInserat : () => void;
 }
 
-const BasicDetails = forwardRef(({ thisInserat }: BasicDetailsProps, ref) => {
+const BasicDetails = forwardRef(({ thisInserat, refetchInserat }: BasicDetailsProps, ref) => {
+
+    const [isLoading, setIsLoading] = useState(false);
 
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
-            console.log("Saving:", currentTitle, currentDescription);
+        onSave: async () => {
+            try {
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                console.log(thisInserat?.id)
+
+                const values = {
+                    inseratId : thisInserat.id,
+                    title : currentTitle,
+                    description : currentDescription,
+                    token : authToken
+                }
+
+                await editInseratBasic(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
     const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
     const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
-    const [currentCategory, setCurrentCategory] = useState(thisInserat.description);
+    
    
 
     

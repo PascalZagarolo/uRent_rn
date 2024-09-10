@@ -16,10 +16,10 @@ import PkwAhk from "./pkw/pkw-ahk";
 
 interface PkwDetails2Props {
     thisInserat: typeof inserat.$inferSelect;
-   
+    refetchInserat : () => void;
 }
 
-const PkwDetails2 = forwardRef(({ thisInserat }: PkwDetails2Props, ref) => {
+const PkwDetails2 = forwardRef(({ thisInserat, refetchInserat }: PkwDetails2Props, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {

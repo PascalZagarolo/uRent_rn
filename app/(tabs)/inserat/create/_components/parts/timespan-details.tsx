@@ -14,10 +14,10 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 interface TimespanDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-
+    refetchInserat : () => void;
 }
 
-const TimespanDetails = forwardRef(({ thisInserat }: TimespanDetailsProps, ref) => {
+const TimespanDetails = forwardRef(({ thisInserat, refetchInserat }: TimespanDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {

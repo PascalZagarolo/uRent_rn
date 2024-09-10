@@ -12,10 +12,10 @@ import {
 
 interface ContactDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-
+    refetchInserat : () => void;
 }
 
-const ContactDetails = forwardRef(({ thisInserat }: ContactDetailsProps, ref) => {
+const ContactDetails = forwardRef(({ thisInserat, refetchInserat }: ContactDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {
@@ -42,7 +42,7 @@ const ContactDetails = forwardRef(({ thisInserat }: ContactDetailsProps, ref) =>
                     </Text>
                     <View className="flex flex-row w-full">
                         <TextInput
-                            className="w-10/12 bg-[#1c1f2b] rounded-l-md text-base text-gray-200/90 p-4 font-semibold"
+                            className="w-10/12 bg-[#1f2330] rounded-l-md text-base text-gray-200/90 p-4 font-semibold"
                             placeholder="Gebe deine Email-Addresse ein.."
 
                             value={currentEmail}
@@ -50,7 +50,7 @@ const ContactDetails = forwardRef(({ thisInserat }: ContactDetailsProps, ref) =>
                             onChangeText={(text) => setCurrentEmail(text)}
                         />
                         <TouchableOpacity
-                            className="w-2/12 flex justify-center items-center rounded-r-md bg-[#1e212e]"
+                            className="w-2/12 flex justify-center items-center rounded-r-md bg-[#1a1d29]"
                             onPress={() => { refRBSheet.current[1].open() }}
                         >
                             <FontAwesome name="chevron-down" size={20} color="white" />
@@ -69,10 +69,10 @@ const ContactDetails = forwardRef(({ thisInserat }: ContactDetailsProps, ref) =>
                             value={currentPhone}
                             onChangeText={(text) => setCurrentPhone(text)}
 
-                            className="w-10/12 bg-[#1c1f2b] rounded-l-md text-base text-gray-200/90 p-4 font-semibold"
+                            className="w-10/12 bg-[#1f2330] rounded-l-md text-base text-gray-200/90 p-4 font-semibold"
                         />
                         <TouchableOpacity
-                            className="w-2/12 flex justify-center items-center rounded-r-md bg-[#1e212e]"
+                            className="w-2/12 flex justify-center items-center rounded-r-md bg-[#1a1d29]"
                             onPress={() => { refRBSheet.current[1].open() }}
                         >
                             <FontAwesome name="chevron-down" size={20} color="white" />

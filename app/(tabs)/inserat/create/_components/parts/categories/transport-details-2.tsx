@@ -21,10 +21,10 @@ import TransportLoading from "./transport/transport-loading";
 
 interface TransportDetails2Props {
     thisInserat: typeof inserat.$inferSelect;
-   
+    refetchInserat : () => void;
 }
 
-const TransportDetails2 = forwardRef(({ thisInserat }: TransportDetails2Props, ref) => {
+const TransportDetails2 = forwardRef(({ thisInserat, refetchInserat }: TransportDetails2Props, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {

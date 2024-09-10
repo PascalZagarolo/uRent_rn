@@ -14,10 +14,10 @@ import RBSheet from "react-native-raw-bottom-sheet";
 
 interface ConditionsDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-
+    refetchInserat : () => void;
 }
 
-const ConditionsDetails = forwardRef(({ thisInserat }: ConditionsDetailsProps, ref) => {
+const ConditionsDetails = forwardRef(({ thisInserat, refetchInserat }: ConditionsDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {
@@ -98,7 +98,7 @@ const ConditionsDetails = forwardRef(({ thisInserat }: ConditionsDetailsProps, r
                         value={currentCaution}
                         keyboardType="numeric"
                         onChangeText={(text) => setCaution(text)}
-                        className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg" />
+                        className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg" />
 
                 </View>
                 
@@ -129,7 +129,7 @@ const ConditionsDetails = forwardRef(({ thisInserat }: ConditionsDetailsProps, r
                         <TouchableOpacity className="bg-[#1a1e29] p-4 flex flex-row items-center  rounded-md"
                             onPress={() => refRBSheet.current[2].open()}
                         >
-                            <Text className={cn("text-base text-gray-200 font-semibold", )}>
+                            <Text className={cn("text-base text-gray-200 font-semibold", !currentLicense && "text-gray-200/40 font-medium" )}>
                                 {currentLicense ? currentLicense : "Beliebig"}
                             </Text>
                             <View className="ml-auto">

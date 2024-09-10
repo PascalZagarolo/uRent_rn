@@ -18,10 +18,10 @@ import TransportBrand from "./transport/transport-brand";
 
 interface TransportDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-   
+    refetchInserat : () => void;
 }
 
-const TransportDetails = forwardRef(({ thisInserat }: TransportDetailsProps, ref) => {
+const TransportDetails = forwardRef(({ thisInserat, refetchInserat }: TransportDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {

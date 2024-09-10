@@ -17,10 +17,10 @@ import LoadingSize from "./further/loading-size";
 
 interface FurtherDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-   
+    refetchInserat : () => void;
 }
 
-const FurtherDetails = forwardRef(({ thisInserat }: FurtherDetailsProps, ref) => {
+const FurtherDetails = forwardRef(({ thisInserat, refetchInserat }: FurtherDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {

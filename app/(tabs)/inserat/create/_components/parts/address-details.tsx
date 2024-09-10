@@ -13,10 +13,10 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 
 interface AddressDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-
+    refetchInserat : () => void;
 }
 
-const AddressDetails = forwardRef(({ thisInserat }: AddressDetailsProps, ref) => {
+const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {

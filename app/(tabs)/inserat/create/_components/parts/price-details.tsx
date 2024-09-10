@@ -15,10 +15,10 @@ import EditPriceProfile from "./price-details/edit-price-profile";
 
 interface PriceDetailsProps {
     thisInserat: typeof inserat.$inferSelect | any;
-
+    refetchInserat : () => void;
 }
 
-const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
+const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {
@@ -48,7 +48,7 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                         placeholder="Titel deines Inserats..."
                         value={currentTitle}
                         onChangeText={(text) => setCurrentTitle(text)}
-                        className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg" />
+                        className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg" />
 
                 </View>
 
@@ -57,7 +57,7 @@ const PriceDetails = forwardRef(({ thisInserat }: PriceDetailsProps, ref) => {
                         Meine Preisprofile
                     </Text>
 
-                    <TouchableOpacity className="bg-[#1a1e29] w-full p-4 flex-row justify-center items-center rounded-md"
+                    <TouchableOpacity className="bg-indigo-800 w-full p-4 flex-row justify-center items-center rounded-md"
                         onPress={() => { setShowModal(true) }}
                     >
                         <View className="mr-4">
