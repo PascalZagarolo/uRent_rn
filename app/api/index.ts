@@ -1,15 +1,14 @@
-
 'use server'
 
 import JWT from 'expo-jwt';
 
 
-import { sign } from "react-native-pure-jwt";
+
 
 import db from "@/db/drizzle"
 import { twoFactorToken, userTable } from "@/db/schema"
 import { eq } from "drizzle-orm"
-import bcrypt from 'bcryptjs';
+
 import axios from 'axios';
 
 
