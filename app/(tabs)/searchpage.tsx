@@ -7,7 +7,7 @@ import * as SecureStore from 'expo-secure-store';
 
 
 
-const SearchPage = async () => {
+const SearchPage = () => {
 
     
 

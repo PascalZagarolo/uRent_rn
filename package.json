@@ -70,7 +70,7 @@
     "lucide-react-native": "^0.416.0",
     "native-base": "^3.4.28",
     "nativewind": "^2.0.11",
-    "next": "^14.2.5",
+    "next": "^14.2.20",
     "next-expo": "^1.0.0",
     "node-libs-browser": "^2.2.1",
     "nodemon": "^3.1.4",
@@ -112,6 +112,7 @@
     "react-native-uuid": "^2.0.2",
     "react-native-vector-icons": "^10.1.0",
     "react-native-web": "~0.19.13",
+    "react-server-dom-webpack": "^19.0.0-rc-a03254bc-20240905",
     "readable-stream": "^1.0.33",
     "resend": "^4.0.0",
     "socket.io": "^4.7.5",
@@ -123,6 +124,7 @@
     "url": "^0.10.3",
     "util": "^0.10.4",
     "vm-browserify": "^0.0.4",
+    "zod": "^3.23.8",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

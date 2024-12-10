@@ -11,17 +11,27 @@ export const AuthProvider = ({ children }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        console.log("...")
         const retrieveCurrentUser = async () => {
             try {
+                console.log("test")
                 const foundToken = await SecureStore.getItemAsync("authToken");
+               
                 if (foundToken) {
-                    const res = await getCurrentUser(foundToken);
-                    setCurrentUser(res);
+                    console.log("test")
+                    const res = null;
+                    //const res = await getCurrentUser(foundToken);
+                    
+                    if(res) {
+                        setCurrentUser(res);
+                    } else {
+                        setCurrentUser(null);
+                    }
                 } else {
                     setCurrentUser(null);
                 }
             } catch (error) {
-                console.error("Failed to retrieve current user:", error);
+                console.error("Failed to retrieve current user1:", error);
             } finally {
                 setIsLoading(false);
             }
@@ -41,7 +51,7 @@ export const AuthProvider = ({ children }) => {
                 setCurrentUser(null);
             }
         } catch (error) {
-            console.error("Failed to retrieve current user:", error);
+            console.error("Failed to retrieve current user2:", error);
         }
     }
 

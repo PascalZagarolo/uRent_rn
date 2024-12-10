@@ -30,73 +30,78 @@ const MainPage = () => {
 
     useEffect(() => {
         const load = async () => {
-
-            const res = await getInserate({
-                title: params?.["title"] as string,
-                thisCategory: params?.["category"] as any,
-                filter: params?.["filter"] as any,
-                start: Number(params?.["start"]),
-                end: Number(params?.["end"]),
-                page: Number(params?.["page"]),
-
-                periodBegin: params?.["periodBegin"] as any,
-                periodEnd: params?.["periodEnd"] as any,
-                startTime: params?.["startTime"] as any,
-                endTime: params?.["endTime"] as any,
-                startDateDynamic: params?.["startDateDynamic"] as any,
-                endDateDynamic: params?.["endDateDynamic"] as any,
-                reqTime: params?.["reqTime"] as any,
-
-                location: params?.["location"] as any,
-                amount: Number(params?.["amount"]),
-
-                reqAge: Number(params?.["reqAge"]),
-                reqLicense: params?.["reqLicense"],
-
-                thisBrand: params?.["thisBrand"] as any,
-                doors: Number(params?.["doors"]),
-                doorsMax: Number(params?.["doorsMax"]),
-                initial: new Date(params?.["initial"] as any),
-                initialMax: new Date(params?.["initialMax"] as any),
-                power: Number(params?.["power"]),
-                powerMax: Number(params?.["powerMax"]),
-                seats: Number(params?.["seats"]) || null,
-                seatsMax: Number(params?.["seatsMax"]) || null,
-                fuel: params?.["fuel"] as any,
-                transmission: params?.["transmission"] as any,
-                thisType: params?.["thisType"],
-                freeMiles: Number(params?.["freeMiles"]),
-                extraCost: Number(params?.["extraCost"]),
-
-                weightClass: Number(params?.["weightClass"]),
-                weightClassMax: Number(params?.["weightClassMax"]),
-                drive: params?.["drive"] as any,
-                loading: params?.["loading"] as any,
-                application: params?.["application"] as any,
-                lkwBrand: params?.["lkwBrand"] as any,
-
-                transportBrand: params?.["transportBrand"] as any,
-
-                trailerType: params?.["trailerType"],
-                coupling: params?.["coupling"] as any,
-                extraType: params?.["extraType"] as any,
-                axis: Number(params?.["axis"]),
-                axisMax: Number(params?.["axisMax"]),
-                brake: params?.["brake"] ? (String(params?.["brake"])?.toLowerCase() == 'true') : null,
-                ahk: params?.["ahk"] ? params?.["ahk"] as any : null,
-
-                volume: params?.["volume"] as any,
-                loading_l: params?.["loading_l"] as any,
-                loading_b: params?.["loading_b"] as any,
-                loading_h: params?.["loading_h"] as any,
-
-                radius: params?.["radius"] as any,
-                userId: params?.["userId"] as any,
-                caution: params?.["caution"] as any
-            });
-
-            setInserate(res);
+            
+            try {
+                const res = await getInserate({
+                    title: params?.["title"] as string,
+                    thisCategory: params?.["category"] as any,
+                    filter: params?.["filter"] as any,
+                    start: Number(params?.["start"]),
+                    end: Number(params?.["end"]),
+                    page: Number(params?.["page"]),
+    
+                    periodBegin: params?.["periodBegin"] as any,
+                    periodEnd: params?.["periodEnd"] as any,
+                    startTime: params?.["startTime"] as any,
+                    endTime: params?.["endTime"] as any,
+                    startDateDynamic: params?.["startDateDynamic"] as any,
+                    endDateDynamic: params?.["endDateDynamic"] as any,
+                    reqTime: params?.["reqTime"] as any,
+    
+                    location: params?.["location"] as any,
+                    amount: Number(params?.["amount"]),
+    
+                    reqAge: Number(params?.["reqAge"]),
+                    reqLicense: params?.["reqLicense"],
+    
+                    thisBrand: params?.["thisBrand"] as any,
+                    doors: Number(params?.["doors"]),
+                    doorsMax: Number(params?.["doorsMax"]),
+                    initial: new Date(params?.["initial"] as any),
+                    initialMax: new Date(params?.["initialMax"] as any),
+                    power: Number(params?.["power"]),
+                    powerMax: Number(params?.["powerMax"]),
+                    seats: Number(params?.["seats"]) || null,
+                    seatsMax: Number(params?.["seatsMax"]) || null,
+                    fuel: params?.["fuel"] as any,
+                    transmission: params?.["transmission"] as any,
+                    thisType: params?.["thisType"],
+                    freeMiles: Number(params?.["freeMiles"]),
+                    extraCost: Number(params?.["extraCost"]),
+    
+                    weightClass: Number(params?.["weightClass"]),
+                    weightClassMax: Number(params?.["weightClassMax"]),
+                    drive: params?.["drive"] as any,
+                    loading: params?.["loading"] as any,
+                    application: params?.["application"] as any,
+                    lkwBrand: params?.["lkwBrand"] as any,
+    
+                    transportBrand: params?.["transportBrand"] as any,
+    
+                    trailerType: params?.["trailerType"],
+                    coupling: params?.["coupling"] as any,
+                    extraType: params?.["extraType"] as any,
+                    axis: Number(params?.["axis"]),
+                    axisMax: Number(params?.["axisMax"]),
+                    brake: params?.["brake"] ? (String(params?.["brake"])?.toLowerCase() == 'true') : null,
+                    ahk: params?.["ahk"] ? params?.["ahk"] as any : null,
+    
+                    volume: params?.["volume"] as any,
+                    loading_l: params?.["loading_l"] as any,
+                    loading_b: params?.["loading_b"] as any,
+                    loading_h: params?.["loading_h"] as any,
+    
+                    radius: params?.["radius"] as any,
+                    userId: params?.["userId"] as any,
+                    caution: params?.["caution"] as any
+                });
+                
+                setInserate(res);
+            } catch(e : any) {
+                console.log(e);
+            }
         }
+        
         load();
     }, [])
 

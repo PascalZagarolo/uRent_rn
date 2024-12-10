@@ -1,4 +1,4 @@
-'use server'
+
 
 import db from "@/db/drizzle";
 import {
@@ -170,7 +170,7 @@ export const getInserate = async ({
 
 }: GetInserate): Promise<typeof inserat.$inferSelect[]> => {
 
-
+'use server'
 
 
 
@@ -913,4 +913,6 @@ export const getInserate = async ({
         console.log(error)
         return [];
     }
+    
+
 };
