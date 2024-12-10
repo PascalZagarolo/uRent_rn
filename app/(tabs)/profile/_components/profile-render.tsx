@@ -19,8 +19,6 @@ const ProfileRender : React.FC<ProfileRenderProps> = ({
 
     const usedDescription = thisUser?.isBusiness ? thisUser?.business?.description : thisUser?.description;
     
-    console.log(thisUser.business?.faqs)
-
     return ( 
         <View className="bg-[#1F2332] h-full">
             <View>
