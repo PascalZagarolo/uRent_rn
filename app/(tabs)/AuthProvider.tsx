@@ -19,8 +19,8 @@ export const AuthProvider = ({ children }) => {
                
                 if (foundToken) {
                     console.log("test")
-                    const res = null;
-                    //const res = await getCurrentUser(foundToken);
+                    
+                    const res = await getCurrentUser(foundToken);
                     
                     if(res) {
                         setCurrentUser(res);

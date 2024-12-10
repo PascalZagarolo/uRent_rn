@@ -35,6 +35,7 @@ const LoginForm : React.FC<LoginFormProps> = ({
     
 
     const onSignUp = async () => {
+        
         try {
             setIsLoading(true);
             await createLogin(email, password)

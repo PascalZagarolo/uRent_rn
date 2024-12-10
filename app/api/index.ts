@@ -1,4 +1,4 @@
-'use server'
+
 
 import JWT from 'expo-jwt';
 
@@ -27,8 +27,9 @@ function generateId(length) {
 
 
 export const createLogin = async (givenEmail: string, givenPassword: string) => {
+    'use server'
     try {
-
+        
         var bcrypt = require('bcryptjs');
 
         if (!givenEmail || !givenPassword) {

@@ -6,6 +6,7 @@ import BcryptReactNative from "react-native-bcrypt"
 
 
 export const login = async (email : string, password : string) => {
+    'use server'
     try {
         
        
