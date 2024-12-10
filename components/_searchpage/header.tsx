@@ -59,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
               <Image
                 source={{ uri: usedUrl }}
                 alt="Profile Picture"
-                className="w-12 h-12 rounded-full"
+                className="w-10 h-10 rounded-full"
               />
             </TouchableOpacity>
           </View>

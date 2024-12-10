@@ -53,13 +53,13 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
     }
 
     return (
-        <SafeAreaView className="bg-[#1F2332] p-4 border-l border-gray-600 h-full flex-1">
-            <View className="h-full p-4">
-                <View className="">
+        <SafeAreaView className="bg-[#1F2332] p-4 border-l border-gray-600 h-full flex flex-col">
+            <View className="h-full p-4 ">
+                <View className="mt-8">
                     <View>
                         <Image
                             source={{ uri: currentUser?.image }}
-                            className="w-20 h-20 rounded-full"
+                            className="w-12 h-12 rounded-full"
                         />
                     </View>
                     <Text className="text-lg mt-4 font-semibold text-gray-200">
