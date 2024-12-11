@@ -8,6 +8,9 @@ import ProfilePaymentMethods from "./profile-payments";
 import { paymentMethods } from '../../../../db/schema';
 import ProfileFaqs from "./profile-faqs";
 import ProfileImprint from "./profile-imprint";
+import { is } from 'drizzle-orm';
+import BusinessRender from "./business-render/business-render";
+import ProfileRenderFull from "./profile-render/profile-render";
 
 interface ProfileRenderProps {
     thisUser : typeof userTable.$inferSelect | any;
@@ -20,14 +23,14 @@ const ProfileRender : React.FC<ProfileRenderProps> = ({
     const usedDescription = thisUser?.isBusiness ? thisUser?.business?.description : thisUser?.description;
     
     return ( 
-        <View className="bg-[#1F2332] h-full">
+        <View className="bg-[#1F2332] h-full w-full">
             <View>
                 <View className="border-b border-gray-800 p-4 bg-[#181b27]">
                     <Text className="text-xl font-semibold text-gray-200">
                         {thisUser?.isBusiness ? "Vermieterdetails" : "Nutzerdetails"}
                     </Text>
                 </View>
-                <View className="p-4 flex flex-row items-center">
+                {/* <View className="p-4 flex flex-row items-center">
                     <View className="w-1/4">
                         <Image 
                         source={{uri : thisUser?.image}}
@@ -88,6 +91,13 @@ const ProfileRender : React.FC<ProfileRenderProps> = ({
                     <ProfileImprint 
                     thisImprint = {thisUser?.business?.impressum as any}
                     />
+                )} */}
+                {thisUser?.isBusiness ? (
+                    <BusinessRender 
+                    thisUser={thisUser}
+                    />
+                ) : (
+                    <ProfileRenderFull />
                 )}
             </View>
         </View>

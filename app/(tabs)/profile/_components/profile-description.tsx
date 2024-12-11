@@ -1,3 +1,4 @@
+import { cn } from "@/~/lib/utils";
 import { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 
@@ -17,8 +18,8 @@ const ProfileDescription: React.FC<ProfileDescriptionProps> = ({
         setIsExpanded(!isExpanded);
     };
 
-    const shouldShowMore = thisDescription.length > 100; 
-    const displayedText = isExpanded ? thisDescription : `${thisDescription.substring(0, 100)}...`;
+    const shouldShowMore = thisDescription?.length > 100; 
+    const displayedText = isExpanded ? thisDescription : `${thisDescription?.substring(0, 100) ?? ""}`;
 
     return (
         <View className="p-4">
@@ -28,15 +29,19 @@ const ProfileDescription: React.FC<ProfileDescriptionProps> = ({
                 </Text>
             </View>
             <View>
-                <Text className="text-sm text-gray-200/90 font-medium">
-                    {displayedText}
+                <Text className={cn("text-sm text-gray-200/90 font-medium",
+                String(displayedText) == "" && "text-gray-200/60"
+                )}>
+                    {String(displayedText) !== "" ? displayedText : "Noch keine Beschreibung hinzugefügt.."}
                 </Text>
             </View>
-            <TouchableOpacity onPress={toggleExpanded} className="bg-[#1d1e2b] p-2 mt-2 rounded-md w-full flex justify-center">
+            {shouldShowMore && (
+                <TouchableOpacity onPress={toggleExpanded} className="bg-[#1d1e2b] p-2 mt-2 rounded-md w-full flex justify-center">
                 <Text className="text-sm text-gray-200 font-semibold items-center flex justify-center text-center">
                     {isExpanded ? "Weniger anzeigen" : "Mehr anzeigen"}
                 </Text>
             </TouchableOpacity>
+            )}
         </View>
     );
 }

@@ -16,21 +16,14 @@ const ProfileOpeningTimes : React.FC<ProfileOpeningTimesProps> = ({
                 </Text>
             </View>
             <View className="mt-2 space-y-2 ">
-                <View className="flex flex-row items-center">
-                    <Text className="w-1/2 text-gray-200/90 font-medium">
-                        Montag
-                    </Text>
-                    <Text className="w-1/2 text-gray-200 font-semibold">
-                        {thisOpeningTimes.monday ? thisOpeningTimes.monday : "-"}
-                    </Text>
-                </View>
+               
 
                 <View className="flex flex-row items-center">
                     <Text className="w-1/2 text-gray-200/90 font-medium">
                         Montag
                     </Text>
                     <Text className="w-1/2 text-gray-200 font-semibold">
-                        {thisOpeningTimes.monday ? thisOpeningTimes.monday : "-"}
+                        {thisOpeningTimes?.monday ? thisOpeningTimes?.monday : "-"}
                     </Text>
                 </View>
 
@@ -39,7 +32,7 @@ const ProfileOpeningTimes : React.FC<ProfileOpeningTimesProps> = ({
                         Dienstag
                     </Text>
                     <Text className="w-1/2 text-gray-200 font-semibold">
-                        {thisOpeningTimes.thursday ? thisOpeningTimes.thursday : "-"}
+                        {thisOpeningTimes?.thursday ? thisOpeningTimes?.thursday : "-"}
                     </Text>
                 </View>
 
@@ -48,7 +41,7 @@ const ProfileOpeningTimes : React.FC<ProfileOpeningTimesProps> = ({
                         Mittwoch
                     </Text>
                     <Text className="w-1/2 text-gray-200 font-semibold">
-                        {thisOpeningTimes.wednesday ? thisOpeningTimes.wednesday : "-"}
+                        {thisOpeningTimes?.wednesday ? thisOpeningTimes?.wednesday : "-"}
                     </Text>
                 </View>
 
@@ -57,7 +50,7 @@ const ProfileOpeningTimes : React.FC<ProfileOpeningTimesProps> = ({
                         Donnerstag
                     </Text>
                     <Text className="w-1/2 text-gray-200 font-semibold">
-                        {thisOpeningTimes.thursday ? thisOpeningTimes.thursday : "-"}
+                        {thisOpeningTimes?.thursday ? thisOpeningTimes?.thursday : "-"}
                     </Text>
                 </View>
 
@@ -66,7 +59,7 @@ const ProfileOpeningTimes : React.FC<ProfileOpeningTimesProps> = ({
                         Freitag
                     </Text>
                     <Text className="w-1/2 text-gray-200 font-semibold">
-                        {thisOpeningTimes.friday ? thisOpeningTimes.friday : "-"}
+                        {thisOpeningTimes?.friday ? thisOpeningTimes?.friday : "-"}
                     </Text>
                 </View>
 
@@ -75,7 +68,7 @@ const ProfileOpeningTimes : React.FC<ProfileOpeningTimesProps> = ({
                         Samstag
                     </Text>
                     <Text className="w-1/2 text-gray-200 font-semibold">
-                        {thisOpeningTimes.saturday ? thisOpeningTimes.saturday : "-"}
+                        {thisOpeningTimes?.saturday ? thisOpeningTimes?.saturday : "-"}
                     </Text>
                 </View>
             </View>

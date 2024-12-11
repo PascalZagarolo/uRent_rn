@@ -23,7 +23,8 @@ const ProfilePage = () => {
                             with : {
                                 businessAddresses : true,
                                 faqs : true,
-                                openingTimes : true
+                                openingTimes : true,
+                                businessImages : true,
                             }
                         },
                         paymentMethods : true,

@@ -16,8 +16,8 @@ const ProfileImprint : React.FC<ProfileImprintProps> = ({
         setIsExpanded(!isExpanded);
     };
 
-    const shouldShowMore = thisImprint.length > 100; 
-    const displayedText = isExpanded ? thisImprint : `${thisImprint.substring(0, 100)}...`;
+    const shouldShowMore = thisImprint?.length > 100; 
+    const displayedText = isExpanded ? thisImprint : `${thisImprint?.substring(0, 100)}...`;
 
     return ( 
         <View className="p-4">
