@@ -19,17 +19,17 @@ const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, created
     </View>
 
     {/* Profile and Username Section */}
-    <View className="absolute top-36 left-2 flex flex-row gap-x-8">
+    <View className="absolute top-32 left-2 flex flex-row gap-x-8">
         {/* Profile Picture */}
         <View className="w-1/3">
             <Image
                 source={{ uri: thisProfilePic }}
-                className="w-32 h-32 rounded-full border-4 border-black"
+                className="w-32 h-32 rounded-full border border-black"
             />
         </View>
 
         {/* Username */}
-        <View className="mt-16">
+        <View className="mt-20">
             <Text className="text-xl font-semibold text-gray-200">
                 {thisUsername}
             </Text>
