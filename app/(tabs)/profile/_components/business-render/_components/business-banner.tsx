@@ -14,7 +14,7 @@ const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, created
     <View>
         <Image
             source={{ uri: thisImage }}
-            className="w-full h-48"
+            className="w-full h-48 border-b border-black"
         />
     </View>
 
