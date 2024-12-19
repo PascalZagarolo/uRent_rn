@@ -14,6 +14,9 @@ const ContentBusinessRender = ({ thisUser } :  ContentBusinessRenderProps ) => {
 
     const [tab, setTab] = useState("content");
 
+
+    const foundInserate = thisUser?.inserat?.filter(inserat => inserat.isPublished === true)
+
     return (
 
         <View className="">
@@ -85,7 +88,7 @@ const ContentBusinessRender = ({ thisUser } :  ContentBusinessRenderProps ) => {
             <View className="mt-8">
                         {
                             {
-                                "content" : <ContentTab username={thisUser?.name} foundInserate={thisUser?.inserat} /> 
+                                "content" : <ContentTab username={thisUser?.name} foundInserate={foundInserate} /> 
                             }[tab]
                         }
             </View>

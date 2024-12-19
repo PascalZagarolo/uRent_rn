@@ -18,7 +18,7 @@ const ContentTab = ({ username, foundInserate }: ContentTabProps) => {
 
     const InseratRender = (title: string, postalCode: string, city: string, price: string, imageUrl: string) => {
         return (
-            <View>
+            <View key={title}>
                 <View className="w-full">
                     <Image
                         source={{ uri: imageUrl }}
@@ -67,11 +67,17 @@ const onRenderMore = () => {
                     Mehr von {username}
                 </Text>
             </View>
-            <View className="space-y-4 mt-8">
+            {foundInserate?.length > 0 ? (
+                <View className="space-y-4 mt-8">
                 {foundInserate.slice(0, amountRendered).map((inserat) => (
-                    InseratRender(inserat.title, inserat.address?.postalCode, inserat.address?.locationString, inserat.price, inserat.images[0].url)
+                    InseratRender(inserat.title, inserat.address?.postalCode, inserat.address?.locationString, inserat.price, inserat?.images[0]?.url)
                 ))}
             </View>
+            ) : (
+                <Text className="mt-4 text-gray-200/50">
+                    Noch keine Inhalte geteilt..
+                </Text>
+            )}
             {amountRendered < foundInserate.length && (
                 <View className="mt-4">
                     <TouchableOpacity className="bg-[#161820] shadow-lg rounded-lg flex flex-row items-center justify-center" onPress={onRenderMore}>
