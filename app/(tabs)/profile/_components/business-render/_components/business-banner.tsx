@@ -10,7 +10,7 @@ interface BusinessBannerRenderProps {
 const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, createdAt }: BusinessBannerRenderProps) => {
     return (
         <View>
-    {/* Banner Section */}
+   
     <View>
         <Image
             source={{ uri: thisImage }}
