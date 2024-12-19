@@ -2,8 +2,15 @@ import { cn } from "@/~/lib/utils";
 import { useState } from "react";
 import { Button, ScrollView, TouchableOpacity } from "react-native";
 import { Text, View } from "react-native";
+import ContentTab from "./_tabs/content-tab";
+import { userTable } from "@/db/schema";
 
-const ContentBusinessRender = () => {
+interface ContentBusinessRenderProps {
+    thisUser : typeof userTable.$inferSelect;
+}
+
+
+const ContentBusinessRender = ({ thisUser } :  ContentBusinessRenderProps ) => {
 
     const [tab, setTab] = useState("content");
 
@@ -75,6 +82,13 @@ const ContentBusinessRender = () => {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
+            <View className="mt-8">
+                        {
+                            {
+                                "content" : <ContentTab username={thisUser?.name} foundInserate={thisUser?.inserat} /> 
+                            }[tab]
+                        }
+            </View>
         </View>
 
     );

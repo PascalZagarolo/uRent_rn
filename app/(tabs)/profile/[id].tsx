@@ -19,6 +19,12 @@ const ProfilePage = () => {
                 const thisUser = await db.query.userTable.findFirst({
                     where : eq(userTable.id , id),
                     with : {
+                        inserat : {
+                            with : {
+                                images : true,
+                                address : true
+                            }
+                        },
                         business : {
                             with : {
                                 businessAddresses : true,
@@ -28,7 +34,8 @@ const ProfilePage = () => {
                             }
                         },
                         paymentMethods : true,
-                    }
+                    },
+                   
                 });
     
                 setUser(thisUser);

@@ -32,7 +32,9 @@ const BusinessRender = ({ thisUser }: BusinessRenderProps) => {
                     />
                 </View>
                 <View>
-                    <ContentBusinessRender />
+                    <ContentBusinessRender 
+                    thisUser={thisUser}
+                    />
                 </View>
             </View>
         </View>
