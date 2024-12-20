@@ -4,6 +4,7 @@ import { Button, ScrollView, TouchableOpacity } from "react-native";
 import { Text, View } from "react-native";
 import ContentTab from "./_tabs/content-tab";
 import { userTable } from "@/db/schema";
+import LocationTab from "./_tabs/location-tab";
 
 interface ContentBusinessRenderProps {
     thisUser : typeof userTable.$inferSelect;
@@ -85,10 +86,11 @@ const ContentBusinessRender = ({ thisUser } :  ContentBusinessRenderProps ) => {
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-            <View className="mt-8">
+            <View className="mt-8 px-2 pb-4">
                         {
                             {
-                                "content" : <ContentTab username={thisUser?.name} foundInserate={foundInserate} /> 
+                                "content" : <ContentTab username={thisUser?.name} foundInserate={foundInserate} />,
+                                "location" : <LocationTab foundAddresses={thisUser?.business?.businessAddresses} />
                             }[tab]
                         }
             </View>

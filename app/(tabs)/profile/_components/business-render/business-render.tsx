@@ -15,7 +15,7 @@ const BusinessRender = ({ thisUser }: BusinessRenderProps) => {
 
     return (
         <View>
-            <View className="flex flex-col h-full">
+            <View className="flex flex-col min-h-screen">
                 <View>
                     <BusinessBannerRender
                         thisImage={thisUser?.business?.businessImages[0]?.url ?? null}

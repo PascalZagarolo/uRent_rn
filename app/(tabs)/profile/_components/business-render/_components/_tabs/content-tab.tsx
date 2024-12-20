@@ -25,7 +25,7 @@ const ContentTab = ({ username, foundInserate }: ContentTabProps) => {
                         className="w-full h-40 object-cover rounded-t-md"
                     />
                 </View>
-                <View className=" bg-[#242835] shadow-xl rounded-b-md p-4">
+                <View className=" bg-[#2a2f3d] shadow-xl rounded-b-md p-4">
                     <View className="flex flex-row items-center">
                         <Text className="text-lg font-semibold text-gray-200 w-3/4 line-clamp-1">
                             {title}
@@ -61,8 +61,9 @@ const onRenderMore = () => {
 }
 
     return (
-        <View className="px-2 pb-4">
-            <View>
+        <View className="">
+            <View className="flex flex-row items-center">
+                <EllipsisVerticalIcon className="w-4 h-4 mr-4" />
                 <Text className="text-lg font-semibold text-gray-200">
                     Mehr von {username}
                 </Text>
