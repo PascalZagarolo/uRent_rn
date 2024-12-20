@@ -121,6 +121,7 @@ export const openingTimes = pgTable("openingTimes" , {
     thursday : text("thursday"),
     friday : text("friday"),
     saturday : text("saturday"),
+    sunday : text("sunday"),
 })
 
 export const businessImages = pgTable("businessImages", {

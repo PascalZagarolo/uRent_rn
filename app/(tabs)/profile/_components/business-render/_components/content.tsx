@@ -5,6 +5,8 @@ import { Text, View } from "react-native";
 import ContentTab from "./_tabs/content-tab";
 import { userTable } from "@/db/schema";
 import LocationTab from "./_tabs/location-tab";
+import OpeningTimesRender from "./_tabs/opening-times-render";
+import { openingTimes } from '../../../../../../db/schema';
 
 interface ContentBusinessRenderProps {
     thisUser : typeof userTable.$inferSelect;
@@ -17,6 +19,8 @@ const ContentBusinessRender = ({ thisUser } :  ContentBusinessRenderProps ) => {
 
 
     const foundInserate = thisUser?.inserat?.filter(inserat => inserat.isPublished === true)
+
+    console.log(thisUser?.business?.openingTimes + "22")
 
     return (
 
@@ -90,7 +94,8 @@ const ContentBusinessRender = ({ thisUser } :  ContentBusinessRenderProps ) => {
                         {
                             {
                                 "content" : <ContentTab username={thisUser?.name} foundInserate={foundInserate} />,
-                                "location" : <LocationTab foundAddresses={thisUser?.business?.businessAddresses} />
+                                "location" : <LocationTab foundAddresses={thisUser?.business?.businessAddresses} />,
+                                "openingTimes" : <OpeningTimesRender foundTimes={thisUser?.business?.openingTimes} />
                             }[tab]
                         }
             </View>
