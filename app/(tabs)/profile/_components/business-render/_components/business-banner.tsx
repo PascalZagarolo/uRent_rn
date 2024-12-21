@@ -30,7 +30,7 @@ const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, created
 
         {/* Username */}
         <View className="mt-14">
-            <Text className="text-xl font-semibold text-gray-200">
+            <Text className="text-xl font-semibold text-gray-200 break-all w-2/3">
                 {thisUsername}
             </Text>
             <Text className="text-sm text-gray-200/60">

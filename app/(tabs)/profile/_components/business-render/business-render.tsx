@@ -24,7 +24,7 @@ const BusinessRender = ({ thisUser }: BusinessRenderProps) => {
                         createdAt={format(new Date(thisUser?.createdAt), "dd.MM.yyyy")}
                     />
                 </View>
-                <View className="mt-24 px-4">
+                <View className="mt-32 px-4">
                     <Businessdescription
                         username={thisUser?.name}
                         isOwnProfile={true}
