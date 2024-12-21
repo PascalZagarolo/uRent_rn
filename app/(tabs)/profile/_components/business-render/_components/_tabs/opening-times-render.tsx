@@ -7,21 +7,22 @@ interface OpeningTimesRenderProps {
 }
 
 const OpeningTimesRender = ({ foundTimes } : OpeningTimesRenderProps) => {
-
+    console.log(foundTimes);
     const renderedDays = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
 
     const renderedTimeline = (day : string) => {
         return (
-            <View>
-                <Text>
+            <View className="ml-auto">
+                <Text className="text-gray-200 font-semibold text-lg">
                     {
                         {
-                            "Montag" : `${foundTimes.monday} Uhr`,
-                            "Dienstag" : `${foundTimes.tuesday} Uhr`,
-                            "Mittwoch" : `${foundTimes.wednesday} Uhr`,
-                            "Donnerstag" : `${foundTimes.thursday} Uhr`,
-                            "Freitag" : `${foundTimes.friday} Uhr`,
-                            "Samstag" : `${foundTimes.saturday} Uhr`,
+                            "Montag" : `${foundTimes?.monday ?? "-"} Uhr`,
+                            "Dienstag" : `${foundTimes?.tuesday ?? "-"} Uhr`,
+                            "Mittwoch" : `${foundTimes?.wednesday ?? "-"} Uhr`,
+                            "Donnerstag" : `${foundTimes?.thursday ?? "-"} Uhr`,
+                            "Freitag" : `${foundTimes?.friday ?? "-"} Uhr`,
+                            "Samstag" : `${foundTimes?.saturday ?? "-"} Uhr`,
+                            "Sonntag" : `${foundTimes?.sunday ?? "-"} Uhr`,
                             
                            
                         }[day]
@@ -41,8 +42,8 @@ const OpeningTimesRender = ({ foundTimes } : OpeningTimesRenderProps) => {
             </View>
             <View className="mt-8 space-y-8">
                 {renderedDays.map(day => (
-                    <View key={day} className="">
-                        <Text className="text-base font-semibold text-gray-200">
+                    <View key={day} className="flex flex-row items-center">
+                        <Text className="text-base font-semibold text-gray-200/80">
                             {day}
                         </Text>
                         {renderedTimeline(day)}
