@@ -8,6 +8,7 @@ import { SafeAreaFrameContext } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 
 import { AppRegistry } from 'react-native';
+import { useAuth } from './AuthProvider';
 
 
 
@@ -17,41 +18,49 @@ export default function HomeScreen() {
 
   const router = useRouter();
 
-  return (
-    <View className="flex-1 items-center justify-center bg-[#1F2332]">
+  const currentUser = useAuth();
 
-
-      <View className='flex flex-col items-center'>
-        <Text className='text-xl font-semibold text-gray-200'>
-          Willkommen auf
-        </Text>
-        <Text className='text-4xl font-semibold text-gray-200'>
-          uRent
-        </Text>
-      </View>
-      <View className='mt-4 w-full px-24'>
-        <View>
-        <TouchableOpacity className='px-8 py-4 rounded-md w-full bg-white  justify-center' 
-        onPress={() => {router.push(`/login`)}}>
-          <Text className=' justify-center text-gray-800 text-center font-semibold'>
-            Loslegen
+  if(!currentUser) {
+    return (
+      <View className="flex-1 items-center justify-center bg-[#1F2332]">
+  
+  
+        <View className='flex flex-col items-center'>
+          <Text className='text-xl font-semibold text-gray-200'>
+            Willkommen auf
           </Text>
-        </TouchableOpacity>
-        </View>
-
-        <View>
-        <TouchableOpacity className=' py-4 rounded-md w-full  justify-center' onPress={() => {
-          router.push(`/mainpage`)
-        }}>
-          <Text className=' justify-center text-xs text-gray-200 text-center font-semibold'>
-            Ohne Konto fortfahren..
+          <Text className='text-4xl font-semibold text-gray-200'>
+            uRent
           </Text>
-        </TouchableOpacity>
         </View>
+        <View className='mt-4 w-full px-24'>
+          <View>
+          <TouchableOpacity className='px-8 py-4 rounded-md w-full bg-white  justify-center' 
+          onPress={() => {router.push(`/login`)}}>
+            <Text className=' justify-center text-gray-800 text-center font-semibold'>
+              Loslegen
+            </Text>
+          </TouchableOpacity>
+          </View>
+  
+          <View>
+          <TouchableOpacity className=' py-4 rounded-md w-full  justify-center' onPress={() => {
+            router.push(`/mainpage`)
+          }}>
+            <Text className=' justify-center text-xs text-gray-200 text-center font-semibold'>
+              Ohne Konto fortfahren..
+            </Text>
+          </TouchableOpacity>
+          </View>
+        </View>
+  
       </View>
+    );
+  } else {
+    return router.push(`/mainpage`);
+  }
 
-    </View>
-  );
+
 }
 
 

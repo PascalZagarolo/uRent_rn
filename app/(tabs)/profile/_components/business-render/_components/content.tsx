@@ -11,17 +11,18 @@ import ImprintRender from "./_tabs/imprint";
 
 interface ContentBusinessRenderProps {
     thisUser : typeof userTable.$inferSelect;
+    isOwn : boolean;
 }
 
 
-const ContentBusinessRender = ({ thisUser } :  ContentBusinessRenderProps ) => {
+const ContentBusinessRender = ({ thisUser, isOwn } :  ContentBusinessRenderProps ) => {
 
     const [tab, setTab] = useState("content");
 
 
     const foundInserate = thisUser?.inserat?.filter(inserat => inserat.isPublished === true)
 
-    console.log(thisUser?.business?.openingTimes + "22")
+    
 
     return (
 
@@ -95,7 +96,7 @@ const ContentBusinessRender = ({ thisUser } :  ContentBusinessRenderProps ) => {
                         {
                             {
                                 "content" : <ContentTab username={thisUser?.name} foundInserate={foundInserate} />,
-                                "location" : <LocationTab foundAddresses={thisUser?.business?.businessAddresses} />,
+                                "location" : <LocationTab foundAddresses={thisUser?.business?.businessAddresses} isOwn={isOwn}/>,
                                 "openingTimes" : <OpeningTimesRender foundTimes={thisUser?.business?.openingTimes} />,
                                 "imprint" : <ImprintRender imprint={thisUser?.business?.impressum} />
                             }[tab]

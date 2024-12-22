@@ -1,13 +1,15 @@
 import { businessAddress } from "@/db/schema";
-import { MapPinCheckInsideIcon, MountainIcon } from "lucide-react-native";
+import { MapPinCheckInsideIcon, MountainIcon, PlusCircleIcon, PlusIcon } from "lucide-react-native";
+import { TouchableOpacity } from "react-native";
 import { Image, Text, View } from "react-native";
 
 
 interface LocationTabProps {
     foundAddresses : typeof businessAddress.$inferSelect[];
+    isOwn : boolean;
 }
 
-const LocationTab = ({ foundAddresses } : LocationTabProps) => {
+const LocationTab = ({ foundAddresses, isOwn } : LocationTabProps) => {
     
     const RenderedAddress = (title : string, postalCode : string, city : string, street : string, imageUrl : string) => {
         return (
@@ -41,9 +43,16 @@ const LocationTab = ({ foundAddresses } : LocationTabProps) => {
         <View>
             <View className="flex flex-row items-center">
             <MountainIcon className="w-4 h-4 mr-4" />
+            {isOwn && (
                 <Text className="text-lg font-semibold text-gray-200">
                     Standort
                 </Text>
+            )}
+                {isOwn && (
+                    <TouchableOpacity className="ml-auto p-2.5">
+                        <PlusCircleIcon className="w-4 h-4 ml-auto text-gray-200" />
+                    </TouchableOpacity>
+                )}
             </View>
             {foundAddresses?.length > 10 ? (
                 <View className="mt-8 space-y-8">

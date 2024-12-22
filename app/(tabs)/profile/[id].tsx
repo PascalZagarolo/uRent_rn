@@ -50,9 +50,9 @@ const ProfilePage = () => {
 
     },[])
 
-    const currentUser = useAuth();
+    
 
-    const isOwner = currentUser?.id === id; 
+    const isOwner = user?.id === id; 
 
     return ( 
         <SafeAreaView className="flex-1  bg-[#181b27]">

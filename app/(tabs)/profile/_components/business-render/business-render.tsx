@@ -7,9 +7,10 @@ import ContentBusinessRender from "./_components/content";
 
 interface BusinessRenderProps {
     thisUser: typeof userTable.$inferSelect;
+    isOwner: boolean;
 }
 
-const BusinessRender = ({ thisUser }: BusinessRenderProps) => {
+const BusinessRender = ({ thisUser, isOwner }: BusinessRenderProps) => {
 
     
 
@@ -27,13 +28,14 @@ const BusinessRender = ({ thisUser }: BusinessRenderProps) => {
                 <View className="mt-32 px-4">
                     <Businessdescription
                         username={thisUser?.name}
-                        isOwnProfile={true}
+                        isOwnProfile={isOwner}
                         thisDescription={thisUser?.business?.description ?? ""}
                     />
                 </View>
                 <View>
                     <ContentBusinessRender 
                     thisUser={thisUser}
+                    isOwn={isOwner}
                     />
                 </View>
             </View>
