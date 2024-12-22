@@ -14,10 +14,12 @@ import ProfileRenderFull from "./profile-render/profile-render";
 
 interface ProfileRenderProps {
     thisUser : typeof userTable.$inferSelect | any;
+    isOwner : boolean;
 }
 
 const ProfileRender : React.FC<ProfileRenderProps> = ({
-    thisUser
+    thisUser,
+    isOwner
 }) => {
 
     const usedDescription = thisUser?.isBusiness ? thisUser?.business?.description : thisUser?.description;

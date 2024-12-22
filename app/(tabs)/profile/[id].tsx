@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import ProfileRender from "./_components/profile-render";
 import { openingTimes, business } from '../../../db/schema';
+import { useAuth } from "../AuthProvider";
 
 const ProfilePage = () => {
 
@@ -49,7 +50,9 @@ const ProfilePage = () => {
 
     },[])
 
-    console.log(user?.business)
+    const currentUser = useAuth();
+
+    const isOwner = currentUser?.id === id; 
 
     return ( 
         <SafeAreaView className="flex-1  bg-[#181b27]">
@@ -57,6 +60,7 @@ const ProfilePage = () => {
                 {user && (
                     <ProfileRender 
                     thisUser={user}
+                    isOwner={isOwner}
                     />
                 )}
             </ScrollView>
