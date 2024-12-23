@@ -3,7 +3,7 @@ import { businessAddress, paymentMethods, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import { Modal, SafeAreaView, ScrollView, Text, View } from "react-native";
 import ProfileRender from "./_components/profile-render";
 import { openingTimes, business } from '../../../db/schema';
 import { useAuth } from "../AuthProvider";
@@ -50,12 +50,13 @@ const ProfilePage = () => {
 
     },[])
 
-    
+    const [showLocation, setShowLocation] = useState<{open : boolean, id : string }>({open : false, id : ""});
 
     const isOwner = user?.id === id; 
 
     return ( 
-        <SafeAreaView className="flex-1  bg-[#181b27]">
+        <View className="flex-1  bg-[#181b27]">
+        <SafeAreaView className="">
             <ScrollView className="">
                 {user && (
                     <ProfileRender 
@@ -65,6 +66,20 @@ const ProfilePage = () => {
                 )}
             </ScrollView>
         </SafeAreaView>
+         <Modal
+         animationType="slide"
+         transparent={true}
+         visible={showLocation.open}
+         onRequestClose={() => {
+           setShowLocation({open : false, id : ""});
+         }}
+ 
+       >
+         <View>
+                <Text>Location</Text>
+         </View>
+       </Modal>
+        </View>
      );
 }
  
