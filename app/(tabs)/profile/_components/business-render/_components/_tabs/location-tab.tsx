@@ -7,9 +7,10 @@ import { Image, Text, View } from "react-native";
 interface LocationTabProps {
     foundAddresses : typeof businessAddress.$inferSelect[];
     isOwn : boolean;
+    setOpenLocation : (open : boolean, id : string) => void;
 }
 
-const LocationTab = ({ foundAddresses, isOwn } : LocationTabProps) => {
+const LocationTab = ({ foundAddresses, isOwn, setOpenLocation } : LocationTabProps) => {
     
     const RenderedAddress = (title : string, postalCode : string, city : string, street : string, imageUrl : string) => {
         return (
@@ -49,7 +50,7 @@ const LocationTab = ({ foundAddresses, isOwn } : LocationTabProps) => {
                 </Text>
             )}
                 {isOwn && (
-                    <TouchableOpacity className="ml-auto p-2.5">
+                    <TouchableOpacity className="ml-auto p-2.5" onPress={() => {setOpenLocation(true, null)}}>
                         <PlusCircleIcon className="w-4 h-4 ml-auto text-gray-200" />
                     </TouchableOpacity>
                 )}

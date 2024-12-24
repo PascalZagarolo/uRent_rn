@@ -7,6 +7,7 @@ import { Modal, SafeAreaView, ScrollView, Text, View } from "react-native";
 import ProfileRender from "./_components/profile-render";
 import { openingTimes, business } from '../../../db/schema';
 import { useAuth } from "../AuthProvider";
+import LocationDialog from "./_components/business-render/_components/_tabs/_dialogs/location-dialog";
 
 const ProfilePage = () => {
 
@@ -62,6 +63,7 @@ const ProfilePage = () => {
                     <ProfileRender 
                     thisUser={user}
                     isOwner={isOwner}
+                    setOpenLocation={(value1, value2) => setShowLocation({open : value1, id : value2})}
                     />
                 )}
             </ScrollView>
@@ -75,9 +77,11 @@ const ProfilePage = () => {
          }}
  
        >
-         <View>
-                <Text>Location</Text>
-         </View>
+         
+         <LocationDialog 
+         onClose={() => setShowLocation({open : false, id : ""})}
+         />
+         
        </Modal>
         </View>
      );

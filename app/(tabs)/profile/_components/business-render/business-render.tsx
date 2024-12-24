@@ -8,9 +8,10 @@ import ContentBusinessRender from "./_components/content";
 interface BusinessRenderProps {
     thisUser: typeof userTable.$inferSelect;
     isOwner: boolean;
+    setOpenLocation: (open: boolean, id: string) => void;
 }
 
-const BusinessRender = ({ thisUser, isOwner }: BusinessRenderProps) => {
+const BusinessRender = ({ thisUser, isOwner, setOpenLocation }: BusinessRenderProps) => {
 
     
 
@@ -36,6 +37,7 @@ const BusinessRender = ({ thisUser, isOwner }: BusinessRenderProps) => {
                     <ContentBusinessRender 
                     thisUser={thisUser}
                     isOwn={isOwner}
+                    setOpenLocation={(value1, value2) => setOpenLocation(value1, value2)}
                     />
                 </View>
             </View>
