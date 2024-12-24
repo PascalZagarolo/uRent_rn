@@ -113,6 +113,7 @@
     "react-native-vector-icons": "^10.1.0",
     "react-native-web": "~0.19.13",
     "react-server-dom-webpack": "^19.0.0-rc-a03254bc-20240905",
+    "react-spinners": "^0.15.0",
     "readable-stream": "^1.0.33",
     "resend": "^4.0.0",
     "socket.io": "^4.7.5",

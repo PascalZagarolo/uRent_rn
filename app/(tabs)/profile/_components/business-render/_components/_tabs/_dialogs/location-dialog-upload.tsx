@@ -6,13 +6,16 @@ import * as ImagePicker from 'expo-image-picker';
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import { CircleIcon, ReplaceAllIcon, TrashIcon, XIcon } from "lucide-react-native";
 
-const LocationDialogUpload = () => {
+interface LocationDialogUploadProps {
+    setImageUrl : (url : string) => void;
+}
+
+const LocationDialogUpload = ({ setImageUrl } : LocationDialogUploadProps) => {
     
     
 
     type PictureObject = {
         url: string,
-
     };
  
     const [currentPicture, setCurrentPicture] = useState<PictureObject>(null);
@@ -49,6 +52,7 @@ const LocationDialogUpload = () => {
                 };
 
                 setCurrentPicture(newImage);
+                setImageUrl(uri);
                 setShowModal(false);
             }
         } catch (e: any) {
