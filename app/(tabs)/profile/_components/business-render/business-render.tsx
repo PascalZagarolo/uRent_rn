@@ -1,17 +1,19 @@
 import { Text, View } from "react-native";
 import BusinessBannerRender from "./_components/business-banner";
-import { userTable } from "@/db/schema";
+import { userTable, businessAddress } from '@/db/schema';
 import { format } from "date-fns";
 import Businessdescription from "./_components/business-description";
 import ContentBusinessRender from "./_components/content";
+
 
 interface BusinessRenderProps {
     thisUser: typeof userTable.$inferSelect;
     isOwner: boolean;
     setOpenLocation: (open: boolean, id: string) => void;
+    foundAddresses : typeof businessAddress.$inferSelect[];
 }
 
-const BusinessRender = ({ thisUser, isOwner, setOpenLocation }: BusinessRenderProps) => {
+const BusinessRender = ({ thisUser, isOwner, setOpenLocation, foundAddresses }: BusinessRenderProps) => {
 
     
 
@@ -38,6 +40,7 @@ const BusinessRender = ({ thisUser, isOwner, setOpenLocation }: BusinessRenderPr
                     thisUser={thisUser}
                     isOwn={isOwner}
                     setOpenLocation={(value1, value2) => setOpenLocation(value1, value2)}
+                    foundAddresses={foundAddresses}
                     />
                 </View>
             </View>

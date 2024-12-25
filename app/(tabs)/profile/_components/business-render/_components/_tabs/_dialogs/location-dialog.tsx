@@ -6,11 +6,13 @@ import { createLocation } from "@/actions/business/location/create-location";
 import * as SecureStorage from 'expo-secure-store';
 import Toast from "react-native-toast-message";
 import BarLoader from "react-spinners/ClipLoader";
+import LetterRestriction from "@/components/LetterRestriction";
 interface LocationDialogProps {
     onClose: () => void;
+    onInsert : (newAddress) => void;
 }
 
-const LocationDialog = ({ onClose }: LocationDialogProps) => {
+const LocationDialog = ({ onClose, onInsert }: LocationDialogProps) => {
 
     const [title, setTitle] = useState("");
     const [street, setStreet] = useState("");
@@ -22,6 +24,10 @@ const LocationDialog = ({ onClose }: LocationDialogProps) => {
 
     const onCreate = async () => {
         try {
+            if(isLoading) {
+                return null;
+            }
+
             setIsLoading(true);
             let usedUrl: string | null = null;
 
@@ -43,7 +49,7 @@ const LocationDialog = ({ onClose }: LocationDialogProps) => {
 
             const authToken = await SecureStorage.getItemAsync("authToken");
 
-            await createLocation(values, authToken);
+            const response = await createLocation(values, authToken);
             Toast.show({
                 type: 'success',
                 text1: 'Standort hinzugefügt',
@@ -55,6 +61,7 @@ const LocationDialog = ({ onClose }: LocationDialogProps) => {
                 position: 'top',
                 onPress: () => Toast.hide()
             })
+            onInsert(response)
             onClose();
         } catch (e: any) {
             console.log(e);
@@ -157,9 +164,14 @@ const LocationDialog = ({ onClose }: LocationDialogProps) => {
                             </Text>
                             <TextInput
                                 placeholder="z.B. Autohaus Mömer"
+                                maxLength={80}
                                 value={title}
                                 onChangeText={(text) => setTitle(text)}
                                 className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg"
+                            />
+                            <LetterRestriction 
+                            inputLength={title.length}
+                            limit={80}
                             />
                         </View>
                         <View className="p-4">
@@ -168,6 +180,7 @@ const LocationDialog = ({ onClose }: LocationDialogProps) => {
                             </Text>
                             <TextInput
                                 placeholder="Musterstraße 13"
+                                maxLength={100}
                                 value={street}
                                 onChangeText={(text) => setStreet(text)}
                                 className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg"
@@ -178,6 +191,7 @@ const LocationDialog = ({ onClose }: LocationDialogProps) => {
                                 <Text className="text-base font-semibold text-gray-200">Stadt</Text>
                                 <TextInput
                                     placeholder="Musterstadt"
+                                    maxLength={80}
                                     value={city}
                                     onChangeText={(text) => setCity(text)}
                                     className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg"
@@ -187,6 +201,8 @@ const LocationDialog = ({ onClose }: LocationDialogProps) => {
                                 <Text className="text-base font-semibold text-gray-200">Postleitzahl</Text>
                                 <TextInput
                                     placeholder="10100"
+                                    keyboardType="number-pad"
+                                    maxLength={5}
                                     value={plz}
                                     onChangeText={(text) => setPLZ(text)}
                                     className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg"
@@ -199,7 +215,7 @@ const LocationDialog = ({ onClose }: LocationDialogProps) => {
                                 onPress={onCreate}
                             >
 
-                                {!isLoading ? (
+                                {isLoading ? (
                                     <View>
                                         <ActivityIndicator size="small" color="#fff" />
                                     </View>

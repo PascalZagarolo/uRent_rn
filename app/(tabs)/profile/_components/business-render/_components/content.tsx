@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button, ScrollView, TouchableOpacity } from "react-native";
 import { Text, View } from "react-native";
 import ContentTab from "./_tabs/content-tab";
-import { userTable } from "@/db/schema";
+import { businessAddress, userTable } from "@/db/schema";
 import LocationTab from "./_tabs/location-tab";
 import OpeningTimesRender from "./_tabs/opening-times-render";
 import { openingTimes } from '../../../../../../db/schema';
@@ -13,10 +13,11 @@ interface ContentBusinessRenderProps {
     thisUser : typeof userTable.$inferSelect;
     isOwn : boolean;
     setOpenLocation : (open : boolean, id : string) => void;
+    foundAddresses : typeof businessAddress.$inferSelect[];
 }
 
 
-const ContentBusinessRender = ({ thisUser, isOwn, setOpenLocation } :  ContentBusinessRenderProps ) => {
+const ContentBusinessRender = ({ thisUser, isOwn, setOpenLocation, foundAddresses } :  ContentBusinessRenderProps ) => {
 
     const [tab, setTab] = useState("content");
 
@@ -97,7 +98,11 @@ const ContentBusinessRender = ({ thisUser, isOwn, setOpenLocation } :  ContentBu
                         {
                             {
                                 "content" : <ContentTab username={thisUser?.name} foundInserate={foundInserate} />,
-                                "location" : <LocationTab foundAddresses={thisUser?.business?.businessAddresses} isOwn={isOwn} setOpenLocation={(value1, value2) => setOpenLocation(value1, value2) }/>,
+                                "location" : <LocationTab foundAddresses={foundAddresses} 
+                                isOwn={isOwn} 
+                                setOpenLocation={(value1, value2) => setOpenLocation(value1, value2) }
+                                
+                                />,
                                 "openingTimes" : <OpeningTimesRender foundTimes={thisUser?.business?.openingTimes} />,
                                 "imprint" : <ImprintRender imprint={thisUser?.business?.impressum} />
                             }[tab]

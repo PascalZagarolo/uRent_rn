@@ -55,7 +55,7 @@ const LocationTab = ({ foundAddresses, isOwn, setOpenLocation } : LocationTabPro
                     </TouchableOpacity>
                 )}
             </View>
-            {foundAddresses?.length > 10 ? (
+            {foundAddresses?.length > 0 ? (
                 <View className="mt-8 space-y-8">
                 {foundAddresses.map(address => (
                     RenderedAddress(address.title, String(address.postalCode ?? ""), address.city, address.street, address.image)
@@ -65,6 +65,7 @@ const LocationTab = ({ foundAddresses, isOwn, setOpenLocation } : LocationTabPro
                 <View className="mt-8 space-y-8">
                     <Text className="text-base text-gray-200/60">
                         Keine Standorte hinzugefügt..
+                        
                     </Text>
             </View>
             )}
