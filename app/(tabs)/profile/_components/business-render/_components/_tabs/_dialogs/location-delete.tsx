@@ -1,18 +1,18 @@
 import { CirclePlusIcon, XIcon } from "lucide-react-native";
 import { useState } from "react";
 import { ActivityIndicator, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import LocationDialogDeleteUpload from "./location-dialog-upload";
+import LocationDialogUpload from "./location-dialog-upload";
 import { createLocation } from "@/actions/business/location/create-location";
 import * as SecureStorage from 'expo-secure-store';
 import Toast from "react-native-toast-message";
 import BarLoader from "react-spinners/ClipLoader";
 import LetterRestriction from "@/components/LetterRestriction";
-interface LocationDialogDeleteProps {
+interface LocationDialogProps {
     onClose: () => void;
-    onInsert : (newAddress) => void;
+    onDelete : (newAddress) => void;
 }
 
-const LocationDialogDelete = ({ onClose, onInsert }: LocationDialogDeleteProps) => {
+const LocationDialog = ({ onClose, onDelete }: LocationDialogProps) => {
 
     const [title, setTitle] = useState("");
     const [street, setStreet] = useState("");
@@ -61,7 +61,7 @@ const LocationDialogDelete = ({ onClose, onInsert }: LocationDialogDeleteProps) 
                 position: 'top',
                 onPress: () => Toast.hide()
             })
-            onInsert(response)
+            onDelete(response)
             onClose();
         } catch (e: any) {
             console.log(e);
@@ -147,7 +147,7 @@ const LocationDialogDelete = ({ onClose, onInsert }: LocationDialogDeleteProps) 
 
                         <View className="flex flex-row items-center p-4">
                             <Text className="text-lg font-semibold text-gray-200">
-                                Standort hinzufügen
+                                Standort löschen?
                             </Text>
                             <TouchableOpacity className="ml-auto" onPress={onClose}>
                                 <XIcon />
@@ -155,7 +155,7 @@ const LocationDialogDelete = ({ onClose, onInsert }: LocationDialogDeleteProps) 
                         </View>
                         <View className="px-4">
 
-                            <LocationDialogDeleteUpload
+                            <LocationDialogUpload
                                 setImageUrl={setImageUrl}
                             />
 
@@ -238,4 +238,4 @@ const LocationDialogDelete = ({ onClose, onInsert }: LocationDialogDeleteProps) 
     );
 }
 
-export default LocationDialogDelete;
+export default LocationDialog;

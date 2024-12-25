@@ -8,6 +8,7 @@ import ProfileRender from "./_components/profile-render";
 import { openingTimes, business } from '../../../db/schema';
 import { useAuth } from "../AuthProvider";
 import LocationDialog from "./_components/business-render/_components/_tabs/_dialogs/location-dialog";
+import LocationDialogDelete from "./_components/business-render/_components/_tabs/_dialogs/location-dialog";
 
 const ProfilePage = () => {
 
@@ -55,7 +56,9 @@ const ProfilePage = () => {
 
     },[])
 
-    const [showLocation, setShowLocation] = useState<{open : boolean, id : string }>({open : false, id : ""});
+    type openTypes = "edit" | "delete"
+
+    const [showLocation, setShowLocation] = useState<{open : boolean, id : string, type?: openTypes }>({open : false, id : "", type : null});
     const [foundAddresses, setFoundAddresses] = useState<any[] | null>([])
 
     const isOwner = user?.id === id; 
@@ -69,7 +72,7 @@ const ProfilePage = () => {
                     <ProfileRender 
                     thisUser={user}
                     isOwner={isOwner}
-                    setOpenLocation={(value1, value2) => setShowLocation({open : value1, id : value2})}
+                    setOpenLocation={(value1, value2, value3) => setShowLocation({open : value1, id : value2, type: value3})}
                     foundAddresses={foundAddresses}
                     />
                 )}
@@ -85,12 +88,18 @@ const ProfilePage = () => {
  
        >
          
-         <LocationDialog 
-         onClose={() => setShowLocation({open : false, id : ""})}
-        
-         onInsert = {(newOne) => setFoundAddresses([...foundAddresses, newOne])}
-
-         />
+        {showLocation?.type != "delete"  && showLocation?.type != "edit" && (
+             <LocationDialog 
+             onClose={() => setShowLocation({open : false, id : ""})}
+             onInsert = {(newOne) => setFoundAddresses([...foundAddresses, newOne])}
+             />
+        )}
+        {showLocation?.type === "delete" && (
+           <LocationDialogDelete 
+           onClose={() => setShowLocation({open : false, id : ""})}
+             onInsert = {(newOne) => console.log(newOne)}
+           />
+        )}
          
        </Modal>
         </View>

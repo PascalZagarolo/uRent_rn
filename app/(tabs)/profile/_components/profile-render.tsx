@@ -15,7 +15,7 @@ import ProfileRenderFull from "./profile-render/profile-render";
 interface ProfileRenderProps {
     thisUser : typeof userTable.$inferSelect | any;
     isOwner : boolean;
-    setOpenLocation : (open : boolean, id : string) => void;
+    setOpenLocation : (open : boolean, id : string, type : any) => void;
     foundAddresses : typeof businessAddress.$inferSelect[];
 }
 
@@ -42,7 +42,7 @@ const ProfileRender : React.FC<ProfileRenderProps> = ({
                     thisUser={thisUser}
                     isOwner={isOwner}
                     foundAddresses={foundAddresses}
-                    setOpenLocation={(value1, value2) => setOpenLocation(value1, value2)}
+                    setOpenLocation={(value1, value2, value3) => setOpenLocation(value1, value2, value3)}
                     />
                 ) : (
                     <ProfileRenderFull />

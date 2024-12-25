@@ -12,7 +12,7 @@ import ImprintRender from "./_tabs/imprint";
 interface ContentBusinessRenderProps {
     thisUser : typeof userTable.$inferSelect;
     isOwn : boolean;
-    setOpenLocation : (open : boolean, id : string) => void;
+    setOpenLocation : (open : boolean, id : string, type : string) => void;
     foundAddresses : typeof businessAddress.$inferSelect[];
 }
 
@@ -100,7 +100,7 @@ const ContentBusinessRender = ({ thisUser, isOwn, setOpenLocation, foundAddresse
                                 "content" : <ContentTab username={thisUser?.name} foundInserate={foundInserate} />,
                                 "location" : <LocationTab foundAddresses={foundAddresses} 
                                 isOwn={isOwn} 
-                                setOpenLocation={(value1, value2) => setOpenLocation(value1, value2) }
+                                setOpenLocation={(value1, value2, value3) => setOpenLocation(value1, value2, value3) }
                                 
                                 />,
                                 "openingTimes" : <OpeningTimesRender foundTimes={thisUser?.business?.openingTimes} />,
