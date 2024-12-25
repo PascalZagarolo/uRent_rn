@@ -100,7 +100,10 @@ const ContentBusinessRender = ({ thisUser, isOwn, setOpenLocation, foundAddresse
                                 "content" : <ContentTab username={thisUser?.name} foundInserate={foundInserate} />,
                                 "location" : <LocationTab foundAddresses={foundAddresses} 
                                 isOwn={isOwn} 
-                                setOpenLocation={(value1, value2, value3) => setOpenLocation(value1, value2, value3) }
+                                setOpenLocation={(value1, value2, value3) => {
+                                    setOpenLocation(value1, value2, value3);
+                                    console.log(value1, value2, value3) 
+                                }}
                                 
                                 />,
                                 "openingTimes" : <OpeningTimesRender foundTimes={thisUser?.business?.openingTimes} />,

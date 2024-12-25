@@ -5,10 +5,11 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { Modal, SafeAreaView, ScrollView, Text, View } from "react-native";
 import ProfileRender from "./_components/profile-render";
-import { openingTimes, business } from '../../../db/schema';
-import { useAuth } from "../AuthProvider";
 import LocationDialog from "./_components/business-render/_components/_tabs/_dialogs/location-dialog";
-import LocationDialogDelete from "./_components/business-render/_components/_tabs/_dialogs/location-dialog";
+import LocationDialogDelete from "./_components/business-render/_components/_tabs/_dialogs/location-delete";
+
+
+
 
 const ProfilePage = () => {
 
@@ -72,7 +73,10 @@ const ProfilePage = () => {
                     <ProfileRender 
                     thisUser={user}
                     isOwner={isOwner}
-                    setOpenLocation={(value1, value2, value3) => setShowLocation({open : value1, id : value2, type: value3})}
+                    setOpenLocation={(value1, value2, value3) => {
+                        setShowLocation({open : value1, id : value2, type: value3});
+                        console.log(value1, value2, value3);
+                    }}
                     foundAddresses={foundAddresses}
                     />
                 )}
@@ -83,21 +87,22 @@ const ProfilePage = () => {
          transparent={true}
          visible={showLocation.open}
          onRequestClose={() => {
-           setShowLocation({open : false, id : ""});
+           setShowLocation({open : false, id : "", type : null});
          }}
  
        >
          
-        {showLocation?.type != "delete"  && showLocation?.type != "edit" && (
+         {!showLocation?.type && (
              <LocationDialog 
              onClose={() => setShowLocation({open : false, id : ""})}
              onInsert = {(newOne) => setFoundAddresses([...foundAddresses, newOne])}
              />
         )}
-        {showLocation?.type === "delete" && (
-           <LocationDialogDelete 
+        {showLocation?.type == "delete" && (
+           <LocationDialogDelete
+           locationId = {showLocation.id} 
            onClose={() => setShowLocation({open : false, id : ""})}
-             onInsert = {(newOne) => console.log(newOne)}
+             onDelete = {(newOne) => setFoundAddresses([...foundAddresses.filter(address => address.id !== newOne.id)])}
            />
         )}
          
