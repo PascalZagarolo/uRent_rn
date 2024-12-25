@@ -8,6 +8,7 @@ import Toast from "react-native-toast-message";
 
 import LetterRestriction from "@/components/LetterRestriction";
 import { businessAddress } from "@/db/schema";
+import { editLocationBusiness } from "@/actions/business/location/edit-location";
 interface LocationDialogEditProps {
     prefilledAddress : typeof businessAddress.$inferSelect;
     onClose: () => void;
@@ -51,7 +52,7 @@ const LocationDialogEdit = ({prefilledAddress, onClose, onEdit }: LocationDialog
 
             const authToken = await SecureStorage.getItemAsync("authToken");
 
-            const response = await createLocation(values, authToken);
+            const response = await editLocationBusiness(values, prefilledAddress?.id, authToken);
             Toast.show({
                 type: 'success',
                 text1: 'Standort hinzugefügt',
@@ -159,6 +160,7 @@ const LocationDialogEdit = ({prefilledAddress, onClose, onEdit }: LocationDialog
 
                             <LocationDialogEditUpload
                                 setImageUrl={setImageUrl}
+                                imageUrl={imageUrl}
                             />
 
                             <Text className="text-base font-semibold text-gray-200 mt-4">
@@ -205,15 +207,15 @@ const LocationDialogEdit = ({prefilledAddress, onClose, onEdit }: LocationDialog
                                     placeholder="10100"
                                     keyboardType="number-pad"
                                     maxLength={5}
-                                    value={plz}
+                                    value={String(plz)}
                                     onChangeText={(text) => setPLZ(text)}
                                     className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg"
                                 />
                             </View>
                         </View>
-                        <View className="py-4 px-4">
+                        <View className="py-4 px-4 flex flex-row items-center">
                             <TouchableOpacity
-                                className="px-4 flex flex-row justify-center items-center p-2.5 bg-indigo-800 rounded-md"
+                                className=" flex flex-row justify-center w-2/3 items-center p-2.5 py-4 bg-indigo-800 rounded-md"
                                 onPress={onCreate}
                             >
 
@@ -223,9 +225,28 @@ const LocationDialogEdit = ({prefilledAddress, onClose, onEdit }: LocationDialog
                                     </View>
                                 ) : (
                                     <>
-                                        <CirclePlusIcon className="w-4 h-4 mr-2 text-gray-200" />
+                                        
                                         <Text className="text-sm font-semibold text-gray-200 rounded-lg text-center">
-                                            Standort bearbeiten
+                                            Änderungen speichern
+                                        </Text>
+                                    </>
+                                )}
+                            </TouchableOpacity>
+                            
+                            <TouchableOpacity
+                                className=" flex flex-row justify-center w-1/3 items-center p-2.5 py-4  rounded-md"
+                                onPress={onClose}
+                            >
+
+                                {isLoading ? (
+                                    <View>
+                                        <ActivityIndicator size="small" color="#fff" />
+                                    </View>
+                                ) : (
+                                    <>
+                                        
+                                        <Text className="text-sm font-semibold text-gray-200 rounded-lg text-center">
+                                            Abbrechen
                                         </Text>
                                     </>
                                 )}

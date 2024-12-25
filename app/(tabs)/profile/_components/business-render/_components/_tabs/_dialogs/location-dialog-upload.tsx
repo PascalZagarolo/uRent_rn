@@ -8,9 +8,10 @@ import { CircleIcon, ReplaceAllIcon, TrashIcon, XIcon } from "lucide-react-nativ
 
 interface LocationDialogUploadProps {
     setImageUrl : (url : string) => void;
+    imageUrl? : string;
 }
 
-const LocationDialogUpload = ({ setImageUrl } : LocationDialogUploadProps) => {
+const LocationDialogUpload = ({ setImageUrl, imageUrl } : LocationDialogUploadProps) => {
     
     
 
@@ -18,7 +19,7 @@ const LocationDialogUpload = ({ setImageUrl } : LocationDialogUploadProps) => {
         url: string,
     };
  
-    const [currentPicture, setCurrentPicture] = useState<PictureObject>(null);
+    const [currentPicture, setCurrentPicture] = useState<PictureObject>({ url: imageUrl ? imageUrl : "" });
     const [showModal, setShowModal] = useState(false);
 
 

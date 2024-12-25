@@ -1,6 +1,6 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import db from "@/db/drizzle";
-import { business, businessAddress } from "@/db/schema";
+import { businessAddress } from "@/db/schema";
 import { and, eq } from "drizzle-orm";
 
 export async function editLocationBusiness (values, locationId, authToken) {
@@ -16,18 +16,20 @@ export async function editLocationBusiness (values, locationId, authToken) {
         const findBusinessLocation = await db.query.businessAddress.findFirst({
             where : and(
                 eq(businessAddress.businessId, findUser.businessId),
-                eq(businessAddress.id, values.id)
+                eq(businessAddress.id, locationId)
             )
         })
 
         if(!findBusinessLocation) {
             console.log("Standort nicht gefunden");
             return new Error("404: Standort nicht gefunden");
-        }
+        }   
 
-        const updateValues = await db.update(businessAddress).set({
+        const [updateValues] = await db.update(businessAddress).set({
             ...values
         }).where(eq(businessAddress.id, locationId)).returning();
+        console.log(updateValues);
+        return updateValues;
 
 
     } catch(e : any) {
