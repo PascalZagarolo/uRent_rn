@@ -3,30 +3,29 @@ import { ClockIcon } from "lucide-react-native";
 import { Text, View } from "react-native";
 
 interface OpeningTimesRenderProps {
-    foundTimes : typeof openingTimes.$inferSelect;
+    foundTimes: typeof openingTimes.$inferSelect;
 }
 
-const OpeningTimesRender = ({ foundTimes } : OpeningTimesRenderProps) => {
+const OpeningTimesRender = ({ foundTimes }: OpeningTimesRenderProps) => {
     console.log(foundTimes);
     const renderedDays = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
 
-    const renderedTimeline = (day : string) => {
+    const renderedTimeline = (day: string) => {
         return (
             <View className="ml-auto">
-                <Text className="text-gray-200 font-semibold text-lg">
+                <Text className="text-gray-200 font-semibold text-lg px-4">
                     {
                         {
-                            "Montag" : `${foundTimes?.monday ?? "-"} Uhr`,
-                            "Dienstag" : `${foundTimes?.tuesday ?? "-"} Uhr`,
-                            "Mittwoch" : `${foundTimes?.wednesday ?? "-"} Uhr`,
-                            "Donnerstag" : `${foundTimes?.thursday ?? "-"} Uhr`,
-                            "Freitag" : `${foundTimes?.friday ?? "-"} Uhr`,
-                            "Samstag" : `${foundTimes?.saturday ?? "-"} Uhr`,
-                            "Sonntag" : `${foundTimes?.sunday ?? "-"} Uhr`,
-                            
-                           
+                            Montag: foundTimes?.monday ? `${foundTimes.monday} Uhr` : "-",
+                            Dienstag: foundTimes?.tuesday ? `${foundTimes.tuesday} Uhr` : "-",
+                            Mittwoch: foundTimes?.wednesday ? `${foundTimes.wednesday} Uhr` : "-",
+                            Donnerstag: foundTimes?.thursday ? `${foundTimes.thursday} Uhr` : "-",
+                            Freitag: foundTimes?.friday ? `${foundTimes.friday} Uhr` : "-",
+                            Samstag: foundTimes?.saturday ? `${foundTimes.saturday} Uhr` : "-",
+                            Sonntag: foundTimes?.sunday ? `${foundTimes.sunday} Uhr` : "-",
                         }[day]
                     }
+
                 </Text>
             </View>
         )

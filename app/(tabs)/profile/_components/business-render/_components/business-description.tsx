@@ -50,7 +50,7 @@ const Businessdescription = ({ thisDescription, isOwnProfile, username }: Busine
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={{ flex: 1 }}
         >
-            <View className="flex flex-col">
+            <View className="flex flex-col h-fulll">
                 <View className="flex flex-row items-center">
                     <Text className="text-base text-gray-200 font-semibold w-3/4 line-clamp-1">
                         über {username}
@@ -75,7 +75,7 @@ const Businessdescription = ({ thisDescription, isOwnProfile, username }: Busine
                         </View>
                     )}
                 </View>
-                <View className="pb-4">
+                <View className="pb-4 h-full">
                     {isEditing ? (
                         <TextInput
                             className="border-indigo-800 border rounded-md h-40 text-gray-200 p-2"

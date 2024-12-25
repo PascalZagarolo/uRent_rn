@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
 import BusinessBannerRender from "./_components/business-banner";
 import { userTable, businessAddress } from '@/db/schema';
 import { format } from "date-fns";
@@ -18,8 +18,9 @@ const BusinessRender = ({ thisUser, isOwner, setOpenLocation, foundAddresses }: 
     
 
     return (
-        <View>
-            <View className="flex flex-col min-h-screen">
+        
+      
+            <View className="flex flex-col h-full">
                 <View>
                     <BusinessBannerRender
                         thisImage={thisUser?.business?.businessImages[0]?.url ?? null}
@@ -35,7 +36,7 @@ const BusinessRender = ({ thisUser, isOwner, setOpenLocation, foundAddresses }: 
                         thisDescription={thisUser?.business?.description ?? ""}
                     />
                 </View>
-                <View>
+                <View className="">
                     <ContentBusinessRender 
                     thisUser={thisUser}
                     isOwn={isOwner}
@@ -44,7 +45,7 @@ const BusinessRender = ({ thisUser, isOwner, setOpenLocation, foundAddresses }: 
                     />
                 </View>
             </View>
-        </View>
+      
     );
 }
 

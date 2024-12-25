@@ -8,6 +8,7 @@ import ProfileRender from "./_components/profile-render";
 import LocationDialog from "./_components/business-render/_components/_tabs/_dialogs/location-dialog";
 import LocationDialogDelete from "./_components/business-render/_components/_tabs/_dialogs/location-delete";
 import LocationDialogEdit from "./_components/business-render/_components/_tabs/_dialogs/location-edit";
+import { Key } from "lucide-react-native";
 
 
 
@@ -66,10 +67,12 @@ const ProfilePage = () => {
     const isOwner = user?.id === id;
 
     return (
-        <View className="flex-1  bg-[#181b27]">
-            <SafeAreaView className="">
-                <ScrollView className="">
+        
+        <View className=" ">
+            
+               
 
+                   
                     {user && (
                         <ProfileRender
                             thisUser={user}
@@ -80,9 +83,9 @@ const ProfilePage = () => {
                             }}
                             foundAddresses={foundAddresses}
                         />
-                    )}
-                </ScrollView>
-            </SafeAreaView>
+                    )} 
+               
+            
             <Modal
                 animationType="slide"
                 transparent={true}
@@ -115,6 +118,7 @@ const ProfilePage = () => {
                 )}
             </Modal>
         </View>
+   
     );
 }
 

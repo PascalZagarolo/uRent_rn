@@ -1,5 +1,5 @@
 import { businessAddress, userTable } from "@/db/schema";
-import { Image, Text, View } from "react-native";
+import { Image, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, View } from "react-native";
 import ProfileDescription from "./profile-description";
 import ProfileStandort from "./profile-standort";
 import ProfileContact from "../profile-contact";
@@ -28,15 +28,23 @@ const ProfileRender : React.FC<ProfileRenderProps> = ({
     
     const usedDescription = thisUser?.isBusiness ? thisUser?.business?.description : thisUser?.description;
     
-    return ( 
-        <View className="bg-[#1F2332] h-full w-full">
-            <View>
+    return (
+        <KeyboardAvoidingView
+        
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={100} // Adjust based on your header height
+    >
+        <View className=" h-full w-full">
+           
+                <SafeAreaView>
                 <View className="border-b border-gray-800 p-4 bg-[#181b27]">
                     <Text className="text-xl font-semibold text-gray-200">
                         {thisUser?.isBusiness ? "Vermieterdetails" : "Nutzerdetails"}
                     </Text>
                 </View>
+                </SafeAreaView>
                
+                <ScrollView className=" bg-[#1F2332]">
                 {thisUser?.isBusiness ? (
                     <BusinessRender 
                     thisUser={thisUser}
@@ -47,8 +55,10 @@ const ProfileRender : React.FC<ProfileRenderProps> = ({
                 ) : (
                     <ProfileRenderFull />
                 )}
-            </View>
+                </ScrollView>
+            
         </View>
+        </KeyboardAvoidingView> 
      );
 }
  
