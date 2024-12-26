@@ -13,6 +13,8 @@ const OpeningTimesRender = ({ foundTimes, setOpenOpeningTimes, isOwn }: OpeningT
     console.log(foundTimes);
     const renderedDays = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
 
+    
+
     const renderedTimeline = (day: string) => {
         return (
             <View className="ml-auto">

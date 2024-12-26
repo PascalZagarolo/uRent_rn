@@ -320,13 +320,6 @@ useEffect(() => {
     );
 }
 
-const styles = StyleSheet.create({
-    bottomSheetBackground: {
-        backgroundColor: '#1F2332',
-    },
-    bottomSheetContent: {
-        flex: 1,
-    },
-});
+
 
 export default PriceRange;

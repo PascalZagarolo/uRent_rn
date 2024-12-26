@@ -3,7 +3,7 @@ import { Feather, FontAwesome } from "@expo/vector-icons";
 import { format, isAfter, isSameDay } from "date-fns";
 import { useEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
-import { Calendar, LocaleConfig } from 'react-native-calendars';
+import { Calendar, } from 'react-native-calendars';
 
 
 import Popover from 'react-native-popover-view';
@@ -87,7 +87,7 @@ const SelectDateFilter = () => {
                 </TouchableOpacity>
               )}>
               <View className="w-[320px] ">
-                <Calendar
+              <Calendar
                 
                 markingType="custom"
                   style={{
@@ -109,7 +109,7 @@ const SelectDateFilter = () => {
                      isSameDay(new Date(day.dateString), new Date(currentStartDate)) ? 
                      setCurrentStartDate(null) : setCurrentStartDate(new Date(day.dateString));
                    }}
-                />
+                /> 
               </View>
             </Popover>
           </View>
