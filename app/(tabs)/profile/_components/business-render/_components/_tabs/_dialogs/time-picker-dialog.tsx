@@ -19,7 +19,7 @@ const TimePickerDialog = ({ refRBSheet, onSelect, onClose }: TimePickerDialogPro
             string: formattedTime,
             value: minutes
         };
-    });
+    })
 
     return ( 
         <View>
@@ -44,7 +44,7 @@ const TimePickerDialog = ({ refRBSheet, onSelect, onClose }: TimePickerDialogPro
                 }}>
                 <View className="p-4">
                     <Text className="text-base font-semibold text-gray-200">
-                        Startpreis auswählen
+                        Zeitpunkt auswählen
                     </Text>
                     <ScrollView className="h-[160px] w-full p-4">
                         <View className="flex flex-col justify-center space-y-4">

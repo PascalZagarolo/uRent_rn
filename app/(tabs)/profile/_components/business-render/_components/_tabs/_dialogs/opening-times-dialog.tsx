@@ -1,7 +1,8 @@
-import { XIcon } from "lucide-react-native";
+import { Scroll, XIcon } from "lucide-react-native";
 import { useRef, useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Platform, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import TimePickerDialog from "./time-picker-dialog";
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 interface OpeningTimesRenderProps {
     onClose: () => void;
@@ -17,6 +18,8 @@ const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
         Samstag: { start: "", end: "" },
         Sonntag: { start: "", end: "" }
     });
+
+    //! Todo: 1) Checkboxes funktionsfähig machen (nur wenn Aktiv "Geschlossen" unterstreichen), 2) Wenn Checkbox aktiv => Textfelder deaktivieren, 3) Werte speichern können
 
     const refRBSheet = useRef<any>(null);
     const [selectedDay, setSelectedDay] = useState<string | null>(null); // Track the selected day
@@ -42,8 +45,9 @@ const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
             <View className="h-full w-full justify-center items-center bg-black/80 p-4">
                 <KeyboardAvoidingView
                     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    className="w-full h-[600px]"
                 >
-                    <View className="bg-[#151821] w-full rounded-lg">
+                    <View className="bg-[#151821] w-full h-full rounded-lg flex-1">
                         <View className="flex flex-row items-center p-4 w-full">
                             <Text className="text-lg font-semibold text-gray-200">
                                 Öffnungszeiten bearbeiten
@@ -54,58 +58,78 @@ const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
                         </View>
 
                         {/* Day Section */}
-                        <View className="px-4">
-                            {Object.keys(openingTimes).map((day) => (
-                                <View key={day}>
-                                    <Text className="text-lg font-semibold text-gray-200/80">
-                                        {day}
-                                    </Text>
-                                    <View className=" mb-2 flex space-x-4 flex-row items-center justify-between">
-                                        <View className="w-5/12 p-2.5 rounded-md bg-[#222633]">
-                                            <TouchableOpacity onPress={() => openTimePicker(day, 'start')}>
+                        <View className=" px-4 ">
+                            <ScrollView className="h-[460px] w-full ">
+                                {Object.keys(openingTimes).map((day) => (
+                                    <View key={day}>
+                                        <Text className="text-lg font-semibold text-gray-200/80">
+                                            {day}
+                                        </Text>
+                                        <View className="mb-2 flex space-x-4 flex-row items-center justify-between">
+                                            <View className="w-5/12 p-2.5 py-4 rounded-md bg-[#222633]">
+                                                <TouchableOpacity onPress={() => openTimePicker(day, 'start')}>
+                                                    <Text className="text-gray-200 text-base font-semibold">
+                                                        {openingTimes[day].start || "Von"}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                            <View>
                                                 <Text className="text-gray-200 text-base font-semibold">
-                                                    {openingTimes[day].start || "Von"}
+                                                    -
                                                 </Text>
-                                            </TouchableOpacity>
+                                            </View>
+                                            <View className="w-5/12 p-2.5 py-4 rounded-md bg-[#222633]">
+                                                <TouchableOpacity onPress={() => openTimePicker(day, 'end')}>
+                                                    <Text className="text-gray-200 text-base font-semibold">
+                                                        {openingTimes[day].end || "Bis"}
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
                                         </View>
-                                        <View>
-                                            <Text className="text-gray-200 text-base font-semibold">
-                                                -
+                                        <View className="flex flex-row items-center space-x-4 py-4">
+                                            <BouncyCheckbox
+                                                size={24}
+                                                fillColor="blue"
+                                                unFillColor="#FFFFFF"
+                                                className="flex justify-center items-center"
+
+                                                isChecked={true}
+                                                onPress={() => {}}
+                                                disableText={true}
+                                            />
+                                            <Text className="text-gray-200 font-medium text-base underline">
+                                                Geschlossen
                                             </Text>
                                         </View>
-                                        <View className="w-5/12 p-2.5 rounded-md bg-[#222633]">
-                                            <TouchableOpacity onPress={() => openTimePicker(day, 'end')}>
-                                                <Text className="text-gray-200 text-base font-semibold">
-                                                    {openingTimes[day].end || "Bis"}
-                                                </Text>
-                                            </TouchableOpacity>
-                                        </View>
                                     </View>
-                                </View>
-                            ))}
-                            <View>
-                                <TouchableOpacity className="mt-4 bg-indigo-800 rounded-md mb-4">
-                                    <Text className="text-base font-semibold text-center p-2.5 text-gray-200">
+                                ))}
+                            </ScrollView>
+                        </View>
+
+                        {/* Save Button */}
+                        <View className="px-4 pb-4">
+                            <TouchableOpacity className="mt-4 bg-indigo-800 rounded-md">
+                                <Text className="text-base font-semibold text-center p-2.5 text-gray-200">
                                     Änderungen speichern
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
+                                </Text>
+                            </TouchableOpacity>
                         </View>
                     </View>
                 </KeyboardAvoidingView>
 
                 {/* TimePickerDialog for Time selection */}
-                <TimePickerDialog 
+                <TimePickerDialog
                     refRBSheet={refRBSheet}
                     onSelect={(time) => {
                         if (selectedDay && selectedTimeType) {
                             handleTimeChange(selectedDay, selectedTimeType, time); // Pass both day and time type (start or end)
                         }
                     }}
-                    onClose={() => refRBSheet.current.close()} 
+                    onClose={() => refRBSheet.current.close()}
                 />
             </View>
         </TouchableWithoutFeedback>
+
     );
 }
 
