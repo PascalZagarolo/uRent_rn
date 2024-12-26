@@ -48,9 +48,7 @@ const ImprintRender = ({ imprint, isOwn }: ImprintRenterProps) => {
     }
 
     return (
-        <View
-
-        >
+        <View>
 
             <View className="flex flex-row items-center">
                 <ScaleIcon className="w-4 h-4 mr-4" />
@@ -76,9 +74,16 @@ const ImprintRender = ({ imprint, isOwn }: ImprintRenterProps) => {
             </View>
             {isEditing ? (
                 
-                    <Text>
+                    
+                        <TextInput 
+                         className="text-gray-200/80 border-indigo-800 border p-4 mt-4 rounded-lg h-40"
+                         multiline
+                         autoFocus
+                         placeholder="Impressum hinzufügen.."
+                        />
+                    
                         
-                    </Text>
+                    
                 
             ) : (
                 <View className="mt-8">

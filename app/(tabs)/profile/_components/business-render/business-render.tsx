@@ -10,10 +10,11 @@ interface BusinessRenderProps {
     thisUser: typeof userTable.$inferSelect;
     isOwner: boolean;
     setOpenLocation: (open: boolean, id: string, type: string) => void;
+    setOpenOpeningTimes: (open: boolean) => void;
     foundAddresses : typeof businessAddress.$inferSelect[];
 }
 
-const BusinessRender = ({ thisUser, isOwner, setOpenLocation, foundAddresses }: BusinessRenderProps) => {
+const BusinessRender = ({ thisUser, isOwner, setOpenLocation, setOpenOpeningTimes, foundAddresses }: BusinessRenderProps) => {
 
     
 
@@ -41,6 +42,7 @@ const BusinessRender = ({ thisUser, isOwner, setOpenLocation, foundAddresses }: 
                     thisUser={thisUser}
                     isOwn={isOwner}
                     setOpenLocation={(value1, value2, value3) => setOpenLocation(value1, value2, value3)}
+                    setOpenOpeningTimes={(value) => setOpenOpeningTimes(value)}
                     foundAddresses={foundAddresses}
                     />
                 </View>

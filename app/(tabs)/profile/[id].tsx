@@ -8,7 +8,8 @@ import ProfileRender from "./_components/profile-render";
 import LocationDialog from "./_components/business-render/_components/_tabs/_dialogs/location-dialog";
 import LocationDialogDelete from "./_components/business-render/_components/_tabs/_dialogs/location-delete";
 import LocationDialogEdit from "./_components/business-render/_components/_tabs/_dialogs/location-edit";
-import { Key } from "lucide-react-native";
+import OpeningTimesDialog from "./_components/business-render/_components/_tabs/_dialogs/opening-times-dialog";
+
 
 
 
@@ -62,40 +63,51 @@ const ProfilePage = () => {
     type openTypes = "edit" | "delete"
 
     const [showLocation, setShowLocation] = useState<{ open: boolean, id: string, type?: openTypes }>({ open: false, id: "", type: null });
+    const [showOpeningTimes, setShowOpeningTimes] = useState<boolean>(false);
     const [foundAddresses, setFoundAddresses] = useState<any[] | null>([])
 
     const isOwner = user?.id === id;
 
     return (
-        
-        <View className=" ">
-            
-               
 
-                   
-                    {user && (
-                        <ProfileRender
-                            thisUser={user}
-                            isOwner={isOwner}
-                            setOpenLocation={(value1, value2, value3) => {
-                                setShowLocation({ open: value1, id: value2, type: value3 });
-                                console.log(value1, value2, value3);
-                            }}
-                            foundAddresses={foundAddresses}
-                        />
-                    )} 
-               
-            
+        <View className=" bg-[#181b27] h-screen">
+            <SafeAreaView className="">
+                <View className="border-b border-gray-800 p-4 bg-[#181b27]">
+                    <Text className="text-xl font-semibold text-gray-200">
+                        {user?.isBusiness ? "Vermieterdetails" : "Nutzerdetails"}
+                    </Text>
+                </View>
+            </SafeAreaView >
+
+
+            {user && (
+                <ProfileRender
+                    thisUser={user}
+                    isOwner={isOwner}
+                    setOpenLocation={(value1, value2, value3) => {
+                        setShowLocation({ open: value1, id: value2, type: value3 });
+                        console.log(value1, value2, value3);
+                    }}
+                    setOpenOpeningTimes={(value) => setShowOpeningTimes(value)}
+                    foundAddresses={foundAddresses}
+                />
+            )}
+
+
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={showLocation.open}
+                visible={showLocation.open || showOpeningTimes}
                 onRequestClose={() => {
                     setShowLocation({ open: false, id: "", type: null });
                 }}
 
             >
-
+                {showOpeningTimes && (
+                    <OpeningTimesDialog 
+                    onClose={() => setShowOpeningTimes(false)}
+                    />
+                )}
                 {!showLocation?.type && (
                     <LocationDialog
                         onClose={() => setShowLocation({ open: false, id: "" })}
@@ -118,7 +130,7 @@ const ProfilePage = () => {
                 )}
             </Modal>
         </View>
-   
+
     );
 }
 
