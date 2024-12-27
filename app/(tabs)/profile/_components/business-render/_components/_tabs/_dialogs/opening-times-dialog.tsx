@@ -59,7 +59,7 @@ const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
         }
     }
 
-    //! Todo: 1) Checkboxes funktionsfähig machen (nur wenn Aktiv "Geschlossen" unterstreichen), 2) Wenn Checkbox aktiv => Textfelder deaktivieren, 3) Werte speichern können
+    //! Todo: 4) spätere Schließzeiten als Öffnungszeiten verhindern 5) Aktuellisieren livetime
 
     const refRBSheet = useRef<any>(null);
     const [selectedDay, setSelectedDay] = useState<string | null>(null); // Track the selected day
