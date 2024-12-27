@@ -4,10 +4,20 @@ import RBSheet from "react-native-raw-bottom-sheet";
 interface TimePickerDialogProps {
     refRBSheet: any; 
     onSelect: (time: string) => void; // Handle selected time
+    startTime?: string; // Optional start time
+    endTime?: string; // Optional end time
     onClose: () => void;
 }
 
-const TimePickerDialog = ({ refRBSheet, onSelect, onClose }: TimePickerDialogProps) => {
+const TimePickerDialog = ({ refRBSheet, onSelect, onClose, startTime, endTime }: TimePickerDialogProps) => {
+    // Parse startTime and endTime to minutes for comparison
+    const startMinutes = startTime 
+        ? parseInt(startTime.split(':')[0]) * 60 + parseInt(startTime.split(':')[1]) 
+        : 0;
+
+    const endMinutes = endTime
+        ? parseInt(endTime.split(':')[0]) * 60 + parseInt(endTime.split(':')[1]) 
+        : 24 * 60; // Default to end of the day if no endTime is provided
 
     const prefilledTimes = Array.from({ length: 96 }, (_, index) => {
         const minutes = index * 15;
@@ -17,7 +27,8 @@ const TimePickerDialog = ({ refRBSheet, onSelect, onClose }: TimePickerDialogPro
         
         return {
             string: formattedTime,
-            value: minutes
+            value: minutes,
+            isDisabled: minutes < startMinutes || minutes > endMinutes, // Disable times outside range
         };
     });
 
@@ -50,14 +61,21 @@ const TimePickerDialog = ({ refRBSheet, onSelect, onClose }: TimePickerDialogPro
                         <View className="flex flex-col justify-center space-y-4">
                             {prefilledTimes.map((value) => (
                                 <TouchableOpacity 
-                                    className="w-full bg-[#232635] p-2"
+                                    className={`w-full p-2 ${
+                                        value.isDisabled ? 'bg-gray-600' : 'bg-[#232635]'
+                                    }`}
                                     key={value.value}
                                     onPress={() => { 
-                                        onSelect(value.string); 
-                                        onClose();  // Close the dialog after selection
+                                        if (!value.isDisabled) { // Only allow selection if not disabled
+                                            onSelect(value.string); 
+                                            onClose(); // Close the dialog after selection
+                                        }
                                     }}
+                                    disabled={value.isDisabled} // Disable the button
                                 >
-                                    <Text className="text-center text-lg text-gray-200 font-semibold">
+                                    <Text className={`text-center text-lg font-semibold ${
+                                        value.isDisabled ? 'text-gray-400' : 'text-gray-200'
+                                    }`}>
                                         {value.string} Uhr
                                     </Text>
                                 </TouchableOpacity>

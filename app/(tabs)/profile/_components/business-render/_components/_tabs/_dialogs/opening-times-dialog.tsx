@@ -164,7 +164,7 @@ const OpeningTimesDialog = ({ onClose, foundTimes, setFoundTimes }: OpeningTimes
                                                 fillColor="blue"
                                                 unFillColor="#FFFFFF"
                                                 className="flex justify-center items-center"
-
+                                                
                                                 isChecked={!openingTimes[day].start && !openingTimes[day].end}
                                                 onPress={(e) => {
                                                     if(e) {
@@ -204,6 +204,8 @@ const OpeningTimesDialog = ({ onClose, foundTimes, setFoundTimes }: OpeningTimes
                             handleTimeChange(selectedDay, selectedTimeType, time); // Pass both day and time type (start or end)
                         }
                     }}
+                    startTime={openingTimes[selectedDay]?.start}
+                    endTime={openingTimes[selectedDay]?.end}
                     onClose={() => refRBSheet.current.close()}
                 />
             </View>
