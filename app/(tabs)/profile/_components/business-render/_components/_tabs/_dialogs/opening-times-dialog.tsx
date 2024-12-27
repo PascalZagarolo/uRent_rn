@@ -88,7 +88,6 @@ const OpeningTimesDialog = ({ onClose, foundTimes, setFoundTimes }: OpeningTimes
         }
     }
 
-    //! Todo: 4) spätere Schließzeiten als Öffnungszeiten verhindern7) Zeiten vorbelegen 6) Zeiten direkt aktuleiisieren)
 
     const refRBSheet = useRef<any>(null);
     const [selectedDay, setSelectedDay] = useState<string | null>(null); // Track the selected day
