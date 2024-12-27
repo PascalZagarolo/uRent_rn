@@ -3,12 +3,19 @@ import { useRef, useState } from "react";
 import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import TimePickerDialog from "./time-picker-dialog";
 import BouncyCheckbox from "react-native-bouncy-checkbox";
+import { cn } from "@/~/lib/utils";
+import Toast from "react-native-toast-message";
+import * as SecureStorage from 'expo-secure-store';
+import { editOpeningTimes } from "@/actions/business/openingTimes/route";
 
 interface OpeningTimesRenderProps {
     onClose: () => void;
 }
 
 const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
+
+    const [isLoading, setIsLoading] = useState(false);
+
     const [openingTimes, setOpeningTimes] = useState({
         Montag: { start: "", end: "" },
         Dienstag: { start: "", end: "" },
@@ -18,6 +25,39 @@ const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
         Samstag: { start: "", end: "" },
         Sonntag: { start: "", end: "" }
     });
+
+    const onSave = async () => {
+        try {
+            setIsLoading(true);
+            if(isLoading) return null;
+            const values = {
+                monday: (openingTimes.Montag.start ?? "") + " - " + (openingTimes.Montag.end ?? ""),
+                tuesday: (openingTimes.Dienstag.start ?? "") + " - " + (openingTimes.Dienstag.end ?? ""),
+                wednesday: (openingTimes.Mittwoch.start ?? "") + " - " + (openingTimes.Mittwoch.end ?? ""),
+                thursday: (openingTimes.Donnerstag.start ?? "") + " - " + (openingTimes.Donnerstag.end ?? ""),
+                friday: (openingTimes.Freitag.start ?? "") + " - " + (openingTimes.Freitag.end ?? ""),
+                saturday: (openingTimes.Samstag.start ?? "") + " - " + (openingTimes.Samstag.end ?? ""),
+                sunday: (openingTimes.Sonntag.start ?? "") + " - " + (openingTimes.Sonntag.end ?? ""),
+            };
+
+            const authToken = await SecureStorage.getItemAsync("authToken");
+            const response = await editOpeningTimes(values, authToken);
+            Toast.show({
+                type: "success",
+                text1: "Erfolgreich",
+                text2: "Öffnungszeiten wurden gespeichert"
+            })
+        } catch(e : any) {
+            console.log(e);
+            Toast.show({
+                type: "error",
+                text1: "Fehler",
+                text2: "Öffnungszeiten konnten nicht gespeichert werden"
+            })
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     //! Todo: 1) Checkboxes funktionsfähig machen (nur wenn Aktiv "Geschlossen" unterstreichen), 2) Wenn Checkbox aktiv => Textfelder deaktivieren, 3) Werte speichern können
 
@@ -69,7 +109,7 @@ const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
                                             <View className="w-5/12 p-2.5 py-4 rounded-md bg-[#222633]">
                                                 <TouchableOpacity onPress={() => openTimePicker(day, 'start')}>
                                                     <Text className="text-gray-200 text-base font-semibold">
-                                                        {openingTimes[day].start || "Von"}
+                                                        {`${openingTimes[day].start} Uhr`|| "Von"}
                                                     </Text>
                                                 </TouchableOpacity>
                                             </View>
@@ -78,13 +118,16 @@ const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
                                                     -
                                                 </Text>
                                             </View>
-                                            <View className="w-5/12 p-2.5 py-4 rounded-md bg-[#222633]">
+                                            <View className="flex flex-row items-center w-5/12 p-2.5 py-4 rounded-md bg-[#222633]">
                                                 <TouchableOpacity onPress={() => openTimePicker(day, 'end')}>
                                                     <Text className="text-gray-200 text-base font-semibold">
-                                                        {openingTimes[day].end || "Bis"}
+                                                        {`${openingTimes[day].end} Uhr` || "Bis"}
                                                     </Text>
+                                                    
                                                 </TouchableOpacity>
+                                              
                                             </View>
+                                            
                                         </View>
                                         <View className="flex flex-row items-center space-x-4 py-4">
                                             <BouncyCheckbox
@@ -93,11 +136,18 @@ const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
                                                 unFillColor="#FFFFFF"
                                                 className="flex justify-center items-center"
 
-                                                isChecked={true}
-                                                onPress={() => {}}
+                                                isChecked={!openingTimes[day].start && !openingTimes[day].end}
+                                                onPress={(e) => {
+                                                    if(e) {
+                                                        setOpeningTimes(prevState => ({
+                                                            ...prevState,
+                                                            [day]: { start: "", end: "" }
+                                                        }));
+                                                    }
+                                                }}
                                                 disableText={true}
                                             />
-                                            <Text className="text-gray-200 font-medium text-base underline">
+                                            <Text className={cn("font-medium text-gray-200/80 text-base", !openingTimes[day].start && "underline  text-gray-200" )}>
                                                 Geschlossen
                                             </Text>
                                         </View>
@@ -108,7 +158,7 @@ const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
 
                         {/* Save Button */}
                         <View className="px-4 pb-4">
-                            <TouchableOpacity className="mt-4 bg-indigo-800 rounded-md">
+                            <TouchableOpacity className="mt-4 bg-indigo-800 rounded-md" onPress={onSave}>
                                 <Text className="text-base font-semibold text-center p-2.5 text-gray-200">
                                     Änderungen speichern
                                 </Text>

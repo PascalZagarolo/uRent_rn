@@ -11,15 +11,15 @@ const TimePickerDialog = ({ refRBSheet, onSelect, onClose }: TimePickerDialogPro
 
     const prefilledTimes = Array.from({ length: 96 }, (_, index) => {
         const minutes = index * 15;
-        const hours = Math.floor(minutes / 60);
-        const remainingMinutes = minutes % 60;
-        const formattedTime = `${hours}:${remainingMinutes.toString().padStart(2, '0')} Uhr`;
-    
+        const hours = Math.floor(minutes / 60).toString().padStart(2, '0'); // Pad hours to two digits
+        const remainingMinutes = (minutes % 60).toString().padStart(2, '0'); // Pad minutes to two digits
+        const formattedTime = `${hours}:${remainingMinutes}`;
+        
         return {
             string: formattedTime,
             value: minutes
         };
-    })
+    });
 
     return ( 
         <View>
@@ -58,7 +58,7 @@ const TimePickerDialog = ({ refRBSheet, onSelect, onClose }: TimePickerDialogPro
                                     }}
                                 >
                                     <Text className="text-center text-lg text-gray-200 font-semibold">
-                                        {value.string}
+                                        {value.string} Uhr
                                     </Text>
                                 </TouchableOpacity>
                             ))}
