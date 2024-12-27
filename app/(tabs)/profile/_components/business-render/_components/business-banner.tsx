@@ -1,22 +1,26 @@
+import { TouchableOpacity } from "react-native";
 import { Image, Text, View } from "react-native";
 
 interface BusinessBannerRenderProps {
     thisImage: string | null;
     thisProfilePic: string | null
     thisUsername: string | null
-    createdAt: string | null
+    createdAt: string | null;
+    setOpenImageDialog: (open: boolean) => void;
 }
 
-const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, createdAt }: BusinessBannerRenderProps) => {
+const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, createdAt, setOpenImageDialog }: BusinessBannerRenderProps) => {
+    
+    
+    
     return (
         <View>
-   
-    <View>
+    <TouchableOpacity className="" onPress={() => {setOpenImageDialog(true)}}>
         <Image
             source={{ uri: thisImage }}
             className="w-full h-48 border-b border-black"
         />
-    </View>
+    </TouchableOpacity>
 
     {/* Profile and Username Section */}
     <View className="absolute top-36 left-2 flex flex-row gap-x-8">

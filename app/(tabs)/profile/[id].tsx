@@ -10,6 +10,7 @@ import LocationDialogDelete from "./_components/business-render/_components/_tab
 import LocationDialogEdit from "./_components/business-render/_components/_tabs/_dialogs/location-edit";
 import OpeningTimesDialog from "./_components/business-render/_components/_tabs/_dialogs/opening-times-dialog";
 import { set } from 'date-fns';
+import ImageDialog from "./_components/business-render/_components/_tabs/_dialogs/image-dialog";
 
 
 
@@ -47,6 +48,7 @@ const ProfilePage = () => {
                 });
 
                 setUser(thisUser);
+                setImageUrl(thisUser?.image)
                 if (thisUser?.business?.businessAddresses?.length > 0) {
                     
                     setFoundAddresses(thisUser?.business?.businessAddresses);
@@ -87,6 +89,9 @@ const ProfilePage = () => {
         saturday : null,
         sunday : null
     })
+    const [openDialogImage, setOpenDialogImage] = useState<boolean>(false);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
+
 
     const isOwner = user?.id === id;
 
@@ -111,6 +116,7 @@ const ProfilePage = () => {
                         console.log(value1, value2, value3);
                     }}
                     setOpenOpeningTimes={(value) => setShowOpeningTimes(value)}
+                    setOpenDialogImage={(value) => setOpenDialogImage(value)}
                     foundAddresses={foundAddresses}
                     foundOpeningTimes={foundOpeningTimes}
                 />
@@ -120,12 +126,20 @@ const ProfilePage = () => {
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={showLocation.open || showOpeningTimes}
+                visible={showLocation.open || showOpeningTimes || openDialogImage}
                 onRequestClose={() => {
                     setShowLocation({ open: false, id: "", type: null });
                 }}
 
             >
+
+                {openDialogImage && (
+                    <ImageDialog 
+                    imageUrl={imageUrl}
+                    onClose={() => setOpenDialogImage(false)}
+                    setImageUrl={(newOne) => setImageUrl(newOne)}
+                    />
+                )}
                 {showOpeningTimes && (
                     <OpeningTimesDialog 
                     onClose={() => setShowOpeningTimes(false)}
