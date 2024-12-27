@@ -11,10 +11,11 @@ import { openingTimes } from "@/db/schema";
 
 interface OpeningTimesRenderProps {
     onClose: () => void;
-    foundTimes : typeof openingTimes.$inferSelect
+    foundTimes : typeof openingTimes.$inferSelect;
+    setFoundTimes : (value) => void;
 }
 
-const OpeningTimesDialog = ({ onClose, foundTimes }: OpeningTimesRenderProps) => {
+const OpeningTimesDialog = ({ onClose, foundTimes, setFoundTimes }: OpeningTimesRenderProps) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
@@ -40,6 +41,8 @@ const OpeningTimesDialog = ({ onClose, foundTimes }: OpeningTimesRenderProps) =>
         Sonntag: { start: prefilledTimes.sunday[0], end: prefilledTimes.sunday[1]  }
     });
 
+    
+
     const onSave = async () => {
         try {
             setIsLoading(true);
@@ -55,7 +58,19 @@ const OpeningTimesDialog = ({ onClose, foundTimes }: OpeningTimesRenderProps) =>
             };
 
             const authToken = await SecureStorage.getItemAsync("authToken");
-            const response = await editOpeningTimes(values, authToken);
+            await editOpeningTimes(values, authToken);
+            onClose()
+            setFoundTimes(
+                {
+                    monday: values.monday,
+                    tuesday: values.tuesday,
+                    wednesday: values.wednesday,
+                    thursday: values.thursday,
+                    friday: values.friday,
+                    saturday: values.saturday,
+                    sunday: values.sunday
+                }
+            )   
             Toast.show({
                 type: "success",
                 text1: "Erfolgreich",
@@ -73,7 +88,7 @@ const OpeningTimesDialog = ({ onClose, foundTimes }: OpeningTimesRenderProps) =>
         }
     }
 
-    //! Todo: 4) spätere Schließzeiten als Öffnungszeiten verhindern 5) Aktuellisieren livetime 6) Dialog schließen 7) Zeiten vorbelegen
+    //! Todo: 4) spätere Schließzeiten als Öffnungszeiten verhindern7) Zeiten vorbelegen 6) Zeiten direkt aktuleiisieren)
 
     const refRBSheet = useRef<any>(null);
     const [selectedDay, setSelectedDay] = useState<string | null>(null); // Track the selected day

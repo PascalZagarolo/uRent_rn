@@ -15,10 +15,19 @@ interface ContentBusinessRenderProps {
     setOpenLocation : (open : boolean, id : string, type : string) => void;
     setOpenOpeningTimes : (open : boolean) => void;
     foundAddresses : typeof businessAddress.$inferSelect[];
+    foundOpeningTimes : {
+        monday: string;
+        tuesday: string;
+        wednesday: string;
+        thursday: string;
+        friday: string;
+        saturday: string;
+        sunday: string;
+    }
 }
 
 
-const ContentBusinessRender = ({ thisUser, isOwn, setOpenLocation, setOpenOpeningTimes, foundAddresses } :  ContentBusinessRenderProps ) => {
+const ContentBusinessRender = ({ thisUser, isOwn, setOpenLocation, setOpenOpeningTimes, foundAddresses, foundOpeningTimes } :  ContentBusinessRenderProps ) => {
 
     const [tab, setTab] = useState("content");
 
@@ -113,7 +122,7 @@ const ContentBusinessRender = ({ thisUser, isOwn, setOpenLocation, setOpenOpenin
                                 console.log(value1, value2, value3);
                             }}
                         />,
-                        openingTimes: <OpeningTimesRender foundTimes={thisUser?.business?.openingTimes} setOpenOpeningTimes={setOpenOpeningTimes} isOwn={isOwn}/>,
+                        openingTimes: <OpeningTimesRender foundTimes={thisUser?.business?.openingTimes} setOpenOpeningTimes={setOpenOpeningTimes} isOwn={isOwn} foundOpeningTimes={foundOpeningTimes}/>,
                         imprint: <ImprintRender imprint={thisUser?.business?.impressum} isOwn={isOwn} />,
                     }[tab]}
                 </View>

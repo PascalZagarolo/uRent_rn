@@ -9,6 +9,7 @@ import LocationDialog from "./_components/business-render/_components/_tabs/_dia
 import LocationDialogDelete from "./_components/business-render/_components/_tabs/_dialogs/location-delete";
 import LocationDialogEdit from "./_components/business-render/_components/_tabs/_dialogs/location-edit";
 import OpeningTimesDialog from "./_components/business-render/_components/_tabs/_dialogs/opening-times-dialog";
+import { set } from 'date-fns';
 
 
 
@@ -47,8 +48,20 @@ const ProfilePage = () => {
 
                 setUser(thisUser);
                 if (thisUser?.business?.businessAddresses?.length > 0) {
-                    console.log(thisUser?.business?.businessAddresses)
+                    
                     setFoundAddresses(thisUser?.business?.businessAddresses);
+                }
+
+                if(thisUser?.business?.openingTimes) {
+                    setFoundOpeningTimes({
+                        monday : thisUser?.business?.openingTimes?.monday,
+                        tuesday : thisUser?.business?.openingTimes?.tuesday,
+                        wednesday : thisUser?.business?.openingTimes?.wednesday,
+                        thursday : thisUser?.business?.openingTimes?.thursday,
+                        friday : thisUser?.business?.openingTimes?.friday,
+                        saturday : thisUser?.business?.openingTimes?.saturday,
+                        sunday : thisUser?.business?.openingTimes?.sunday,
+                    })
                 }
             } catch (e: any) {
                 console.log(e);
@@ -65,6 +78,15 @@ const ProfilePage = () => {
     const [showLocation, setShowLocation] = useState<{ open: boolean, id: string, type?: openTypes }>({ open: false, id: "", type: null });
     const [showOpeningTimes, setShowOpeningTimes] = useState<boolean>(false);
     const [foundAddresses, setFoundAddresses] = useState<any[] | null>([])
+    const [foundOpeningTimes, setFoundOpeningTimes] = useState<any | null>({
+        monday : null,
+        tuesday : null,
+        wednesday : null,
+        thursday : null,
+        friday : null,
+        saturday : null,
+        sunday : null
+    })
 
     const isOwner = user?.id === id;
 
@@ -90,6 +112,7 @@ const ProfilePage = () => {
                     }}
                     setOpenOpeningTimes={(value) => setShowOpeningTimes(value)}
                     foundAddresses={foundAddresses}
+                    foundOpeningTimes={foundOpeningTimes}
                 />
             )}
 
@@ -106,7 +129,8 @@ const ProfilePage = () => {
                 {showOpeningTimes && (
                     <OpeningTimesDialog 
                     onClose={() => setShowOpeningTimes(false)}
-                    foundTimes={user?.business?.openingTimes}
+                    foundTimes={foundOpeningTimes}
+                    setFoundTimes={(newOne) => setFoundOpeningTimes(newOne)}
                     />
                 )}
                 {!showLocation?.type && (

@@ -11,6 +11,15 @@ interface ProfileRenderProps {
     setOpenLocation: (open: boolean, id: string, type: any) => void;
     setOpenOpeningTimes: (open: boolean) => void;
     foundAddresses: typeof businessAddress.$inferSelect[];
+    foundOpeningTimes : {
+        monday: string;
+        tuesday: string;
+        wednesday: string;
+        thursday: string;
+        friday: string;
+        saturday: string;
+        sunday: string;
+    }
 }
 
 const ProfileRender: React.FC<ProfileRenderProps> = ({
@@ -18,7 +27,8 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
     isOwner,
     setOpenLocation,
     setOpenOpeningTimes,
-    foundAddresses
+    foundAddresses,
+    foundOpeningTimes
 }) => {
 
     const usedDescription = thisUser?.isBusiness ? thisUser?.business?.description : thisUser?.description;
@@ -43,6 +53,7 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
                             foundAddresses={foundAddresses}
                             setOpenLocation={(value1, value2, value3) => setOpenLocation(value1, value2, value3)}
                             setOpenOpeningTimes={(value) => setOpenOpeningTimes(value)}
+                            foundOpeningTimes={foundOpeningTimes}
                         />
                     ) : (
                         <ProfileRenderFull />

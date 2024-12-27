@@ -12,9 +12,18 @@ interface BusinessRenderProps {
     setOpenLocation: (open: boolean, id: string, type: string) => void;
     setOpenOpeningTimes: (open: boolean) => void;
     foundAddresses : typeof businessAddress.$inferSelect[];
+    foundOpeningTimes : {
+        monday: string;
+        tuesday: string;
+        wednesday: string;
+        thursday: string;
+        friday: string;
+        saturday: string;
+        sunday: string;
+    }
 }
 
-const BusinessRender = ({ thisUser, isOwner, setOpenLocation, setOpenOpeningTimes, foundAddresses }: BusinessRenderProps) => {
+const BusinessRender = ({ thisUser, isOwner, setOpenLocation, setOpenOpeningTimes, foundAddresses, foundOpeningTimes }: BusinessRenderProps) => {
 
     
 
@@ -44,6 +53,7 @@ const BusinessRender = ({ thisUser, isOwner, setOpenLocation, setOpenOpeningTime
                     setOpenLocation={(value1, value2, value3) => setOpenLocation(value1, value2, value3)}
                     setOpenOpeningTimes={(value) => setOpenOpeningTimes(value)}
                     foundAddresses={foundAddresses}
+                    foundOpeningTimes={foundOpeningTimes}
                     />
                 </View>
             </View>

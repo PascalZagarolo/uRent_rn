@@ -7,9 +7,18 @@ interface OpeningTimesRenderProps {
     foundTimes: typeof openingTimes.$inferSelect;
     setOpenOpeningTimes: (open: boolean) => void;
     isOwn : boolean;
+    foundOpeningTimes : {
+        monday: string;
+        tuesday: string;
+        wednesday: string;
+        thursday: string;
+        friday: string;
+        saturday: string;
+        sunday: string;
+    }
 }
 
-const OpeningTimesRender = ({ foundTimes, setOpenOpeningTimes, isOwn }: OpeningTimesRenderProps) => {
+const OpeningTimesRender = ({ foundTimes, setOpenOpeningTimes, isOwn, foundOpeningTimes }: OpeningTimesRenderProps) => {
     console.log(foundTimes);
     const renderedDays = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag", "Sonntag"];
 
@@ -21,13 +30,13 @@ const OpeningTimesRender = ({ foundTimes, setOpenOpeningTimes, isOwn }: OpeningT
                 <Text className="text-gray-200 font-semibold text-lg px-4">
                     {
                         {
-                            Montag: foundTimes?.monday ? `${foundTimes.monday} Uhr` : "-",
-                            Dienstag: foundTimes?.tuesday ? `${foundTimes.tuesday} Uhr` : "-",
-                            Mittwoch: foundTimes?.wednesday ? `${foundTimes.wednesday} Uhr` : "-",
-                            Donnerstag: foundTimes?.thursday ? `${foundTimes.thursday} Uhr` : "-",
-                            Freitag: foundTimes?.friday ? `${foundTimes.friday} Uhr` : "-",
-                            Samstag: foundTimes?.saturday ? `${foundTimes.saturday} Uhr` : "-",
-                            Sonntag: foundTimes?.sunday ? `${foundTimes.sunday} Uhr` : "-",
+                            Montag: foundOpeningTimes?.monday ? `${foundOpeningTimes.monday} Uhr` : "-",
+                            Dienstag: foundOpeningTimes?.tuesday ? `${foundOpeningTimes.tuesday} Uhr` : "-",
+                            Mittwoch: foundOpeningTimes?.wednesday ? `${foundOpeningTimes.wednesday} Uhr` : "-",
+                            Donnerstag: foundOpeningTimes?.thursday ? `${foundOpeningTimes.thursday} Uhr` : "-",
+                            Freitag: foundOpeningTimes?.friday ? `${foundOpeningTimes.friday} Uhr` : "-",
+                            Samstag: foundOpeningTimes?.saturday ? `${foundOpeningTimes.saturday} Uhr` : "-",
+                            Sonntag: foundOpeningTimes?.sunday ? `${foundOpeningTimes.sunday} Uhr` : "-",
                         }[day]
                     }
 
