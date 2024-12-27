@@ -7,23 +7,37 @@ import { cn } from "@/~/lib/utils";
 import Toast from "react-native-toast-message";
 import * as SecureStorage from 'expo-secure-store';
 import { editOpeningTimes } from "@/actions/business/openingTimes/route";
+import { openingTimes } from "@/db/schema";
 
 interface OpeningTimesRenderProps {
     onClose: () => void;
+    foundTimes : typeof openingTimes.$inferSelect
 }
 
-const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
+const OpeningTimesDialog = ({ onClose, foundTimes }: OpeningTimesRenderProps) => {
 
     const [isLoading, setIsLoading] = useState(false);
 
+    const prefilledTimes = {
+        monday : foundTimes?.monday?.split(" - "),
+        tuesday : foundTimes?.tuesday?.split(" - "),
+        wednesday : foundTimes?.wednesday?.split(" - "),
+        thursday : foundTimes?.thursday?.split(" - "),
+        friday : foundTimes?.friday?.split(" - "),
+        saturday : foundTimes?.saturday?.split(" - "),
+        sunday : foundTimes?.sunday?.split(" - ")
+    }
+
+    console.log(prefilledTimes)
+
     const [openingTimes, setOpeningTimes] = useState({
-        Montag: { start: "", end: "" },
-        Dienstag: { start: "", end: "" },
-        Mittwoch: { start: "", end: "" },
-        Donnerstag: { start: "", end: "" },
-        Freitag: { start: "", end: "" },
-        Samstag: { start: "", end: "" },
-        Sonntag: { start: "", end: "" }
+        Montag: { start: prefilledTimes.monday[0], end: prefilledTimes.monday[1] },
+        Dienstag: { start: prefilledTimes.tuesday[0], end: prefilledTimes.tuesday[1] },
+        Mittwoch: { start: prefilledTimes.wednesday[0], end: prefilledTimes.wednesday[1] },
+        Donnerstag: { start: prefilledTimes.thursday[0], end: prefilledTimes.thursday[1]  },
+        Freitag: { start: prefilledTimes.friday[0], end: prefilledTimes.friday[1]  },
+        Samstag: { start: prefilledTimes.saturday[0], end: prefilledTimes.saturday[1] },
+        Sonntag: { start: prefilledTimes.sunday[0], end: prefilledTimes.sunday[1]  }
     });
 
     const onSave = async () => {
@@ -59,7 +73,7 @@ const OpeningTimesDialog = ({ onClose }: OpeningTimesRenderProps) => {
         }
     }
 
-    //! Todo: 4) spätere Schließzeiten als Öffnungszeiten verhindern 5) Aktuellisieren livetime
+    //! Todo: 4) spätere Schließzeiten als Öffnungszeiten verhindern 5) Aktuellisieren livetime 6) Dialog schließen 7) Zeiten vorbelegen
 
     const refRBSheet = useRef<any>(null);
     const [selectedDay, setSelectedDay] = useState<string | null>(null); // Track the selected day

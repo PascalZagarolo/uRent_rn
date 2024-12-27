@@ -106,6 +106,7 @@ const ProfilePage = () => {
                 {showOpeningTimes && (
                     <OpeningTimesDialog 
                     onClose={() => setShowOpeningTimes(false)}
+                    foundTimes={user?.business?.openingTimes}
                     />
                 )}
                 {!showLocation?.type && (
