@@ -136,7 +136,10 @@ const ProfilePage = () => {
                 {openDialogImage && (
                     <ImageDialog 
                     imageUrl={imageUrl}
-                    onClose={() => setOpenDialogImage(false)}
+                    onClose={() => {
+                        setOpenDialogImage(false);
+                        setImageUrl(user?.image)
+                    }}
                     setImageUrl={(newOne) => setImageUrl(newOne)}
                     />
                 )}
