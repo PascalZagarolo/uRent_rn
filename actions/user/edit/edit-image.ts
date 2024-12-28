@@ -1,6 +1,7 @@
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import db from "@/db/drizzle";
 import { userTable } from "@/db/schema";
+import { eq } from "drizzle-orm";
 
 export async function editProfilePic (imageUrl : string, authToken : string) {
     "use server"
@@ -14,7 +15,7 @@ export async function editProfilePic (imageUrl : string, authToken : string) {
 
         const updateImage = await db.update(userTable).set({
             image : imageUrl
-        }).returning();
+        }).where(eq(userTable.id, currentUser.id))
 
         return updateImage;
     } catch (e : any) {
