@@ -5,6 +5,9 @@ import { Keyboard, KeyboardAvoidingView, Platform, Text, TouchableOpacity, Touch
 import * as ImagePicker from 'expo-image-picker';
 import { Feather, FontAwesome } from "@expo/vector-icons";
 import { cn } from "@/~/lib/utils";
+import Toast from "react-native-toast-message";
+import { editProfilePic } from "@/actions/user/edit/edit-image";
+import * as SecureStorage from 'expo-secure-store';
 
 
 interface ImageDialogProps {
@@ -23,6 +26,40 @@ const ImageDialog = ({ onClose, setImageUrl, imageUrl }: ImageDialogProps) => {
 
     const [previousUrl, setPreviousUrl] = React.useState(imageUrl);
     const [showModal, setShowModal] = React.useState(false);
+    const [isLoading, setIsLoading] = React.useState(false);
+
+
+    const onSave = async () => {
+        try {
+            if(isLoading) return null;
+            setIsLoading(true);
+
+            let uploadUrl = imageUrl ? await uploadImage(imageUrl) : "";
+
+            
+
+            const authToken = await SecureStorage.getItemAsync("authToken");
+
+            await editProfilePic(uploadUrl, authToken);
+
+            Toast.show({
+                type: "success",
+                text1: "Erfolgreich",
+                text2: "Profilbild wurde erfolgreich geändert"
+            })
+            setImageUrl(uploadUrl);
+            onClose();
+
+        } catch(e : any) {
+            console.log(e);
+            Toast.show({
+                type: "error",
+                text1: "Fehler",
+                text2: "Ein Fehler ist aufgetreten, bitte versuchen Sie es erneut"
+            })
+        }
+    }
+
 
     const onImageUpload = async (mode: string) => {
         try {
@@ -61,6 +98,56 @@ const ImageDialog = ({ onClose, setImageUrl, imageUrl }: ImageDialogProps) => {
             console.log("Error during image upload:", e);
         }
     };
+
+    const uploadImage = async (imageUri: string) => {
+        try {
+            const url = "https://api.cloudinary.com/v1_1/df1vnhnzp/image/upload";
+
+            const formData = new FormData();
+
+            let result;
+
+            const image = {
+                uri: imageUri,
+                type: 'image/jpeg', // Change according to your image type
+                name: 'upload.jpg', // Provide a name for the file
+            };
+
+            // Here, we need to either convert the file to base64 or pass the actual bytes
+            // In a React Native environment, you might need an additional library like `react-native-fs`
+            // to read the file and convert it to base64.
+
+            //@ts-ignore
+            formData.append("file", {
+                uri: image.uri,
+                type: image.type,
+                name: image.name,
+            });
+            formData.append("upload_preset", "oblbw2xl");
+            console.log(4)
+            await fetch(url, {
+                method: "POST",
+                body: formData
+            })
+                .then((response) => {
+
+
+                    return response.json();
+                })
+                .then((data) => {
+
+                    console.log(data.secure_url)
+                    result = data.secure_url;
+                });
+
+            if (result) {
+                return result;
+            }
+        } catch (e: any) {
+            console.log(e);
+            return null;
+        }
+    }
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -114,7 +201,9 @@ const ImageDialog = ({ onClose, setImageUrl, imageUrl }: ImageDialogProps) => {
                                 </View>
                             </View>
                             <View className="px-4 mt-4 ">
-                                <TouchableOpacity className={cn(
+                                <TouchableOpacity 
+                                onPress={onSave}
+                                className={cn(
                                     "w-full rounded-md shadow-lg justify-center flex flex-row items-center  p-2.5",
                                     imageUrl == previousUrl ? "bg-opacity-50 bg-indigo-600/50" : "bg-opacity-100 bg-indigo-800"
                                 )}>

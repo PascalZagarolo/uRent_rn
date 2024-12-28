@@ -85,6 +85,8 @@ const LocationDialogEdit = ({prefilledAddress, onClose, onEdit }: LocationDialog
         }
     }
 
+    
+
     const uploadImage = async (imageUri: string) => {
         try {
             const url = "https://api.cloudinary.com/v1_1/df1vnhnzp/image/upload";
