@@ -47,9 +47,9 @@ const ImageDialog = ({ onClose, setImageUrl, imageUrl }: ImageDialogProps) => {
                 text1: "Erfolgreich",
                 text2: "Profilbild wurde erfolgreich geändert"
             })
-            setImageUrl(uploadUrl);
+            
             onClose();
-
+            setImageUrl(uploadUrl);
         } catch(e : any) {
             console.log(e);
             Toast.show({

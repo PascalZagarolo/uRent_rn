@@ -15,21 +15,23 @@ const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, created
     
     return (
         <View>
-    <TouchableOpacity className="" onPress={() => {setOpenImageDialog(true)}}>
+    
         <Image
             source={{ uri: thisImage }}
             className="w-full h-48 border-b border-black"
         />
-    </TouchableOpacity>
+    
 
     {/* Profile and Username Section */}
     <View className="absolute top-36 left-2 flex flex-row gap-x-8">
         {/* Profile Picture */}
         <View className="w-1/3">
+        <TouchableOpacity className="" onPress={() => {setOpenImageDialog(true)}}>
             <Image
                 source={{ uri: thisProfilePic }}
                 className="w-28 h-28 rounded-full border border-black"
             />
+            </TouchableOpacity>
         </View>
 
         {/* Username */}
