@@ -11,6 +11,7 @@ import LocationDialogEdit from "./_components/business-render/_components/_tabs/
 import OpeningTimesDialog from "./_components/business-render/_components/_tabs/_dialogs/opening-times-dialog";
 import { set } from 'date-fns';
 import ImageDialog from "./_components/business-render/_components/_tabs/_dialogs/image-dialog";
+import BannerDialog from "./_components/business-render/_components/_tabs/_dialogs/banner-dialog";
 
 
 
@@ -90,8 +91,9 @@ const ProfilePage = () => {
         sunday : null
     })
     const [openDialogImage, setOpenDialogImage] = useState<boolean>(false);
+    const [openDialogBanner, setOpenDialogBanner] = useState<boolean>(false);
     const [imageUrl, setImageUrl] = useState<string | null>(null);
-
+    const [bannerUrl, setBannerUrl] = useState<string | null>(null);
 
     const isOwner = user?.id === id;
 
@@ -117,6 +119,7 @@ const ProfilePage = () => {
                     }}
                     setOpenOpeningTimes={(value) => setShowOpeningTimes(value)}
                     setOpenDialogImage={(value) => setOpenDialogImage(value)}
+                    setOpenDialogBanner={(value) => setOpenDialogBanner(value)}
                     foundAddresses={foundAddresses}
                     foundOpeningTimes={foundOpeningTimes}
                 />
@@ -126,13 +129,19 @@ const ProfilePage = () => {
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={showLocation.open || showOpeningTimes || openDialogImage}
+                visible={showLocation.open || showOpeningTimes || openDialogImage || openDialogBanner}
                 onRequestClose={() => {
                     setShowLocation({ open: false, id: "", type: null });
                 }}
 
             >
-
+                {openDialogBanner && (
+                    <BannerDialog 
+                    onClose={() => setOpenDialogBanner(false)}
+                    imageUrl={bannerUrl}
+                    setImageUrl={(newOne) => setBannerUrl(newOne)}
+                    />
+                )}
                 {openDialogImage && (
                     <ImageDialog 
                     imageUrl={imageUrl}

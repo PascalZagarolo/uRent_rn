@@ -3,6 +3,7 @@ import { Image, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, 
 
 import BusinessRender from "./business-render/business-render";
 import ProfileRenderFull from "./profile-render/profile-render";
+import { set } from 'date-fns';
 
 
 interface ProfileRenderProps {
@@ -11,6 +12,7 @@ interface ProfileRenderProps {
     setOpenLocation: (open: boolean, id: string, type: any) => void;
     setOpenOpeningTimes: (open: boolean) => void;
     setOpenDialogImage: (open: boolean) => void;
+    setOpenDialogBanner: (open: boolean) => void;
     foundAddresses: typeof businessAddress.$inferSelect[];
     foundOpeningTimes : {
         monday: string;
@@ -28,6 +30,7 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
     isOwner,
     setOpenLocation,
     setOpenOpeningTimes,
+    setOpenDialogBanner,
     foundAddresses,
     foundOpeningTimes,
     setOpenDialogImage
@@ -56,7 +59,7 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
                             setOpenDialogImage={(open) => setOpenDialogImage(open)}
                             setOpenLocation={(value1, value2, value3) => setOpenLocation(value1, value2, value3)}
                             setOpenOpeningTimes={(value) => setOpenOpeningTimes(value)}
-                            
+                            setOpenDialogBanner={(open) => setOpenDialogBanner(open)}
                             foundOpeningTimes={foundOpeningTimes}
                         />
                     ) : (

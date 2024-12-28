@@ -7,44 +7,49 @@ interface BusinessBannerRenderProps {
     thisUsername: string | null
     createdAt: string | null;
     setOpenImageDialog: (open: boolean) => void;
+    setOpenDialogBanner: (open: boolean) => void;
 }
 
-const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, createdAt, setOpenImageDialog }: BusinessBannerRenderProps) => {
-    
-    
-    
+const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, createdAt, setOpenImageDialog, setOpenDialogBanner }: BusinessBannerRenderProps) => {
+
+
+
     return (
         <View>
-    
-        <Image
-            source={{ uri: thisImage }}
-            className="w-full h-48 border-b border-black"
-        />
-    
-
-    {/* Profile and Username Section */}
-    <View className="absolute top-36 left-2 flex flex-row gap-x-8">
-        {/* Profile Picture */}
-        <View className="w-1/3">
-        <TouchableOpacity className="" onPress={() => {setOpenImageDialog(true)}}>
-            <Image
-                source={{ uri: thisProfilePic }}
-                className="w-28 h-28 rounded-full border border-black"
-            />
+            <TouchableOpacity onPress={() => { setOpenDialogBanner(true) }}>
+                {thisImage ? (
+                    <Image
+                    source={{ uri: thisImage }}
+                    className="w-full h-48 border-b border-black"
+                />
+                ) : (
+                    <View className="w-full h-48 bg-gray-800 border-b border-black" />
+                )}
             </TouchableOpacity>
-        </View>
 
-        {/* Username */}
-        <View className="mt-14">
-            <Text className="text-xl font-semibold text-gray-200 break-all w-2/3">
-                {thisUsername}
-            </Text>
-            <Text className="text-sm text-gray-200/60">
-                Mitglied seit {createdAt}
-            </Text>
+            {/* Profile and Username Section */}
+            <View className="absolute top-36 left-2 flex flex-row gap-x-8">
+                {/* Profile Picture */}
+                <View className="w-1/3">
+                    <TouchableOpacity className="" onPress={() => { setOpenImageDialog(true) }}>
+                        <Image
+                            source={{ uri: thisProfilePic }}
+                            className="w-28 h-28 rounded-full border border-black"
+                        />
+                    </TouchableOpacity>
+                </View>
+
+                {/* Username */}
+                <View className="mt-14">
+                    <Text className="text-xl font-semibold text-gray-200 break-all w-2/3">
+                        {thisUsername}
+                    </Text>
+                    <Text className="text-sm text-gray-200/60">
+                        Mitglied seit {createdAt}
+                    </Text>
+                </View>
+            </View>
         </View>
-    </View>
-</View>
     );
 }
 
