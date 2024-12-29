@@ -30,6 +30,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
     const router = useRouter();
 
 
+
     return (
         <View className="bg-[#141620]  w-full">
             <View>
@@ -49,8 +50,8 @@ const InseratCard: React.FC<InseratCardProps> = ({
                     <Image
                         className="w-full h-40  rounded-t-lg"
                         source={{
-                            //@ts-ignore
-                            uri: thisInserat.images[0].url,
+                            
+                            uri: thisInserat.images[0].url
                         }}
                     />
 
@@ -69,7 +70,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                             </Text>
                         </View>
                     </View>
-                    <View className="w-full bg-[#1a1d29] p-4 py-2">
+                    <View className="w-full bg-[#1a1d29] p-4 py-4">
                         <View>
                             <Text className="text-md font-bold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
                                 {thisInserat.price} <Text className="text-xs text-gray-300">/Tag</Text> €
@@ -82,14 +83,14 @@ const InseratCard: React.FC<InseratCardProps> = ({
                 >
                     <View className="flex ">
                         <Image
-                            className="w-10 h-10 rounded-md "
+                            className="w-12 h-12 rounded-full "
                             source={{
-                                //@ts-ignores
-                                uri: thisInserat.user?.image,
+                                
+                                uri: thisInserat.user?.image ? thisInserat.user?.image : "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg"
                             }}
                         />
                     </View>
-                    <Text className="text-md font-semibold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
+                    <Text className="text-base font-semibold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
                         {//@ts-ignore
                         thisInserat.user?.name} 
                     </Text>

@@ -58,7 +58,7 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
                 <View className="mt-8">
                     <View>
                         <Image
-                            source={{ uri: currentUser?.image }}
+                            source={{ uri: currentUser?.image ? currentUser?.image : "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg" }}
                             className="w-12 h-12 rounded-full"
                         />
                     </View>

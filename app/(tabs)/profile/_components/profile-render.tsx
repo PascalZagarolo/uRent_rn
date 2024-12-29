@@ -3,7 +3,7 @@ import { Image, KeyboardAvoidingView, Platform, SafeAreaView, ScrollView, Text, 
 
 import BusinessRender from "./business-render/business-render";
 import ProfileRenderFull from "./profile-render/profile-render";
-import { set } from 'date-fns';
+import { format, set } from 'date-fns';
 
 
 interface ProfileRenderProps {
@@ -63,7 +63,12 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
                             foundOpeningTimes={foundOpeningTimes}
                         />
                     ) : (
-                        <ProfileRenderFull />
+                        <ProfileRenderFull 
+                        thisUsername={thisUser?.name}
+                        thisProfilePic={thisUser?.image}
+                        createdAt={format(new Date(thisUser?.createdAt), "dd.MM.yyyy")}
+                        setOpenImageDialog={(open) => setOpenDialogImage(open)}
+                        />
                     )}
                 </KeyboardAvoidingView>
 

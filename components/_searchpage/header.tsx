@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
 
   const usedUrl = currentUser?.image
     ? currentUser.image
-    : "https://www.pngkey.com/png/full/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png";
+    : "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg";
 
   return (
 
