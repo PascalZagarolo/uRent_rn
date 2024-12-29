@@ -1,6 +1,7 @@
 import { TouchableOpacity } from "react-native";
 import { Image, Text, View } from "react-native";
-import ProfileDescription from "../profile-description";
+import ProfileDescription from "./_components/profile-description";
+
 
 interface ProfileRenderFullProps {
 
@@ -48,8 +49,8 @@ const ProfileRenderFull = ({ thisProfilePic, thisUsername, createdAt, setOpenIma
                     </View>
                 </View>
             </View>
-            <View className="mt-32 ">
-                <ProfileDescription thisDescription={thisDescription}  thisName={thisUsername} />
+            <View className="mt-32 px-4">
+                <ProfileDescription thisDescription={thisDescription}  username={thisUsername} isOwnProfile={ownProfile} />
             </View>
         </View>
     );

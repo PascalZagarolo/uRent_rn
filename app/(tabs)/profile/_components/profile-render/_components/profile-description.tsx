@@ -7,6 +7,7 @@ import * as SecureStorage from 'expo-secure-store';
 import { editBusinessDescription } from "@/actions/business/edit/edit-description";
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
+import { editUserDescription } from "@/actions/user/edit/edit-description";
 
 
 interface ProfileDescriptionProps {
@@ -31,7 +32,7 @@ const ProfileDescription = ({ thisDescription, isOwnProfile, username }: Profile
         try {
             const authToken = await SecureStorage.getItemAsync("authToken");
             console.log("currentDescription", currentDescription)
-            //await editBusinessDescription(currentDescription, authToken);
+            await editUserDescription(currentDescription, authToken);
             Toast.show({
                 type: "success",
                 text1: "Beschreibung geändert",
