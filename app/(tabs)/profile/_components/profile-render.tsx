@@ -68,6 +68,8 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
                         thisProfilePic={thisUser?.image}
                         createdAt={format(new Date(thisUser?.createdAt), "dd.MM.yyyy")}
                         setOpenImageDialog={(open) => setOpenDialogImage(open)}
+                        thisDescription={usedDescription}
+                        ownProfile={isOwner}
                         />
                     )}
                 </KeyboardAvoidingView>
