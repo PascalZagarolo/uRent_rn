@@ -1,4 +1,5 @@
 import { inserat } from "@/db/schema";
+import { useRouter } from "expo-router";
 import { Bookmark, BookmarkCheckIcon, EllipsisIcon, EllipsisVerticalIcon, LocateFixedIcon, MapIcon, MapPinCheckInsideIcon, SaveAll, SaveIcon } from "lucide-react-native";
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
@@ -14,11 +15,12 @@ interface ContentTabProps {
 const ContentTab = ({ username, foundInserate }: ContentTabProps) => {
 
 
+    const router = useRouter();
     const [amountRendered, setAmountRendered] = useState(5);
 
-    const InseratRender = (title: string, postalCode: string, city: string, price: string, imageUrl: string) => {
+    const InseratRender = (title: string, postalCode: string, city: string, price: string, imageUrl: string, inseratId : string) => {
         return (
-            <View key={title}>
+            <TouchableOpacity key={title} onPress={() => router.push(`/inserat/${inseratId}`)}>
                 <View className="w-full">
                     <Image
                         source={{ uri: imageUrl }}
@@ -52,7 +54,7 @@ const ContentTab = ({ username, foundInserate }: ContentTabProps) => {
                         </Text>
                     </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 
@@ -71,7 +73,7 @@ const onRenderMore = () => {
             {foundInserate?.length > 0 ? (
                 <View className="space-y-4 mt-8">
                 {foundInserate.slice(0, amountRendered).map((inserat) => (
-                    InseratRender(inserat.title, inserat.address?.postalCode, inserat.address?.locationString, inserat.price, inserat?.images[0]?.url)
+                    InseratRender(inserat.title, inserat.address?.postalCode, inserat.address?.locationString, inserat.price, inserat?.images[0]?.url, inserat.id)
                 ))}
             </View>
             ) : (
