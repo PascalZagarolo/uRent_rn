@@ -12,6 +12,7 @@ import OpeningTimesDialog from "./_components/business-render/_components/_tabs/
 import { set } from 'date-fns';
 import ImageDialog from "./_components/business-render/_components/_tabs/_dialogs/image-dialog";
 import BannerDialog from "./_components/business-render/_components/_tabs/_dialogs/banner-dialog";
+import SwitchProfileDialog from "./_components/business-render/_components/_tabs/_dialogs/switch-profile-dialog";
 
 
 
@@ -94,6 +95,7 @@ const ProfilePage = () => {
     const [openDialogBanner, setOpenDialogBanner] = useState<boolean>(false);
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [bannerUrl, setBannerUrl] = useState<string | null>(null);
+    const [switchProfile, setSwitchProfile] = useState<boolean>(false);
 
     const isOwner = user?.id === id;
 
@@ -120,6 +122,7 @@ const ProfilePage = () => {
                     setOpenOpeningTimes={(value) => setShowOpeningTimes(value)}
                     setOpenDialogImage={(value) => setOpenDialogImage(value)}
                     setOpenDialogBanner={(value) => setOpenDialogBanner(value)}
+                    setOpenSwitchProfile={(value) => setSwitchProfile(value)}
                     foundAddresses={foundAddresses}
                     foundOpeningTimes={foundOpeningTimes}
                 />
@@ -129,12 +132,17 @@ const ProfilePage = () => {
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={showLocation.open || showOpeningTimes || openDialogImage || openDialogBanner}
+                visible={showLocation.open || showOpeningTimes || openDialogImage || openDialogBanner || switchProfile}
                 onRequestClose={() => {
                     setShowLocation({ open: false, id: "", type: null });
                 }}
 
             >
+                {switchProfile && (
+                    <SwitchProfileDialog 
+                    onClose={() => setSwitchProfile(false)}
+                    />
+                )}
                 {openDialogBanner && (
                     <BannerDialog 
                     onClose={() => setOpenDialogBanner(false)}

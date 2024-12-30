@@ -1,6 +1,8 @@
 import { TouchableOpacity } from "react-native";
 import { Image, Text, View } from "react-native";
 import ProfileDescription from "./_components/profile-description";
+import TransformProfile from "./_components/transform-profile";
+
 
 
 interface ProfileRenderFullProps {
@@ -9,11 +11,12 @@ interface ProfileRenderFullProps {
     thisUsername: string | null
     createdAt: string | null;
     setOpenImageDialog: (open: boolean) => void;
+    setOpenSwitchProfile: (open: boolean) => void;
     thisDescription: string | null;
     ownProfile: boolean;
 }
 
-const ProfileRenderFull = ({ thisProfilePic, thisUsername, createdAt, setOpenImageDialog, thisDescription, ownProfile }: ProfileRenderFullProps) => {
+const ProfileRenderFull = ({ thisProfilePic, thisUsername, createdAt, setOpenImageDialog, thisDescription, ownProfile, setOpenSwitchProfile }: ProfileRenderFullProps) => {
 
 
 
@@ -21,13 +24,19 @@ const ProfileRenderFull = ({ thisProfilePic, thisUsername, createdAt, setOpenIma
         <View>
             <View>
 
-
+            {ownProfile && (
+                    <View className="">
+                        <TransformProfile 
+                        setOpenSwitchProfile={setOpenSwitchProfile}
+                        />
+                    </View>
+                )}
                 <View className="w-full h-48 bg-gray-800 border-b border-black" />
 
 
 
                 {/* Profile and Username Section */}
-                <View className="absolute top-36 left-2 flex flex-row gap-x-8">
+                <View className="absolute top-64 left-2 flex flex-row gap-x-8">
                     {/* Profile Picture */}
                     <View className="w-1/3">
                         <TouchableOpacity className="" onPress={() => { setOpenImageDialog(true) }}>
@@ -52,6 +61,7 @@ const ProfileRenderFull = ({ thisProfilePic, thisUsername, createdAt, setOpenIma
             <View className="mt-32 px-4">
                 <ProfileDescription thisDescription={thisDescription}  username={thisUsername} isOwnProfile={ownProfile} />
             </View>
+            
         </View>
     );
 }

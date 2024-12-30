@@ -13,6 +13,7 @@ interface ProfileRenderProps {
     setOpenOpeningTimes: (open: boolean) => void;
     setOpenDialogImage: (open: boolean) => void;
     setOpenDialogBanner: (open: boolean) => void;
+    setOpenSwitchProfile: (open: boolean) => void;
     foundAddresses: typeof businessAddress.$inferSelect[];
     foundOpeningTimes : {
         monday: string;
@@ -33,7 +34,8 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
     setOpenDialogBanner,
     foundAddresses,
     foundOpeningTimes,
-    setOpenDialogImage
+    setOpenDialogImage,
+    setOpenSwitchProfile
 }) => {
 
     const usedDescription = thisUser?.isBusiness ? thisUser?.business?.description : thisUser?.description;
@@ -68,6 +70,7 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
                         thisProfilePic={thisUser?.image}
                         createdAt={format(new Date(thisUser?.createdAt), "dd.MM.yyyy")}
                         setOpenImageDialog={(open) => setOpenDialogImage(open)}
+                        setOpenSwitchProfile={(open) => setOpenSwitchProfile(open)}
                         thisDescription={usedDescription}
                         ownProfile={isOwner}
                         />
