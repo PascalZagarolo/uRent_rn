@@ -1,9 +1,9 @@
 import db from "@/db/drizzle";
 import { businessAddress, paymentMethods, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import { useLocalSearchParams } from "expo-router";
+import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Modal, SafeAreaView, ScrollView, Text, View } from "react-native";
+import { Modal, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import ProfileRender from "./_components/profile-render";
 import LocationDialog from "./_components/business-render/_components/_tabs/_dialogs/location-dialog";
 import LocationDialogDelete from "./_components/business-render/_components/_tabs/_dialogs/location-delete";
@@ -13,6 +13,7 @@ import { set } from 'date-fns';
 import ImageDialog from "./_components/business-render/_components/_tabs/_dialogs/image-dialog";
 import BannerDialog from "./_components/business-render/_components/_tabs/_dialogs/banner-dialog";
 import SwitchProfileDialog from "./_components/business-render/_components/_tabs/_dialogs/switch-profile-dialog";
+import { ArrowLeft, ArrowRight } from "lucide-react-native";
 
 
 
@@ -102,11 +103,16 @@ const ProfilePage = () => {
 
     const isOwner = user?.id === id;
 
+    const router = useRouter();
+
     return (
 
         <View className=" bg-[#181b27] h-screen">
             <SafeAreaView className="">
-                <View className="border-b border-gray-800 p-4 bg-[#181b27]">
+                <View className="border-b border-gray-800 p-4 bg-[#181b27] space-x-4 flex flex-row items-center">
+                    <TouchableOpacity className="" onPress={() => {router.back()}}>
+                        <ArrowLeft className="text-gray-200 w-4 h-4 mr-2" />
+                    </TouchableOpacity>
                     <Text className="text-xl font-semibold text-gray-200">
                         {user?.isBusiness ? "Vermieterdetails" : "Nutzerdetails"}
                     </Text>
