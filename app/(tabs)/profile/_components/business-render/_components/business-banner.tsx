@@ -33,7 +33,7 @@ const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, created
                 <View className="w-1/3">
                     <TouchableOpacity className="" onPress={() => { setOpenImageDialog(true) }}>
                         <Image
-                            source={{ uri: thisProfilePic }}
+                            source={{ uri: thisProfilePic ? thisProfilePic : "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg" }}
                             className="w-28 h-28 rounded-full border border-black"
                         />
                     </TouchableOpacity>
