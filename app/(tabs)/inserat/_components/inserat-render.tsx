@@ -1,6 +1,6 @@
 import { inserat } from "@/db/schema";
 import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Image, Text, View } from "react-native";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 import { format } from "date-fns";
 import InseratPriceProfiles from "./inserat-price-profiles";
 import InseratConditions from "./inserat-conditions";
@@ -10,6 +10,8 @@ import InseratOptions from "./inserat-options";
 import InseratAttributes from "./inserat-attributes";
 import InseratProfile from "./inserat-profile";
 import InseratMoreContent from "./inserat-user-more-content";
+import { ArrowLeft } from "lucide-react-native";
+import { useRouter } from "expo-router";
 
 interface InseratRenderProps {
     thisInserat: typeof inserat.$inferSelect;
@@ -54,10 +56,20 @@ const InseratRender: React.FC<InseratRenderProps> = ({
 
     let { integerPart, decimalPart } = separatePrice(thisInserat?.price);
 
+    const router = useRouter()
+
     return (
         <View>
             <View>
-                <View className="p-4 w-full flex flex-row bg-[#1D1F2B] items-center">
+                <View className="">
+                    <TouchableOpacity className="p-4 flex flex-row items-center" onPress={() => {router.back()}}>
+                        <ArrowLeft className="w-4 h-4 text-gray-200" />
+                        <Text className="text-sm ml-4 text-gray-200/80">
+                            Zurück zur Startseite
+                        </Text>
+                    </TouchableOpacity>
+                </View>
+                <View className="p-4 py-4 w-full flex flex-row bg-[#1D1F2B] items-center">
                     <View className="w-2/12">
                         {matchingIcon(thisInserat?.category)}
                     </View>
