@@ -9,15 +9,16 @@ import Toast from "react-native-toast-message";
 import { editProfilePic } from "@/actions/user/edit/edit-image";
 import * as SecureStorage from 'expo-secure-store';
 import { editBanner } from "@/actions/business/banner/edit-banner";
+import { switchToBusiness } from "@/actions/user/switch-to-business";
 
 
 interface SwitchProfileDialogProps {
     onClose: () => void;
-   
+   onReload: () => void;
   
 }
 
-const SwitchProfileDialog = ({ onClose }: SwitchProfileDialogProps) => {
+const SwitchProfileDialog = ({ onClose, onReload }: SwitchProfileDialogProps) => {
 
     type PictureObject = {
         url: string,
@@ -30,7 +31,35 @@ const SwitchProfileDialog = ({ onClose }: SwitchProfileDialogProps) => {
 
 
     
+    const onSwitch = async () => {
+        try {
+            if(isLoading) return;
+            setIsLoading(true);
 
+            const token = await SecureStorage.getItemAsync("authToken");
+
+            if(!token) {
+                console.log("401")
+                throw new Error("Not authenticated");
+            }
+
+            await switchToBusiness(token);
+            Toast.show({
+                type: "success",
+                text1: "Erfolgreich",
+                text2: "Dein Konto wurde erfolgreich in ein Vermieter Konto umgewandelt"
+            })
+            onReload();
+            onClose();
+        } catch(e : any) {
+            console.log(e)
+            Toast.show({
+                type: "error",
+                text1: "Fehler",
+                text2: "Es ist ein Fehler aufgetreten"
+            })
+        }
+    }
 
 
     
@@ -67,7 +96,7 @@ const SwitchProfileDialog = ({ onClose }: SwitchProfileDialogProps) => {
                             </Text>
                         </View>
                         <View className="flex flex-row items-center px-4 pb-4">
-                        <TouchableOpacity className="bg-indigo-800 w-1/2 p-2.5 rounded-md" onPress={onClose}>
+                        <TouchableOpacity className="bg-indigo-800 w-1/2 p-2.5 rounded-md" onPress={onSwitch}>
                             <Text className="text-gray-200 text-center text-base">
                              <MaterialCommunityIcons name="share" size={20} />  Umwandeln
                             </Text>

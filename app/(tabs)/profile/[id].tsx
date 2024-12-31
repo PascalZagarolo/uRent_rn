@@ -24,58 +24,61 @@ const ProfilePage = () => {
 
     const [user, setUser] = useState<any | null>(null);
 
-    useEffect(() => {
-        const findUser = async () => {
-            try {
-                const thisUser = await db.query.userTable.findFirst({
-                    where: eq(userTable.id, id),
-                    with: {
-                        inserat: {
-                            with: {
-                                images: true,
-                                address: true
-                            }
-                        },
-                        business: {
-                            with: {
-                                businessAddresses: true,
-                                faqs: true,
-                                openingTimes: true,
-                                businessImages: true,
-                            }
-                        },
-                        paymentMethods: true,
+    const findUser = async () => {
+        try {
+            const thisUser = await db.query.userTable.findFirst({
+                where: eq(userTable.id, id),
+                with: {
+                    inserat: {
+                        with: {
+                            images: true,
+                            address: true
+                        }
                     },
+                    business: {
+                        with: {
+                            businessAddresses: true,
+                            faqs: true,
+                            openingTimes: true,
+                            businessImages: true,
+                        }
+                    },
+                    paymentMethods: true,
+                },
 
-                });
+            });
 
-                setUser(thisUser);
-                setImageUrl(thisUser?.image)
-                if (thisUser?.business?.businessAddresses?.length > 0) {
-                    
-                    setFoundAddresses(thisUser?.business?.businessAddresses);
-                }
-
-                if(thisUser?.business?.openingTimes) {
-                    setFoundOpeningTimes({
-                        monday : thisUser?.business?.openingTimes?.monday,
-                        tuesday : thisUser?.business?.openingTimes?.tuesday,
-                        wednesday : thisUser?.business?.openingTimes?.wednesday,
-                        thursday : thisUser?.business?.openingTimes?.thursday,
-                        friday : thisUser?.business?.openingTimes?.friday,
-                        saturday : thisUser?.business?.openingTimes?.saturday,
-                        sunday : thisUser?.business?.openingTimes?.sunday,
-                    })
-                }
-            } catch (e: any) {
-                console.log(e);
-                setUser(null);
+            setUser(thisUser);
+            setImageUrl(thisUser?.image)
+            if (thisUser?.business?.businessAddresses?.length > 0) {
+                
+                setFoundAddresses(thisUser?.business?.businessAddresses);
             }
+
+            if(thisUser?.business?.openingTimes) {
+                setFoundOpeningTimes({
+                    monday : thisUser?.business?.openingTimes?.monday,
+                    tuesday : thisUser?.business?.openingTimes?.tuesday,
+                    wednesday : thisUser?.business?.openingTimes?.wednesday,
+                    thursday : thisUser?.business?.openingTimes?.thursday,
+                    friday : thisUser?.business?.openingTimes?.friday,
+                    saturday : thisUser?.business?.openingTimes?.saturday,
+                    sunday : thisUser?.business?.openingTimes?.sunday,
+                })
+            }
+        } catch (e: any) {
+            console.log(e);
+            setUser(null);
         }
+    }
 
+    useEffect(() => {
         findUser();
-
     }, [])
+
+    const onReload = async () => {
+        findUser()
+    }
 
     type openTypes = "edit" | "delete"
 
@@ -141,6 +144,7 @@ const ProfilePage = () => {
                 {switchProfile && (
                     <SwitchProfileDialog 
                     onClose={() => setSwitchProfile(false)}
+                    onReload={onReload}
                     />
                 )}
                 {openDialogBanner && (
