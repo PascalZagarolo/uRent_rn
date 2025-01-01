@@ -1,13 +1,13 @@
-'use server'
-'use strict'
+
 
 import db from "@/db/drizzle";
 import { getCurrentUser } from "../getCurrentUser";
 import { inserat } from "@/db/schema";
 
 export const createInitialInserat = async (values) => {
+    "use server"
+   
     try {
-
         const { title, category, token } = values;
 
         if(!token) {
@@ -25,11 +25,14 @@ export const createInitialInserat = async (values) => {
             return { error : "Nicht eingeloggt."}
         }
 
-        const createdInserat : typeof inserat.$inferSelect = await db.insert(inserat).values({
+        const createdInserat = await db.insert(inserat).values({
             title : title,
             category : category,
             userId : currentUser.id
         }).returning();
+
+        console.log(createdInserat);
+        console.log(createdInserat[0].id);
 
         return { success : "Inserat erstellt", inseratId : createdInserat[0].id }
 

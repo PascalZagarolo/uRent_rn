@@ -49,7 +49,7 @@ const CreateInseratPreview: React.FC<CreateInseratPreviewProps> = ({
             console.log(res)
             console.log(res.inseratId)
             closeModal();
-            router.push("/inserat/" + "create/" + res.inseratId)
+            router.push(`/inserat/create/${res.inseratId}`)
 
 
         } catch (e: any) {

@@ -51,8 +51,7 @@ const InseratPage =  () => {
         loadInserat();
     }, [])
 
-    //!Prepare the data
-
+    
     return ( 
         <SafeAreaView className="bg-[#161923] flex-1">
             <ScrollView>
