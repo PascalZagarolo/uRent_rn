@@ -13,23 +13,27 @@ const SelectDashboardTab = ({
     return (
         <View>
             <ScrollView
-                className="py-2"
+                className="py-2 bg-[#1f2230] w-full"
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 contentContainerStyle={{ paddingHorizontal: 16, gap: 16 }}
             >
-                <TouchableOpacity className={
+                <TouchableOpacity 
+                onPress={() => setTab("inserat")}
+                className={
                     cn(
-                        "p-4 bg-[#1F2332] rounded-md", tab === "inserat" && "border border-indigo-800"
+                        "p-4 bg-[#1F2332] rounded-md", tab === "inserat" && "bg-[#292f42] shadow-lg"
                     )
                 }>
                     <Text className={cn("text-gray-200/60 font-medium text-base", tab === "inserat" && "text-gray-200 font-semibold")}>
                         Meine Inserate
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity className={
+                <TouchableOpacity 
+                onPress={() => setTab("favourites")}
+                className={
                     cn(
-                        "p-4 bg-[#1F2332] rounded-md", tab === "favourites" && "border border-indigo-800"
+                        "p-4 bg-[#1F2332] rounded-md", tab === "favourites" && "bg-[#292f42] shadow-lg"
                     )
                 }>
                     <Text className={cn("text-gray-200/60 font-medium text-base", tab === "favourites" && "text-gray-200 font-semibold")}>

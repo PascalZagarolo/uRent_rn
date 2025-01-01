@@ -2,14 +2,42 @@ import { useRouter } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
 import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import SelectDashboardTab from "./_components/select-dashboard-tab";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import InserateTab from "./_tabs/inserate-tab";
+import * as SecureStorage from 'expo-secure-store';
+import { getCurrentUserDashboard } from "@/actions/retrieveUser/dashboard-page/getUserDashboard";
 
 
 const DashboardPage = () => {
 
     const router = useRouter();
 
+    const [user, setUser] = useState(null);
     const [tab, setTab] = useState("inserat");
+
+    const loadUser = async () => {
+      
+        try {
+        const authToken = await SecureStorage.getItemAsync("authToken");
+
+        if(!authToken) return router.push("/login");
+        
+        const currentUser = await getCurrentUserDashboard(authToken);
+        
+        if(currentUser) {
+            setUser(currentUser);
+        } else {
+            setUser(null);
+        }
+
+        } catch(e : any) {
+            console.log(e);
+        }
+    }
+
+    useEffect(() => {
+        loadUser();
+    },[])
 
     return ( 
         <View className=" bg-[#181b27] h-screen">
@@ -23,12 +51,21 @@ const DashboardPage = () => {
                     </Text>
                 </View>
             </SafeAreaView >
-            <View className="p-4">
+            <View className="">
                 <View>
                     <SelectDashboardTab 
                     tab={tab}
                     setTab={setTab}
                     />
+                </View>
+                <View>
+                    {
+                        {
+                            "inserat" : <InserateTab 
+                                        currentUser = {user}
+                                        />,
+                        }[tab]
+                    }
                 </View>
             </View>
         </View>
