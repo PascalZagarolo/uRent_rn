@@ -262,7 +262,7 @@ const InseratCreationPage = () => {
     const usedKey = process.env.EXPO_PUBLIC_GOOGLE_CLOUD_SECRET;
 
     return (
-        <SafeAreaView className="flex-1 flex w-full h-full bg-[#161923]" style={{ width: '100%', height: '100%' }}>
+        <SafeAreaView className=" flex flex-col w-full h-full bg-[#161923]" >
             <View className="p-4 flex flex-row items-center space-x-4">
                 <TouchableOpacity onPress={() => router.back()}>
                     <FontAwesome name="chevron-left" size={24} color="white" />
@@ -271,7 +271,7 @@ const InseratCreationPage = () => {
                     Inserat erstellen
                 </Text>
             </View>
-            <View className="flex-grow h-11/12">
+            <View className="h-[85%]">
                 <View className="px-4">
                     <Text className="text-2xl font-semibold text-gray-200/90">
                         {pageInfo[currentPage]?.title}
@@ -281,12 +281,12 @@ const InseratCreationPage = () => {
 
                     </Text>
                 </View>
-                <View className="px-4 h-full">
+                <View className="px-4">
                     {pageInfo[currentPage]?.segment}
                 </View>
             </View>
 
-            <View className=" flex flex-row items-center justify-evenly w-full px-4 mt-auto h-1/12">
+            <View className=" flex flex-row items-center justify-evenly w-full px-4 mt-auto ">
                 {currentPage > 0 && (
                     <TouchableOpacity className=" w-4/12 p-4 flex-col justify-center items-center rounded-md"
                         onPress={() => setCurrentPage(currentPage - 1)}
