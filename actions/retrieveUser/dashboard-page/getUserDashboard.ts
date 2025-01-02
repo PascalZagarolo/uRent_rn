@@ -1,7 +1,7 @@
 
 
 import db from "@/db/drizzle";
-import { notification, userTable } from "@/db/schema";
+import { images, notification, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import JWT from "expo-jwt";
 
@@ -27,7 +27,13 @@ export async function getCurrentUserDashboard(jwtString : string) {
             ),
             with: {
                 notifications: true,
-                inserat : true
+                inserat : {
+                    with : {
+                        images : {
+                            orderBy: (created_at, { asc }) => [asc(images.position)],
+                        }
+                    }
+                }
             }
         })
 
@@ -38,7 +44,7 @@ export async function getCurrentUserDashboard(jwtString : string) {
         return retrievedUser;
 
     } catch(e : any) {
-        console.log(e + "11");
+        console.log(e);
         return false;
     } 
 }

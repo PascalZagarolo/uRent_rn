@@ -1,6 +1,8 @@
-import { userTable } from "@/db/schema";
+import { inserat, userTable } from "@/db/schema";
 import { Globe2Icon, LockIcon, SearchIcon } from "lucide-react-native";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { useEffect, useState } from "react";
+import { SafeAreaView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import InseratRender from "./_inserat/inserat-render";
 
 interface InserateTabProps {
     currentUser: typeof userTable.$inferSelect;
@@ -8,14 +10,18 @@ interface InserateTabProps {
 
 const InserateTab = ({ currentUser }: InserateTabProps) => {
 
+    const [renderedInserate, setRenderedInserate] = useState<typeof inserat.$inferSelect[]>();
 
+    useEffect(() => {
+        setRenderedInserate(currentUser?.inserat);
+    },[currentUser])
 
     return (
         <View className="p-4">
             <View>
                 <View>
                     <Text className="text-xl text-gray-200 font-semibold">
-                        Meine Inserate ({currentUser?.inserat?.length})
+                        Meine Inserate ({currentUser?.inserat?.length})                   
                     </Text>
                     <Text className="text-xs text-gray-200/60 font-semibold">
                         Verwalte deine Anzeigen, indem du Inhalte änderst, löscht, bearbeitest oder ihre Sichtbarkeit anpasst.
@@ -57,6 +63,13 @@ const InserateTab = ({ currentUser }: InserateTabProps) => {
                             </Text>
                         </TouchableOpacity>
                     </View>
+                    <SafeAreaView className="flex flex-col h-screen space-y-4 mt-8 mb-16">
+                        {renderedInserate?.map((inserat) => (
+                            <View className="" key={inserat?.id}>
+                                <InseratRender thisInserat={inserat} />
+                            </View>
+                        ))}
+                    </SafeAreaView>
                 </View>
             </View>
         </View>

@@ -1,11 +1,12 @@
 import { useRouter } from "expo-router";
 import { ArrowLeft } from "lucide-react-native";
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import SelectDashboardTab from "./_components/select-dashboard-tab";
 import { useEffect, useState } from "react";
 import InserateTab from "./_tabs/inserate-tab";
 import * as SecureStorage from 'expo-secure-store';
 import { getCurrentUserDashboard } from "@/actions/retrieveUser/dashboard-page/getUserDashboard";
+
 
 
 const DashboardPage = () => {
@@ -52,13 +53,13 @@ const DashboardPage = () => {
                 </View>
             </SafeAreaView >
             <View className="">
-                <View>
+                <View className="border-b">
                     <SelectDashboardTab 
                     tab={tab}
                     setTab={setTab}
                     />
                 </View>
-                <View>
+                <ScrollView className="">
                     {
                         {
                             "inserat" : <InserateTab 
@@ -66,7 +67,7 @@ const DashboardPage = () => {
                                         />,
                         }[tab]
                     }
-                </View>
+                </ScrollView>
             </View>
         </View>
      );
