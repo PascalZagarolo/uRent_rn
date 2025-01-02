@@ -167,7 +167,7 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
 </View>
 
 
-                    <SafeAreaView className="flex flex-col h-screen space-y-4 mt-8 mb-16">
+                    <SafeAreaView className="flex flex-col h-full space-y-4 mt-8 mb-16">
                         {renderedInserate?.map((inserat) => (
                             <View className="" key={inserat?.id}>
                                 <InseratRender thisInserat={inserat} setOpenDeleteDialog={(value) => setOpenDelete(value)} />

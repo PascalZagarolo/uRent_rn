@@ -29,7 +29,7 @@ const FavouritesTab = ({ currentUser }: FavouritesTabProps) => {
             <View>
                 <View>
                     <Text className="text-xl text-gray-200 font-semibold">
-                        Meine Favouriten 
+                        Favoriten 
                     </Text>
                     <Text className="text-xs text-gray-200/60 font-semibold">
                         Verwalte deine Favouriten und gespeicherten Inserate.
@@ -119,7 +119,15 @@ const FavouritesTab = ({ currentUser }: FavouritesTabProps) => {
                         )}
                     </View>
                     <SafeAreaView className="flex flex-col h-screen space-y-4 mt-8 mb-16">
-                       
+                       {currentUser?.favourites?.length > 0 ? (
+                            <View>
+
+                            </View>
+                       ) : (
+                        <Text className="text-center text-gray-200/60">
+                            Noch keine Inserate gespeichert..
+                        </Text>
+                       )}
                     </SafeAreaView>
                 </View>
             </View>
