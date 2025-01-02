@@ -33,6 +33,17 @@ export async function getCurrentUserDashboard(jwtString : string) {
                             orderBy: (created_at, { asc }) => [asc(images.position)],
                         }
                     }
+                },
+                favourites : {
+                    with : {
+                        inserat : {
+                            with : {
+                                images : {
+                                    orderBy: (created_at, { asc }) => [asc(images.position)],
+                                }
+                            }
+                        }
+                    }
                 }
             }
         })

@@ -7,9 +7,10 @@ import { View } from "react-native";
 
 interface InseratRenderProps {
     thisInserat: typeof inserat.$inferSelect;
+    setOpenDeleteDialog: (value: string) => void;
 }
 
-const InseratRender = ({ thisInserat }: InseratRenderProps) => {
+const InseratRender = ({ thisInserat, setOpenDeleteDialog }: InseratRenderProps) => {
 
     const router = useRouter()
 
@@ -41,7 +42,7 @@ const InseratRender = ({ thisInserat }: InseratRenderProps) => {
                     <TouchableOpacity className=" p-2 rounded-md" onPress={() => {router.push(`/inserat/create/${thisInserat?.id}`)}}>
                         <PencilIcon className="text-gray-200 w-4 h-4" />
                     </TouchableOpacity>
-                    <TouchableOpacity className="mt-4 p-2 rounded-md">
+                    <TouchableOpacity className="mt-4 p-2 rounded-md" onPress={() => { setOpenDeleteDialog(thisInserat?.id) }}>
                         <TrashIcon className="text-rose-800 font-semibold w-4 h-4" />
                     </TouchableOpacity>
                 </View>

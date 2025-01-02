@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import InserateTab from "./_tabs/inserate-tab";
 import * as SecureStorage from 'expo-secure-store';
 import { getCurrentUserDashboard } from "@/actions/retrieveUser/dashboard-page/getUserDashboard";
+import FavouritesTab from "./_tabs/_favourites/favourites-tab";
 
 
 
@@ -15,6 +16,7 @@ const DashboardPage = () => {
 
     const [user, setUser] = useState(null);
     const [tab, setTab] = useState("inserat");
+    
 
     const loadUser = async () => {
       
@@ -64,7 +66,12 @@ const DashboardPage = () => {
                         {
                             "inserat" : <InserateTab 
                                         currentUser = {user}
+                                        reloadAll = {loadUser}
                                         />,
+                            "favourites" : 
+                            <FavouritesTab 
+                            currentUser = {user}
+                            />
                         }[tab]
                     }
                 </ScrollView>

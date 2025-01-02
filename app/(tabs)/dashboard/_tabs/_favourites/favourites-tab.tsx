@@ -1,86 +1,57 @@
-import { inserat, userTable } from "@/db/schema";
+import { favourite, inserat, userTable } from "@/db/schema";
 import { Globe2Icon, LockIcon, SearchIcon, XIcon } from "lucide-react-native";
 import { useEffect, useState } from "react";
 import { Modal, SafeAreaView, Text, TextInput, TouchableOpacity, View } from "react-native";
-import InseratRender from "./_inserat/inserat-render";
-import { cn } from "@/~/lib/utils";
-import DeleteInseratDialog from "../_dialogs/_inserat/delete-inserat-dialog";
 
-interface InserateTabProps {
+import { cn } from "@/~/lib/utils";
+
+
+interface FavouritesTabProps {
     currentUser: typeof userTable.$inferSelect & {
-        inserat: Array<typeof inserat.$inferSelect>;
+        favourites: Array<typeof favourite.$inferSelect>;
     };
-    reloadAll: () => void;
+    
 }
 
-const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
+const FavouritesTab = ({ currentUser }: FavouritesTabProps) => {
 
     const [renderedInserate, setRenderedInserate] = useState<typeof inserat.$inferSelect[]>();
     const [currentFilter, setCurrentFilter] = useState<string>();
-    const [currentTitle, setCurrentTitle] = useState<string>();
-    const [prefilledTitle, setPrefilledTitle] = useState<string>();
     const [openDelete, setOpenDelete] = useState<string | null>(null);
 
-    useEffect(() => {
-        setRenderedInserate(currentUser?.inserat);
-    }, [currentUser])
+   
 
 
-    useEffect(() => {
-        const filterInserate = () => {
-            let filteredInserate = currentUser?.inserat;
-
-            if (currentFilter === "public") {
-                filteredInserate = filteredInserate?.filter((inserat) => inserat.isPublic);
-            } else if (currentFilter === "private") {
-                filteredInserate = filteredInserate?.filter((inserat) => !inserat.isPublic);
-            }
-
-            if (currentTitle) {
-                filteredInserate = filteredInserate?.filter((inserat) =>
-                    inserat.title?.toLowerCase().includes(currentTitle.toLowerCase())
-                );
-            }
-
-            setRenderedInserate(filteredInserate);
-        };
-
-        filterInserate();
-    }, [currentFilter, currentTitle, currentUser?.inserat]);
+    
 
     return (
         <View className="p-4">
             <View>
                 <View>
                     <Text className="text-xl text-gray-200 font-semibold">
-                        Meine Inserate ({currentUser?.inserat?.length})
+                        Meine Favouriten 
                     </Text>
                     <Text className="text-xs text-gray-200/60 font-semibold">
-                        Verwalte deine Anzeigen, indem du Inhalte änderst, löscht, bearbeitest oder ihre Sichtbarkeit anpasst.
+                        Verwalte deine Favouriten und gespeicherten Inserate.
 
                     </Text>
                     <Text className="text-xs text-gray-200/60 font-semibold">
 
-                        Darüber hinaus kannst du hier ganz einfach die Verfügbarkeit deiner Fahrzeuge aktualisieren.
+                       Optimal für Inserate, die du später nochmal anschauen möchtest.
                     </Text>
                 </View>
                 <View>
                     <View className="mt-4 flex flex-row items-center">
                         <TextInput
                             className="p-4   rounded-md rounded-r-none bg-[#292f42] w-3/4 text-gray-200"
-                            placeholder="Suche nach Inseraten.."
-                            onChange={(e) => setPrefilledTitle(e.nativeEvent.text)}
-                            value={prefilledTitle}
-                            maxLength={100}
+                            placeholder="Suche nach gespeicherten Inseraten.."
                         />
-                        <TouchableOpacity className="flex flex-row justify-center w-1/4 bg-[#202430] p-4 rounded-r-md"
-                            onPress={() => setCurrentTitle(prefilledTitle)}
-                        >
+                        <TouchableOpacity className="flex flex-row justify-center w-1/4 bg-[#202430] p-4 rounded-r-md">
                             <SearchIcon size={20} color="white" />
                         </TouchableOpacity>
                     </View>
                     <View className="flex flex-row items-center mt-4 justify-between">
-                        <TouchableOpacity className={cn("w-[45%] bg-indigo-800 rounded-md shadow-lg p-2.5 flex flex-row items-center",
+                        {/* <TouchableOpacity className={cn("w-[45%] bg-indigo-800 rounded-md shadow-lg p-2.5 flex flex-row items-center",
                             currentFilter === "public" && "bg-indigo-800/60"
                         )}
                             onPress={() => {
@@ -131,69 +102,30 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
                             )}>
                                 {currentUser?.inserat?.filter((inserat: any) => !inserat.isPublic).length}
                             </Text>
-                        </TouchableOpacity>
+                        </TouchableOpacity> */}
                     </View>
-                    <View className="pt-4  w-full flex-wrap flex-row">
-    {currentFilter && (
-        <TouchableOpacity
-            className="bg-[#252b3b] border border-indigo-800 rounded-2xl p-2.5 flex flex-row items-center shadow-lg mr-2 mb-2 mt-2"
-            onPress={() => setCurrentFilter(undefined)}
-        >
-            <XIcon size={20} className="mr-2 text-gray-200" />
-            <Text className="text-sm font-semibold text-gray-200 text-center">
-                Sichtbarkeit: {currentFilter === "public" ? "Öffentlich" : "Privat"}
-            </Text>
-        </TouchableOpacity>
-    )}
-
-    {currentTitle && (
-        <TouchableOpacity
-            className="bg-[#252b3b] border border-indigo-800 rounded-2xl p-2.5 flex flex-row items-center shadow-lg mr-2 mb-2 max-w-[80%] mt-2"
-            onPress={() => {
-                setCurrentTitle(undefined);
-                setPrefilledTitle(undefined);
-            }}
-        >
-            <XIcon size={20} className="mr-2 text-gray-200" />
-            <Text
-                className="text-sm font-semibold text-gray-200 text-center break-all"
-                numberOfLines={1}
-                ellipsizeMode="tail"
-            >
-                Titel: {currentTitle}
-            </Text>
-        </TouchableOpacity>
-    )}
-</View>
-
-
+                    <View className="pt-8">
+                        {currentFilter && (
+                            <TouchableOpacity className="bg-[#252b3b] border border-indigo-800 rounded-2xl w-1/2 p-2.5 flex flex-row items-center shadow-lg"
+                                onPress={() => {
+                                    setCurrentFilter(undefined)
+                                }}
+                            >
+                                <XIcon size={20} className="mr-2 text-gray-200" />
+                                <Text className="text-sm font-semibold text-gray-200 text-center">
+                                    {currentFilter === "public" ? "Öffentlich" : "Privat"}
+                                </Text>
+                            </TouchableOpacity>
+                        )}
+                    </View>
                     <SafeAreaView className="flex flex-col h-screen space-y-4 mt-8 mb-16">
-                        {renderedInserate?.map((inserat) => (
-                            <View className="" key={inserat?.id}>
-                                <InseratRender thisInserat={inserat} setOpenDeleteDialog={(value) => setOpenDelete(value)} />
-                            </View>
-                        ))}
+                       
                     </SafeAreaView>
                 </View>
             </View>
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={String(openDelete ?? "") != ""}
-                onRequestClose={() => {
-                    setOpenDelete("");
-                }}
-
-            >
-                <DeleteInseratDialog
-                    onClose={() => setOpenDelete(undefined)}
-                    inseratId={openDelete}
-                    onReload={reloadAll}
-                />
-
-            </Modal>
+            
         </View>
     );
 }
 
-export default InserateTab;
+export default FavouritesTab;
