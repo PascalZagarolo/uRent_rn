@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Modal, SafeAreaView, Text, TextInput, TouchableOpacity, View } from "react-native";
 
 import { cn } from "@/~/lib/utils";
+import FavouriteRender from "./_favourites/favourites-render";
 
 
 interface FavouritesTabProps {
@@ -120,9 +121,14 @@ const FavouritesTab = ({ currentUser }: FavouritesTabProps) => {
                     </View>
                     <SafeAreaView className="flex flex-col h-screen space-y-4 mt-8 mb-16">
                        {currentUser?.favourites?.length > 0 ? (
-                            <View>
-
-                            </View>
+                            currentUser?.favourites?.map((favourite) => (
+                                <View>
+                                    <FavouriteRender 
+                                    thisFavourite={favourite}
+                                    
+                                    />
+                              </View>
+                            ))
                        ) : (
                         <Text className="text-center text-gray-200/60">
                             Noch keine Inserate gespeichert..

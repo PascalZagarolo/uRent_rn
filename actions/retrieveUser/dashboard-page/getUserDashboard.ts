@@ -40,7 +40,8 @@ export async function getCurrentUserDashboard(jwtString : string) {
                             with : {
                                 images : {
                                     orderBy: (created_at, { asc }) => [asc(images.position)],
-                                }
+                                },
+                                user : true
                             }
                         }
                     }

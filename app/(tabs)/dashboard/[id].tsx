@@ -6,7 +6,8 @@ import { useEffect, useState } from "react";
 import InserateTab from "./_tabs/inserate-tab";
 import * as SecureStorage from 'expo-secure-store';
 import { getCurrentUserDashboard } from "@/actions/retrieveUser/dashboard-page/getUserDashboard";
-import FavouritesTab from "./_tabs/_favourites/favourites-tab";
+import FavouritesTab from "./_tabs/favourites-tab";
+
 
 
 
