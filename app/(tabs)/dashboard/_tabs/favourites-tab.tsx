@@ -122,9 +122,9 @@ const FavouritesTab = ({ currentUser }: FavouritesTabProps) => {
                     <SafeAreaView className="flex flex-col h-screen space-y-4 mt-8 mb-16">
                        {currentUser?.favourites?.length > 0 ? (
                             currentUser?.favourites?.map((favourite) => (
-                                <View>
+                                <View key={favourite?.id}>
                                     <FavouriteRender 
-                                    thisFavourite={favourite}
+                                    thisFavourite={favourite as any}
                                     
                                     />
                               </View>
