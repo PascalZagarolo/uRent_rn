@@ -72,6 +72,7 @@ const DashboardPage = () => {
                             "favourites" : 
                             <FavouritesTab 
                             currentUser = {user}
+                            onReloadAll={loadUser}
                             />
                         }[tab]
                     }

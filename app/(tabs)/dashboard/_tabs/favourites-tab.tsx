@@ -5,20 +5,25 @@ import { Modal, SafeAreaView, Text, TextInput, TouchableOpacity, View } from "re
 
 import { cn } from "@/~/lib/utils";
 import FavouriteRender from "./_favourites/favourites-render";
+import Toast from "react-native-toast-message";
+import { deleteFavourite } from "@/actions/favourites/delete-favourite";
+import * as SecureStorage from 'expo-secure-store';
+
 
 
 interface FavouritesTabProps {
     currentUser: typeof userTable.$inferSelect & {
         favourites: Array<typeof favourite.$inferSelect>;
     };
+    onReloadAll: () => void;
     
 }
 
-const FavouritesTab = ({ currentUser }: FavouritesTabProps) => {
+const FavouritesTab = ({ currentUser, onReloadAll }: FavouritesTabProps) => {
 
     
     
-    const [openDelete, setOpenDelete] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
 
    
     const [searchedTitle, setSearchedTitle] = useState<string>();
@@ -41,7 +46,36 @@ const FavouritesTab = ({ currentUser }: FavouritesTabProps) => {
         };
     
         filterFavourites();
-    }, [searchedTitle]);
+    }, [searchedTitle, currentUser]);
+
+
+    const onUnFavorite = async (inseratId : string) => {
+        try{
+
+            if(isLoading) return;
+            setIsLoading(true);
+
+            const authToken = await SecureStorage.getItemAsync("authToken");
+
+            await deleteFavourite(authToken, inseratId);
+            Toast.show({
+                type: "success",
+                text1: "Erfolgreich",
+                text2: "Inserat wurde erfolgreich aus deinen Favoriten entfernt."
+            })
+            onReloadAll();
+
+        } catch(e : any) {
+            console.log(e);
+            Toast.show({
+                type: "error",
+                text1: "Fehler",
+                text2: "Es ist ein Fehler aufgetreten.."
+            })
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     return (
         <View className="p-4">
@@ -100,7 +134,7 @@ const FavouritesTab = ({ currentUser }: FavouritesTabProps) => {
                                 <View key={favourite?.id}>
                                     <FavouriteRender 
                                     thisFavourite={favourite as any}
-                                    
+                                    onDeFav={(inseratId) => onUnFavorite(inseratId)}
                                     />
                               </View>
                             ))

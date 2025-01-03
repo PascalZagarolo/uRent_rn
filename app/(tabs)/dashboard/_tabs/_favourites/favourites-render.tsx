@@ -8,10 +8,10 @@ import { View } from "react-native";
 
 interface FavouriteRenderProps {
     thisFavourite: typeof favourite.$inferSelect & { inserat: typeof inserat.$inferSelect };
-    
+    onDeFav : (inseratId : string) => void;
 }
 
-const FavouriteRender = ({ thisFavourite,  }: FavouriteRenderProps) => {
+const FavouriteRender = ({ thisFavourite, onDeFav }: FavouriteRenderProps) => {
 
     const router = useRouter()
 
@@ -41,7 +41,7 @@ const FavouriteRender = ({ thisFavourite,  }: FavouriteRenderProps) => {
                 </TouchableOpacity>
                 <View className="ml-auto flex flex-col mb-auto px-4">
                     
-                    <TouchableOpacity className="mt-4  rounded-md">
+                    <TouchableOpacity className="mt-4  rounded-md" onPress={() => {onDeFav(thisFavourite?.inseratId)}}>
                         <Ionicons name="bookmark" size={28} color="white" />
                     </TouchableOpacity>
                 </View>
