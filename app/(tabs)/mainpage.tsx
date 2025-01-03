@@ -19,6 +19,7 @@ import { getCurrentUserMainPage } from "@/actions/retrieveUser/main-page/getUser
 import { useRouter } from "expo-router";
 import { addFavourite } from "@/actions/favourites/add-favourite";
 import Toast from "react-native-toast-message";
+import { deleteFavourite } from "@/actions/favourites/delete-favourite";
 
 
 
@@ -173,10 +174,16 @@ const MainPage = () => {
             const authToken = await SecureStore.getItemAsync("authToken");
 
             if(favs.find((fav : any) => fav.inseratId == inseratId)) {
-               
+            await deleteFavourite(authToken, inseratId);
+            setFavs(favs.filter((fav : any) => fav.inseratId != inseratId));
+            Toast.show({
+                type: 'success',
+                text1: 'Favorit entfernt',
+                text2: 'Das Inserat wurde aus deinen Favoriten entfernt'
+            })
             } else {
                 await addFavourite(authToken, inseratId);
-                setFavs([...favs, inseratId]);
+                setFavs([...favs, {inseratId}]);
                 Toast.show({
                     type: 'success',
                     text1: 'Favorit hinzugefügt',
