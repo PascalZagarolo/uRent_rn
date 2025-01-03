@@ -16,14 +16,32 @@ interface FavouritesTabProps {
 
 const FavouritesTab = ({ currentUser }: FavouritesTabProps) => {
 
-    const [renderedInserate, setRenderedInserate] = useState<typeof inserat.$inferSelect[]>();
-    const [currentFilter, setCurrentFilter] = useState<string>();
+    
+    
     const [openDelete, setOpenDelete] = useState<string | null>(null);
 
    
+    const [searchedTitle, setSearchedTitle] = useState<string>();
+    const [prefilledTitle, setPrefilledTitle] = useState<string>();
 
+    const [favourites, setFavourites] = useState<Array<typeof favourite.$inferSelect>>(currentUser?.favourites || []);
 
+    useEffect(() => {
+        const filterFavourites = () => {
+            if (!searchedTitle) {
+                setFavourites(currentUser?.favourites || []);
+                return;
+            }
+            
+            const filtered = favourites.filter(favourite =>
+                favourite?.inserat?.title?.toLowerCase().includes(searchedTitle.toLowerCase())
+            );
     
+            setFavourites(filtered);
+        };
+    
+        filterFavourites();
+    }, [searchedTitle]);
 
     return (
         <View className="p-4">
@@ -44,84 +62,41 @@ const FavouritesTab = ({ currentUser }: FavouritesTabProps) => {
                 <View>
                     <View className="mt-4 flex flex-row items-center">
                         <TextInput
-                            className="p-4   rounded-md rounded-r-none bg-[#292f42] w-3/4 text-gray-200"
+                            className="p-4 rounded-md rounded-r-none bg-[#292f42] w-3/4 text-gray-200"
                             placeholder="Suche nach gespeicherten Inseraten.."
+                            value={prefilledTitle}
+                            onChangeText={setPrefilledTitle}
                         />
-                        <TouchableOpacity className="flex flex-row justify-center w-1/4 bg-[#202430] p-4 rounded-r-md">
+                        <TouchableOpacity className="flex flex-row justify-center w-1/4 bg-[#202430] p-4 rounded-r-md"
+                        onPress={() => {
+                            setSearchedTitle(prefilledTitle);
+                        }}
+                        >
                             <SearchIcon size={20} color="white" />
                         </TouchableOpacity>
                     </View>
                     <View className="flex flex-row items-center mt-4 justify-between">
-                        {/* <TouchableOpacity className={cn("w-[45%] bg-indigo-800 rounded-md shadow-lg p-2.5 flex flex-row items-center",
-                            currentFilter === "public" && "bg-indigo-800/60"
-                        )}
-                            onPress={() => {
-                                if (currentFilter === "public") {
-                                    setCurrentFilter(undefined)
-                                } else {
-                                    setCurrentFilter("public")
-                                }
-                            }}
-                        >
-                            <Globe2Icon size={20} className={cn(
-                                "mr-2 text-gray-200", currentFilter === "public" && "text-gray-200/60"
-                            )} />
-                            <Text className={cn
-                                (
-                                    "text-base text-center font-semibold text-gray-200",
-                                    currentFilter === "public" && "text-gray-200/60"
-                                )}>
-                                Öffentlich
-                            </Text>
-                            <Text className={cn("ml-auto mr-2 text-base font-medium text-gray-200", currentFilter === "public" && "text-gray-200/60")}>
-                                {currentUser?.inserat?.filter((inserat: any) => inserat.isPublic).length}
-                            </Text>
-                        </TouchableOpacity>
+                        
 
-                        <TouchableOpacity className={cn(
-                            "w-[45%] bg-[#292f42] rounded-md shadow-lg p-2.5 flex flex-row items-center",
-                            currentFilter === "private" && "bg-[#252a36]"
-                        )}
-                            onPress={() => {
-                                if (currentFilter === "private") {
-                                    setCurrentFilter(undefined)
-                                } else {
-                                    setCurrentFilter("private")
-                                }
-                            }}
-                        >
-                            <LockIcon size={20} className={cn(
-                                "mr-2 text-gray-200", currentFilter === "private" && "text-gray-200/60"
-                            )} />
-                            <Text className={cn("text-base text-gray-200 text-center font-semibold",
-                                currentFilter === "private" && "text-gray-200/60"
-                            )}>
-                                Privat
-                            </Text>
-                            <Text className={cn("ml-auto mr-2 text-base  font-medium text-gray-200",
-                                currentFilter === "private" && "text-gray-200/60"
-                            )}>
-                                {currentUser?.inserat?.filter((inserat: any) => !inserat.isPublic).length}
-                            </Text>
-                        </TouchableOpacity> */}
                     </View>
                     <View className="pt-8">
-                        {currentFilter && (
+                        {searchedTitle && (
                             <TouchableOpacity className="bg-[#252b3b] border border-indigo-800 rounded-2xl w-1/2 p-2.5 flex flex-row items-center shadow-lg"
                                 onPress={() => {
-                                    setCurrentFilter(undefined)
+                                    setSearchedTitle(undefined)
+                                    setPrefilledTitle(undefined)
                                 }}
                             >
                                 <XIcon size={20} className="mr-2 text-gray-200" />
                                 <Text className="text-sm font-semibold text-gray-200 text-center">
-                                    {currentFilter === "public" ? "Öffentlich" : "Privat"}
+                                    Titel: {searchedTitle}
                                 </Text>
                             </TouchableOpacity>
                         )}
                     </View>
                     <SafeAreaView className="flex flex-col h-screen space-y-4 mt-8 mb-16">
                        {currentUser?.favourites?.length > 0 ? (
-                            currentUser?.favourites?.map((favourite) => (
+                            favourites.map((favourite) => (
                                 <View key={favourite?.id}>
                                     <FavouriteRender 
                                     thisFavourite={favourite as any}
