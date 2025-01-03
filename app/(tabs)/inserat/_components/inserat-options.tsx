@@ -1,11 +1,21 @@
 import { Feather, FontAwesome, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Text, TouchableOpacity, View } from "react-native";
+import { useState } from "react";
+import { Modal, Text, TouchableOpacity, View } from "react-native";
+import DialogRequest from "./dialogs/dialog-request";
 
-const InseratOptions = () => {
+interface InseratOptionsProps {
+    inseratUserId : string;
+    currentUserId : string;
+}
+
+const InseratOptions = ({ inseratUserId, currentUserId } : InseratOptionsProps) => {
+
+    const [openDialog, setOpenDialog] = useState<{open : boolean, type : string}>({open : false, type : ""});
+
     return (
         <View className="flex flex-col px-4">
             <View className="space-y-2">
-                <TouchableOpacity className="p-4 bg-emerald-800 rounded-md  flex flex-row items-center">
+                <TouchableOpacity className="p-4 bg-emerald-800 rounded-md  flex flex-row items-center" onPress={() => {setOpenDialog({open : true, type: "request"})}}>
                     <View className="mr-4">
                         <FontAwesome name="thumbs-up" size={20} color="white" />
                     </View>
@@ -57,6 +67,23 @@ const InseratOptions = () => {
                     </Text>
                 </TouchableOpacity>
             </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={openDialog.open}
+                onRequestClose={() => {
+                    setOpenDialog({open : false, type : ""});
+                }}
+
+            >
+                {openDialog.type == "request" && 
+                <DialogRequest 
+                onClose={() => setOpenDialog({open : false, type : ""})}
+                inseratUserId={inseratUserId}
+                currentUserId={currentUserId}
+                />
+                }
+            </Modal>
         </View>
     );
 }

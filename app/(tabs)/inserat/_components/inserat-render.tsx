@@ -15,10 +15,12 @@ import { useRouter } from "expo-router";
 
 interface InseratRenderProps {
     thisInserat: typeof inserat.$inferSelect;
+    currentUserId?: string;
 }
 
 const InseratRender: React.FC<InseratRenderProps> = ({
-    thisInserat
+    thisInserat,
+    currentUserId
 }) => {
 
     const matchingIcon = (usedCategory: string) => {
@@ -38,15 +40,15 @@ const InseratRender: React.FC<InseratRenderProps> = ({
     function separatePrice(priceString) {
         // Remove the currency symbol and trim any extra spaces
         let price = priceString.replace('€', '').trim();
-    
+
         // Split the price into integer and decimal parts
         let [integerPart, decimalPart] = price.split('.');
-    
+
         // If there is no decimal part, set it to '00'
         if (!decimalPart) {
             decimalPart = '00';
         }
-    
+
         // Return the integer and decimal parts
         return {
             integerPart: integerPart,
@@ -62,7 +64,7 @@ const InseratRender: React.FC<InseratRenderProps> = ({
         <View>
             <View>
                 <View className="">
-                    <TouchableOpacity className="p-4 flex flex-row items-center" onPress={() => {router.back()}}>
+                    <TouchableOpacity className="p-4 flex flex-row items-center" onPress={() => { router.back() }}>
                         <ArrowLeft className="w-4 h-4 text-gray-200" />
                         <Text className="text-sm ml-4 text-gray-200/80">
                             Zurück zur Startseite
@@ -93,56 +95,61 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                         }}
                     />
                 </View>
-                
-                <View className="p-4">
-                    <Text className="flex flex-row items-center gap-x-2 w-full break-all line-clamp-1 text-gray-200" numberOfLines={1}>
-                       <View>
-                       <FontAwesome name="map-marker" size={24} color="red" /> 
-                    </View> {thisInserat?.address?.postalCode} {thisInserat?.address?.locationString} 
+
+                <View className="p-4 flex flex-row items-center">
+                    <View className="mr-4">
+                        <FontAwesome name="map-marker" size={24} color="red" className="mr-4" />
+                    </View>
+                    <Text className="flex flex-row text-base font-semibold items-center w-full break-all line-clamp-1 text-gray-200" numberOfLines={1}>
+                        {thisInserat?.address?.postalCode} | {thisInserat?.address?.locationString}
                     </Text>
                 </View>
                 <View className="px-4 flex justify-end ml-auto items-center">
-                    <Text className="text-gray-200 font-semibold text-lg items-center">
+                    <Text className="text-gray-200 font-semibold text-xl items-center">
                         {integerPart}.<Text className="text-sm">{decimalPart}</Text> €
                     </Text>
                 </View>
                 <View className="py-2">
-                    <InseratOptions />
+                    <InseratOptions
+                    
+                    currentUserId={currentUserId}
+                    inseratUserId={thisInserat?.userId}
+                    />
                 </View>
                 <View>
-                    <InseratPriceProfiles 
-                    thisInserat = {thisInserat}
+                    <InseratPriceProfiles
+                        thisInserat={thisInserat}
                     />
                 </View>
                 <View className="p-8">
-                    <InseratConditions 
-                    thisInserat={thisInserat}
+                    <InseratConditions
+                        thisInserat={thisInserat}
                     />
                 </View>
                 <View className="p-4">
-                    <InseratContactOptions 
-                    thisInserat={thisInserat}
+                    <InseratContactOptions
+                        thisInserat={thisInserat}
                     />
                 </View>
                 <View className="p-4">
-                    <InseratDescription 
-                    description={thisInserat?.description}
+                    <InseratDescription
+                        description={thisInserat?.description}
                     />
                 </View>
                 <View className="">
-                    <InseratAttributes 
-                    thisInserat={thisInserat}
+                    <InseratAttributes
+                        thisInserat={thisInserat}
                     />
                 </View>
                 <View className="p-4">
-                        <InseratProfile 
+                    <InseratProfile
                         thisUser={thisInserat.user}
-                        />
+                    />
                 </View>
                 <View className="p-4">
-                    <InseratMoreContent 
-                    username={thisInserat.user.name}
-                    foundInserat={thisInserat.user.inserat}
+                    <InseratMoreContent
+                        username={thisInserat.user.name}
+                        foundInserat={thisInserat.user.inserat}
                     />
                 </View>
             </View>
