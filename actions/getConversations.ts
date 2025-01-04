@@ -1,10 +1,10 @@
-'use server'
 
 import db from "@/db/drizzle";
 import { conversation } from "@/db/schema";
 import { eq, or } from "drizzle-orm";
 
 export async function getConversations(userId : string) {
+    'use server'
     try {
 
         const findConversations = db.query.conversation.findMany({

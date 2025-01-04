@@ -111,7 +111,7 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                 </View>
                 <View className="py-2">
                     <InseratOptions
-                    
+                    inseratId={thisInserat?.id}
                     currentUserId={currentUserId}
                     inseratUserId={thisInserat?.userId}
                     />
