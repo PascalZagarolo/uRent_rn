@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
 
   return (
 
-    <View className="bg-[#202336] p-4 py-6 border-b border-gray-800">
+    <View className="bg-[#202336] p-4 py-45 border-b border-gray-800 shadow-lg">
       <SafeAreaView className="flex flex-row items-center">
         
         <Text className="text-xl font-semibold text-gray-200">uRent</Text>
