@@ -173,7 +173,7 @@ const ChangeProfilePic: React.FC<ChangeProfilePicProps> = ({
             }}>
                 <Image
                     style={{ resizeMode: 'cover' }}
-                    source={{ uri: savedImage }}
+                    source={{ uri: savedImage ? savedImage : "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg" }}
                     className="w-28 h-28 rounded-full"
                 />
             </TouchableOpacity>
