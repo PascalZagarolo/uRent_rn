@@ -35,7 +35,7 @@ const InseratMoreContent : React.FC<InseratMoreContentProps> = ({
             <View className="mt-4">
                 <ScrollView className="max-h-72 border-t-2 border-b-2 border-gray-600  space-y-4">
                     {matchingInserate.map(inserat => (
-                        <View className="">
+                        <View className="" key={inserat?.id}>
                             <MoreContentCard 
                         thisTitle={inserat.title}
                         inseratId={inserat.id}

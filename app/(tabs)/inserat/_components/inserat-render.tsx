@@ -16,11 +16,13 @@ import { useRouter } from "expo-router";
 interface InseratRenderProps {
     thisInserat: typeof inserat.$inferSelect;
     currentUserId?: string;
+    isFaved : boolean;
 }
 
 const InseratRender: React.FC<InseratRenderProps> = ({
     thisInserat,
-    currentUserId
+    currentUserId,
+    isFaved
 }) => {
 
     const matchingIcon = (usedCategory: string) => {
@@ -114,6 +116,7 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                     inseratId={thisInserat?.id}
                     currentUserId={currentUserId}
                     inseratUserId={thisInserat?.userId}
+                    isFaved={isFaved}
                     />
                 </View>
                 <View>

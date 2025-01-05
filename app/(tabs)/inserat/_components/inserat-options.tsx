@@ -6,18 +6,22 @@ import { getExistingOrCreateNewConversation } from "@/actions/conversations/find
 import { useRouter } from "expo-router";
 import Toast from "react-native-toast-message";
 import { baseUrl } from "@/lib/staticEnv";
-
+import { deleteFavourite } from "@/actions/favourites/delete-favourite";
+import * as SecureStore from "expo-secure-store";
+import { addFavourite } from "@/actions/favourites/add-favourite";
 
 interface InseratOptionsProps {
     inseratUserId : string;
     currentUserId : string;
     inseratId : string;
+    isFaved : boolean;
 }
 
-const InseratOptions = ({ inseratUserId, currentUserId, inseratId } : InseratOptionsProps) => {
+const InseratOptions = ({ inseratUserId, currentUserId, inseratId, isFaved } : InseratOptionsProps) => {
 
     const [openDialog, setOpenDialog] = useState<{open : boolean, type : string}>({open : false, type : ""});
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [faved, setFaved] = useState<boolean>(isFaved);
     const router = useRouter();
 
     const usedUrl = `${baseUrl}/inserat/${inseratId}`;
@@ -73,6 +77,47 @@ const InseratOptions = ({ inseratUserId, currentUserId, inseratId } : InseratOpt
         }
     }
 
+    const onFav = async () => {
+        try {
+            if(isLoading) return;
+
+            setIsLoading(true);
+
+            if(!currentUserId) {
+                return router.push('/login');
+            }
+
+            const authToken = await SecureStore.getItemAsync("authToken");
+
+            if(faved) {
+            await deleteFavourite(authToken, inseratId);
+            setFaved(false);
+            Toast.show({
+                type: 'success',
+                text1: 'Favorit entfernt',
+                text2: 'Das Inserat wurde aus deinen Favoriten entfernt'
+            })
+            } else {
+                await addFavourite(authToken, inseratId);
+                setFaved(true);
+                Toast.show({
+                    type: 'success',
+                    text1: 'Favorit hinzugefügt',
+                    text2: 'Das Inserat wurde zu deinen Favoriten hinzugefügt'
+                })
+            }
+
+        } catch(e : any) {
+            Toast.show({
+                type: 'error',
+                text1: 'Fehler',
+                text2: 'Favorit konnte nicht hinzugefügt werden'
+            })
+        } finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <View className="flex flex-col px-4">
             <View className="space-y-2">
@@ -87,6 +132,8 @@ const InseratOptions = ({ inseratUserId, currentUserId, inseratId } : InseratOpt
                 </TouchableOpacity>
 
 
+                {/* 
+                
                 <TouchableOpacity className="p-4 bg-blue-800 rounded-md  flex flex-row items-center">
                     <View className="mr-4">
                         <MaterialCommunityIcons name="calendar-search" size={20} color="white" />
@@ -96,11 +143,16 @@ const InseratOptions = ({ inseratUserId, currentUserId, inseratId } : InseratOpt
                         Buchung vorschlagen
                     </Text>
                 </TouchableOpacity>
+                */}
 
 
-                <TouchableOpacity className="p-4 bg-[#232635] rounded-md  flex flex-row items-center">
-                    <View className="mr-4">
-                        <Feather name="star" size={20} color="white" />
+                <TouchableOpacity className="p-4 bg-[#232635] rounded-md  flex flex-row items-center" onPress={onFav}>
+                    <View className="mr-6">
+                       {faved ? (
+                        <FontAwesome name="bookmark" size={20} color="white" />
+                       ) : (
+                        <FontAwesome name="bookmark-o" size={20} color="white" />
+                       )}
                     </View>
                     <Text className="text-gray-200 font-semibold text-md ">
 
