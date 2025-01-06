@@ -88,12 +88,19 @@ const SelectDateFilter = () => {
               )}>
               <View className="w-[320px] ">
               <Calendar
-                
+                className="bg-[#1c1f2b]"
                 markingType="custom"
                   style={{
 
                     height: 350,
-                    backgroundColor: '#1c1f2b',
+                    
+                  }}
+                  theme={{
+                    calendarBackground: '#1c1f2b',
+                    dayTextColor: '#ffffff',
+                    monthTextColor: '#ffffff',
+                    textSectionTitleColor: '#ffffff',
+                    textDisabledColor: '#e5e7eb66'
                   }}
                   markedDates={
                     currentStartDate ? {
@@ -136,25 +143,29 @@ const SelectDateFilter = () => {
                 )}>
                 <View className="w-[320px] ">
                 <Calendar
-                markingType={'custom'}
-                  style={{
+               markingType="custom"
+               style={{
 
-                    height: 350,
-                    backgroundColor: '#1c1f2b',
-                  }}
-                  markedDates={
-                    currentEndDate ? {
-                      [format(currentEndDate, "yyyy-MM-dd")]: { 
-                        selected: true, selectedColor: '#1c1f2b',
-                        customStyles : {
-                          container : {
-                            backgroundColor: '#3730A3'
-                          }
-                        }
-                      
-                      }
-                    } : {}	
-                  }
+                 height: 350,
+                 
+               }}
+               theme={{
+                 calendarBackground: '#1c1f2b',
+                 dayTextColor: '#ffffff',
+                 monthTextColor: '#ffffff',
+                 textSectionTitleColor: '#ffffff',
+                 textDisabledColor: '#e5e7eb66'
+               }}
+               markedDates={
+                 currentStartDate ? {
+                   [format(currentStartDate, "yyyy-MM-dd")]: { selected: true, selectedColor: '#1c1f2b',
+                   customStyles : {
+                     container : {
+                       backgroundColor: '#3730A3'
+                     }
+                   } }
+                 } : {}	
+               }
                   onDayPress={(day) => { 
                     isSameDay(new Date(day.dateString), new Date(currentEndDate)) ? 
                     setCurrentEndDate(null) : setCurrentEndDate(new Date(day.dateString));
