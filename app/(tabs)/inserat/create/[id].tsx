@@ -208,6 +208,7 @@ const InseratCreationPage = () => {
 
     const handleNext = () => {
         if (basicDetailsRef.current) {
+            console.log("saved current basic")
             basicDetailsRef.current.onSave();
         }
         if (basicDetails2Ref.current) {

@@ -11,6 +11,13 @@ import * as ImagePicker from 'expo-image-picker';
 import DraggableFlatList, { ScaleDecorator } from "react-native-draggable-flatlist";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import { addImagesInserat } from "@/actions/inserat/images/add-images-inserat";
+import * as SecureStorage from 'expo-secure-store';
+import Toast from "react-native-toast-message";
+import axios from "axios";
+import { getAxiosRequest } from "@/actions/inserat/images/axios-request";
+import mime from "mime";
+
 
 
 interface BasicDetails2Props {
@@ -21,13 +28,62 @@ interface BasicDetails2Props {
 const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2Props, ref) => {
 
     const [showModal, setShowModal] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+
 
     useImperativeHandle(ref, () => ({
         onSave: () => {
-            console.log("Child onSave called");
-            console.log("Saving:");
+            const uploadOnChange = async () => {
+                try {
+                    if(isLoading) return;
+                    setIsLoading(true);
+    
+                    let uploadData : { url : string, position : number }[] = [];
+                    console.log("uploadOnChange!!")
+                    const oldData = [...currentPicture];
+    
+                    for await (const pImage of currentPicture) {
+                        let returnedUrl = "";
+                        returnedUrl = await uploadImage(pImage.url);
+                        uploadData.push({ url: returnedUrl, position: pImage.position });
+
+                    }
+
+                    const authToken = await SecureStorage.getItemAsync("authToken");
+                    console.log(uploadData + "!")
+                    await addImagesInserat(uploadData, thisInserat.id, authToken);
+    
+                } catch(e : any) {
+                    console.log(e);
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Fehler',
+                        text2: 'Fehler beim Speichern der Bilder'
+                    })
+                } finally {
+                    setIsLoading(false);
+                }
+            }
+
+            uploadOnChange();
         }
     }));
+
+    const MAX_RETRIES = 3;
+
+    
+
+    const isValidUrl = (url: string): boolean => {
+        try {
+            // Try creating a new URL to ensure it's a valid URL
+            new URL(url);
+            // Return false if the URL contains "blob:"
+            return !url.includes("file:");
+        } catch (_) {
+            // If new URL() fails, it’s an invalid URL
+            return false;
+        }
+    };
 
     type PictureObject = {
         url: string,
@@ -35,6 +91,61 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
     };
  
     const [currentPicture, setCurrentPicture] = useState<PictureObject[]>([]);
+
+    
+    
+
+    const uploadImage = async (imageUri: string) => {
+        try {
+            const url = "https://api.cloudinary.com/v1_1/df1vnhnzp/image/upload";
+
+            const formData = new FormData();
+
+            let result;
+
+            const image = {
+                uri: imageUri,
+                type: 'image/jpeg', // Change according to your image type
+                name: 'upload.jpg', // Provide a name for the file
+            };
+
+            // Here, we need to either convert the file to base64 or pass the actual bytes
+            // In a React Native environment, you might need an additional library like `react-native-fs`
+            // to read the file and convert it to base64.
+
+            //@ts-ignore
+            formData.append("file", {
+                uri: image.uri,
+                type: image.type,
+                name: image.name,
+            });
+            formData.append("upload_preset", "oblbw2xl");
+            console.log(4)
+            await fetch(url, {
+                method: "POST",
+                body: formData
+            })
+                .then((response) => {
+
+
+                    return response.json();
+                })
+                .then((data) => {
+
+                    console.log(data.secure_url)
+                    result = data.secure_url;
+                });
+
+            if (result) {
+                return result;
+            }
+        } catch (e: any) {
+            console.log(e);
+            return null;
+        }
+    }
+    
+    
 
     const onImageUpload = async (mode: string) => {
         try {

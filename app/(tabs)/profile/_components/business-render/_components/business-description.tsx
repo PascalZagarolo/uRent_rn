@@ -30,7 +30,7 @@ const Businessdescription = ({ thisDescription, isOwnProfile, username }: Busine
     const onSave = async () => {
         try {
             const authToken = await SecureStorage.getItemAsync("authToken");
-            console.log("currentDescription", currentDescription)
+            
             await editBusinessDescription(currentDescription, authToken);
             Toast.show({
                 type: "success",

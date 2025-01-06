@@ -1,4 +1,4 @@
-'use server'
+
 
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import db from "@/db/drizzle";
@@ -6,6 +6,7 @@ import { inserat } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export const editInseratBasic = async (values) => {
+    'use server'
     try {
         console.log(3)
         const { inseratId, token, ...pValues } = values;

@@ -3,14 +3,17 @@ import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import { Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, 
-    Keyboard, TouchableWithoutFeedback } from "react-native";
+import {
+    Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
+    Keyboard, TouchableWithoutFeedback
+} from "react-native";
 import * as SecureStorage from "expo-secure-store";
+import LetterRestriction from "@/components/LetterRestriction";
 
 
 interface BasicDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-    refetchInserat : () => void;
+    refetchInserat: () => void;
 }
 
 const BasicDetails = forwardRef(({ thisInserat, refetchInserat }: BasicDetailsProps, ref) => {
@@ -25,15 +28,15 @@ const BasicDetails = forwardRef(({ thisInserat, refetchInserat }: BasicDetailsPr
                 console.log(thisInserat?.id)
 
                 const values = {
-                    inseratId : thisInserat.id,
-                    title : currentTitle,
-                    description : currentDescription,
-                    token : authToken
+                    inseratId: thisInserat.id,
+                    title: currentTitle,
+                    description: currentDescription,
+                    token: authToken
                 }
 
                 await editInseratBasic(values);
                 await refetchInserat();
-            } catch(e : any) {
+            } catch (e: any) {
                 console.log(e);
             } finally {
                 setIsLoading(false);
@@ -43,10 +46,10 @@ const BasicDetails = forwardRef(({ thisInserat, refetchInserat }: BasicDetailsPr
 
     const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
     const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
-    
-   
 
-    
+
+
+
 
     return (
         <TouchableWithoutFeedback className="h-full" onPress={Keyboard.dismiss}>
@@ -59,8 +62,12 @@ const BasicDetails = forwardRef(({ thisInserat, refetchInserat }: BasicDetailsPr
                         placeholder="Titel deines Inserats..."
                         value={currentTitle}
                         onChangeText={(text) => setCurrentTitle(text)}
+                        maxLength={160}
                         className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg" />
-
+                    <LetterRestriction
+                        inputLength={currentTitle?.length ?? 0}
+                        limit={160}
+                    />
                 </View>
 
                 <View className="w-full mt-8 h-full">
@@ -68,20 +75,25 @@ const BasicDetails = forwardRef(({ thisInserat, refetchInserat }: BasicDetailsPr
                         Beschreibung
                     </Text>
                     <KeyboardAvoidingView className="">
-                    <TextInput
-                        placeholder="Beschreibe dein Fahrzeug... Farbe, Zustand, etc."
-                        value={currentDescription}
-                        onChangeText={(text) => setCurrentDescription(text)}
-                        multiline={true}
-                        numberOfLines={8}
-                        className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg h-2/3"
-                        textAlignVertical="top"
-                    />
+                        <TextInput
+                            placeholder="Beschreibe dein Fahrzeug... Farbe, Zustand, etc."
+                            value={currentDescription}
+                            onChangeText={(text) => setCurrentDescription(text)}
+                            multiline={true}
+                            numberOfLines={8}
+                            maxLength={2000}
+                            className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg h-2/3"
+                            textAlignVertical="top"
+                        />
+                        <LetterRestriction
+                            inputLength={currentDescription?.length ?? 0}
+                            limit={2000}
+                        />
                     </KeyboardAvoidingView>
 
                 </View>
 
-               {/*
+                {/*
                 <View className="mt-4 w-full">
                     <Text className="text-lg font-semibold text-gray-200">
                         Fahrzeugkategorie
@@ -157,7 +169,7 @@ const BasicDetails = forwardRef(({ thisInserat, refetchInserat }: BasicDetailsPr
                     
                 </View>
                */}
-                
+
             </View>
         </TouchableWithoutFeedback>
     );
