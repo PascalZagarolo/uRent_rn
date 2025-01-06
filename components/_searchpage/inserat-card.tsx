@@ -90,17 +90,17 @@ const InseratCard: React.FC<InseratCardProps> = ({
                             <View>
                                 <FontAwesome name="location-arrow" size={20} color="red" />
                             </View>
-                            <Text className="text-md font-semibold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
+                            <Text className="text-base font-semibold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
                                 {//@ts-ignore
-                                    thisInserat.address.postalCode}
-                                <Text className="text-xs" numberOfLines={1}> { //@ts-ignore
+                                    thisInserat.address.postalCode} 
+                                <Text className="text-sm" numberOfLines={1}> | { //@ts-ignore
                                     thisInserat.address.locationString}  </Text>
                             </Text>
                         </View>
                     </View>
-                    <View className="w-full bg-[#1a1d29] p-4 py-4">
+                    <View className="w-full bg-[#1a1d29] px-4 pb-2 ">
                         <View>
-                            <Text className="text-md font-bold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
+                            <Text className="text-lg font-bold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
                                 {thisInserat.price} <Text className="text-xs text-gray-300">/Tag</Text> €
                             </Text>
                         </View>

@@ -315,7 +315,7 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
 
             onRedirect();
         } catch (e: any) {
-            console.error(e);
+            console.error(e );
         } finally {
             setIsLoading(false);
         }
@@ -324,46 +324,46 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
     const onRedirect = () => {
 
         let pFilteredValues = searchParams;
-        delete pFilteredValues[pKey.toString().trim()];
+        delete pFilteredValues[pKey?.toString()?.trim()];
         const {
             //@ts-ignore            
             thisCategory, ...filteredValues } = pFilteredValues;
 
 
         //@ts-ignore
-        const usedStart = filteredValues.periodBegin;
+        const usedStart = filteredValues?.periodBegin;
         let usedEnd = null;
 
         //@ts-ignore
-        if (filteredValues.periodEnd) {
+        if (filteredValues?.periodEnd) {
             //@ts-ignore
             usedEnd = filteredValues.periodEnd;
         } else {
             //@ts-ignore
             if (filteredValues.periodBegin) {
                 //@ts-ignore
-                usedEnd = filteredValues.periodBegin;
+                usedEnd = filteredValues?.periodBegin;
             }
         }
         const url = qs.stringifyUrl({
-            url: process.env.NEXT_PUBLIC_BASE_URL,
+            url: "/",
             //@ts-ignore
             query: {
                 //@ts-ignore
                 category: thisCategory,
                 //@ts-ignore
-                periodBegin: filteredValues.periodBegin,
+                periodBegin: filteredValues?.periodBegin ? filteredValues?.periodBegin : null,
                 //@ts-ignore
-                periodEnd: filteredValues.periodEnd,
+                periodEnd: filteredValues?.periodEnd ? filteredValues?.periodEnd : null,
                 //@ts-ignore
-                type: filteredValues.thisType,
+                type: filteredValues?.thisType ? filteredValues.thisType : null,
                 ...filteredValues
             },
 
         }, { skipEmptyString: true, skipNull: true })
 
         console.log(url)
-        router.push(url);
+        router.push(url as any);
     }
     return (
         <TouchableOpacity className="flex flex-row items-center space-x-1 bg-[#1b1e2b] p-2 rounded-md"

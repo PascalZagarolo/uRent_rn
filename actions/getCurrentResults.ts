@@ -1,4 +1,4 @@
-'use server'
+
 
 import db from "@/db/drizzle";
 import { inserat } from "@/db/schema";
@@ -21,8 +21,8 @@ function calculateDistance(lat1: number, lon1: number, lat2: number, lon2: numbe
 }
 
 export const getCurrentResults = async (values) => {
-    try {
-        
+    'use server'
+    try {   
 
         const { location, amount, thisCategory, reqAge, freeMiles, license, minPrice, maxPrice, end, start, begin, startDateDynamic, endDateDynamic, reqTime,
             //LKW
