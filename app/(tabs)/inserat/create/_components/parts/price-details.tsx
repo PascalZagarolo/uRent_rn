@@ -27,21 +27,15 @@ const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsPr
             try {
                 if(isLoading) return;
                 setIsLoading(true);
-
                 const authToken = await SecureStorage.getItemAsync("authToken");
-
                 if(currentPrice !== thisInserat.price) {
-
                     const values = {
                         inseratId : thisInserat.id,
                         token : authToken,
                         price : currentPrice
                     }
-
                     await editInseratBasic(values);
                 }
-
-
             } catch(e : any) {  
                 console.log(e);
             } finally {

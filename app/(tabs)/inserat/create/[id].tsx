@@ -52,17 +52,19 @@ const InseratCreationPage = () => {
     const anhaengerDetails = useRef(null);
     const anhaengerDetails2 = useRef(null);
 
+    const loadInserat = async () => {
+        try {
+            const foundInserat = await getThisInserat(id);
+            setThisInserat(foundInserat);
+        } catch (e: any) {
+            console.log("Fehler beim erhalten des Inserats");
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     useEffect(() => {
-        const loadInserat = async () => {
-            try {
-                const foundInserat = await getThisInserat(id);
-                setThisInserat(foundInserat);
-            } catch (e: any) {
-                console.log("Fehler beim erhalten des Inserats");
-            } finally {
-                setIsLoading(false);
-            }
-        };
+        
         loadInserat();
     }, [id]);
 

@@ -117,7 +117,10 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
 
                         const authToken = await SecureStorage.getItemAsync("authToken");
 
-                        await addImagesInserat(uploadData, thisInserat.id, authToken);
+                        const res = await addImagesInserat(uploadData, thisInserat.id, authToken);
+                        console.log(res)
+                        setCurrentPicture(res as any);
+                        refetchInserat();
                     }
 
 
