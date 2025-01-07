@@ -1,7 +1,7 @@
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import InseratRender from "./_components/inserat-render";
 import db from "@/db/drizzle";
-import { inserat, lkwAttribute, pkwAttribute, priceprofile, userTable } from "@/db/schema";
+import { images, inserat, lkwAttribute, pkwAttribute, priceprofile, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -38,7 +38,9 @@ const InseratPage =  () => {
                         }
                     },
                     
-                    images : true,
+                    images: {
+                        orderBy: (created_at, { asc }) => [asc(images.position)],
+                    },
                     address : true,
                     priceprofiles : true,
                     pkwAttribute : true,

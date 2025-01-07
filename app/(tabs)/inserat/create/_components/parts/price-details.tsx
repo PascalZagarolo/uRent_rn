@@ -10,6 +10,8 @@ import {
 import CreatePriceProfile from "./price-details/create-price-detail";
 import DeletePriceDetails from "./price-details/delete-price-details";
 import EditPriceProfile from "./price-details/edit-price-profile";
+import { editInseratBasic } from "@/actions/inserat/edit/edit-inserat-basic";
+import * as SecureStorage from 'expo-secure-store';
 
 
 
@@ -21,15 +23,37 @@ interface PriceDetailsProps {
 const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsProps, ref) => {
 
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
-            console.log("Saving:", currentTitle, currentDescription);
+        onSave: async () => {
+            try {
+                if(isLoading) return;
+                setIsLoading(true);
+
+                const authToken = await SecureStorage.getItemAsync("authToken");
+
+                if(currentPrice !== thisInserat.price) {
+
+                    const values = {
+                        inseratId : thisInserat.id,
+                        token : authToken,
+                        price : currentPrice
+                    }
+
+                    await editInseratBasic(values);
+                }
+
+
+            } catch(e : any) {  
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
-    const [currentTitle, setCurrentTitle] = useState(thisInserat.price);
+    const [currentPrice, setCurrentPrice] = useState(thisInserat.price);
     const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
     const [currentCategory, setCurrentCategory] = useState(thisInserat.description);
+    const [isLoading, setIsLoading] = useState(false);
 
     const [showModal, setShowModal] = useState(false);
 
@@ -46,8 +70,8 @@ const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsPr
                     </Text>
                     <TextInput
                         placeholder="Titel deines Inserats..."
-                        value={currentTitle}
-                        onChangeText={(text) => setCurrentTitle(text)}
+                        value={currentPrice}
+                        onChangeText={(text) => setCurrentPrice(text)}
                         className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg" />
 
                 </View>

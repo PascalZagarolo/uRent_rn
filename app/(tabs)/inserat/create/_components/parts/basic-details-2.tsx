@@ -1,5 +1,5 @@
 import { inserat } from "@/db/schema";
-import { Feather, FontAwesome } from "@expo/vector-icons";
+import { Feather, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import {
     Text, View, TouchableOpacity, KeyboardAvoidingView,
@@ -21,8 +21,8 @@ import mime from "mime";
 
 
 interface BasicDetails2Props {
-    thisInserat : typeof inserat.$inferSelect;
-    refetchInserat : () => void;
+    thisInserat: typeof inserat.$inferSelect;
+    refetchInserat: () => void;
 }
 
 const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2Props, ref) => {
@@ -30,30 +30,78 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
     const [showModal, setShowModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
+    const hasChanged = (): { rearrangedImage: boolean, deletedImage: boolean; addedImage: boolean } => {
+
+
+        let deletedImage = false; // Flag for deleted images
+        let addedImage = false; // Flag for added images
+        let rearrangedImage = false; // Flag for rearranged images
+
+        // Check if any image is deleted or rearranged
+        for (const pImage of currentPicture) {
+            const matchingImage = thisInserat.images.find((image) => image.url === pImage.url);
+
+            // If no matching image is found, it means the image was added
+            if (!matchingImage) {
+                addedImage = true;
+                break;
+            }
+
+            // If positions are different, it means the image was rearranged
+            if (matchingImage.position !== pImage.position) {
+                rearrangedImage = true;
+                break;
+            }
+        }
+
+        // Check if any image is missing in currentPicture (deleted)
+        for (const image of thisInserat.images) {
+            const matchingImage = currentPicture.find((pImage) => pImage.url === image.url);
+
+            // If no matching image is found, it means the image was deleted
+            if (!matchingImage) {
+                deletedImage = true;
+                break;
+            }
+        }
+
+        // Return true if any of the changes are detected
+        return { rearrangedImage, deletedImage, addedImage }
+    };
+
+
 
     useImperativeHandle(ref, () => ({
         onSave: () => {
             const uploadOnChange = async () => {
                 try {
-                    if(isLoading) return;
+                    if (isLoading) return;
                     setIsLoading(true);
-    
-                    let uploadData : { url : string, position : number }[] = [];
-                    console.log("uploadOnChange!!")
-                    const oldData = [...currentPicture];
-    
-                    for await (const pImage of currentPicture) {
-                        let returnedUrl = "";
-                        returnedUrl = await uploadImage(pImage.url);
-                        uploadData.push({ url: returnedUrl, position: pImage.position });
 
+                    const { rearrangedImage, deletedImage, addedImage } = hasChanged();
+
+                    if (!rearrangedImage && !deletedImage && !addedImage) {
+                        console.log("nothing change..!")
+                        return;
+                    } else {
+                        let uploadData: { url: string, position: number }[] = [];
+                        console.log("uploadOnChange!!")
+                        const oldData = [...currentPicture];
+
+                        for await (const pImage of currentPicture) {
+                            let returnedUrl = "";
+                            returnedUrl = await uploadImage(pImage.url);
+                            uploadData.push({ url: returnedUrl, position: pImage.position });
+
+                        }
+
+                        const authToken = await SecureStorage.getItemAsync("authToken");
+
+                        await addImagesInserat(uploadData, thisInserat.id, authToken);
                     }
 
-                    const authToken = await SecureStorage.getItemAsync("authToken");
-                    console.log(uploadData + "!")
-                    await addImagesInserat(uploadData, thisInserat.id, authToken);
-    
-                } catch(e : any) {
+
+                } catch (e: any) {
                     console.log(e);
                     Toast.show({
                         type: 'error',
@@ -71,7 +119,7 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
 
     const MAX_RETRIES = 3;
 
-    
+
 
     const isValidUrl = (url: string): boolean => {
         try {
@@ -89,11 +137,18 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
         url: string,
         position: number
     };
- 
-    const [currentPicture, setCurrentPicture] = useState<PictureObject[]>([]);
 
-    
-    
+
+
+    const [currentPicture, setCurrentPicture] = useState<PictureObject[]>(
+        thisInserat?.images?.map((image) => ({
+            url: image?.url,
+            position: image?.position
+        })) || []
+    );
+
+
+
 
     const uploadImage = async (imageUri: string) => {
         try {
@@ -144,8 +199,8 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
             return null;
         }
     }
-    
-    
+
+
 
     const onImageUpload = async (mode: string) => {
         try {
@@ -187,20 +242,28 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
     const renderItem = ({ item, drag, isActive }: { item: PictureObject, drag: () => void, isActive: boolean }) => {
         return (
             <ScaleDecorator
-            
+
             >
-                <TouchableOpacity
-                    onLongPress={drag}
-                    disabled={isActive}
-                    className="w-full h-30 mb-4"  // Add margin-bottom to space out items
-                >
+                <View className="flex flex-row h-40 items-center mb-4 ">
+                    <TouchableOpacity
+                        onLongPress={drag}
+                        disabled={isActive}
+                        className=" w-1/4 shadow-lg "  // Add margin-bottom to space out items
+                    >
+                        <View className="bg-[#232636] h-full flex items-center justify-center rounded-l-lg">
+                            <MaterialCommunityIcons
+                                name="drag"
+                                size={64}
+                                color="gray" />
+                        </View>
+                    </TouchableOpacity>
                     <Image
                         source={{ uri: item.url }}
-                        style={{ width: '100%', height: 100 }}
-                        resizeMode="cover" 
-                        className="w-full rounded-md"
+
+
+                        className="w-3/4 rounded-r-md h-full object-cover"
                     />
-                </TouchableOpacity>
+                </View>
             </ScaleDecorator>
         );
     };
@@ -209,7 +272,7 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} className="h-full">
             <View className="h-full">
                 <View className="flex flex-col items-center w-full">
-                    
+
                     <View className="w-full">
                         <TouchableOpacity className="w-full bg-indigo-800 p-4 rounded-lg mt-4 
                     flex-row items-center justify-center space-x-4 border "
@@ -229,22 +292,22 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
                             onDragEnd={({ data, from, to }) => {
                                 // Log the starting index and the final index
                                 console.log("Dragged item from index:", from, "to index:", to);
-                                
+
                                 // Update the positions in the new array
                                 const updatedData = data.map((item, index) => ({
                                     ...item,
                                     position: index,  // Update the position based on the new index
                                 }));
-                                
+
                                 // Update the state with the new data
                                 setCurrentPicture(updatedData);
 
                             }}
-                            
+
                             keyExtractor={(item) => item.url}
                             renderItem={renderItem}
-                            
-                            
+
+
                         />
                     </GestureHandlerRootView>
                 </View>

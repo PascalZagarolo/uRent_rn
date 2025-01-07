@@ -2,7 +2,7 @@
 
 
 import db from "@/db/drizzle";
-import { inserat, priceprofile } from "@/db/schema";
+import { images, inserat, priceprofile } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export const getThisInserat = async (id : string) => {
@@ -13,7 +13,10 @@ export const getThisInserat = async (id : string) => {
                 inserat.id, id
             ),
             with : {
-                priceprofiles : true
+                priceprofiles : true,
+                images: {
+                    orderBy: (created_at, { asc }) => [asc(images.position)],
+                },
             }
         })
 
