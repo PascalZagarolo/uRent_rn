@@ -17,6 +17,7 @@ import Toast from "react-native-toast-message";
 import axios from "axios";
 import { getAxiosRequest } from "@/actions/inserat/images/axios-request";
 import mime from "mime";
+import { BoxSelectIcon, XIcon } from "lucide-react-native";
 
 
 
@@ -29,6 +30,8 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
 
     const [showModal, setShowModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const hasChanged = (): { rearrangedImage: boolean, deletedImage: boolean; addedImage: boolean } => {
 
@@ -274,7 +277,7 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
                 <View className="flex flex-col items-center w-full">
 
                     <View className="w-full">
-                        <TouchableOpacity className="w-full bg-indigo-800 p-4 rounded-lg mt-4 
+                        <TouchableOpacity className="w-full bg-[#232636] shadow-lg p-4 rounded-lg mt-4 
                     flex-row items-center justify-center space-x-4 border "
                             onPress={() => setShowModal(true)}
                         >
@@ -286,6 +289,50 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
                             </Text>
                         </TouchableOpacity>
                     </View>
+                    {currentPicture.length > 0 && (
+                        <View className="flex justify-end w-full">
+                            {isDeleting ? (
+                                <View className="flex flex-row items-center">
+                                    <TouchableOpacity
+                                        className=" bg-rose-600  p-2.5 w-8/12 rounded-lg mt-4  flex-row items-center"
+                                        onPress={() => {
+                                            setIsDeleting(true);
+                                        }}
+                                    >
+                                        <XIcon size={24} color="white" className="mr-4" />
+                                        <Text className="text-sm text-center text-gray-200">
+                                            (2) Elemente löschen
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        className="ml-auto flex justify-end  p-4 rounded-lg mt-4 w-4/12  flex-row items-center"
+                                        onPress={() => {
+
+                                            console.log("press")
+                                            setIsDeleting(false);
+                                        }}
+                                    >
+                                        
+                                        <Text className="text-sm text-gray-200">
+                                            Abbrechen
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            ) : (
+                                <TouchableOpacity
+                                    className="ml-auto flex justify-end  p-4 rounded-lg mt-4  flex-row items-center"
+                                    onPress={() => {
+                                        setIsDeleting(true);
+                                    }}
+                                >
+                                    <BoxSelectIcon size={24} color="white" className="mr-4" />
+                                    <Text className="text-sm text-gray-200">
+                                        Bilder auswählen
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
+                        </View>
+                    )}
                     <GestureHandlerRootView className="w-full h-full mt-4 flex-col flex">
                         <DraggableFlatList
                             data={currentPicture}
