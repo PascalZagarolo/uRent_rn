@@ -367,9 +367,13 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
                             )}
                         </View>
                     )}
-                    <GestureHandlerRootView className="w-full h-full mt-4 flex-col flex">
-                        <DraggableFlatList
+                    <GestureHandlerRootView className="w-full h-2/3 mt-4 flex-col flex ">
+                    <View className="flex-1 pb-26">
+                    <DraggableFlatList
+                    className="h-full "
                             data={currentPicture}
+
+                            
                             onDragEnd={({ data, from, to }) => {
                                 // Log the starting index and the final index
                                 console.log("Dragged item from index:", from, "to index:", to);
@@ -390,7 +394,9 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
 
 
                         />
+                        </View>
                     </GestureHandlerRootView>
+                    
                 </View>
                 <Modal
                     animationType="slide"
