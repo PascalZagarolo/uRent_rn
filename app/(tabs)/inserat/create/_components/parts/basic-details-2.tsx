@@ -18,6 +18,8 @@ import axios from "axios";
 import { getAxiosRequest } from "@/actions/inserat/images/axios-request";
 import mime from "mime";
 import { BoxSelectIcon, XIcon } from "lucide-react-native";
+import { cn } from "@/~/lib/utils";
+import BouncyCheckbox from 'react-native-bouncy-checkbox';
 
 
 
@@ -30,6 +32,8 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
 
     const [showModal, setShowModal] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+
+    const [selectedImages, setSelectedImages] = useState<string[]>([]);
 
     const [isDeleting, setIsDeleting] = useState(false);
 
@@ -72,7 +76,20 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
         return { rearrangedImage, deletedImage, addedImage }
     };
 
+    useEffect(() => {
+        if(!isDeleting) {
+            setSelectedImages([]);
+        }
+    },[isDeleting])
 
+    const onDelete = () => {
+        const filteredPictures = currentPicture.filter(
+            (image) => !selectedImages.includes(image.url)
+        );
+        setCurrentPicture(filteredPictures);
+        setIsDeleting(false);
+    };
+    
 
     useImperativeHandle(ref, () => ({
         onSave: () => {
@@ -247,7 +264,8 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
             <ScaleDecorator
 
             >
-                <View className="flex flex-row h-40 items-center mb-4 ">
+               <View className="flex flex-row items-center">
+               <View className={cn("flex flex-row h-40 items-center mb-4 ", isDeleting && "w-[80%]")}>
                     <TouchableOpacity
                         onLongPress={drag}
                         disabled={isActive}
@@ -267,6 +285,22 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
                         className="w-3/4 rounded-r-md h-full object-cover"
                     />
                 </View>
+                {isDeleting && (
+                    <BouncyCheckbox 
+                    isChecked={selectedImages.includes(item.url)}
+                    className="ml-8"
+                    fillColor="#fff"
+                    
+                    onPress={(isChecked) => {
+                        if (isChecked) {
+                            setSelectedImages([...selectedImages, item.url]);
+                        } else {
+                            setSelectedImages(selectedImages.filter((url) => url !== item.url));
+                        }
+                    }}
+                />
+                )}
+               </View>
             </ScaleDecorator>
         );
     };
@@ -296,12 +330,12 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
                                     <TouchableOpacity
                                         className=" bg-rose-600  p-2.5 w-8/12 rounded-lg mt-4  flex-row items-center"
                                         onPress={() => {
-                                            setIsDeleting(true);
+                                            onDelete()
                                         }}
                                     >
                                         <XIcon size={24} color="white" className="mr-4" />
-                                        <Text className="text-sm text-center text-gray-200">
-                                            (2) Elemente löschen
+                                        <Text className="text-sm text-center text-gray-200 font-semibold">
+                                            ({selectedImages?.length}) Elemente löschen
                                         </Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity
