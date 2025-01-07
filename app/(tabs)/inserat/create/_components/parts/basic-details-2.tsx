@@ -319,7 +319,7 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
                                 <FontAwesome name="plus" size={20} color="#fff" />
                             </View>
                             <Text className="text-gray-200/90 text-base font-semibold">
-                                Bilder hinzufügen
+                                Bilder hinzufügen ({currentPicture.length} / 20)
                             </Text>
                         </TouchableOpacity>
                     </View>
