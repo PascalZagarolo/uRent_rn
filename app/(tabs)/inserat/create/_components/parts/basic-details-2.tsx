@@ -140,9 +140,9 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
         }
     }));
 
+    
+
     const MAX_RETRIES = 3;
-
-
 
     const isValidUrl = (url: string): boolean => {
         try {

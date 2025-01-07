@@ -4,8 +4,8 @@ import { priceprofile } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export const deletePriceprofile = async (values) => {
+    "use server"
     try {
-
         const { token, profileId } = values;
 
         const currentUser = await getCurrentUser(token);

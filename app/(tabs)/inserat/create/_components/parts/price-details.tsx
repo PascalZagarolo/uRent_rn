@@ -44,6 +44,11 @@ const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsPr
         }
     }));
 
+
+    const priceProfileChanged = (profile) => {
+        if(currentPriceProfiles?.length !== thisInserat.priceprofiles?.length) return true;
+    }
+
     const [currentPrice, setCurrentPrice] = useState(thisInserat.price);
     const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
     const [currentCategory, setCurrentCategory] = useState(thisInserat.description);

@@ -4,8 +4,8 @@ import { priceprofile } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export const editPriceProfile = async (values) => {
+    "use server"
     try {
-
         const { title, description, price, freemiles, extraCost,
             profileId, token
             } = values;

@@ -5,8 +5,8 @@ import { and, count, eq } from "drizzle-orm";
 import { posix } from "path";
 
 export const addPriceProfile = async (values) => {
+    "use server"
     try {
-
         const { title, description, price, freemiles, extraCost,
         inseratId, token
         } = values;
