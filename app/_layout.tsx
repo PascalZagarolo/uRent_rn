@@ -8,9 +8,7 @@ import 'react-native-reanimated';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider, useAuth } from './(tabs)/AuthProvider';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import ActiveStatus from '@/components/ActiveStatus';
-import { useDrawerSettings } from '@/store';
-import { Drawer } from 'react-native-drawer-layout';
+import 'react-native-get-random-values';
 import { Text, View } from 'react-native';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 
