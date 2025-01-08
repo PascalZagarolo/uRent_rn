@@ -12,6 +12,7 @@ import DeletePriceDetails from "./price-details/delete-price-details";
 import EditPriceProfile from "./price-details/edit-price-profile";
 import { editInseratBasic } from "@/actions/inserat/edit/edit-inserat-basic";
 import * as SecureStorage from 'expo-secure-store';
+import { updatePriceProfiles } from "@/actions/inserat/priceprofiles/update-price-profiles";
 
 
 
@@ -42,7 +43,15 @@ const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsPr
 
                 if(hasAdded || hasDeleted) {
                     console.log("Price Profile has changed");
-                    console.log(currentPriceProfiles)
+                    console.log(currentPriceProfiles);
+                    const values = {
+                        inseratId : thisInserat.id,
+                        token : authToken,
+                        priceProfiles : currentPriceProfiles
+                    }
+
+                    await updatePriceProfiles(values);
+                    await refetchInserat();
                 }
 
             } catch(e : any) {  
