@@ -35,7 +35,16 @@ const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsPr
                         price : currentPrice
                     }
                     await editInseratBasic(values);
+                    await refetchInserat()
                 }
+
+                const { hasAdded, hasDeleted } = priceProfileChanged();
+
+                if(hasAdded || hasDeleted) {
+                    console.log("Price Profile has changed");
+                    console.log(currentPriceProfiles)
+                }
+
             } catch(e : any) {  
                 console.log(e);
             } finally {
@@ -45,9 +54,24 @@ const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsPr
     }));
 
 
-    const priceProfileChanged = (profile) => {
-        if(currentPriceProfiles?.length !== thisInserat.priceprofiles?.length) return true;
-    }
+
+    const priceProfileChanged = (): { hasAdded: boolean, hasDeleted: boolean } => {
+        let hasAdded = false;
+        let hasDeleted = false;
+    
+        // Check if any profile in `thisInserat?.priceprofiles` is not in `currentPriceProfiles`
+        if (thisInserat?.priceprofiles?.some((p) => !currentPriceProfiles?.some((current) => current.id === p.id))) {
+            hasDeleted = true;
+        }
+    
+        // Check if any profile in `currentPriceProfiles` is not in `thisInserat?.priceprofiles`
+        if (currentPriceProfiles?.some((current) => !thisInserat?.priceprofiles?.some((p) => p.id === current.id))) {
+            hasAdded = true;
+        }
+    
+        return { hasAdded, hasDeleted };
+    };
+    
 
     const [currentPrice, setCurrentPrice] = useState(thisInserat.price);
     const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
@@ -58,7 +82,7 @@ const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsPr
 
     const [currentPriceProfiles, setCurrentPriceProfiles] = useState(thisInserat.priceprofiles);
 
-
+console.log(thisInserat.priceprofiles)
 
     return (
         <TouchableWithoutFeedback className="h-full" onPress={Keyboard.dismiss}>
@@ -68,7 +92,8 @@ const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsPr
                         Preis (pro Tag)
                     </Text>
                     <TextInput
-                        placeholder="Titel deines Inserats..."
+                        placeholder="Preis in EUR"
+                        inputMode="numeric"
                         value={currentPrice}
                         onChangeText={(text) => setCurrentPrice(text)}
                         className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg" />
@@ -86,7 +111,7 @@ const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsPr
                         <View className="mr-4">
                             <FontAwesome5 name="plus" size={20} color="#fff" />
                         </View>
-                        <Text className="text-gray-200/60 text-base font-medium text-center">
+                        <Text className="text-gray-200 text-base font-medium text-center">
                             Preisprofil hinzufügen
                         </Text>
                     </TouchableOpacity>
@@ -159,7 +184,7 @@ const PriceDetails = forwardRef(({ thisInserat, refetchInserat }: PriceDetailsPr
                 onClose={() => setShowModal(false)} 
                 inseratId={thisInserat.id} 
                 addPriceProfile={(profile) => {
-                    console.log(profile + 2)
+                    
                     setCurrentPriceProfiles([...currentPriceProfiles, profile]);
                 }}
                 />

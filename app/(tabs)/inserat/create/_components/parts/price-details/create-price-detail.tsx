@@ -37,14 +37,14 @@ const CreatePriceProfile = ({ onClose, inseratId, addPriceProfile }: CreatePrice
                 title : currentTitle,
                 description : currentDescription,
                 price : currentPrice,
-                freemiles : currentFreemiles,
+                freeMiles : currentFreemiles,
                 extraCost : currentExtraprice,
                 token : authToken,
                 inseratId : inseratId,
             }
 
             const added = await addPriceProfile(values);
-            addPriceProfile(values);
+            await addPriceProfile(values);
             onClose();
             Toast.show({
                 text1: "Preisprofil hinzugefügt",

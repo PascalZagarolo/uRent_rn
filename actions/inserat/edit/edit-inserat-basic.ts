@@ -29,7 +29,7 @@ export const editInseratBasic = async (values) => {
         const patchInserat = await db.update(inserat).set({
             ...pValues
         }).where(eq(inserat.id, inseratId));
-        
+        console.log(patchInserat)
         return { success : true }
 
     } catch(e : any) {
