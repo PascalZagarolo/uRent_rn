@@ -20,6 +20,7 @@ import mime from "mime";
 import { BoxSelectIcon, XIcon } from "lucide-react-native";
 import { cn } from "@/~/lib/utils";
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
+import { onlyReorderImages } from "@/actions/inserat/images/only-reorder-images";
 
 
 
@@ -104,7 +105,24 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
                         console.log("nothing change..!")
                         return;
                     } else {
-                        let uploadData: { url: string, position: number }[] = [];
+                        
+
+                        if(rearrangedImage && !deletedImage && !addedImage) {
+                            try {
+                                console.log("only reordered...");
+                                const values = {
+                                    inseratId : thisInserat.id,
+                                    reorderedImages : currentPicture,
+                                    token : await SecureStorage.getItemAsync("authToken")
+                                }
+                                const res = await onlyReorderImages(values);
+                                setCurrentPicture(res as any);
+                                refetchInserat();
+                            } catch(e : any) {
+                                console.log(e)
+                            }
+                        } else {
+                            let uploadData: { url: string, position: number }[] = [];
                         console.log("uploadOnChange!!")
                         const oldData = [...currentPicture];
 
@@ -121,6 +139,9 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
                         console.log(res)
                         setCurrentPicture(res as any);
                         refetchInserat();
+                        }
+
+
                     }
 
 
