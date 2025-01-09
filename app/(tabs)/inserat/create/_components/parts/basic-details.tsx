@@ -63,6 +63,7 @@ const BasicDetails = forwardRef(({ thisInserat, refetchInserat }: BasicDetailsPr
                         value={currentTitle}
                         onChangeText={(text) => setCurrentTitle(text)}
                         maxLength={160}
+                        
                         className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg" />
                     <LetterRestriction
                         inputLength={currentTitle?.length ?? 0}

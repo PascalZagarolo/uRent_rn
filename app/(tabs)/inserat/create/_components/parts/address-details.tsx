@@ -1,6 +1,7 @@
 import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { CheckIcon, XIcon } from "lucide-react-native";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import {
     Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
@@ -29,6 +30,8 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
     const [currentEmail, setCurrentEmail] = useState(thisInserat.description);
     const [currentPhone, setCurrentPhone] = useState(thisInserat.description);
 
+    const [fixedAddress, setFixedAddress] = useState("");
+
     const [isFocused, setIsFocused] = useState(false);
 
 
@@ -47,7 +50,22 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
 
                 behavior="height" // or "height" depending on your needs
             >
-                <View className="flex flex-col items-center w-full mt-4 ">
+                <View className="flex flex-row items-center justify-start mt-4">
+                        {fixedAddress ? (
+                            <CheckIcon 
+                            className="w-4 h-4 text-green-600 mr-4"
+                            />
+                        ) : (
+                            <XIcon 
+                            className="w-4 h-4 text-rose-600 mr-4"
+                            />
+                        )}
+                        <Text className={cn("text-base text-gray-200", !fixedAddress && "text-gray-200/60")}>
+                            {fixedAddress ? fixedAddress : "Adressse noch nicht gesetzt"}
+                        </Text>
+                    </View>
+                <View className="flex flex-col items-center w-full  ">
+                    
                     <View className="w-full mt-4">
                         <Text className="text-lg font-semibold text-gray-200">
                             Addresse
@@ -56,8 +74,9 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
                             <GooglePlacesAutocomplete
                                 placeholder="Gib deine Adresse ein.."
                                 onPress={(data, details = null) => {
-                                    console.log("Coming from Address UseState: ", data);
-                                    console.log(details)
+                                    console.log("Coming from Address UseState: ", data?.description);
+                                    console.log(data?.description?.split(",")[0])
+                                    setFixedAddress(data?.description?.split(",")[0])
                                 }}
                                 debounce={200}
                                 fetchDetails={true}
@@ -65,6 +84,8 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
                                     key: usedKey,
                                     language: "de",
                                     location: "48.8566,2.3522",
+                                    type:"(cities)",
+                                    components: "country:de"
                                 }}
                                 styles={{
                                     container: styles.container,

@@ -1,6 +1,7 @@
 import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { CheckIcon, XIcon } from "lucide-react-native";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import {
     Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
@@ -25,9 +26,8 @@ const AddressDetails2 = forwardRef(({ thisInserat, refetchInserat }: AddressDeta
         }
     }));
 
-    const [currentAddress, setCurrentAddress] = useState(thisInserat.title);
-    const [currentEmail, setCurrentEmail] = useState(thisInserat.description);
-    const [currentPhone, setCurrentPhone] = useState(thisInserat.description);
+    const [currentPostalCode, setCurrentPostalCode] = useState();
+    const [postalCode, setPostalCode] = useState();
 
     const [isFocused, setIsFocused] = useState(false);
 
@@ -47,25 +47,43 @@ const AddressDetails2 = forwardRef(({ thisInserat, refetchInserat }: AddressDeta
 
                 behavior="height" // or "height" depending on your needs
             >
+                <View className="flex flex-row items-center justify-start mt-4">
+                        {postalCode ? (
+                            <CheckIcon 
+                            className="w-4 h-4 text-green-600 mr-4"
+                            />
+                        ) : (
+                            <XIcon 
+                            className="w-4 h-4 text-rose-600 mr-4"
+                            />
+                        )}
+                        <Text className={cn("text-base text-gray-200", !postalCode && "text-gray-200/60")}>
+                            {postalCode ? postalCode : "Postleitzahl noch nicht gesetzt"}
+                        </Text>
+                    </View>
                 <View className="flex flex-col items-center w-full mt-4 ">
-                    <View className="w-full mt-4">
+                    <View className="w-full ">
                         <Text className="text-lg font-semibold text-gray-200">
-                            Addresse
+                            Postleitzahl
                         </Text>
                         <View style={{ width: '100%', height: '100%' }} >
                             <GooglePlacesAutocomplete
-                                placeholder="Gib deine Adresse ein.."
+                                 
+                                placeholder="Gib deine Postleitzahl ein.."
                                 onPress={(data, details = null) => {
                                     console.log("Coming from Address UseState: ", data);
                                     console.log(details)
                                 }}
+                                
                                 debounce={200}
                                 fetchDetails={true}
                                 query={{
                                     key: usedKey,
                                     language: "de",
                                     location: "48.8566,2.3522",
+                                    type:"(regions)"
                                 }}
+                               
                                 styles={{
                                     container: styles.container,
                                     textInputContainer: styles.textInputContainer,
@@ -82,6 +100,7 @@ const AddressDetails2 = forwardRef(({ thisInserat, refetchInserat }: AddressDeta
                                 textInputProps={{
                                     onFocus: () => setIsFocused(true),
                                     onBlur: () => setIsFocused(false),
+                                    inputMode: "numeric",
                                 }}
                             />
                         </View>

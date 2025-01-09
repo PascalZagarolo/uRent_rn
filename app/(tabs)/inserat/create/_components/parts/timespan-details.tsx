@@ -51,16 +51,12 @@ const TimespanDetails = forwardRef(({ thisInserat, refetchInserat }: TimespanDet
                 if (hasChanged) {
                     const token = await SecureStorage.getItemAsync("authToken");
 
-                    const dateType : string = currentMintime.value.charAt(currentMintime.value.length - 1);
-                    console.log(dateType + "dateType");
-                    console.log(Number(currentMintime.value.substring(0, currentMintime.value.length - 1)))
-
-                    const usedValue = currentMintime ? Number(currentMintime.value.substring(0, currentMintime.value.length - 1)) * returnValue(dateType) : null;
+                    
 
                     const values = {
                         inseratId: thisInserat.id,
                         token: token,
-                        minTime : usedValue
+                        minTime : currentMintime?.value ? currentMintime?.value : null
                     }
 
                     await editInseratBasic(values);
@@ -79,8 +75,25 @@ const TimespanDetails = forwardRef(({ thisInserat, refetchInserat }: TimespanDet
     const refRBSheet = useRef([]);
 
     
+    const createCorrespondingValue = (value) : string => {
+        switch(value) {
+                case value > 24:
+                return " Tag(e)";
+            case value > 168:
+                return " Woche(n)";
+            case value > 720:
+                return " Monat(e)";
+            case value > 8760:
+                return " Jahr(e)";
+            default:
+                return " Stunde(n)";
+        }
+    }
 
-    const [currentMintime, setCurrentMintime] = useState<{ value, label}>({ value: thisInserat?.minTime ?? null, label: thisInserat?.minTime ?? "Beliebig" });
+    const [currentMintime, setCurrentMintime] = useState<{ value, label}>({ value: thisInserat?.minTime ?? null, label: thisInserat?.minTime  ? thisInserat?.minTime + createCorrespondingValue(thisInserat?.minTime) : "Beliebig" });
+
+    
+
 
     const reqAge = [
         { value: null, label: "Beliebig" },
@@ -101,56 +114,57 @@ const TimespanDetails = forwardRef(({ thisInserat, refetchInserat }: TimespanDet
     ];
 
     const hours = [
-        { value : "1h", label : "1 Stunde" },
-        { value : "2h", label : "2 Stunde" },
-        { value : "3h", label : "3 Stunde" },
-        { value : "4h", label : "4 Stunde" },
-        { value : "5h", label : "5 Stunde" },
-        { value : "6h", label : "6 Stunde" },
-        { value : "7h", label : "7 Stunde" },
-        { value : "8h", label : "8 Stunde" },
-        { value : "9h", label : "9 Stunde" },
-        { value : "10h", label : "10 Stunde" },
-        { value : "11h", label : "11 Stunde" },
-        { value : "12h", label : "12 Stunde" }
+        { value : "1", label : "1 Stunde" },
+        { value : "2", label : "2 Stunde" },
+        { value : "3", label : "3 Stunde" },
+        { value : "4", label : "4 Stunde" },
+        { value : "5", label : "5 Stunde" },
+        { value : "6", label : "6 Stunde" },
+        { value : "7", label : "7 Stunde" },
+        { value : "8", label : "8 Stunde" },
+        { value : "9", label : "9 Stunde" },
+        { value : "10", label : "10 Stunde" },
+        { value : "11", label : "11 Stunde" },
+        { value : "12", label : "12 Stunde" }
     ]
 
     const days = [
-        { value : "1d", label : "1 Tag" },
-        { value : "2d", label : "2 Tage" },
-        { value : "3d", label : "3 Tage" },
-        { value : "4d", label : "4 Tage" },
-        { value : "5d", label : "5 Tage" },
-        { value : "6d", label : "6 Tage" },
-    ]
-
+        { value: 24, label: "1 Tag" },
+        { value: 48, label: "2 Tage" },
+        { value: 72, label: "3 Tage" },
+        { value: 96, label: "4 Tage" },
+        { value: 120, label: "5 Tage" },
+        { value: 144, label: "6 Tage" },
+    ];
+    
     const weeks = [
-        { value : "1w", label : "1 Woche" },
-        { value : "2w", label : "2 Wochen" },
-        { value : "3w", label : "3 Wochen" },
-        { value : "4w", label : "4 Wochen" },
-    ]
-
+        { value: 7 * 24, label: "1 Woche" },
+        { value: 2 * 7 * 24, label: "2 Wochen" },
+        { value: 3 * 7 * 24, label: "3 Wochen" },
+        { value: 4 * 7 * 24, label: "4 Wochen" },
+    ];
+    
     const months = [
-        { value : "1m", label : "1 Monat" },
-        { value : "2m", label : "2 Monate" },
-        { value : "3m", label : "3 Monate" },
-        { value : "4m", label : "4 Monate" },
-        { value : "5m", label : "5 Monate" },
-        { value : "6m", label : "6 Monate" },
-        { value : "7m", label : "7 Monate" },
-        { value : "8m", label : "8 Monate" },
-        { value : "9m", label : "9 Monate" },
-        { value : "10m", label : "10 Monate" },
-        { value : "11m", label : "11 Monate" },
-        { value : "12m", label : "12 Monate" }
-    ]
-
+        { value: 1 * 30 * 24, label: "1 Monat" },
+        { value: 2 * 30 * 24, label: "2 Monate" },
+        { value: 3 * 30 * 24, label: "3 Monate" },
+        { value: 4 * 30 * 24, label: "4 Monate" },
+        { value: 5 * 30 * 24, label: "5 Monate" },
+        { value: 6 * 30 * 24, label: "6 Monate" },
+        { value: 7 * 30 * 24, label: "7 Monate" },
+        { value: 8 * 30 * 24, label: "8 Monate" },
+        { value: 9 * 30 * 24, label: "9 Monate" },
+        { value: 10 * 30 * 24, label: "10 Monate" },
+        { value: 11 * 30 * 24, label: "11 Monate" },
+        { value: 12 * 30 * 24, label: "12 Monate" },
+    ];
+    
     const years = [
-        { value : "1y", label : "1 Jahr" },
-        { value : "2y", label : "2 Jahre" },
-        { value : "3y", label : "3 Jahre" },
-    ]
+        { value: 1 * 12 * 30 * 24, label: "1 Jahr" },
+        { value: 2 * 12 * 30 * 24, label: "2 Jahre" },
+        { value: 3 * 12 * 30 * 24, label: "3 Jahre" },
+    ];
+    
 
     
     const licenseObject = [
