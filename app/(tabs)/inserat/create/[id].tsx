@@ -172,36 +172,42 @@ const InseratCreationPage = () => {
         },
         {
             number: 6,
-            title: "Addressdetails",
+            title: "Addressdetails (1/2)",
             description: "Gebe an wo sich dein Inserat befindet, bzw. wo es abgeholt werden kann.",
             segment: <AddressDetails thisInserat={thisInserat} ref={addressDetails} refetchInserat={refetchInserat} />
         },
         {
             number: 7,
+            title: "Addressdetails (2/2)",
+            description: "Gebe an wo sich dein Inserat befindet, bzw. wo es abgeholt werden kann.",
+            segment: <AddressDetails thisInserat={thisInserat} ref={addressDetails} refetchInserat={refetchInserat} />
+        },
+        {
+            number: 8,
             title: "Kontaktdetails",
             description: "Gebe deine Kontaktdetails an, damit Interessenten dich auch ausserhalb von uRent kontaktieren können.",
             segment: <ContactDetails thisInserat={thisInserat} ref={contactDetails} refetchInserat={refetchInserat} />
         },
         {
-            number: 8,
+            number: 9,
             title: usedTitle ? `${usedTitle} Details (1/3)` : "Fahrzeugdetails",
             description: "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment: usedSegment?.firstSegment
         },
         {
-            number: 9,
+            number: 10,
             title: usedTitle ? `${usedTitle} Details (2/3)` : "Fahrzeugdetails",
             description: "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment: usedSegment?.secondSegment
         },
         {
-            number: 10,
+            number: 11,
             title: usedTitle ? `${usedTitle} Details (3/3)` : "Fahrzeugdetails",
             description: "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment: <FurtherDetails thisInserat={thisInserat} ref={furtherDetails} refetchInserat={refetchInserat} />
         },
         {
-            number: 11,
+            number: 12,
             title: "Inserat speichern",
             description: "Speichere dein Inserat um es jetzt oder später zu veröffentlichen.",
             segment: <SaveInseratPage thisInserat={thisInserat} refetchInserat={refetchInserat} />

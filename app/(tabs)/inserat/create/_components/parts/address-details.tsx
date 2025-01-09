@@ -13,7 +13,7 @@ import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplet
 
 interface AddressDetailsProps {
     thisInserat: typeof inserat.$inferSelect;
-    refetchInserat : () => void;
+    refetchInserat: () => void;
 }
 
 const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetailsProps, ref) => {
@@ -43,8 +43,8 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
 
         <TouchableWithoutFeedback onPress={Keyboard.dismiss} className="h-full">
             <KeyboardAvoidingView
-            className="h-full"
-                
+                className="h-full"
+
                 behavior="height" // or "height" depending on your needs
             >
                 <View className="flex flex-col items-center w-full mt-4 ">
@@ -57,6 +57,7 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
                                 placeholder="Gib deine Adresse ein.."
                                 onPress={(data, details = null) => {
                                     console.log("Coming from Address UseState: ", data);
+                                    console.log(details)
                                 }}
                                 debounce={200}
                                 fetchDetails={true}
@@ -89,11 +90,11 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
 
 
 
-
+                    
 
 
                 </View>
-                </KeyboardAvoidingView>
+            </KeyboardAvoidingView>
         </TouchableWithoutFeedback>
 
     );
