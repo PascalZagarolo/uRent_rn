@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { SafeAreaView, Text, View, TouchableOpacity, ActivityIndicator, ScrollView, KeyboardAvoidingView } from "react-native";
+import { SafeAreaView, Text, View, TouchableOpacity, ActivityIndicator, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
 import BasicDetails from "./_components/parts/basic-details";
 import { FontAwesome } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -279,22 +279,24 @@ const InseratCreationPage = () => {
 keyboardVerticalOffset={100}
 behavior="height"
 >
-            <View  className="h-[85%]">
+           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+           <View  className="h-[85%]">
                 
-                    <View className="px-4">
-                        <Text className="text-2xl font-semibold text-gray-200/90">
-                            {pageInfo[currentPage]?.title}
-                        </Text>
-                        <Text className="text-gray-200/60 text-xs">
-                            {pageInfo[currentPage]?.description}
+                <View className="px-4">
+                    <Text className="text-2xl font-semibold text-gray-200/90">
+                        {pageInfo[currentPage]?.title}
+                    </Text>
+                    <Text className="text-gray-200/60 text-xs">
+                        {pageInfo[currentPage]?.description}
 
-                        </Text>
-                    </View>
-                    <View className="px-4">
-                        {pageInfo[currentPage]?.segment}
-                    </View>
-              
-            </View>
+                    </Text>
+                </View>
+                <View className="px-4">
+                    {pageInfo[currentPage]?.segment}
+                </View>
+          
+        </View>
+           </TouchableWithoutFeedback>
             </KeyboardAvoidingView>
             <View className=" flex flex-row items-center justify-evenly w-full px-4 mt-auto ">
                 {currentPage > 0 && (

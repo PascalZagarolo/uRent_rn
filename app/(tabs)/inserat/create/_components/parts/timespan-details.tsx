@@ -9,6 +9,8 @@ import {
     ScrollView
 } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
+import * as SecureStorage from 'expo-secure-store';
+import { editInseratBasic } from "@/actions/inserat/edit/edit-inserat-basic";
 
 
 
@@ -19,9 +21,57 @@ interface TimespanDetailsProps {
 
 const TimespanDetails = forwardRef(({ thisInserat, refetchInserat }: TimespanDetailsProps, ref) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
+    const hasChanged = () => {
+        if(String(currentMintime ?? "") != String(thisInserat?.minTime ?? "")) return true;
+    }
+
+    const returnValue = (dateType : string) => {
+        switch(dateType) {
+            case "h" :
+                return 1;
+            case "d" :
+                return 24;
+            case "w" :
+                return 168;
+            case "m" :
+                return 720;
+            case "y" :
+                return 8760;
+        }
+    }
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
+        onSave: async () => {
+            try {
+                if (isLoading) return;
+                setIsLoading(true);
+
+                if (hasChanged) {
+                    const token = await SecureStorage.getItemAsync("authToken");
+
+                    const dateType : string = currentMintime.value.charAt(currentMintime.value.length - 1);
+                    console.log(dateType + "dateType");
+                    console.log(Number(currentMintime.value.substring(0, currentMintime.value.length - 1)))
+
+                    const usedValue = currentMintime ? Number(currentMintime.value.substring(0, currentMintime.value.length - 1)) * returnValue(dateType) : null;
+
+                    const values = {
+                        inseratId: thisInserat.id,
+                        token: token,
+                        minTime : usedValue
+                    }
+
+                    await editInseratBasic(values);
+                    refetchInserat();
+                }
+            } catch (e: any) {
+                console.log(e);
+                throw e;
+            } finally {
+                setIsLoading(false);
+            }
             
         }
     }));
@@ -30,7 +80,7 @@ const TimespanDetails = forwardRef(({ thisInserat, refetchInserat }: TimespanDet
 
     
 
-    const [currentMintime, setCurrentMintime] = useState<{ value, label}>(null);
+    const [currentMintime, setCurrentMintime] = useState<{ value, label}>({ value: thisInserat?.minTime ?? null, label: thisInserat?.minTime ?? "Beliebig" });
 
     const reqAge = [
         { value: null, label: "Beliebig" },
@@ -192,7 +242,7 @@ const TimespanDetails = forwardRef(({ thisInserat, refetchInserat }: TimespanDet
                     }}>
                     <View className="p-4">
                         <Text className="text-base font-semibold text-gray-200">
-                            Mindestalter auswählen
+                            Mindestmietdauer auswählen
                         </Text>
                         <ScrollView className="h-[160px] w-full p-4 ">
                             <View className="flex flex-col justify-center space-y-4">
