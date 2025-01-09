@@ -25,6 +25,7 @@ import TransportDetails2 from "./_components/parts/categories/transport-details-
 import { desc } from "drizzle-orm";
 import FurtherDetails from "./_components/parts/categories/further-details";
 import SaveInseratPage from "./_components/parts/save-inserat-page";
+import AddressDetails2 from "./_components/parts/address-details-2";
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -180,7 +181,7 @@ const InseratCreationPage = () => {
             number: 7,
             title: "Addressdetails (2/2)",
             description: "Gebe an wo sich dein Inserat befindet, bzw. wo es abgeholt werden kann.",
-            segment: <AddressDetails thisInserat={thisInserat} ref={addressDetails} refetchInserat={refetchInserat} />
+            segment: <AddressDetails2 thisInserat={thisInserat} ref={addressDetails} refetchInserat={refetchInserat} />
         },
         {
             number: 8,
