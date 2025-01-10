@@ -10,6 +10,8 @@ import {
     Platform
 } from "react-native";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import * as SecureStorage from 'expo-secure-store';
+import { editAddress } from "@/actions/inserat/address/edit-address";
 
 
 interface AddressDetailsProps {
@@ -19,18 +21,34 @@ interface AddressDetailsProps {
 
 const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetailsProps, ref) => {
 
+
+    const [isLoading, setIsLoading] = useState(false);
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
-            console.log("Saving:");
+        onSave: async () => {
+            try {
+                console.log("2000")
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    locationString : fixedAddress,
+                    postalCode : null,
+                }
+                console.log(values) 
+                await editAddress(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
-    const [currentAddress, setCurrentAddress] = useState(thisInserat.title);
-    const [currentEmail, setCurrentEmail] = useState(thisInserat.description);
-    const [currentPhone, setCurrentPhone] = useState(thisInserat.description);
-
-    const [fixedAddress, setFixedAddress] = useState("");
+    const [fixedAddress, setFixedAddress] = useState(thisInserat?.address?.locationString ?? null);
 
     const [isFocused, setIsFocused] = useState(false);
 

@@ -662,7 +662,7 @@ export const transportAttribute = pgTable("transportAttribute", {
         .references(() => inserat.id, { onDelete: "cascade" }).notNull(),
 })
 
-//@ts-ignore
+
 export const address = pgTable("address", {
     id: uuid("id").default(sql`gen_random_uuid()`).primaryKey(),
 

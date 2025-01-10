@@ -17,6 +17,7 @@ export const getThisInserat = async (id : string) => {
                 images: {
                     orderBy: (created_at, { asc }) => [asc(images.position)],
                 },
+                address: true,
             }
         })
 

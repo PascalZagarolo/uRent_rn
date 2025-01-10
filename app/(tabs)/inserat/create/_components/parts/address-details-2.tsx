@@ -10,6 +10,8 @@ import {
     Platform
 } from "react-native";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import * as SecureStorage from 'expo-secure-store';
+import { editAddress } from "@/actions/inserat/address/edit-address";
 
 
 interface AddressDetails2Props {
@@ -19,15 +21,36 @@ interface AddressDetails2Props {
 
 const AddressDetails2 = forwardRef(({ thisInserat, refetchInserat }: AddressDetails2Props, ref) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
+    console.log(thisInserat?.addressId + "!!!")
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
-            console.log("Saving:");
+        onSave: async () => {
+            try {
+                console.log("2000")
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    postalCode : postalCode,
+                    locationString : null,
+                }
+                console.log(values) 
+                await editAddress(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
-    const [currentPostalCode, setCurrentPostalCode] = useState();
-    const [postalCode, setPostalCode] = useState();
+    const [currentPostalCode, setCurrentPostalCode] = useState<string | null>();
+    const [postalCode, setPostalCode] = useState<string | null>(thisInserat?.address?.postalCode ?? null);
 
     const [isFocused, setIsFocused] = useState(false);
 
@@ -71,8 +94,9 @@ const AddressDetails2 = forwardRef(({ thisInserat, refetchInserat }: AddressDeta
                                  
                                 placeholder="Gib deine Postleitzahl ein.."
                                 onPress={(data, details = null) => {
-                                    console.log("Coming from Address UseState: ", data);
-                                    console.log(details)
+                                    
+                                    console.log(details?.address_components[0]?.short_name)
+                                    setPostalCode(details?.address_components[0]?.short_name ?? null)
                                 }}
                                 
                                 debounce={200}
@@ -81,7 +105,8 @@ const AddressDetails2 = forwardRef(({ thisInserat, refetchInserat }: AddressDeta
                                     key: usedKey,
                                     language: "de",
                                     location: "48.8566,2.3522",
-                                    type:"(regions)"
+                                    type:"(regions)",
+                                    components: "country:de",
                                 }}
                                
                                 styles={{
@@ -100,6 +125,7 @@ const AddressDetails2 = forwardRef(({ thisInserat, refetchInserat }: AddressDeta
                                 textInputProps={{
                                     onFocus: () => setIsFocused(true),
                                     onBlur: () => setIsFocused(false),
+                                    contextMenuHidden: true,
                                     inputMode: "numeric",
                                 }}
                             />
