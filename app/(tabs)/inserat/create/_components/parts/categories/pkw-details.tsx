@@ -8,6 +8,8 @@ import PkwBrand from "./pkw/pkw-brand";
 import PkwSeats from "./pkw/pkw-seats";
 import PkwExtraType from "./pkw/pkw-extra-type";
 import PkwTransmission from "./pkw/pkw-transmission";
+import * as SecureStorage from 'expo-secure-store';
+import { changePkwAttributes } from "@/actions/inserat/(categories)/pkwAttributes/change-pkw-attributes";
 
 
 
@@ -18,18 +20,40 @@ interface PkwDetailsProps {
 
 const PkwDetails = forwardRef(({ thisInserat, refetchInserat }: PkwDetailsProps, ref) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
+        onSave: async () => {
+            try {
+                console.log("2000")
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    brand: currentBrand,
+                    seats: currentSeats,
+                    type: currentExtratype,
+                    transmission: currentTransmission
+                }
+                
+                await changePkwAttributes(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
-    const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
+  
     
-   const [currentBrand, setCurrentBrand] = useState(null);
-   const [currentSeats, setCurrentSeats] = useState(null);
-   const [currentExtratype, setCurrentExtratype] = useState(null);
-   const [currentTransmission, setCurrentTransmission] = useState(null);
+   const [currentBrand, setCurrentBrand] = useState(thisInserat?.pkwAttribute?.brand ?? null);
+   const [currentSeats, setCurrentSeats] = useState(thisInserat?.pkwAttribute?.seats ?? null);
+   const [currentExtratype, setCurrentExtratype] = useState(thisInserat?.pkwAttribute?.type ?? null);
+   const [currentTransmission, setCurrentTransmission] = useState(thisInserat?.pkwAttribute?.transmission ?? null);
 
     
 

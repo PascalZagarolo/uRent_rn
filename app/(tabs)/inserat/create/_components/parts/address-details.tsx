@@ -49,15 +49,14 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
     }));
 
     const [fixedAddress, setFixedAddress] = useState(thisInserat?.address?.locationString ?? null);
-
+    const [currentAddress, setCurrentAddress] = useState(thisInserat?.address?.locationString ?? null);
     const [isFocused, setIsFocused] = useState(false);
 
+    
 
     const usedKey = process.env.EXPO_PUBLIC_GOOGLE_CLOUD_SECRET;
 
-    useEffect(() => {
-        console.log(usedKey)
-    }, [])
+   
 
 
     return (
@@ -98,6 +97,7 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
                                 }}
                                 debounce={200}
                                 fetchDetails={true}
+                                
                                 query={{
                                     key: usedKey,
                                     language: "de",
@@ -121,6 +121,8 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
                                 textInputProps={{
                                     onFocus: () => setIsFocused(true),
                                     onBlur: () => setIsFocused(false),
+                                    value: currentAddress,
+                                    onChangeText: (text) => setCurrentAddress(text),
                                 }}
                             />
                         </View>

@@ -26,6 +26,7 @@ import { desc } from "drizzle-orm";
 import FurtherDetails from "./_components/parts/categories/further-details";
 import SaveInseratPage from "./_components/parts/save-inserat-page";
 import AddressDetails2 from "./_components/parts/address-details-2";
+import { pkwAttribute } from '../../../../db/schema';
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -92,6 +93,7 @@ const InseratCreationPage = () => {
     const refetchInserat = async () => {
         try {
             const foundInserat = await getThisInserat(id);
+            console.log(foundInserat?.pkwAttributes)
             setThisInserat(foundInserat);
         } catch (e: any) {
             console.log("Fehler beim erhalten des Inserats");

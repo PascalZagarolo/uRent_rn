@@ -14,12 +14,18 @@ export const getThisInserat = async (id : string) => {
             ),
             with : {
                 priceprofiles : true,
+                lkwAttribute: true,
+                pkwAttribute: true,
+                trailerAttribute: true,
+                transportAttribute: true,
                 images: {
                     orderBy: (created_at, { asc }) => [asc(images.position)],
-                },
-                address: true,
+                }
+
             }
         })
+
+        
 
         return thisInserat;
 
