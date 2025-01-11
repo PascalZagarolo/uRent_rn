@@ -3,10 +3,12 @@ import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import * as SecureStorage from 'expo-secure-store';
 import {
     Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
     Keyboard, TouchableWithoutFeedback
 } from "react-native";
+import { editInseratBasic } from "@/actions/inserat/edit/edit-inserat-basic";
 
 
 
@@ -17,16 +19,34 @@ interface ContactDetailsProps {
 
 const ContactDetails = forwardRef(({ thisInserat, refetchInserat }: ContactDetailsProps, ref) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
-            console.log("Saving:");
+        onSave: async () => {
+            try {
+                console.log("2000")
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    emailAddress : currentEmail,
+                    phoneNumber : currentPhone
+                } 
+                await editInseratBasic(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
 
-    const [currentEmail, setCurrentEmail] = useState(thisInserat.description);
-    const [currentPhone, setCurrentPhone] = useState(thisInserat.description);
+    const [currentEmail, setCurrentEmail] = useState(thisInserat.emailAddress);
+    const [currentPhone, setCurrentPhone] = useState(thisInserat.phoneNumber);
 
     const refRBSheet = useRef([]);
 
@@ -46,7 +66,7 @@ const ContactDetails = forwardRef(({ thisInserat, refetchInserat }: ContactDetai
                             placeholder="Gebe deine Email-Addresse ein.."
 
                             value={currentEmail}
-                            keyboardType="numeric"
+                            
                             onChangeText={(text) => setCurrentEmail(text)}
                         />
                         <TouchableOpacity
@@ -68,7 +88,7 @@ const ContactDetails = forwardRef(({ thisInserat, refetchInserat }: ContactDetai
                             placeholder="Gebe deine Telefonnummer ein.."
                             value={currentPhone}
                             onChangeText={(text) => setCurrentPhone(text)}
-
+                            keyboardType="numeric"
                             className="w-10/12 bg-[#1f2330] rounded-l-md text-base text-gray-200/90 p-4 font-semibold"
                         />
                         <TouchableOpacity
