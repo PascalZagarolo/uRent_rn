@@ -42,7 +42,7 @@ const PkwExtraType = ({ currentValue, setValue, label }: PkwExtraTypeProps) => {
                 onPress={() => refRBSheet.current[1].open()}
             >
                 <Text className={cn("text-base text-gray-200 font-semibold", !currentValue && "text-gray-200/40 font-medium")}>
-                    {currentValue ? currentValue : "Beliebig"}
+                    {currentValue ? usedValues.find(item => item.value === currentValue)?.string || "Beliebig" : "Beliebig"}
                 </Text>
                 <View className="ml-auto">
                     <FontAwesome name="chevron-down" size={20} color="white" />

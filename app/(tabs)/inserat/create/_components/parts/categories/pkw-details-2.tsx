@@ -11,6 +11,8 @@ import PkwTransmission from "./pkw/pkw-transmission";
 import PkwFuel from "./pkw/pkw-fuel";
 import PkwDoors from "./pkw/pkw-doors";
 import PkwAhk from "./pkw/pkw-ahk";
+import * as SecureStorage from 'expo-secure-store';
+import { changePkwAttributes } from "@/actions/inserat/(categories)/pkwAttributes/change-pkw-attributes";
 
 
 
@@ -21,17 +23,38 @@ interface PkwDetails2Props {
 
 const PkwDetails2 = forwardRef(({ thisInserat, refetchInserat }: PkwDetails2Props, ref) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
+        onSave: async () => {
+            try {
+                
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    fuel : currentFuel,
+                    doors : currentDoors,
+                    ahk : currentAhk
+                }
+                
+                await changePkwAttributes(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
     
     
-    const [currentFuel, setCurrentFuel] = useState(null);
-    const [currentDoors, setCurrentDoors] = useState(null);
-    const [currentAhk, setCurrentAhk] = useState(null);
+    const [currentFuel, setCurrentFuel] = useState(thisInserat?.pkwAttribute?.fuel ?? null);
+    const [currentDoors, setCurrentDoors] = useState(thisInserat?.pkwAttribute?.doors ?? null);
+    const [currentAhk, setCurrentAhk] = useState(thisInserat?.pkwAttribute?.ahk ?? null);
     
 
     

@@ -267,6 +267,9 @@ const InseratCreationPage = () => {
         if (anhaengerDetails2.current) {
             anhaengerDetails2.current.onSave();
         }
+        if(furtherDetails.current){
+            furtherDetails.current.onSave();
+        }
 
         setCurrentPage((prevPage) => prevPage + 1);
     };

@@ -20,8 +20,8 @@ export const getThisInserat = async (id : string) => {
                 transportAttribute: true,
                 images: {
                     orderBy: (created_at, { asc }) => [asc(images.position)],
-                }
-
+                },
+                address : true,
             }
         })
 

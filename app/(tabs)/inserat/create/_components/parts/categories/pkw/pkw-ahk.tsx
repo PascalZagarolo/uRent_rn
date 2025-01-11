@@ -19,6 +19,7 @@ const PkwAhk = ({ currentValue, setValue, label }: PkwAhkProps) => {
     const usedValues = ([
         { string: "Vorhanden", value: true },
         { string: "Nicht vorhanden", value: false }, 
+        { string: "Nicht vorhanden", value: null }, 
     ]);
 
 
@@ -30,8 +31,8 @@ const PkwAhk = ({ currentValue, setValue, label }: PkwAhkProps) => {
             <TouchableOpacity className="bg-[#1a1e29] p-4 flex flex-row items-center rounded-md"
                 onPress={() => refRBSheet.current[1].open()}
             >
-                <Text className={cn("text-base text-gray-200 font-semibold", !currentValue && "text-gray-200/40 font-medium")}>
-                    {currentValue ? currentValue : "Beliebig"}
+                <Text className={cn("text-base text-gray-200 font-semibold", String(currentValue ?? "")?.trim() == "" && "text-gray-200/40 font-medium")}>
+                    {String(currentValue ?? "")?.trim() != "" ? usedValues.find(item => Boolean(item.value) == Boolean(currentValue))?.string || "Beliebig" : "Beliebig"}
                 </Text>
                 <View className="ml-auto">
                     <FontAwesome name="chevron-down" size={20} color="white" />
