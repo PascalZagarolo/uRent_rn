@@ -38,7 +38,7 @@ const TransportDetails = forwardRef(({ thisInserat, refetchInserat }: TransportD
                 const values = {
                     inseratId : thisInserat.id,
                     token : authToken,
-                    brand: currentBrand,
+                    transportBrand: currentBrand,
                     seats: currentSeats,
                     weightClass : currentWeight,
                     transmission : currentTransmission
@@ -56,10 +56,10 @@ const TransportDetails = forwardRef(({ thisInserat, refetchInserat }: TransportD
 
     
     
-   const [currentWeight, setCurrentWeight] = useState(thisInserat?.transportAttributes?.weightClass || null);
-   const [currentBrand, setCurrentBrand] = useState(thisInserat?.transportAttributes?.brand || null);
-   const [currentSeats, setCurrentSeats] = useState(thisInserat?.transportAttributes?.seats || null);
-   const [currentTransmission, setCurrentTransmission] = useState(thisInserat?.transportAttributes?.transmission || null);
+   const [currentWeight, setCurrentWeight] = useState(thisInserat?.transportAttribute?.weightClass || null);
+   const [currentBrand, setCurrentBrand] = useState(thisInserat?.transportAttribute?.transportBrand || null);
+   const [currentSeats, setCurrentSeats] = useState(thisInserat?.transportAttribute?.seats || null);
+   const [currentTransmission, setCurrentTransmission] = useState(thisInserat?.transportAttribute?.transmission || null);
 
     
 

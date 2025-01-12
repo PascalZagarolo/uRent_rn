@@ -57,9 +57,9 @@ const TransportDetails2 = forwardRef(({ thisInserat, refetchInserat }: Transport
 
     
     
-   const [currentFuel, setCurrentFuel] = useState(null);
-   const [currentDoors, setCurrentDoors] = useState(null);
-   const [currentLoading, setCurrentLoading] = useState(null);
+   const [currentFuel, setCurrentFuel] = useState(thisInserat?.transportAttribute?.fuel || null);
+   const [currentDoors, setCurrentDoors] = useState(thisInserat?.transportAttribute?.doors || null);
+   const [currentLoading, setCurrentLoading] = useState(thisInserat?.transportAttribute?.loading || null);
    
 
     
