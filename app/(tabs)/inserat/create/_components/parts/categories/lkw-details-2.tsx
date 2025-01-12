@@ -22,7 +22,7 @@ import { changeLkwAttributes } from "@/actions/inserat/(categories)/lkwAttribute
 
 interface LkwDetails2Props {
     thisInserat: typeof inserat.$inferSelect;
-    refetchInserat : () => void;
+    refetchInserat: () => void;
 }
 
 const LkwDetails2 = forwardRef(({ thisInserat, refetchInserat }: LkwDetails2Props, ref) => {
@@ -32,22 +32,22 @@ const LkwDetails2 = forwardRef(({ thisInserat, refetchInserat }: LkwDetails2Prop
     useImperativeHandle(ref, () => ({
         onSave: async () => {
             try {
-                if(isLoading) return;
+                if (isLoading) return;
                 setIsLoading(true);
                 const authToken = await SecureStorage.getItemAsync("authToken");
-                
+
                 const values = {
-                    inseratId : thisInserat.id,
-                    token : authToken,
-                    transmission : currentTransmission,
-                    drive : currentDrive,
-                    fuel : currentFuel,
-                    loading : currentLoading
+                    inseratId: thisInserat.id,
+                    token: authToken,
+                    transmission: currentTransmission,
+                    drive: currentDrive,
+                    fuel: currentFuel,
+                    loading: currentLoading
                 }
-                
+
                 await changeLkwAttributes(values);
                 await refetchInserat();
-            } catch(e : any) {
+            } catch (e: any) {
                 console.log(e);
             } finally {
                 setIsLoading(false);
@@ -57,10 +57,10 @@ const LkwDetails2 = forwardRef(({ thisInserat, refetchInserat }: LkwDetails2Prop
 
 
 
-    const [currentTransmission, setCurrentTransmission] = useState(null);
-    const [currentDrive, setCurrentDrive] = useState(null);
-    const [currentFuel, setCurrentFuel] = useState(null);
-    const [currentLoading, setCurrentLoading] = useState(null);
+    const [currentTransmission, setCurrentTransmission] = useState(thisInserat?.lkwAttribute?.transmission ?? null);
+    const [currentDrive, setCurrentDrive] = useState(thisInserat?.lkwAttribute?.drive ?? null);
+    const [currentFuel, setCurrentFuel] = useState(thisInserat?.lkwAttribute?.fuel ?? null);
+    const [currentLoading, setCurrentLoading] = useState(thisInserat?.lkwAttribute?.loading ?? null);
 
 
 
@@ -72,7 +72,7 @@ const LkwDetails2 = forwardRef(({ thisInserat, refetchInserat }: LkwDetails2Prop
 
 
                 <View className="w-full mt-4">
-                    <PkwTransmission label="Getriebe" currentValue={currentTransmission} setValue={setCurrentTransmission} />s
+                    <PkwTransmission label="Getriebe" currentValue={currentTransmission} setValue={setCurrentTransmission} />
                 </View>
                 <View className="w-full mt-4">
                     <LkwDrive label="Antrieb" currentValue={currentDrive} setValue={setCurrentDrive} />

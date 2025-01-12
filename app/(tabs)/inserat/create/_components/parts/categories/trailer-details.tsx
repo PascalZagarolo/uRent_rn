@@ -71,7 +71,7 @@ const TrailerDetails = forwardRef(({ thisInserat, refetchInserat }: TrailerDetai
 
 
                 <View className="w-full mt-4">
-                    <TrailerType label="Anhängertyp" currentValue={currentType} setValue={setCurrentType} />
+                <TrailerType label="Anhängertyp" currentValue={currentType} setValue={setCurrentType} />
                 </View>
                 <View className="w-full mt-4">
                     <TrailerWeightclass label="Gewichtsklasse" currentValue={currentWeight} setValue={setCurrentWeight} />

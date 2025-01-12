@@ -31,7 +31,7 @@ import { pkwAttribute } from '../../../../db/schema';
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
     const [thisInserat, setThisInserat] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    
     const [currentPage, setCurrentPage] = useState(0);
     const router = useRouter();
 
@@ -57,82 +57,92 @@ const InseratCreationPage = () => {
     const loadInserat = async () => {
         try {
             const foundInserat = await getThisInserat(id);
+    
             setThisInserat(foundInserat);
-        } catch (e: any) {
-            console.log("Fehler beim erhalten des Inserats");
-        } finally {
-            setIsLoading(false);
+            if (foundInserat) {
+                setCategories(foundInserat);
+            }
+        } catch (e) {
+            console.error("Error fetching the Inserat:", e);
         }
     };
-
+    
+    const setCategories = (foundInserat) => {
+        const categoryMapping: { [key: string]: { title: string; components: { first: JSX.Element; second: JSX.Element } } } = {
+            PKW: {
+                title: "Pkw",
+                components: {
+                    first: <PkwDetails thisInserat={foundInserat} ref={pkwDetails} refetchInserat={refetchInserat} />,
+                    second: <PkwDetails2 thisInserat={foundInserat} ref={pkwDetails2} refetchInserat={refetchInserat} />,
+                },
+            },
+            LKW: {
+                title: "Lkw",
+                components: {
+                    first: <LkwDetails thisInserat={foundInserat} ref={lkwDetails} refetchInserat={refetchInserat} />,
+                    second: <LkwDetails2 thisInserat={foundInserat} ref={lkwDetails2} refetchInserat={refetchInserat} />,
+                },
+            },
+            TRANSPORT: {
+                title: "Transporter",
+                components: {
+                    first: <TransportDetails thisInserat={foundInserat} ref={transporterDetails} refetchInserat={refetchInserat} />,
+                    second: <TransportDetails2 thisInserat={foundInserat} ref={transporterDetails2} refetchInserat={refetchInserat} />,
+                },
+            },
+            TRAILER: {
+                title: "Anhänger",
+                components: {
+                    first: <TrailerDetails thisInserat={foundInserat} ref={anhaengerDetails} refetchInserat={refetchInserat} />,
+                    second: <TrailerDetails2 thisInserat={foundInserat} ref={anhaengerDetails2} refetchInserat={refetchInserat} />,
+                },
+            },
+        };
+    
+        const category = categoryMapping[foundInserat.category];
+        if (category) {
+            setUsedTitle(category?.title ?? ""); // Assuming you have a state like `const [usedTitle, setUsedTitle] = useState("")`
+            setUsedSegment({ firstSegment : category?.components.first, secondSegment : category?.components?.second}); // Assuming you have a state like `const [usedSegment, setUsedSegment] = useState({ first: null, second: null })`
+        } else {
+            console.warn("Unknown category:", foundInserat?.category);
+        }
+    };
+    
     useEffect(() => {
-
         loadInserat();
     }, [id]);
+    
 
-    if (isLoading) {
-        return (
-            <View>
-                <ActivityIndicator size="large" color="#fff" />
-            </View>
-        );
-    }
+   
 
-    if (!thisInserat) {
-        return (
-            <View>
-                <Text>Fehler beim Laden des Inserats.</Text>
-            </View>
-        );
-    }
+    
 
-    let usedTitle;
-    let usedSegment: { firstSegment, secondSegment } = { firstSegment: null, secondSegment: null };
+    
+
+    const [usedTitle, setUsedTitle] = useState<string>(""); // Initialize as an empty string
+    const [usedSegment, setUsedSegment] = useState<{ firstSegment: JSX.Element | null; secondSegment: JSX.Element | null }>({
+        firstSegment: null,
+        secondSegment: null,
+    });
 
 
     const refetchInserat = async () => {
         try {
             const foundInserat = await getThisInserat(id);
-            console.log(foundInserat?.pkwAttributes)
+            
             setThisInserat(foundInserat);
+            if (foundInserat) {
+                setCategories(foundInserat);
+            }
         } catch (e: any) {
             console.log("Fehler beim erhalten des Inserats");
-        } finally {
-            setIsLoading(false);
         }
 
     }
 
-    switch (thisInserat?.category) {
-        case "PKW":
-            usedTitle = "Pkw";
-            break;
-        case "LKW":
-            usedTitle = "Lkw";
-            break;
-        case "TRANSPORT":
-            usedTitle = "Transporter";
-            break;
-        case "TRAILER":
-            usedTitle = "Anhänger";
-            break;
-    }
-
-    switch (thisInserat?.category) {
-        case "PKW":
-            usedSegment.firstSegment = <PkwDetails thisInserat={thisInserat} ref={pkwDetails} refetchInserat={refetchInserat} />;
-            usedSegment.secondSegment = <PkwDetails2 thisInserat={thisInserat} ref={pkwDetails2} refetchInserat={refetchInserat} />;
-            break;
-        case "LKW":
-            usedSegment.firstSegment = <LkwDetails thisInserat={thisInserat} ref={lkwDetails} refetchInserat={refetchInserat} />;
-            usedSegment.secondSegment = <LkwDetails2 thisInserat={thisInserat} ref={lkwDetails2} refetchInserat={refetchInserat} />;
-        case "TRANSPORT":
-            usedSegment.firstSegment = <TransportDetails thisInserat={thisInserat} ref={transporterDetails} refetchInserat={refetchInserat} />;
-            usedSegment.secondSegment = <TransportDetails2 thisInserat={thisInserat} ref={transporterDetails2} refetchInserat={refetchInserat} />;
-        case "TRAILER":
-            usedSegment.firstSegment = <TrailerDetails thisInserat={thisInserat} ref={anhaengerDetails} refetchInserat={refetchInserat} />;
-            usedSegment.secondSegment = <TrailerDetails2 thisInserat={thisInserat} ref={anhaengerDetails2} refetchInserat={refetchInserat} />;
-    }
+    
+       
+   
 
     const pageInfo = [
         {
@@ -193,19 +203,19 @@ const InseratCreationPage = () => {
         },
         {
             number: 9,
-            title: usedTitle ? `${usedTitle} Details (1/3)` : "Fahrzeugdetails",
+            title: usedTitle ? `${usedTitle ?? ""} Details (1/3)` : "Fahrzeugdetails",
             description: "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment: usedSegment?.firstSegment
         },
         {
             number: 10,
-            title: usedTitle ? `${usedTitle} Details (2/3)` : "Fahrzeugdetails",
+            title: usedTitle ? `${usedTitle ?? ""} Details (2/3)` : "Fahrzeugdetails",
             description: "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment: usedSegment?.secondSegment
         },
         {
             number: 11,
-            title: usedTitle ? `${usedTitle} Details (3/3)` : "Fahrzeugdetails",
+            title: usedTitle ? `${usedTitle ?? ""} Details (3/3)` : "Fahrzeugdetails",
             description: "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment: <FurtherDetails thisInserat={thisInserat} ref={furtherDetails} refetchInserat={refetchInserat} />
         },
@@ -276,7 +286,7 @@ const InseratCreationPage = () => {
         setCurrentPage((prevPage) => prevPage + 1);
     };
 
-    const usedKey = process.env.EXPO_PUBLIC_GOOGLE_CLOUD_SECRET;
+    
 
     return (
         <SafeAreaView className=" flex flex-col w-full h-full bg-[#161923]" >
@@ -296,9 +306,9 @@ behavior="height"
            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
            <View  className="h-[85%]">
                 
-                <View className="px-4">
-                    <Text className="text-2xl font-semibold text-gray-200/90">
-                        {pageInfo[currentPage]?.title}
+           <View className="px-4">
+           <Text className="text-2xl font-semibold text-gray-200/90">
+                        {String(pageInfo[currentPage]?.title ?? "")}
                     </Text>
                     <Text className="text-gray-200/60 text-xs">
                         {pageInfo[currentPage]?.description}

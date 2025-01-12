@@ -44,8 +44,8 @@ const BasicDetails = forwardRef(({ thisInserat, refetchInserat }: BasicDetailsPr
         }
     }));
 
-    const [currentTitle, setCurrentTitle] = useState(thisInserat.title);
-    const [currentDescription, setCurrentDescription] = useState(thisInserat.description);
+    const [currentTitle, setCurrentTitle] = useState(thisInserat?.title);
+    const [currentDescription, setCurrentDescription] = useState(thisInserat?.description);
 
 
 

@@ -35,7 +35,7 @@ const LkwDetails = forwardRef(({ thisInserat, refetchInserat }: LkwDetailsProps,
                 const values = {
                     inseratId : thisInserat.id,
                     token : authToken,
-                    brand: currentBrand,
+                    lkwBrand: currentBrand,
                     seats: currentSeats,
                     weightClass : currentWeight,
                     axis : currentAxis
@@ -55,7 +55,7 @@ const LkwDetails = forwardRef(({ thisInserat, refetchInserat }: LkwDetailsProps,
     
    const [currentWeight, setCurrentWeight] = useState(thisInserat?.lkwAttribute?.weightClass ?? null);
    const [currentAxis, setCurrentAxis] = useState(thisInserat?.lkwAttribute?.axis ?? null);
-   const [currentBrand, setCurrentBrand] = useState(thisInserat?.lkwAttribute?.brand ?? null);
+   const [currentBrand, setCurrentBrand] = useState(thisInserat?.lkwAttribute?.lkwBrand ?? null);
    const [currentSeats, setCurrentSeats] = useState(thisInserat?.lkwAttribute?.seats ?? null);
 
     
