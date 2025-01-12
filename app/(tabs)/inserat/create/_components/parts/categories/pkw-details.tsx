@@ -25,7 +25,7 @@ const PkwDetails = forwardRef(({ thisInserat, refetchInserat }: PkwDetailsProps,
     useImperativeHandle(ref, () => ({
         onSave: async () => {
             try {
-                console.log("2000")
+                
                 setIsLoading(true);
                 const authToken = await SecureStorage.getItemAsync("authToken");
                 

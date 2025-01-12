@@ -17,6 +17,8 @@ import TrailerTypeFilter from "@/components/_drawercontent/_filter-content/_trai
 import TrailerType from "./trailer/trailer-type";
 import TrailerWeightclass from "./trailer/trailer-weightclass";
 import TrailerBrak from "./trailer/trailer-brake";
+import * as SecureStorage from 'expo-secure-store';
+import { changeTrailerAttributes } from "@/actions/inserat/(categories)/trailerAttributes/change-trailer-attributes";
 
 
 
@@ -27,18 +29,40 @@ interface TrailerDetailsProps {
 
 const TrailerDetails = forwardRef(({ thisInserat, refetchInserat }: TrailerDetailsProps, ref) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
+        onSave: async () => {
+            try {
+                if(isLoading) return;
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    type : currentType,
+                    weightClass : currentWeight,
+                    axis : currentAxis,
+                    brake : currentBrake
+                }
+                
+                await changeTrailerAttributes(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
 
 
-    const [currentType, setCurrentType] = useState(null);
-    const [currentWeight, setCurrentWeight] = useState(null);
-    const [currentAxis, setCurrentAxis] = useState(null);
-    const [currentBrake, setCurrentBrake] = useState(null);
+    const [currentType, setCurrentType] = useState(thisInserat?.transportAttributes?.type ?? null);
+    const [currentWeight, setCurrentWeight] = useState(thisInserat?.transportAttributes?.weightClass ?? null);
+    const [currentAxis, setCurrentAxis] = useState(thisInserat?.transportAttributes?.axis ?? null);
+    const [currentBrake, setCurrentBrake] = useState(thisInserat?.transportAttributes?.brake ?? null);
 
 
     return (

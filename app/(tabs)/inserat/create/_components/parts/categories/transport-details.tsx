@@ -13,6 +13,9 @@ import LkwAxis from "./lkw/lkw-axis";
 import LkwBrand from "./lkw/lkw-brand";
 import TransportWeightclass from "./transport/transport-weightclass";
 import TransportBrand from "./transport/transport-brand";
+import * as SecureStorage from 'expo-secure-store';
+import { changeTransportAttributes } from "@/actions/inserat/(categories)/transportAttributes/change-transport-attributes";
+
 
 
 
@@ -23,18 +26,40 @@ interface TransportDetailsProps {
 
 const TransportDetails = forwardRef(({ thisInserat, refetchInserat }: TransportDetailsProps, ref) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
+        onSave: async () => {
+            try {
+                if(isLoading) return;
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    brand: currentBrand,
+                    seats: currentSeats,
+                    weightClass : currentWeight,
+                    transmission : currentTransmission
+                }
+                
+                await changeTransportAttributes(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
     
     
-   const [currentWeight, setCurrentWeight] = useState(null);
-   const [currentBrand, setCurrentBrand] = useState(null);
-   const [currentSeats, setCurrentSeats] = useState(null);
-   const [currentTransmission, setCurrentTransmission] = useState(null);
+   const [currentWeight, setCurrentWeight] = useState(thisInserat?.transportAttributes?.weightClass || null);
+   const [currentBrand, setCurrentBrand] = useState(thisInserat?.transportAttributes?.brand || null);
+   const [currentSeats, setCurrentSeats] = useState(thisInserat?.transportAttributes?.seats || null);
+   const [currentTransmission, setCurrentTransmission] = useState(thisInserat?.transportAttributes?.transmission || null);
 
     
 

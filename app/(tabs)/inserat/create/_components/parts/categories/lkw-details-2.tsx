@@ -15,6 +15,8 @@ import PkwDoors from "./pkw/pkw-doors";
 import PkwAhk from "./pkw/pkw-ahk";
 import LkwDrive from "./lkw/lkw-drive";
 import LkwLoading from "./lkw/lkw-loading";
+import * as SecureStorage from 'expo-secure-store';
+import { changeLkwAttributes } from "@/actions/inserat/(categories)/lkwAttributes/change-lkw-attributes";
 
 
 
@@ -25,9 +27,31 @@ interface LkwDetails2Props {
 
 const LkwDetails2 = forwardRef(({ thisInserat, refetchInserat }: LkwDetails2Props, ref) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
+        onSave: async () => {
+            try {
+                if(isLoading) return;
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    transmission : currentTransmission,
+                    drive : currentDrive,
+                    fuel : currentFuel,
+                    loading : currentLoading
+                }
+                
+                await changeLkwAttributes(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 

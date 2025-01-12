@@ -11,6 +11,8 @@ import PkwTransmission from "./pkw/pkw-transmission";
 import LkwWeightclass from "./lkw/lkw-weightclass";
 import LkwAxis from "./lkw/lkw-axis";
 import LkwBrand from "./lkw/lkw-brand";
+import * as SecureStorage from 'expo-secure-store';
+import { changeLkwAttributes } from "@/actions/inserat/(categories)/lkwAttributes/change-lkw-attributes";
 
 
 
@@ -21,18 +23,40 @@ interface LkwDetailsProps {
 
 const LkwDetails = forwardRef(({ thisInserat, refetchInserat }: LkwDetailsProps, ref) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
+        onSave: async () => {
+            try {
+                if(isLoading) return;
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    brand: currentBrand,
+                    seats: currentSeats,
+                    weightClass : currentWeight,
+                    axis : currentAxis
+                }
+                
+                await changeLkwAttributes(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
     
     
-   const [currentWeight, setCurrentWeight] = useState(null);
-   const [currentAxis, setCurrentAxis] = useState(null);
-   const [currentBrand, setCurrentBrand] = useState(null);
-   const [currentSeats, setCurrentSeats] = useState(null);
+   const [currentWeight, setCurrentWeight] = useState(thisInserat?.lkwAttribute?.weightClass ?? null);
+   const [currentAxis, setCurrentAxis] = useState(thisInserat?.lkwAttribute?.axis ?? null);
+   const [currentBrand, setCurrentBrand] = useState(thisInserat?.lkwAttribute?.brand ?? null);
+   const [currentSeats, setCurrentSeats] = useState(thisInserat?.lkwAttribute?.seats ?? null);
 
     
 

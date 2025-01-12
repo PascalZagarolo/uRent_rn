@@ -16,6 +16,8 @@ import TransportBrand from "./transport/transport-brand";
 import PkwFuel from "./pkw/pkw-fuel";
 import PkwDoors from "./pkw/pkw-doors";
 import TransportLoading from "./transport/transport-loading";
+import * as SecureStorage from 'expo-secure-store';
+import { changeTransportAttributes } from "@/actions/inserat/(categories)/transportAttributes/change-transport-attributes";
 
 
 
@@ -26,9 +28,30 @@ interface TransportDetails2Props {
 
 const TransportDetails2 = forwardRef(({ thisInserat, refetchInserat }: TransportDetails2Props, ref) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
+        onSave: async () => {
+            try {
+                if(isLoading) return;
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    fuel : currentFuel,
+                    doors : currentDoors,
+                    loading : currentLoading
+                }
+                
+                await changeTransportAttributes(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 

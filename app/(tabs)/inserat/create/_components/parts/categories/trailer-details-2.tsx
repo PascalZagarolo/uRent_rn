@@ -19,6 +19,8 @@ import TrailerWeightclass from "./trailer/trailer-weightclass";
 import TrailerBrak from "./trailer/trailer-brake";
 import TrailerCoupling from "./trailer/trailer-coupling";
 import TrailerLoading from "./trailer/trailer-loading";
+import * as SecureStorage from 'expo-secure-store';
+import { changeTrailerAttributes } from "@/actions/inserat/(categories)/trailerAttributes/change-trailer-attributes";
 
 
 
@@ -29,9 +31,29 @@ interface TrailerDetails2Props {
 
 const TrailerDetails2 = forwardRef(({ thisInserat, refetchInserat }: TrailerDetails2Props, ref) => {
 
+    const [isLoading, setIsLoading] = useState(false);
+
     useImperativeHandle(ref, () => ({
-        onSave: () => {
-            console.log("Child onSave called");
+        onSave: async () => {
+            try {
+                if(isLoading) return;
+                setIsLoading(true);
+                const authToken = await SecureStorage.getItemAsync("authToken");
+                
+                const values = {
+                    inseratId : thisInserat.id,
+                    token : authToken,
+                    coupling : currentCoupling,
+                    loading : currentLoading
+                }
+                
+                await changeTrailerAttributes(values);
+                await refetchInserat();
+            } catch(e : any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false);
+            }
         }
     }));
 
