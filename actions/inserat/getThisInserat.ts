@@ -25,8 +25,8 @@ export const getThisInserat = async (id : string) => {
             }
         })
 
-        
-
+        console.log(thisInserat?.trailerAttribute);    
+    
         return thisInserat;
 
     } catch(e : any) {

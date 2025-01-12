@@ -250,12 +250,14 @@ const InseratCreationPage = () => {
             pkwDetails2.current.onSave();
         }
         if (lkwDetails.current) {
+            console.log(".................")
             lkwDetails.current.onSave();
         }
         if (lkwDetails2.current) {
             lkwDetails2.current.onSave();
         }
         if (transporterDetails.current) {
+            
             transporterDetails.current.onSave();
         }
         if (transporterDetails2.current) {

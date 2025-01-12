@@ -5,7 +5,7 @@ import { and, eq } from "drizzle-orm";
 
 export async function changeTransportAttributes(pValues) {
     try {
-        console.log("funct changePkwAttributes");
+        console.log("funct changeTransportAttributes");
         const { token, inseratId, ...values } = pValues;
 
         const currentUser = await getCurrentUser(token);
@@ -30,7 +30,7 @@ export async function changeTransportAttributes(pValues) {
             console.log(createPkwAttribute[0] + "!!!!");
 
             const connectInserat = await db.update(inserat).set({
-                pkwId : createPkwAttribute[0].id
+                transportId : createPkwAttribute[0].id
             }).where(eq(inserat.id, findInserat.id))
             
             return createPkwAttribute[0];

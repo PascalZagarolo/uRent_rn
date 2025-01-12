@@ -564,9 +564,11 @@ export const lkwAttribute = pgTable("lkwAttribute", {
     loading_size : decimal("loading_size"),
 
     weightClass: integer("weightClass"),
+    payload : integer("payload"),
     drive: driveEnum("drive"),
     loading: loadingEnum("loading"),
     application: applicationEnum("application"),
+    ahk : boolean("ahk").notNull().default(false),
 
     inseratId: uuid("inseratId")
         .references(() => inserat.id, { onDelete: "cascade" }).notNull(),

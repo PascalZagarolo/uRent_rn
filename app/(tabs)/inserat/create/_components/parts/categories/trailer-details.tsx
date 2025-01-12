@@ -59,10 +59,10 @@ const TrailerDetails = forwardRef(({ thisInserat, refetchInserat }: TrailerDetai
 
 
 
-    const [currentType, setCurrentType] = useState(thisInserat?.transportAttributes?.type ?? null);
-    const [currentWeight, setCurrentWeight] = useState(thisInserat?.transportAttributes?.weightClass ?? null);
-    const [currentAxis, setCurrentAxis] = useState(thisInserat?.transportAttributes?.axis ?? null);
-    const [currentBrake, setCurrentBrake] = useState(thisInserat?.transportAttributes?.brake ?? null);
+    const [currentType, setCurrentType] = useState(thisInserat?.trailerAttribute?.type ?? null);
+    const [currentWeight, setCurrentWeight] = useState(thisInserat?.trailerAttribute?.weightClass ?? null);
+    const [currentAxis, setCurrentAxis] = useState(thisInserat?.trailerAttribute?.axis ?? null);
+    const [currentBrake, setCurrentBrake] = useState(thisInserat?.trailerAttribute?.brake ?? null);
 
 
     return (

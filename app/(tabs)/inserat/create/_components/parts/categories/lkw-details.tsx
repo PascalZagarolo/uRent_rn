@@ -1,18 +1,18 @@
 import { inserat } from "@/db/schema";
-import { cn } from "@/~/lib/utils";
-import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+
+
 import { forwardRef, useImperativeHandle, useState } from "react";
 import { Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView, 
     Keyboard, TouchableWithoutFeedback } from "react-native";
-import PkwBrand from "./pkw/pkw-brand";
+
 import PkwSeats from "./pkw/pkw-seats";
-import PkwExtraType from "./pkw/pkw-extra-type";
-import PkwTransmission from "./pkw/pkw-transmission";
+
 import LkwWeightclass from "./lkw/lkw-weightclass";
 import LkwAxis from "./lkw/lkw-axis";
 import LkwBrand from "./lkw/lkw-brand";
 import * as SecureStorage from 'expo-secure-store';
 import { changeLkwAttributes } from "@/actions/inserat/(categories)/lkwAttributes/change-lkw-attributes";
+
 
 
 
@@ -40,7 +40,7 @@ const LkwDetails = forwardRef(({ thisInserat, refetchInserat }: LkwDetailsProps,
                     weightClass : currentWeight,
                     axis : currentAxis
                 }
-                
+                console.log("LKW")
                 await changeLkwAttributes(values);
                 await refetchInserat();
             } catch(e : any) {

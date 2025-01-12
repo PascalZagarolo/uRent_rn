@@ -59,8 +59,8 @@ const TrailerDetails2 = forwardRef(({ thisInserat, refetchInserat }: TrailerDeta
 
 
 
-    const [currentCoupling, setCurrentCoupling] = useState(null);
-    const [currentLoading, setCurrentLoading] = useState(null);
+    const [currentCoupling, setCurrentCoupling] = useState(thisInserat?.trailerAttribute?.coupling ?? null);
+    const [currentLoading, setCurrentLoading] = useState(thisInserat?.trailerAttribute?.loading ?? null);
     
     
 
