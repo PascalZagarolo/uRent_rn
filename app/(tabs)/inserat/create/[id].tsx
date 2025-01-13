@@ -313,12 +313,12 @@ const InseratCreationPage = () => {
         { name: "title", page: Number(pageRefs.find(ref => ref.title === "basicDetails1")), isMissing : String(thisInserat?.title ?? "").trim() == "" },
         { name: "description", page: Number(pageRefs.find(ref => ref.title === "basicDetails1")), isMissing : String(thisInserat?.description ?? "").trim() == "" },
         { name : "images", page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : thisInserat?.images?.length < 1 },
-        { name : "category", page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : thisInserat?.images?.length < 1 },
-        { name : "typeInserat", page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : thisInserat?.images?.length < 1 },
-        { name : "amount", page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : thisInserat?.images?.length < 1 },
-        { name : "price", page : Number(pageRefs.find(ref => ref.title === "priceDetails")), isMissing : thisInserat?.images?.length < 1 },
-        { name : "locationString", page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : thisInserat?.images?.length < 1 },
-        { name : "postalCode", page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : thisInserat?.images?.length < 1 },
+        { name : "category", page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : !thisInserat?.category },
+       
+        { name : "amount", page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : thisInserat?.isMulti && (!thisInserat?.amount || thisInserat?.amount <= 1) },
+        { name : "price", page : Number(pageRefs.find(ref => ref.title === "priceDetails")), isMissing : String(thisInserat?.price ?? "")?.trim() == "" },
+        { name : "locationString", page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : String(thisInserat?.address?.locationString ?? "")?.trim() == "" },
+        { name : "postalCode", page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : String(thisInserat?.address?.postalCode ?? "")?.trim() == "" },
 
     ]
 
