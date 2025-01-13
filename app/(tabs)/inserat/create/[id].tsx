@@ -300,7 +300,27 @@ const InseratCreationPage = () => {
         setCurrentPage((prevPage) => prevPage + 1);
     };
 
-    
+    const pageRefs : { title : string, page : number }[] = [
+        { title : "basicDetails1", page : 1 },
+        { title : "basicDetails2", page : 2 },
+        { title : "basicDetails3", page : 3 },
+        { title : "priceDetails", page : 4 },
+        
+
+    ]
+
+    const neededInputs : { name : string, page : number , isMissing : boolean }[] = [
+        { name: "title", page: Number(pageRefs.find(ref => ref.title === "basicDetails1")), isMissing : String(thisInserat?.title ?? "").trim() == "" },
+        { name: "description", page: Number(pageRefs.find(ref => ref.title === "basicDetails1")), isMissing : String(thisInserat?.description ?? "").trim() == "" },
+        { name : "images", page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : thisInserat?.images?.length < 1 },
+        { name : "category", page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : thisInserat?.images?.length < 1 },
+        { name : "typeInserat", page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : thisInserat?.images?.length < 1 },
+        { name : "amount", page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : thisInserat?.images?.length < 1 },
+        { name : "price", page : Number(pageRefs.find(ref => ref.title === "priceDetails")), isMissing : thisInserat?.images?.length < 1 },
+        { name : "locationString", page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : thisInserat?.images?.length < 1 },
+        { name : "postalCode", page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : thisInserat?.images?.length < 1 },
+
+    ]
 
     return (
         <SafeAreaView className=" flex flex-col w-full h-full bg-[#161923]" >
