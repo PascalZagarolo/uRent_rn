@@ -1,4 +1,4 @@
-import { inserat } from "@/db/schema";
+import { inserat, lkwAttribute } from "@/db/schema";
 
 
 import { forwardRef, useImperativeHandle, useState } from "react";
@@ -17,7 +17,7 @@ import { changeLkwAttributes } from "@/actions/inserat/(categories)/lkwAttribute
 
 
 interface LkwDetailsProps {
-    thisInserat: typeof inserat.$inferSelect;
+    thisInserat: typeof inserat.$inferSelect & { lkwAttribute : typeof lkwAttribute.$inferSelect };
     refetchInserat : () => void;
 }
 
@@ -53,10 +53,10 @@ const LkwDetails = forwardRef(({ thisInserat, refetchInserat }: LkwDetailsProps,
 
     
     
-   const [currentWeight, setCurrentWeight] = useState(thisInserat?.lkwAttribute?.weightClass ?? null);
-   const [currentAxis, setCurrentAxis] = useState(thisInserat?.lkwAttribute?.axis ?? null);
-   const [currentBrand, setCurrentBrand] = useState(thisInserat?.lkwAttribute?.lkwBrand ?? null);
-   const [currentSeats, setCurrentSeats] = useState(thisInserat?.lkwAttribute?.seats ?? null);
+   const [currentWeight, setCurrentWeight] = useState<any>(thisInserat?.lkwAttribute?.weightClass ?? null);
+   const [currentAxis, setCurrentAxis] = useState<any>(thisInserat?.lkwAttribute?.axis ?? null);
+   const [currentBrand, setCurrentBrand] = useState<any>(thisInserat?.lkwAttribute?.lkwBrand ?? null);
+   const [currentSeats, setCurrentSeats] = useState<any>(thisInserat?.lkwAttribute?.seats ?? null);
 
     
 

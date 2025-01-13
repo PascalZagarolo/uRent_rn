@@ -27,6 +27,7 @@ import FurtherDetails from "./_components/parts/categories/further-details";
 import SaveInseratPage from "./_components/parts/save-inserat-page";
 import AddressDetails2 from "./_components/parts/address-details-2";
 import { pkwAttribute } from '../../../../db/schema';
+import WeightAttributes from "./_components/parts/categories/weight-attributes";
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -53,6 +54,7 @@ const InseratCreationPage = () => {
     const transporterDetails2 = useRef(null);
     const anhaengerDetails = useRef(null);
     const anhaengerDetails2 = useRef(null);
+    const weightDetails = useRef(null);
 
     const loadInserat = async () => {
         try {
@@ -81,6 +83,7 @@ const InseratCreationPage = () => {
                 components: {
                     first: <LkwDetails thisInserat={foundInserat} ref={lkwDetails} refetchInserat={refetchInserat} />,
                     second: <LkwDetails2 thisInserat={foundInserat} ref={lkwDetails2} refetchInserat={refetchInserat} />,
+
                 },
             },
             TRANSPORT: {
@@ -203,24 +206,30 @@ const InseratCreationPage = () => {
         },
         {
             number: 9,
-            title: usedTitle ? `${usedTitle ?? ""} Details (1/3)` : "Fahrzeugdetails",
+            title: usedTitle ? `${usedTitle ?? ""} Details (1/2)` : "Fahrzeugdetails",
             description: "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment: usedSegment?.firstSegment
         },
         {
             number: 10,
-            title: usedTitle ? `${usedTitle ?? ""} Details (2/3)` : "Fahrzeugdetails",
+            title: usedTitle ? `${usedTitle ?? ""} Details (2/2)` : "Fahrzeugdetails",
             description: "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment: usedSegment?.secondSegment
         },
         {
             number: 11,
-            title: usedTitle ? `${usedTitle ?? ""} Details (3/3)` : "Fahrzeugdetails",
+            title: usedTitle ? `${usedTitle ?? ""} Gewichtsdetails` : "Fahrzeugdetails",
+            description: "Gebe Details zu deiner Nutzlast und Gesamtgewicht an.",
+            segment: <WeightAttributes thisInserat={thisInserat} ref={weightDetails} refetchInserat={refetchInserat} />
+        },
+        {
+            number: 12,
+            title: usedTitle ? `${usedTitle ?? ""} Sonstige Details` : "Fahrzeugdetails",
             description: "Gebe spezifische Details zu deinem Fahrzeug an.",
             segment: <FurtherDetails thisInserat={thisInserat} ref={furtherDetails} refetchInserat={refetchInserat} />
         },
         {
-            number: 12,
+            number: 13,
             title: "Inserat speichern",
             description: "Speichere dein Inserat um es jetzt oder später zu veröffentlichen.",
             segment: <SaveInseratPage thisInserat={thisInserat} refetchInserat={refetchInserat} />
@@ -229,7 +238,7 @@ const InseratCreationPage = () => {
 
     const handleNext = () => {
         if (basicDetailsRef.current) {
-            console.log("saved current basic")
+            
             basicDetailsRef.current.onSave();
         }
         if (basicDetails2Ref.current) {
@@ -258,9 +267,11 @@ const InseratCreationPage = () => {
         }
         if (pkwDetails2.current) {
             pkwDetails2.current.onSave();
+            //skip Weightpage on PKW..
+            return setCurrentPage((prevPage) => prevPage + 2);
         }
         if (lkwDetails.current) {
-            console.log(".................")
+            
             lkwDetails.current.onSave();
         }
         if (lkwDetails2.current) {
@@ -281,6 +292,9 @@ const InseratCreationPage = () => {
         }
         if(furtherDetails.current){
             furtherDetails.current.onSave();
+        }
+        if(weightDetails.current){
+            weightDetails.current.onSave();
         }
 
         setCurrentPage((prevPage) => prevPage + 1);
