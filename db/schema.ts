@@ -613,6 +613,7 @@ export const trailerAttribute = pgTable("trailerAttribute", {
 
     axis: integer("axis"),
     weightClass: integer("weight"),
+    payload : integer("payload"),
 
     brake: boolean("brake").notNull().default(false),
 
@@ -646,12 +647,13 @@ export const transportAttribute = pgTable("transportAttribute", {
     loading_b : decimal("loading_b"),
     loading_h : decimal("loading_h"),
     loading_size : decimal("loading_size"),
-
+    ahk : boolean("ahk").notNull().default(false),
     
 
     transportBrand : transportBrandEnum("transportBrand"),
 
     weightClass: integer("weightClass"),
+    payload : integer("payload"),
 
     power: integer("power"),
 
