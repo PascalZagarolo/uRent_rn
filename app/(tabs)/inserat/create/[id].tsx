@@ -143,8 +143,35 @@ const InseratCreationPage = () => {
 
     }
 
+    const pageRefs : { title : string, page : number }[] = [
+        { title : "basicDetails1", page : 1 },
+        { title : "basicDetails2", page : 2 },
+        { title : "basicDetails3", page : 3 },
+        { title : "priceDetails", page : 4 },
+    ]
     
+    const neededInputs : { name : string, description : string, page : number , isMissing : boolean }[] = [
+        { name: "Titel", description : "Du hast noch keinen Titel angegeben.",
+        page: Number(pageRefs.find(ref => ref.title === "basicDetails1")), isMissing : String(thisInserat?.title ?? "").trim() == "" },
+        { name: "Beschreibung",
+        description : "Du hast noch keine Beschreibung angegeben.", 
+        page: Number(pageRefs.find(ref => ref.title === "basicDetails1")), 
+        isMissing : String(thisInserat?.description ?? "").trim() == "" },
+        { name : "Bilder", description : "Du hast noch keine Bilder hinzugefügt.", 
+        page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : thisInserat?.images?.length < 1 },
+        { name : "Kategorie", description : "Du hast noch keine Kategorie angegeben.", 
+        page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : !thisInserat?.category },
        
+        { name : "Fahrzeuganzahl", description : "Du hast noch keine Fahrzeuganzahl angegeben.",
+        page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : thisInserat?.isMulti && (!thisInserat?.amount || thisInserat?.amount <= 1) },
+        { name : "Preis", description : "Du hast noch keinen Preis angegeben.", 
+        page : Number(pageRefs.find(ref => ref.title === "priceDetails")), isMissing : String(thisInserat?.price ?? "")?.trim() == "" },
+        { name : "Addresse", description : "Du hast noch keine Addresse angegeben.", 
+        page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : String(thisInserat?.address?.locationString ?? "")?.trim() == "" },
+        { name : "Postleitzahl", description : "Du hast noch keine Postleitzahl angegeben.", 
+        page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : String(thisInserat?.address?.postalCode ?? "")?.trim() == "" },
+
+    ]
    
 
     const pageInfo = [
@@ -232,7 +259,7 @@ const InseratCreationPage = () => {
             number: 13,
             title: "Inserat speichern",
             description: "Speichere dein Inserat um es jetzt oder später zu veröffentlichen.",
-            segment: <SaveInseratPage thisInserat={thisInserat} refetchInserat={refetchInserat} />
+            segment: <SaveInseratPage thisInserat={thisInserat} neededInputs={neededInputs} refetchInserat={refetchInserat} />
         }
     ];
 
@@ -300,27 +327,9 @@ const InseratCreationPage = () => {
         setCurrentPage((prevPage) => prevPage + 1);
     };
 
-    const pageRefs : { title : string, page : number }[] = [
-        { title : "basicDetails1", page : 1 },
-        { title : "basicDetails2", page : 2 },
-        { title : "basicDetails3", page : 3 },
-        { title : "priceDetails", page : 4 },
-        
+    
 
-    ]
-
-    const neededInputs : { name : string, page : number , isMissing : boolean }[] = [
-        { name: "title", page: Number(pageRefs.find(ref => ref.title === "basicDetails1")), isMissing : String(thisInserat?.title ?? "").trim() == "" },
-        { name: "description", page: Number(pageRefs.find(ref => ref.title === "basicDetails1")), isMissing : String(thisInserat?.description ?? "").trim() == "" },
-        { name : "images", page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : thisInserat?.images?.length < 1 },
-        { name : "category", page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : !thisInserat?.category },
-       
-        { name : "amount", page : Number(pageRefs.find(ref => ref.title === "basicDetails3")), isMissing : thisInserat?.isMulti && (!thisInserat?.amount || thisInserat?.amount <= 1) },
-        { name : "price", page : Number(pageRefs.find(ref => ref.title === "priceDetails")), isMissing : String(thisInserat?.price ?? "")?.trim() == "" },
-        { name : "locationString", page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : String(thisInserat?.address?.locationString ?? "")?.trim() == "" },
-        { name : "postalCode", page : Number(pageRefs.find(ref => ref.title === "basicDetails2")), isMissing : String(thisInserat?.address?.postalCode ?? "")?.trim() == "" },
-
-    ]
+    
 
     return (
         <SafeAreaView className=" flex flex-col w-full h-full bg-[#161923]" >
