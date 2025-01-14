@@ -21,10 +21,11 @@ type neededInputsType = {
 interface SaveInseratPageProps {
     thisInserat: typeof inserat.$inferSelect;
     neededInputs: neededInputsType[];
+    setCurrentPage : (newPage : number) => void;
     refetchInserat: () => void;
 }
 
-const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, refetchInserat }: SaveInseratPageProps, ref) => {
+const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, setCurrentPage, refetchInserat }: SaveInseratPageProps, ref) => {
 
     useImperativeHandle(ref, () => ({
         onSave: () => {
@@ -44,7 +45,9 @@ const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, refetchInserat 
 
     const renderMissingInputs = (inputField: neededInputsType) => {
         return (
-            <View className="p-2.5 rounded-md bg-[#222435] shadow-lg flex flex-row" key={inputField?.name}>
+            <TouchableOpacity className="p-2.5 rounded-md bg-[#222435] shadow-lg flex flex-row" key={inputField?.name} 
+            onPress={() => setCurrentPage(inputField?.page)}
+            >
                 <View className="w-1/4 p-4">
                     <MessageSquareWarningIcon size={24} className="text-rose-600" />
                 </View>
@@ -60,7 +63,7 @@ const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, refetchInserat 
                     </Text>
                 </View>
                 </View>
-            </View>
+            </TouchableOpacity>
         )
     }
 

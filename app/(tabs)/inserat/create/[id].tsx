@@ -259,7 +259,7 @@ const InseratCreationPage = () => {
             number: 13,
             title: "Inserat speichern",
             description: "Speichere dein Inserat um es jetzt oder später zu veröffentlichen.",
-            segment: <SaveInseratPage thisInserat={thisInserat} neededInputs={neededInputs} refetchInserat={refetchInserat} />
+            segment: <SaveInseratPage thisInserat={thisInserat} neededInputs={neededInputs} setCurrentPage={setCurrentPage} refetchInserat={refetchInserat} />
         }
     ];
 
