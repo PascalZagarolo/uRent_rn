@@ -42,6 +42,19 @@ const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, setCurrentPage,
 
     const usedKey = process.env.EXPO_PUBLIC_GOOGLE_CLOUD_SECRET;
 
+
+    const [isLoading, setIsLoading] = useState(false);
+
+    const onRelease = () => {
+        try {
+            if(isLoading) return;
+            setIsLoading(true);
+        } catch(e : any) {
+            console.log();
+        }
+    }
+
+
     useEffect(() => {
         console.log(usedKey)
     }, [])
