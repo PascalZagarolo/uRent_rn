@@ -1,7 +1,8 @@
 import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { GlobeIcon, MessageSquareWarningIcon } from "lucide-react-native";
+import { useRouter } from "expo-router";
+import { CheckIcon, GlobeIcon, MessageSquareWarningIcon } from "lucide-react-native";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import {
     Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
@@ -33,6 +34,8 @@ const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, setCurrentPage,
             console.log("Saving:");
         }
     }));
+
+    const router = useRouter();
 
     const missingInputs = neededInputs.filter(neededInput => neededInput.isMissing)
 
@@ -87,10 +90,14 @@ const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, setCurrentPage,
                             </TouchableOpacity>
                         </View>
                         <View className="mt-4">
-                            <TouchableOpacity className="bg-gray-800 w-full p-4 flex-row justify-center ml-auto rounded-md space-x-4">
+                            <TouchableOpacity className="bg-gray-800 w-full p-4 flex-row justify-center ml-auto rounded-md space-x-4"
+                            onPress={() => {
+                                router.push(`/dashboard/${thisInserat?.userId}`)
+                            }}
+                            >
                                 <FontAwesome5 name="save" size={24} color="white" />
                                 <Text className="text-base font-semibold text-gray-200">
-                                    Speichern & zur Startseite
+                                    Speichern & zum Dashboard
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -101,11 +108,22 @@ const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, setCurrentPage,
                         </Text>
                     </View>
                     <View className="mt-16 w-full">
+                    {missingInputs?.length > 0 ? (
                         <Text className="text-lg text-gray-200">
                             Folgende Felder fehlen noch:
                         </Text>
+                    ) : (
+                        <View className="flex flex-row items-center space-x-4 w-full">
+                            <View>
+                                <CheckIcon size={24} className="text-emerald-600"/>
+                            </View>
+                            <Text className="text-sm text-gray-200/60">
+                            Dein Inserat ist bereit zur Veröffentlichung
+                        </Text>
+                        </View>
+                    )}
                         <ScrollView className="h-72 mt-4 flex flex-col space-y-4">
-                            {missingInputs?.length > 0 && (
+                        {missingInputs?.length > 0 && (
                                 missingInputs?.map((neededInput, index) => (
                                     renderMissingInputs(neededInput)
                                 ))
