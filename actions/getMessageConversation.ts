@@ -1,5 +1,5 @@
-'use server'
-'use strict'
+
+
 
 import db from "@/db/drizzle";
 import { conversation, userTable } from "@/db/schema";
@@ -7,12 +7,8 @@ import { eq } from "drizzle-orm";
 import JWT from "expo-jwt";
 
 export async function getMessageConversation(conversationId : string) {
+    'use server'
     try {
-
-        
-        
-        
-
         if(!conversationId) {
             return null;
         }

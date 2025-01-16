@@ -1,4 +1,4 @@
-'use server'
+
 
 import db from "@/db/drizzle";
 import { twoFactorToken, userTable } from "@/db/schema";
@@ -6,6 +6,7 @@ import { and, eq } from "drizzle-orm";
 import JWT from "expo-jwt";
 
 export const checkFor2fa = async (values) => {
+    'use server'
     try {
 
         const { email, token } = values;

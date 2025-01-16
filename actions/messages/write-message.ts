@@ -1,5 +1,5 @@
 
-'use server'
+
 
 import db from "@/db/drizzle"
 import { conversation, message, notification } from "@/db/schema"
@@ -9,10 +9,8 @@ import { socket } from "@/lib/utils/socketService"
 import axios from "axios"
 
 export async function writeMessage(values: any) {
+    'use server'
     try {
-
-
-
         const currentUser = await getCurrentUser(values.token);
 
         if (!currentUser) {

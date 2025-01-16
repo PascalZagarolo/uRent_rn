@@ -4,8 +4,8 @@ import { userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function changeUser(values, authToken) {
+    "use server";
     try {
-        
         const currentUser = await getCurrentUser(authToken as string);
 
         if(!currentUser) {

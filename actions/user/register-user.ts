@@ -1,5 +1,5 @@
 
-'use server'
+
 
 
 import db from "@/db/drizzle";
@@ -25,6 +25,7 @@ function generateId(length) {
 }
 
 export const registerUser = async (values) => {
+    'use server'
     try {
 
         var bcrypt = require('bcryptjs');

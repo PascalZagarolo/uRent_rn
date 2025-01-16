@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "uRent",
-    "slug": "urent_rn",
+    "slug": "urent",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/urent-logo.png",
@@ -35,6 +35,15 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "476a0fca-6357-462b-85bd-f962d64d1512"
+      }
+    },
+    "owner": "paaaascal13"
   }
 }
