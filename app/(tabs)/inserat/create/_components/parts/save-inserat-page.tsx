@@ -1,3 +1,4 @@
+import { publishInserat } from "@/actions/inserat/publish/publish-inserat";
 import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
@@ -12,6 +13,8 @@ import {
     ScrollView
 } from "react-native";
 import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete'
+import * as SecureStorage from 'expo-secure-store';
+import Toast from "react-native-toast-message";
 
 type neededInputsType = {
     name: string;
@@ -45,12 +48,39 @@ const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, setCurrentPage,
 
     const [isLoading, setIsLoading] = useState(false);
 
-    const onRelease = () => {
+    const onRelease = async () => {
         try {
             if(isLoading) return;
             setIsLoading(true);
+            
+            const token = await SecureStorage.getItemAsync("authToken");
+
+            const values = {
+                inseratId : thisInserat?.id,
+                token: token       
+            }
+
+            if(thisInserat?.isPublished) {
+                await publishInserat(thisInserat?.id);
+                Toast.show({
+                    text1: "Inserat wurde veröffentlicht",
+                    text2: "Dein Inserat ist nun öffentlich sichtbar",
+                    type: "success",
+                    visibilityTime: 2000,
+                    autoHide: true,
+                    position: "bottom",
+                    bottomOffset: 50
+                })
+                
+                router.push(`/inserat/${thisInserat?.id}`);
+            } else {
+                await publishInserat(thisInserat?.id);
+            }
+
         } catch(e : any) {
             console.log();
+        } finally {
+            setIsLoading(false);
         }
     }
 
