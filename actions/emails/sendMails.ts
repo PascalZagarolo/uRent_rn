@@ -1,4 +1,4 @@
-'use server'
+
 
 import ConfirmUserDeletion from "@/mail/confirm-user-deletion";
 import { Resend } from "resend";
@@ -9,6 +9,7 @@ export const sendUserDeletedTokenMail = async (
     email: string,
     token : string
   ) => {
+    'use server'
     const confirmLink = `https://www.urent-rental.de/auth/delete-user?token=${token}`;
   
     await resend.emails.send({

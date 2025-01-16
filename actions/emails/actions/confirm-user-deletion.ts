@@ -1,4 +1,4 @@
-'use server'
+
 
 import { getCurrentUser } from "@/actions/getCurrentUser";
 import db from "@/db/drizzle";
@@ -9,8 +9,8 @@ import { sendUserDeletedTokenMail } from "../sendMails";
 import axios from "axios";
 
 export async function ConfirmUserDeleteFunction(authToken : string){
+    'use server'
     try {
-
         
         const currentUser = await getCurrentUser(authToken);
         

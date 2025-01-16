@@ -2,22 +2,20 @@ import { getCurrentUser } from "@/actions/getCurrentUser";
 import DrawerContentProfile from "@/components/_drawercontent/drawer-content-profile";
 import Footer from "@/components/_searchpage/footer";
 import Header from "@/components/_searchpage/header";
-import { useEffect, useMemo, useState } from "react";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import { useMemo, useState } from "react";
+import { ScrollView, View } from "react-native";
 import { useAuth } from "../AuthProvider";
 import { Drawer } from 'react-native-drawer-layout';
 import ConversationSearchHeader from "./_components/conversation-search-header";
 import { getConversations } from "@/actions/getConversations";
 import ConversationsRenderedList from "./_components/conversations-rendered-list";
 
-import { PusherEvent } from "@pusher/pusher-websocket-react-native";
+
 
 
 const ConversationPage = () => {
 
-    const renewMessages = () => {
-
-    } 
+    
 
 
  
