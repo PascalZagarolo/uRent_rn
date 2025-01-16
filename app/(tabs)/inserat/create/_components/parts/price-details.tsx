@@ -127,7 +127,6 @@ console.log(thisInserat.priceprofiles)
                 </View>
 
                 <View className="w-full mt-4 h-full">
-
                     <Text className="text-lg text-gray-200 font-semibold">
                         Preisprofile verwalten ({currentPriceProfiles?.length})
                     </Text>
