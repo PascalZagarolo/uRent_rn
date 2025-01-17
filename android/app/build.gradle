@@ -89,7 +89,6 @@ android {
     namespace 'com.paaaascal13.urentrn'
     defaultConfig {
         applicationId 'com.paaaascal13.urentrn',
-
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
