@@ -6,44 +6,71 @@
     "orientation": "portrait",
     "icon": "./assets/images/urent-logo.png",
     "newArchEnabled": true,
-    "scheme": "urent",
-    "userInterfaceStyle": "automatic",
-    "splash": {
-      "image": "./assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.anonymous.urent_rn"
-    },
-    "web": {
-      "bundler": "metro",
-      "output": "server",
-      "favicon": "./assets/images/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      "expo-font",
-      "expo-secure-store"
+    "scheme": "com.loy365.ppmobileapp",
+    "intentFilters": [
+      {
+        "autoVerify": true,
+        "action": "VIEW",
+        "data": [
+          {
+            "scheme": "com.loy365.ppmobileapp",
+            "host": "com.loy365.ppmobileapp"
+          }
+        ],
+        "category": [
+          "BROWSABLE",
+          "DEFAULT"
+        ]
+      }
     ],
-    "experiments": {
-      "typedRoutes": true
-    },
     "extra": {
-      "router": {
-        "origin": false
-      },
       "eas": {
         "projectId": "1e55c89f-b995-4be5-94b4-451d3a3ec381"
       }
     },
-    "owner": "paaaascal13"
-  }
+    "plugins": [
+      "patch-project"
+    ],
+    "android": {
+      "package": "com.paaaascal13.urentrn"
+    }
+  },
+  "userInterfaceStyle": "automatic",
+  "splash": {
+    "image": "./assets/images/splash.png",
+    "resizeMode": "contain",
+    "backgroundColor": "#ffffff"
+  },
+  "ios": {
+    "supportsTablet": true
+  },
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/images/adaptive-icon.png",
+      "backgroundColor": "#ffffff"
+    },
+    "package": "com.anonymous.urent_rn"
+  },
+  "web": {
+    "bundler": "metro",
+    "output": "server",
+    "favicon": "./assets/images/favicon.png"
+  },
+  "plugins": [
+    "expo-router",
+    "expo-font",
+    "expo-secure-store"
+  ],
+  "experiments": {
+    "typedRoutes": true
+  },
+  "extra": {
+    "router": {
+      "origin": false
+    },
+    "eas": {
+      "projectId": "1e55c89f-b995-4be5-94b4-451d3a3ec381"
+    }
+  },
+  "owner": "paaaascal13"
 }

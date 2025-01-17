@@ -86,13 +86,15 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.anonymous.urent_rn'
+    namespace 'com.paaaascal13.urentrn'
     defaultConfig {
-        applicationId 'com.anonymous.urent_rn'
+        applicationId 'com.paaaascal13.urentrn',
+
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0.0"
+        
     }
     signingConfigs {
         debug {
@@ -174,3 +176,5 @@ dependencies {
         implementation jscFlavor
     }
 }
+
+

@@ -1,4 +1,4 @@
-package com.anonymous.urent_rn
+package com.paaaascal13.urentrn
 import expo.modules.splashscreen.SplashScreenManager
 
 import android.os.Build

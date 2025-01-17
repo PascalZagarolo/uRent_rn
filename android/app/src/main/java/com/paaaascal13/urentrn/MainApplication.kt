@@ -1,4 +1,4 @@
-package com.anonymous.urent_rn
+package com.paaaascal13.urentrn
 
 import android.app.Application
 import android.content.res.Configuration
