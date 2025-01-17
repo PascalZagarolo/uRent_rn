@@ -1,5 +1,5 @@
 diff --git a/node_modules/react-native-tcp/android/build.gradle b/node_modules/react-native-tcp/android/build.gradle
-index c582eb7..becb0db 100644
+index c582eb7..23d99f4 100644
 --- a/node_modules/react-native-tcp/android/build.gradle
 +++ b/node_modules/react-native-tcp/android/build.gradle
 @@ -8,7 +8,7 @@ buildscript {
@@ -7,7 +7,7 @@ index c582eb7..becb0db 100644
  
      dependencies {
 -        classpath 'com.android.tools.build:gradle:1.2.3'
-+        classpath 'com.android.tools.build:gradle'
++        classpath 'com.android.tools.build:gradle:8.0.0'
      }
  }
  
