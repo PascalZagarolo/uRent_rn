@@ -227,7 +227,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
             "flex items-center justify-center w-2/12 bg-indigo-800 py-2 px-2 rounded-full",
             !currentText && "opacity-60"
           )}
-          onPress={() => { }}
+          onPress={onMessageSend}
           disabled={!currentText || isLoading}
         >
           <FontAwesome name="paper-plane" size={20} color="white" />

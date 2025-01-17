@@ -1,4 +1,4 @@
-import { getItem } from "expo-secure-store";
+
 import { Platform } from "react-native";
 import { io } from "socket.io-client";
 export const BaseUrl =
