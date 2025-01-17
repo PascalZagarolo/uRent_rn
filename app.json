@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "uRent",
-    "slug": "urent",
+    "slug": "urent-rn",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/urent-logo.png",
@@ -41,7 +41,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "476a0fca-6357-462b-85bd-f962d64d1512"
+        "projectId": "1e55c89f-b995-4be5-94b4-451d3a3ec381"
       }
     },
     "owner": "paaaascal13"
