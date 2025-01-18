@@ -86,7 +86,7 @@ android {
     buildToolsVersion rootProject.ext.buildToolsVersion
     compileSdk rootProject.ext.compileSdkVersion
 
-    namespace 'com.paaaascal13.urentrn'
+    namespace 'com.paaaascal13.urentrn',
     defaultConfig {
         applicationId 'com.paaaascal13.urentrn',
         minSdkVersion rootProject.ext.minSdkVersion
