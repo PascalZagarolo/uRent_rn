@@ -285,7 +285,7 @@ const MainPage = () => {
                                 />
                             </View>
                             {inserate.map((pInserat : any) => (
-                                <View key={pInserat.id} className="border-t border-b border-gray-800 mb-2">
+                                <View key={pInserat?.id} className="border-t border-b border-gray-800 mb-2">
                                     <InseratCard thisInserat={pInserat} currentUser={currentUser} onFav={(inseratId : string) => {onFav(inseratId)}} 
                                     isFaved={favs.find((fav : any) => fav.inseratId == pInserat?.id)}/>
                                 </View>
