@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "uRent",
-    "slug": "urent-rn",
+    "slug": "urent-mobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/urent-logo.png",
@@ -25,15 +25,17 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "1e55c89f-b995-4be5-94b4-451d3a3ec381"
+        "projectId": "8ff8e74e-49ad-40ef-852b-b531615e955e"
       }
     },
     "plugins": [
-      "patch-project"
+      "patch-project",
+      "expo-router"
     ],
     "android": {
       "package": "com.paaaascal13.urentrn"
-    }
+    },
+    "owner": "zgr13"
   },
   "userInterfaceStyle": "automatic",
   "splash": {
