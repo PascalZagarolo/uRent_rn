@@ -55,7 +55,7 @@ const Businessdescription = ({ thisDescription, isOwnProfile, username }: Busine
                     <Text className="text-base text-gray-200 font-semibold w-3/4 line-clamp-1">
                         über {username}
                     </Text>
-                    {isOwnProfile && !isEditing && (
+                    {(isOwnProfile && !isEditing) && (
                         <TouchableOpacity className="ml-auto p-2.5  rounded-md flex flex-row items-center" onPress={() => { setIsEditing(true) }}>
 
                             <PencilIcon className="text-gray-200 w-4 h-4 " />

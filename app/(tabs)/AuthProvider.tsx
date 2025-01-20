@@ -14,11 +14,11 @@ export const AuthProvider = ({ children }) => {
         console.log("...")
         const retrieveCurrentUser = async () => {
             try {
-                console.log("test")
+                console.log("test + retrieveCurrentUser")
                 const foundToken = await SecureStore.getItemAsync("authToken");
                
                 if (foundToken) {
-                    console.log("test")
+                    console.log("test + retrieveCurrentUser TOKEN")
                     
                     const res = await getCurrentUser(foundToken);
                     
@@ -46,7 +46,11 @@ export const AuthProvider = ({ children }) => {
             const foundToken = await SecureStore.getItemAsync("authToken");
             if (foundToken) {
                 const res = await getCurrentUser(foundToken);
-                setCurrentUser(res);
+                if(res) {
+                    setCurrentUser(res);
+                } else {
+                    setCurrentUser(null);
+                }
             } else {
                 setCurrentUser(null);
             }

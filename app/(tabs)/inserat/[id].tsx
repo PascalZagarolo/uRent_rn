@@ -81,7 +81,9 @@ const InseratPage =  () => {
         <SafeAreaView className="bg-[#161923] flex-1">
             <ScrollView>
             {thisInserat && <InseratRender thisInserat={thisInserat} currentUserId={user?.id} 
-            isFaved={user.favourites.some(favourites => favourites.inseratId == thisInserat?.id)} />}
+            isFaved={
+                user?.favourites ? user?.favourites?.some(favourites => favourites.inseratId == thisInserat?.id) : false
+            } />}
             </ScrollView>
         </SafeAreaView>
      );

@@ -34,6 +34,7 @@ const MainPage = () => {
 
 
     useEffect(() => {
+        console.log("MAINPAGEPAGEPAGEPAGE")
         const load = async () => {
 
             try {
@@ -115,6 +116,9 @@ const MainPage = () => {
         const loadUser = async () => {
             try {
                 const jwtString = await SecureStore.getItemAsync("authToken");
+                if(!jwtString) {
+                    setCurrentUser(null);
+                }
                 const foundUser = await getCurrentUserMainPage(jwtString);
                 if(foundUser) {
                     setCurrentUser(foundUser);
@@ -206,7 +210,7 @@ const MainPage = () => {
 
     return (
         <View className="flex-1  bg-[#1F2332] w-full">
-            <Drawer
+             <Drawer
                 open={isNotificationsVisible}
                 onOpen={() => { setIsNotificationsVisible(true) }}
                 onClose={() => { setIsNotificationsVisible(false) }}
@@ -299,7 +303,7 @@ const MainPage = () => {
                         </ScrollView>
                     </Drawer>
                 </Drawer>
-            </Drawer>
+            </Drawer> 
         </View>
     );
 }

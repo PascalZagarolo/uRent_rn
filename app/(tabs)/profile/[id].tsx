@@ -14,6 +14,7 @@ import ImageDialog from "./_components/business-render/_components/_tabs/_dialog
 import BannerDialog from "./_components/business-render/_components/_tabs/_dialogs/banner-dialog";
 import SwitchProfileDialog from "./_components/business-render/_components/_tabs/_dialogs/switch-profile-dialog";
 import { ArrowLeft, ArrowRight } from "lucide-react-native";
+import { useAuth } from "../AuthProvider";
 
 
 
@@ -24,6 +25,8 @@ const ProfilePage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
 
     const [user, setUser] = useState<any | null>(null);
+    
+    const { currentUser } = useAuth();
 
     const findUser = async () => {
         try {
@@ -73,12 +76,18 @@ const ProfilePage = () => {
         }
     }
 
+   
+
     useEffect(() => {
         findUser();
+
     }, [])
 
+    
+
     const onReload = async () => {
-        findUser()
+        findUser();
+        
     }
 
     type openTypes = "edit" | "delete"
@@ -101,7 +110,9 @@ const ProfilePage = () => {
     const [bannerUrl, setBannerUrl] = useState<string | null>(null);
     const [switchProfile, setSwitchProfile] = useState<boolean>(false);
 
-    const isOwner = user?.id === id;
+    const isOwner = user?.id == currentUser?.id;
+
+    
 
     const router = useRouter();
 

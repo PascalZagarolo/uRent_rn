@@ -86,7 +86,7 @@
     "punycode": "^1.2.4",
     "pusher": "^5.2.0",
     "pusher-js": "^8.4.0-rc2",
-    "query-string": "^9.1.0",
+    "query-string": "^9.1.1",
     "react": "^18.3.1",
     "react-dom": "18.3.1",
     "react-native": "^0.76.6",

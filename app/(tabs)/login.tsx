@@ -8,9 +8,9 @@ const LoginPage = () => {
         <SafeAreaView className="flex-1 items-center justify-center bg-[#1F2332]">
             <BackToMain />
 
-            <View className="px-4">
-                <MainForm />
-            </View>
+<View className="px-4">
+    <MainForm />
+</View>
         </SafeAreaView>
     );
 }

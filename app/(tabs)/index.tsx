@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Image, Platform, Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { SafeAreaFrameContext } from 'react-native-safe-area-context';
+
 import { useRouter } from 'expo-router';
 
-import { AppRegistry } from 'react-native';
+
 import { useAuth } from './AuthProvider';
 
 export default function HomeScreen() {
@@ -22,6 +18,7 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
+    console.log("LOGIN PAGE LOGIN PAGE LOGIN PAGE LOGIN PAGE LOGIN PAGE")
     if (hasRendered && currentUser) {
       router.push(`/mainpage`);
     }
@@ -30,7 +27,7 @@ export default function HomeScreen() {
   if (!currentUser) {
     return (
       <View className="flex-1 items-center justify-center bg-[#1F2332]">
-        <View className="flex flex-col items-center">
+        {/* <View className="flex flex-col items-center">
           <Text className="text-xl font-semibold text-gray-200">
             Willkommen auf
           </Text>
@@ -63,7 +60,7 @@ export default function HomeScreen() {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </View> */}
       </View>
     );
   }

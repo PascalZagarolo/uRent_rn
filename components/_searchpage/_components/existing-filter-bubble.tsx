@@ -2,7 +2,7 @@ import { useSavedSearchParams } from "@/store";
 
 
 import { useState } from "react";
-import qs from 'query-string';
+
 
 import { format } from "date-fns";
 import { useRouter } from "expo-router";
@@ -345,25 +345,25 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
                 usedEnd = filteredValues?.periodBegin;
             }
         }
-        const url = qs.stringifyUrl({
-            url: "/",
-            //@ts-ignore
-            query: {
-                //@ts-ignore
-                category: thisCategory,
-                //@ts-ignore
-                periodBegin: filteredValues?.periodBegin ? filteredValues?.periodBegin : null,
-                //@ts-ignore
-                periodEnd: filteredValues?.periodEnd ? filteredValues?.periodEnd : null,
-                //@ts-ignore
-                type: filteredValues?.thisType ? filteredValues.thisType : null,
-                ...filteredValues
-            },
+        // const url = qs.stringifyUrl({
+        //     url: "/",
+        //     //@ts-ignore
+        //     query: {
+        //         //@ts-ignore
+        //         category: thisCategory,
+        //         //@ts-ignore
+        //         periodBegin: filteredValues?.periodBegin ? filteredValues?.periodBegin : null,
+        //         //@ts-ignore
+        //         periodEnd: filteredValues?.periodEnd ? filteredValues?.periodEnd : null,
+        //         //@ts-ignore
+        //         type: filteredValues?.thisType ? filteredValues.thisType : null,
+        //         ...filteredValues
+        //     },
 
-        }, { skipEmptyString: true, skipNull: true })
+        // }, { skipEmptyString: true, skipNull: true })
 
-        console.log(url)
-        router.push(url as any);
+        // console.log(url)
+        // router.push(url as any);
     }
     return (
         <TouchableOpacity className="flex flex-row items-center space-x-1 bg-[#1b1e2b] p-2 rounded-md"
