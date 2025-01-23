@@ -3,13 +3,14 @@
 
 import { FontAwesome } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import { useRouter } from "expo-router";
 import * as SecureStore from 'expo-secure-store';
 import { createLogin } from "@/app/api";
 import Toast from "react-native-toast-message";
 import Twofa from "./_components/2fa";
+import * as SecureStorage from 'expo-secure-store';
 
 interface LoginFormProps {
     show2Fa : boolean;
@@ -72,7 +73,7 @@ const LoginForm : React.FC<LoginFormProps> = ({
     useEffect(() => {
         const checkLoginStatus = async () => {
             try {
-                const token = await AsyncStorage.getItem("authToken");
+                const token = await SecureStorage.getItem("authToken");
                 if (token) {
                     router.replace("/")
                 }

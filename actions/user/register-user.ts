@@ -5,8 +5,7 @@
 import db from "@/db/drizzle";
 import { userTable, verificationTokens } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import bcrypt from 'bcryptjs';
-import BcryptReactNative from 'bcrypt-react-native';
+
 import isaac from "isaac";
 
 import uuid from 'react-native-uuid';

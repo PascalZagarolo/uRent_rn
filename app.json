@@ -30,7 +30,8 @@
     },
     "plugins": [
       "patch-project",
-      "expo-router"
+      "expo-router",
+      "config-plugin-rn76-expo52"
     ],
     "android": {
       "package": "com.paaaascal13.urentrn"
