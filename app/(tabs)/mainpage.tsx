@@ -209,7 +209,7 @@ const MainPage = () => {
 
 
     return (
-        <View className="flex-1  bg-[#1F2332] w-full">
+        <View className="flex-1 h-full  bg-[#1F2332] w-full">
              <Drawer
                 open={isNotificationsVisible}
                 onOpen={() => { setIsNotificationsVisible(true) }}
@@ -237,12 +237,12 @@ const MainPage = () => {
                     drawerStyle={{ width: '100%' }}
                     renderDrawerContent={() => {
                         return (
-                            currentUser && (
+                            
                                 <DrawerSearchFilter
                                     toggleFilter={toggleFilter}
                                     currentResults={inserate.length as number}
                                 />
-                            )
+                           
                         )
                     }}
                 >

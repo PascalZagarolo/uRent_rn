@@ -14,7 +14,7 @@ const InseratConditions : React.FC<InseratConditionsProps> = ({
             <View>
                 <Text className="text-lg font-semibold flex flex-row gap-x-2 items-center text-gray-200">
                     <View>
-                    <FontAwesome name="bookmark" size={20} color="white" />
+                    
                     </View>Rahmenbedingungen
                 </Text>
             </View>
@@ -23,16 +23,17 @@ const InseratConditions : React.FC<InseratConditionsProps> = ({
                 <View className="space-y-2">
                 {thisInserat?.caution && (
                     <View className="w-full flex flex-row items-center">
-                        <View className="w-1/2 ">
-                            <Text className="text-gray-200 text-sm font-semibold flex flex-row items-center gap-x-2">
-                            <View className="">
-                            <FontAwesome5 name="money-check" size={16} color="white" />
+                        <View className="w-1/2 flex flex-row items-center">
+                            
+                            <View className="mr-2">
+                            <FontAwesome5 name="money-check" size={12} color="white" />
                             </View>
+                            <Text className="text-gray-200 text-base font-medium break-all line-clamp-1" numberOfLines={1}>
                             Kaution
-                            </Text>
+                           </Text>
                         </View>
                         <View className="w-1/2">
-                        <Text className="text-gray-200 text-lg font-medium break-all line-clamp-1" numberOfLines={1}>
+                        <Text className="text-gray-200 text-base font-medium break-all line-clamp-1" numberOfLines={1}>
                             {thisInserat?.caution} €
                             </Text>
                         </View>
@@ -41,16 +42,17 @@ const InseratConditions : React.FC<InseratConditionsProps> = ({
 
 {thisInserat?.reqAge && (
                     <View className="w-full flex flex-row items-center">
-                        <View className="w-1/2 ">
-                            <Text className="text-gray-200 text-sm font-semibold flex flex-row items-center gap-x-2">
-                            <View className="">
-                            <FontAwesome5 name="user-circle" size={16} color="white" />
+                        <View className="w-1/2 flex flex-row items-center">
+                            
+                            <View className="mr-4">
+                            <FontAwesome5 name="user-circle" size={12} color="white" />
                             </View>
+                            <Text className="text-gray-200 text-sm font-semibold flex flex-row items-center gap-x-2">
                             Mindestalter
                             </Text>
                         </View>
                         <View className="w-1/2">
-                        <Text className="text-gray-200 text-lg font-medium break-all line-clamp-1" numberOfLines={1}>
+                        <Text className="text-gray-200 text-base font-medium break-all line-clamp-1" numberOfLines={1}>
                             {thisInserat?.reqAge} Jahre
                             </Text>
                         </View>

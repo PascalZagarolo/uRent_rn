@@ -1,13 +1,32 @@
 diff --git a/node_modules/react-native-avoid-softinput/android/build.gradle b/node_modules/react-native-avoid-softinput/android/build.gradle
-index 8197972..6ac671c 100644
+index 8197972..c571a9f 100644
 --- a/node_modules/react-native-avoid-softinput/android/build.gradle
 +++ b/node_modules/react-native-avoid-softinput/android/build.gradle
+@@ -8,7 +8,7 @@ buildscript {
+   }
+ 
+   dependencies {
+-    classpath("com.android.tools.build:gradle:8.5.0")
++    classpath("com.android.tools.build:gradle:8.8.0")
+     // noinspection DifferentKotlinGradleVersion
+     classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+     classpath "com.diffplug.spotless:spotless-plugin-gradle:6.25.0"
 @@ -152,7 +152,7 @@ def kotlin_coroutines_version = getExtOrDefault('kotlinCoroutinesVersion')
  def androidX_core_ktx_version = getExtOrDefault('androidXCoreKtxVersion')
  
  dependencies {
 -  implementation "com.facebook.react:react-android" // Set by the React Native Gradle Plugin
-+  implementation "com.facebook.react:react-native:0.76.6" // Set by the React Native Gradle Plugin
++  implementation('com.facebook.react:react-native:0.76.6')
    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutines_version"
    implementation "androidx.core:core-ktx:$androidX_core_ktx_version"
+diff --git a/node_modules/react-native-avoid-softinput/android/gradle.properties b/node_modules/react-native-avoid-softinput/android/gradle.properties
+index f61e6d9..d1163b2 100644
+--- a/node_modules/react-native-avoid-softinput/android/gradle.properties
++++ b/node_modules/react-native-avoid-softinput/android/gradle.properties
+@@ -1,4 +1,4 @@
+-AvoidSoftinput_kotlinVersion=1.8.0
++AvoidSoftinput_kotlinVersion=1.9.24
+ AvoidSoftinput_compileSdkVersion=34
+ AvoidSoftinput_buildToolsVersion=34.0.0
+ AvoidSoftinput_targetSdkVersion=34

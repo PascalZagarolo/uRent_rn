@@ -57,6 +57,7 @@ const InseratPage =  () => {
             try {
                 const authToken = await SecureStorage.getItemAsync('authToken');
 
+                
                 const foundUser = await getCurrentUserInseratPage(authToken);
 
                 if(foundUser) {
@@ -78,10 +79,11 @@ const InseratPage =  () => {
     
     
     return ( 
-        <SafeAreaView className="bg-[#161923] flex-1">
+        <SafeAreaView className="bg-[#161923] flex-1 h-full w-full">
             <ScrollView>
             {thisInserat && <InseratRender thisInserat={thisInserat} currentUserId={user?.id} 
             isFaved={
+                // @ts-ignore
                 user?.favourites ? user?.favourites?.some(favourites => favourites.inseratId == thisInserat?.id) : false
             } />}
             </ScrollView>
