@@ -1,7 +1,7 @@
 import { SafeAreaView, ScrollView, Text, View } from "react-native";
 import InseratRender from "./_components/inserat-render";
 import db from "@/db/drizzle";
-import { images, inserat, lkwAttribute, pkwAttribute, priceprofile, userTable } from "@/db/schema";
+import { images, inserat, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
@@ -12,7 +12,8 @@ import { getCurrentUserInseratPage } from "@/actions/retrieveUser/inserat-page/g
 
 const InseratPage =  () => {
 
-    const { id } = useLocalSearchParams<{ id: string }>();
+    try {
+        const { id } = useLocalSearchParams<{ id: string }>();
 
     const [thisInserat, setThisInserat] = useState<any>();
     const [user, setUser] = useState<typeof userTable.$inferSelect | null>();
@@ -89,6 +90,18 @@ const InseratPage =  () => {
             </ScrollView>
         </SafeAreaView>
      );
+    } catch(e) {
+        return (
+            <SafeAreaView className="bg-[#161923] flex-1 h-full w-full">
+                <ScrollView>
+                    <Text className="text-white">Fehler beim Laden des Inserats</Text>
+                    <Text>
+                        {e}
+                    </Text>
+                </ScrollView>
+            </SafeAreaView>
+        )
+    }
 }
  
 export default InseratPage;
