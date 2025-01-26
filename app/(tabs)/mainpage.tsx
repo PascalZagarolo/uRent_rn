@@ -34,7 +34,7 @@ const MainPage = () => {
 
 
     useEffect(() => {
-        console.log("MAINPAGEPAGEPAGEPAGE")
+        
         const load = async () => {
 
             try {

@@ -5,8 +5,9 @@ import { images, inserat, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import * as SecureStorage from "expo-secure-store";
+
 import { getCurrentUserInseratPage } from "@/actions/retrieveUser/inserat-page/getCurrentUserInseratPage";
+import * as SecureStorage from 'expo-secure-store';
 
 const InseratPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -57,9 +58,9 @@ const InseratPage = () => {
     const loadUser = async () => {
       try {
         const authToken = await SecureStorage.getItemAsync("authToken");
-        if (!authToken) throw new Error("No auth token found");
+        if (!authToken) return;
 
-        const foundUser: Awaited<ReturnType<typeof getCurrentUserInseratPage>> =
+        const foundUser =
           await getCurrentUserInseratPage(authToken);
          
         if(foundUser) {
@@ -72,8 +73,18 @@ const InseratPage = () => {
       }
     };
 
-    loadInserat();
-    loadUser();
+    const loadBoth = async () => {
+      try {
+        await loadUser();
+        await loadInserat();
+        
+      } catch(e : any) {
+        setError(e)
+      }
+    };
+
+    loadBoth();
+   
   }, [id]); // Add `id` to dependencies
 
   if (error) {
@@ -82,7 +93,7 @@ const InseratPage = () => {
       <SafeAreaView className="bg-[#161923] flex-1 h-full w-full">
         <ScrollView>
           <Text className="text-white">Fehler:</Text>
-          <Text className="text-white">{error}</Text>
+          <Text className="text-white mt-8">{error}</Text>
         </ScrollView>
       </SafeAreaView>
     );
@@ -97,8 +108,8 @@ const InseratPage = () => {
             currentUserId={user?.id}
             isFaved={
               user?.favourites
-                ? user?.favourites.some(
-                    (favourites) => favourites.inseratId === thisInserat?.id
+                ? user?.favourites?.some(
+                    (favourites) => favourites?.inseratId === thisInserat?.id
                   )
                 : false
             }

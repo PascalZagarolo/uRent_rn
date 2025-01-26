@@ -1,7 +1,7 @@
 
 
 import db from "@/db/drizzle";
-import { images, notification, userTable } from "@/db/schema";
+import { userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import JWT from "expo-jwt";
 

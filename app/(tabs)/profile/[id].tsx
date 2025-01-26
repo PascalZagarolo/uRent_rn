@@ -13,7 +13,7 @@ import { set } from 'date-fns';
 import ImageDialog from "./_components/business-render/_components/_tabs/_dialogs/image-dialog";
 import BannerDialog from "./_components/business-render/_components/_tabs/_dialogs/banner-dialog";
 import SwitchProfileDialog from "./_components/business-render/_components/_tabs/_dialogs/switch-profile-dialog";
-import { ArrowLeft, ArrowRight } from "lucide-react-native";
+import { ArrowLeft } from "lucide-react-native";
 import { useAuth } from "../AuthProvider";
 
 
