@@ -12,11 +12,13 @@ export async function getCurrentUserInseratPage(jwtString : string) {
 
     try {
 
+        if(!jwtString) {
+            return false;
+        }
         
         const decodedToken = await JWT.decode(jwtString, process.env.EXPO_PUBLIC_JWT_TOKEN as string);
        
         
-
         if(!decodedToken?.userId) {
             return false;
         }
@@ -30,10 +32,6 @@ export async function getCurrentUserInseratPage(jwtString : string) {
                 favourites : true
             }
         })
-
-        
-
-        
 
         return retrievedUser;
 

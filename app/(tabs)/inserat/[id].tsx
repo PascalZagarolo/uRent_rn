@@ -5,103 +5,110 @@ import { images, inserat, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
-import { businessAddress } from '../../../db/schema';
-import * as SecureStorage from 'expo-secure-store';
+import * as SecureStorage from "expo-secure-store";
 import { getCurrentUserInseratPage } from "@/actions/retrieveUser/inserat-page/getCurrentUserInseratPage";
 
+const InseratPage = () => {
+  const { id } = useLocalSearchParams<{ id: string }>();
 
-const InseratPage =  () => {
+  const [thisInserat, setThisInserat] = useState<any>();
+  const [user, setUser] = useState<any | null>(null);
+  const [error, setError] = useState<string | null>(null); // Add error state
 
-    try {
-        const { id } = useLocalSearchParams<{ id: string }>();
+  useEffect(() => {
+    const loadInserat = async () => {
+      try {
+        const thisInserat = await db.query.inserat.findFirst({
+          where: eq(inserat.id, id),
+          with: {
+            user: {
+              with: {
+                business: {
+                  with: {
+                    businessAddresses: true,
+                  },
+                },
+                inserat: {
+                  with: {
+                    images: true,
+                  },
+                },
+              },
+            },
+            images: {
+              orderBy: (created_at, { asc }) => [asc(images.position)],
+            },
+            address: true,
+            priceprofiles: true,
+            pkwAttribute: true,
+            lkwAttribute: true,
+            transportAttribute: true,
+            trailerAttribute: true,
+          },
+        });
 
-    const [thisInserat, setThisInserat] = useState<any>();
-    const [user, setUser] = useState<typeof userTable.$inferSelect | null>();
+        setThisInserat(thisInserat);
+      } catch (e) {
+        console.error("Error loading Inserat:", e);
+        setError("Fehler beim Laden des Inserats.");
+      }
+    };
 
-    useEffect(() => {
-        const loadInserat = async () => {
-            const thisInserat = await db.query.inserat.findFirst({
-                where : eq(
-                    inserat.id, id
-                ), with : {
-                    user : {
-                        with : {
-                            business : {
-                                with : {
-                                    businessAddresses : true
-                                }
-                            },
-                            inserat : {
-                                with : {
-                                    images : true,
-                                }
-                            },
-                        }
-                    },
-                    
-                    images: {
-                        orderBy: (created_at, { asc }) => [asc(images.position)],
-                    },
-                    address : true,
-                    priceprofiles : true,
-                    pkwAttribute : true,
-                    lkwAttribute : true,
-                    transportAttribute : true,
-                    trailerAttribute : true,
-                }
-            })
-            
-            setThisInserat(thisInserat);
+    const loadUser = async () => {
+      try {
+        const authToken = await SecureStorage.getItemAsync("authToken");
+        if (!authToken) throw new Error("No auth token found");
+
+        const foundUser: Awaited<ReturnType<typeof getCurrentUserInseratPage>> =
+          await getCurrentUserInseratPage(authToken);
+         
+        if(foundUser) {
+            setUser(foundUser);
         }
+      } catch (e) {
+        console.error("Error loading user:", e);
+        setError("Fehler beim Laden des Benutzers.");
+        setUser(null);
+      }
+    };
 
-        const loadUser = async () => {
-            try {
-                const authToken = await SecureStorage.getItemAsync('authToken');
+    loadInserat();
+    loadUser();
+  }, [id]); // Add `id` to dependencies
 
-                
-                const foundUser = await getCurrentUserInseratPage(authToken);
+  if (error) {
+    // Render error state
+    return (
+      <SafeAreaView className="bg-[#161923] flex-1 h-full w-full">
+        <ScrollView>
+          <Text className="text-white">Fehler:</Text>
+          <Text className="text-white">{error}</Text>
+        </ScrollView>
+      </SafeAreaView>
+    );
+  }
 
-                if(foundUser) {
-                    setUser(foundUser as any);
-                } else {
-                    setUser(null);
-                }
-
-            } catch(e) {
-                console.log(e);
-                setUser(null);
-            }
-        }
-
-        loadInserat();
-        loadUser();
-    }, [])
-
-    
-    
-    return ( 
-        <SafeAreaView className="bg-[#161923] flex-1 h-full w-full">
-            <ScrollView>
-            {thisInserat && <InseratRender thisInserat={thisInserat} currentUserId={user?.id} 
+  return (
+    <SafeAreaView className="bg-[#161923] flex-1 h-full w-full">
+      <ScrollView>
+        {thisInserat ? (
+          <InseratRender
+            thisInserat={thisInserat}
+            currentUserId={user?.id}
             isFaved={
-                // @ts-ignore
-                user?.favourites ? user?.favourites?.some(favourites => favourites.inseratId == thisInserat?.id) : false
-            } />}
-            </ScrollView>
-        </SafeAreaView>
-     );
-    } catch(e) {
-        return (
-            <SafeAreaView className="bg-[#161923] flex-1 h-full w-full">
-                <ScrollView>
-                    <Text className="text-white">Fehler beim Laden des Inserats</Text>
-                    <Text>
-                        {e}
-                    </Text>
-                </ScrollView>
-            </SafeAreaView>
-        )
-    }
-}
- 
+              user?.favourites
+                ? user?.favourites.some(
+                    (favourites) => favourites.inseratId === thisInserat?.id
+                  )
+                : false
+            }
+          />
+        ) : (
+          <Text className="text-white">Lade Inserat...</Text>
+        )}
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
 export default InseratPage;
