@@ -1,4 +1,4 @@
-import { inserat } from "@/db/schema";
+import { images, inserat } from "@/db/schema";
 import { Text, View, ScrollView  } from "react-native";
 
 import MoreContentCard from "./more-content-card";
@@ -7,7 +7,7 @@ import { FontAwesome } from "@expo/vector-icons";
 
 interface InseratMoreContentProps {
     username : string;
-    foundInserat : typeof inserat.$inferSelect[];
+    foundInserat : typeof inserat.$inferSelect[] & { images : typeof images.$inferSelect } | any;
 }
 
 const InseratMoreContent : React.FC<InseratMoreContentProps> = ({
@@ -21,7 +21,7 @@ const InseratMoreContent : React.FC<InseratMoreContentProps> = ({
         <View>
             <View>
                 <Text className="text-lg text-gray-200 font-semibold">
-                    Weitere Inhalte ({matchingInserate.length})
+                    Weitere Inhalte ({matchingInserate?.length})
                 </Text>
                 <View className=" flex flex-row items-center space-x-4" >
                     <View className="">
@@ -35,7 +35,7 @@ const InseratMoreContent : React.FC<InseratMoreContentProps> = ({
             <View className="mt-4">
                 <ScrollView className="max-h-72 border-t-2 border-b-2 border-gray-600  space-y-4">
                     {matchingInserate.map(inserat => (
-                        <View className="" key={inserat?.id}>
+                        <View className="" key={inserat?.id ?? ""}>
                             <MoreContentCard 
                         thisTitle={inserat.title}
                         inseratId={inserat.id}

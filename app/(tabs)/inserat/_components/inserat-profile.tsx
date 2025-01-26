@@ -7,13 +7,12 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { businessAddress, address } from '../../../../db/schema';
 
 interface InseratProfileProps {
-    thisUser : typeof userTable.$inferSelect;
+    thisUser : typeof userTable.$inferSelect & { inserat, business : typeof business.$inferSelect & { businessAddresses : typeof businessAddress.$inferSelect[] } };
     
 }
 
 
 const InseratProfile : React.FC<InseratProfileProps> = ({
-    
     thisUser
 }) => {
 

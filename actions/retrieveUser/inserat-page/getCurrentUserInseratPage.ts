@@ -37,6 +37,6 @@ export async function getCurrentUserInseratPage(jwtString : string) {
 
     } catch(e : any) {
         console.log(e);
-        return false;
+        throw new Error("Error retrieving user");
     } 
 }

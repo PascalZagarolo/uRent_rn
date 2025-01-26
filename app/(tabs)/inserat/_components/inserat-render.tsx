@@ -14,7 +14,7 @@ import { ArrowLeft } from "lucide-react-native";
 import { useRouter } from "expo-router";
 
 interface InseratRenderProps {
-    thisInserat: typeof inserat.$inferSelect;
+    thisInserat: typeof inserat.$inferSelect & { user, address };
     currentUserId?: string;
     isFaved : boolean;
 }
