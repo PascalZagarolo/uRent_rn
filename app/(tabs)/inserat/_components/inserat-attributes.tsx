@@ -1,13 +1,13 @@
 import { inserat } from "@/db/schema";
 import { Text, View } from "react-native";
 import PkwAttributeRender from "./inserat-attributes/pkw-attributes";
-import { pkwAttribute } from '../../../../db/schema';
+
 import LkwAttributeRender from "./inserat-attributes/lkw-attributes";
 import TransportAttributeRender from "./inserat-attributes/transport-attributes";
 import TrailerAttributeRender from "./inserat-attributes/trailer-attributes";
 
 interface InseratAttributesProps {
-    thisInserat : typeof inserat.$inferSelect
+    thisInserat : typeof inserat.$inferSelect & { pkwAttribute, lkwAttribute, transportAttribute, trailerAttribute }
 }
 
 const InseratAttributes : React.FC<InseratAttributesProps> = ({

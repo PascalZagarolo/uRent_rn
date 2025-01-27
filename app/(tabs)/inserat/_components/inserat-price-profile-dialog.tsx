@@ -1,7 +1,7 @@
 import { priceprofile } from "@/db/schema";
-import { Dialog, DialogContent, DialogOverlay, DialogPortal, DialogTrigger } from "@/~/components/ui/dialog";
+
 import { Text, View } from "react-native";
-import * as DialogPrimitive from '@rn-primitives/dialog';
+
 
 interface InseratPriceProfileDialogProps {
   thisPriceProfile: typeof priceprofile.$inferSelect

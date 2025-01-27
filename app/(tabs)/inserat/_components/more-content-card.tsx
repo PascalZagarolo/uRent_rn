@@ -27,10 +27,12 @@ const MoreContentCard : React.FC<MoreContentCardProps> = ({
                 </Text>
             </View>
             <View className="mt-2">
-                <Image 
-                source={{uri: usedImage.url}}
-                className="h-32 w-full"
-                />
+                {usedImage && (
+                    <Image 
+                    source={{uri: usedImage?.url}}
+                    className="h-32 w-full"
+                    />
+                )}
             </View>
         </TouchableOpacity>
      );

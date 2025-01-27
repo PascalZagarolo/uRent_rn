@@ -5,7 +5,7 @@ import { lkwAttribute } from "@/db/schema";
 import { FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
 
 import { format } from "date-fns";
-import { Text, View, ViewBase } from "react-native";
+import { Text, View } from "react-native";
 
 interface LkwAttributeRenderProps {
     attributes: typeof lkwAttribute.$inferSelect

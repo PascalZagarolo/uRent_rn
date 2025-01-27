@@ -7,6 +7,13 @@ import { format } from "date-fns";
 
 import { useRouter } from "expo-router";
 import InseratOptions from "./inserat-options";
+import InseratPriceProfiles from "./inserat-price-profiles";
+import InseratConditions from "./inserat-conditions";
+import InseratContactOptions from "./inserat-contact-options";
+import InseratDescription from "./inserat-description";
+import InseratAttributes from "./inserat-attributes";
+import InseratProfile from "./inserat-profile";
+import InseratMoreContent from "./inserat-user-more-content";
 
 interface InseratRenderProps {
     thisInserat: typeof inserat.$inferSelect & { user, address, images };
@@ -115,7 +122,7 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                     isFaved={isFaved}
                     />
                 </View> 
-                {/* <View>
+                 <View>
                     <InseratPriceProfiles
                         thisInserat={thisInserat}
                     />
@@ -150,7 +157,7 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                         username={thisInserat.user.name}
                         foundInserat={thisInserat.user.inserat}
                     />
-                </View> */}
+                </View> 
             </View>
         </View>
     );

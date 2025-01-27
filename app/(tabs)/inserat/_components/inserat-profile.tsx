@@ -4,7 +4,7 @@ import { format } from "date-fns/format";
 import { useRouter } from "expo-router";
 
 import { Image, Text, TouchableOpacity, View } from "react-native";
-import { businessAddress, address } from '../../../../db/schema';
+import { businessAddress } from '../../../../db/schema';
 
 interface InseratProfileProps {
     thisUser : typeof userTable.$inferSelect & { inserat, business : typeof business.$inferSelect & { businessAddresses : typeof businessAddress.$inferSelect[] } };
