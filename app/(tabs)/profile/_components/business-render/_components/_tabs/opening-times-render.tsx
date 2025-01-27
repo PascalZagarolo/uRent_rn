@@ -1,6 +1,7 @@
 import { openingTimes } from "@/db/schema";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { is } from "drizzle-orm";
-import { ClockIcon, PencilIcon } from "lucide-react-native";
+
 import { Text, TouchableOpacity, View } from "react-native";
 
 interface OpeningTimesRenderProps {
@@ -48,13 +49,13 @@ const OpeningTimesRender = ({ foundTimes, setOpenOpeningTimes, isOwn, foundOpeni
     return (
         <View className="">
             <View className="flex flex-row items-center">
-                <ClockIcon className="w-4 h-4 mr-4" />
+                <MaterialCommunityIcons name="clock-time-four-outline" size={24} color="white" />
                 <Text className="text-lg font-semibold text-gray-200">
                     Öffnungszeiten
                 </Text>
                 {isOwn && (
                     <TouchableOpacity onPress={() => setOpenOpeningTimes(true)} className="flex flex-row items-center ml-auto p-2.5 rounded-md shadow-lg">
-                    <PencilIcon className="w-4 h-4 mr-2 text-gray-200" />
+                    <MaterialCommunityIcons name="pencil" size={24} color="white" />
                     
                 </TouchableOpacity>
                 )}

@@ -1,4 +1,4 @@
-import { PencilIcon, SaveAllIcon, SaveIcon, ScaleIcon, XIcon } from "lucide-react-native";
+
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, TextInput } from "react-native";
 import { TouchableOpacity } from "react-native";
@@ -6,6 +6,7 @@ import { Text, View } from "react-native";
 import Toast from "react-native-toast-message";
 import * as SecureStorage from 'expo-secure-store';
 import { editImprintBusiness } from "@/actions/business/imprint/edit-imprint";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface ImprintRenterProps {
     imprint: string;
@@ -51,7 +52,7 @@ const ImprintRender = ({ imprint, isOwn }: ImprintRenterProps) => {
         <View>
 
             <View className="flex flex-row items-center">
-                <ScaleIcon className="w-4 h-4 mr-4" />
+            <MaterialCommunityIcons name="scale-balance" size={24} color="white" className="mr-4" />
                 <Text className="text-lg font-semibold text-gray-200">
                     Impressum
                 </Text>
@@ -59,15 +60,15 @@ const ImprintRender = ({ imprint, isOwn }: ImprintRenterProps) => {
                     isEditing ? (
                         <View className="ml-auto flex flex-row items-center px-4 space-x-8">
                             <TouchableOpacity onPress={() => setIsEditing(false)}>
-                                <SaveAllIcon className="w-4 h-4 text-indigo-800" />
+                            <MaterialCommunityIcons name="content-save" size={24} color="white" />
                             </TouchableOpacity>
                             <TouchableOpacity onPress={() => setIsEditing(false)}>
-                                <XIcon className="w-4 h-4 text-gray-200" />
+                                <MaterialCommunityIcons name="close" size={24} color="white" />
                             </TouchableOpacity>
                         </View>
                     ) : (
                         <TouchableOpacity className="ml-auto px-4" onPress={() => setIsEditing(true)}>
-                            <PencilIcon className="w-4 h-4 text-gray-200" />
+                            <MaterialCommunityIcons name="pencil" size={24} color="white" />
                         </TouchableOpacity>
                     )
                 )}

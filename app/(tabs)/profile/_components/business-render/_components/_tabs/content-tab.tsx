@@ -1,6 +1,7 @@
 import { inserat } from "@/db/schema";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Bookmark, BookmarkCheckIcon, EllipsisIcon, EllipsisVerticalIcon, LocateFixedIcon, MapIcon, MapPinCheckInsideIcon, SaveAll, SaveIcon } from "lucide-react-native";
+
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { Image, Text } from "react-native";
@@ -20,7 +21,7 @@ const ContentTab = ({ username, foundInserate }: ContentTabProps) => {
 
     const InseratRender = (title: string, postalCode: string, city: string, price: string, imageUrl: string, inseratId : string) => {
         return (
-            <TouchableOpacity key={title} onPress={() => router.push(`/inserat/${inseratId}`)}>
+            <TouchableOpacity key={inseratId} onPress={() => router.push(`/inserat/${inseratId}`)}>
                 <View className="w-full">
                     <Image
                         source={{ uri: imageUrl }}
@@ -33,11 +34,11 @@ const ContentTab = ({ username, foundInserate }: ContentTabProps) => {
                             {title}
                         </Text>
                         <View className="ml-auto">
-                            <Bookmark className="w-4 h-4 text-gray-200" />
+                        <MaterialCommunityIcons name="bookmark" size={24} color="#4B5563" />
                         </View>
                     </View>
                     <View className="mt-2 flex flex-row items-center">
-                        <MapPinCheckInsideIcon className="w-4 h-4 text-rose-600" />
+                    <MaterialCommunityIcons name="map-marker-check" size={24} color="red" />
                         <Text className="ml-4 text-gray-200 font-semibold text-base">
                             {postalCode} | {city}
                         </Text>
@@ -65,14 +66,14 @@ const onRenderMore = () => {
     return (
         <View className="">
             <View className="flex flex-row items-center">
-                <EllipsisVerticalIcon className="w-4 h-4 mr-4" />
+                <MaterialCommunityIcons name="chevron-right" size={24} color="#4B5563" />
                 <Text className="text-lg font-semibold text-gray-200">
                     Mehr von {username}
                 </Text>
             </View>
             {foundInserate?.length > 0 ? (
                 <View className="space-y-4 mt-8">
-                {foundInserate.slice(0, amountRendered).map((inserat) => (
+                {foundInserate.slice(0, amountRendered).map((inserat: any) => (
                     InseratRender(inserat.title, inserat.address?.postalCode, inserat.address?.locationString, inserat.price, inserat?.images[0]?.url, inserat.id)
                 ))}
             </View>

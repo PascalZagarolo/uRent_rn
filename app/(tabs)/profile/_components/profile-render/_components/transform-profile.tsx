@@ -1,4 +1,5 @@
-import { ArrowRightSquare, Share2Icon, ShareIcon } from "lucide-react-native";
+
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View } from "react-native";
 import { Text, TouchableOpacity } from "react-native";
 
@@ -14,7 +15,7 @@ const TransformProfile = ({ setOpenSwitchProfile } : TransformProfileProps) => {
                     Du bist Vermieter?
                 </Text>
                 <TouchableOpacity className="flex flex-row items-center shadow-lg space-x-4 bg-indigo-800 p-2.5 rounded-md mt-2" onPress={() => setOpenSwitchProfile(true)}>
-                    <ArrowRightSquare className="text-gray-200 w-4 h-4" />
+                    <MaterialCommunityIcons name="account-switch" size={24} color="white" />
                     <Text className="text-base text-gray-200 font-medium">
                         Kostenlos Konto umwandeln
                     </Text>

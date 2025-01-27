@@ -1,10 +1,9 @@
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/~/components/ui/accordion";
+
 import { View, Text, TouchableOpacity, Animated } from "react-native";
-import { Avatar, Icon, ListItem } from '@rneui/themed';
+
 import { useRef, useState } from "react";
 import { businessFaqs } from "@/db/schema";
 import { FontAwesome } from "@expo/vector-icons";
-import exp from "constants";
 
 interface ProfileFaqsProps {
     thisQuestions : typeof businessFaqs.$inferSelect[];

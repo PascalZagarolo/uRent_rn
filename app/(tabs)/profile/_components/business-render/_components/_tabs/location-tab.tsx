@@ -1,5 +1,6 @@
 import { businessAddress } from "@/db/schema";
-import { MapPinCheckInsideIcon, MountainIcon, PencilIcon, PlusCircleIcon, PlusIcon, Trash2Icon } from "lucide-react-native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
+
 import { TouchableOpacity } from "react-native";
 import { Image, Text, View } from "react-native";
 
@@ -29,16 +30,16 @@ const LocationTab = ({ foundAddresses, isOwn, setOpenLocation }: LocationTabProp
                         {isOwn && (
                             <View className="w-1/4 flex flex-row items-center justify-between">
                                 <TouchableOpacity onPress={() => setOpenLocation(true, id, "edit")}>
-                                    <PencilIcon className="w-4 h-4 text-gray-200" />
+                                <MaterialCommunityIcons name="pencil" size={24} color={"white"} />
                                 </TouchableOpacity>
                                 <TouchableOpacity onPress={() => setOpenLocation(true, id, "delete")}>
-                                    <Trash2Icon className="w-4 h-4 text-rose-600" />
+                                <MaterialCommunityIcons name="pencil" size={24} color={"red"} />
                                 </TouchableOpacity>
                             </View>
                         )}
                     </View>
                     <View className="mt-2 flex flex-row items-center">
-                        <MapPinCheckInsideIcon className="w-4 h-4 text-rose-600" />
+                        <MaterialCommunityIcons name="map-marker-check" size={24} color={"white"} />
                         <Text className="ml-4 text-gray-200 font-semibold text-base">
                             {street}, {postalCode}  {city}
                         </Text>
@@ -52,7 +53,7 @@ const LocationTab = ({ foundAddresses, isOwn, setOpenLocation }: LocationTabProp
     return (
         <View>
             <View className="flex flex-row items-center">
-                <MountainIcon className="w-4 h-4 mr-4" />
+            <MaterialCommunityIcons name="location-enter" size={24} color={"red"} className="mr-4" />
                 {isOwn && (
                     <Text className="text-lg font-semibold text-gray-200">
                         Standort
@@ -60,7 +61,7 @@ const LocationTab = ({ foundAddresses, isOwn, setOpenLocation }: LocationTabProp
                 )}
                 {isOwn && (
                     <TouchableOpacity className="ml-auto p-2.5" onPress={() => { setOpenLocation(true, null, null) }}>
-                        <PlusCircleIcon className="w-4 h-4 ml-auto text-gray-200" />
+                        <MaterialCommunityIcons name="plus-circle" size={24} color={"white"} />
                     </TouchableOpacity>
                 )}
             </View>

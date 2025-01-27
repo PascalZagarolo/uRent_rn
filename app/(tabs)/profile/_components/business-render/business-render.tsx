@@ -1,4 +1,4 @@
-import { KeyboardAvoidingView, Platform, Text, View } from "react-native";
+import { View } from "react-native";
 import BusinessBannerRender from "./_components/business-banner";
 import { userTable, businessAddress } from '@/db/schema';
 import { format } from "date-fns";
@@ -7,7 +7,7 @@ import ContentBusinessRender from "./_components/content";
 
 
 interface BusinessRenderProps {
-    thisUser: typeof userTable.$inferSelect;
+    thisUser: typeof userTable.$inferSelect & { business};
     isOwner: boolean;
     setOpenLocation: (open: boolean, id: string, type: string) => void;
     setOpenOpeningTimes: (open: boolean) => void;

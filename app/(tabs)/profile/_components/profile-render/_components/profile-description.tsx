@@ -1,6 +1,6 @@
-import { getCurrentUser } from "@/actions/getCurrentUser";
+
 import { cn } from "@/~/lib/utils";
-import { PencilIcon, SaveIcon, XIcon } from "lucide-react-native";
+
 import { useState } from "react";
 import { KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, View } from "react-native";
 import * as SecureStorage from 'expo-secure-store';
@@ -8,6 +8,7 @@ import { editBusinessDescription } from "@/actions/business/edit/edit-descriptio
 import Toast from "react-native-toast-message";
 import { useRouter } from "expo-router";
 import { editUserDescription } from "@/actions/user/edit/edit-description";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 
 interface ProfileDescriptionProps {
@@ -59,18 +60,18 @@ const ProfileDescription = ({ thisDescription, isOwnProfile, username }: Profile
                     {isOwnProfile && !isEditing && (
                         <TouchableOpacity className="ml-auto p-2.5  rounded-md flex flex-row items-center" onPress={() => { setIsEditing(true) }}>
 
-                            <PencilIcon className="text-gray-200 w-4 h-4 " />
+                            <MaterialCommunityIcons name="pencil" size={24} color="white" />
                         </TouchableOpacity>
                     )}
                     {isEditing && (
                         <View className="flex flex-row items-center ml-auto">
                             <TouchableOpacity className="p-2.5  rounded-md flex flex-row items-center" onPress={onSave}>
 
-                                <SaveIcon className="text-gray-200 w-4 h-4 " />
+                                <MaterialCommunityIcons name="check" size={24} color="white" />
                             </TouchableOpacity>
                             <TouchableOpacity className="p-2.5   rounded-md flex flex-row items-center" onPress={onAbort}>
 
-                                <XIcon className="text-gray-200 w-4 h-4 " />
+                                <MaterialCommunityIcons name="close" size={24} color="white" />
                             </TouchableOpacity>
 
                         </View>
