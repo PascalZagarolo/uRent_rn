@@ -9,12 +9,13 @@ import LocationDialog from "./_components/business-render/_components/_tabs/_dia
 import LocationDialogDelete from "./_components/business-render/_components/_tabs/_dialogs/location-delete";
 import LocationDialogEdit from "./_components/business-render/_components/_tabs/_dialogs/location-edit";
 import OpeningTimesDialog from "./_components/business-render/_components/_tabs/_dialogs/opening-times-dialog";
-import { set } from 'date-fns';
+
 import ImageDialog from "./_components/business-render/_components/_tabs/_dialogs/image-dialog";
 import BannerDialog from "./_components/business-render/_components/_tabs/_dialogs/banner-dialog";
 import SwitchProfileDialog from "./_components/business-render/_components/_tabs/_dialogs/switch-profile-dialog";
-import { ArrowLeft } from "lucide-react-native";
+
 import { useAuth } from "../AuthProvider";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 
 
@@ -122,7 +123,7 @@ const ProfilePage = () => {
             <SafeAreaView className="">
                 <View className="border-b border-gray-800 p-4 bg-[#181b27] space-x-4 flex flex-row items-center">
                     <TouchableOpacity className="" onPress={() => {router.back()}}>
-                        <ArrowLeft className="text-gray-200 w-4 h-4 mr-2" />
+                        <MaterialCommunityIcons name="arrow-left" className="text-gray-200 w-4 h-4 mr-2" />
                     </TouchableOpacity>
                     <Text className="text-xl font-semibold text-gray-200">
                         {user?.isBusiness ? "Vermieterdetails" : "Nutzerdetails"}

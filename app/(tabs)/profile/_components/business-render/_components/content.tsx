@@ -6,11 +6,11 @@ import ContentTab from "./_tabs/content-tab";
 import { businessAddress, userTable } from "@/db/schema";
 import LocationTab from "./_tabs/location-tab";
 import OpeningTimesRender from "./_tabs/opening-times-render";
-import { openingTimes } from '../../../../../../db/schema';
+
 import ImprintRender from "./_tabs/imprint";
 
 interface ContentBusinessRenderProps {
-    thisUser : typeof userTable.$inferSelect;
+    thisUser : typeof userTable.$inferSelect & {inserat, business };
     isOwn : boolean;
     setOpenLocation : (open : boolean, id : string, type : string) => void;
     setOpenOpeningTimes : (open : boolean) => void;

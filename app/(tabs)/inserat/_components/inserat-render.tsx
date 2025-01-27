@@ -2,19 +2,14 @@ import { inserat } from "@/db/schema";
 import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { format } from "date-fns";
-import InseratPriceProfiles from "./inserat-price-profiles";
-import InseratConditions from "./inserat-conditions";
-import InseratContactOptions from "./inserat-contact-options";
-import InseratDescription from "./inserat-description";
-import InseratOptions from "./inserat-options";
-import InseratAttributes from "./inserat-attributes";
-import InseratProfile from "./inserat-profile";
-import InseratMoreContent from "./inserat-user-more-content";
-import { ArrowLeft } from "lucide-react-native";
+
+
+
 import { useRouter } from "expo-router";
+import InseratOptions from "./inserat-options";
 
 interface InseratRenderProps {
-    thisInserat: typeof inserat.$inferSelect & { user, address };
+    thisInserat: typeof inserat.$inferSelect & { user, address, images };
     currentUserId?: string;
     isFaved : boolean;
 }
@@ -66,8 +61,8 @@ const InseratRender: React.FC<InseratRenderProps> = ({
         <View>
             <View>
                 <View className="">
-                    <TouchableOpacity className="p-4 flex flex-row items-center" onPress={() => { router.back() }}>
-                        <ArrowLeft className="w-4 h-4 text-gray-200" />
+                    <TouchableOpacity className="p-4 flex flex-row items-center" onPress={() => { router.push("/") }}>
+                        <MaterialCommunityIcons className="w-4 h-4 text-gray-200" name="arrow-left" color={"white"} size={24} />
                         <Text className="text-sm ml-4 text-gray-200/80">
                             Zurück zur Startseite
                         </Text>
@@ -88,15 +83,16 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                         </Text>
                     </View>
                 </View>
-                <View className="">
+                {thisInserat?.images?.length > 0 && (
+                    <View className="">
                     <Image
                         className="w-full h-60  rounded-t-md"
                         source={{
-                            //@ts-ignore
-                            uri: thisInserat.images[0].url,
+                            uri: thisInserat?.images[0]?.url,
                         }}
                     />
                 </View>
+                )}
 
                 <View className="p-4 flex flex-row items-center">
                     <View className="mr-4">
@@ -118,8 +114,8 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                     inseratUserId={thisInserat?.userId}
                     isFaved={isFaved}
                     />
-                </View>
-                <View>
+                </View> 
+                {/* <View>
                     <InseratPriceProfiles
                         thisInserat={thisInserat}
                     />
@@ -154,7 +150,7 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                         username={thisInserat.user.name}
                         foundInserat={thisInserat.user.inserat}
                     />
-                </View>
+                </View> */}
             </View>
         </View>
     );

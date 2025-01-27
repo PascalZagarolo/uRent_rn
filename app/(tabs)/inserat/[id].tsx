@@ -18,9 +18,12 @@ const InseratPage = () => {
   const [user, setUser] = useState<any | null>(null);
   const [error, setError] = useState<string | null>(null); // Add error state
 
+  const [isFaved, setIsFaved] = useState<boolean>(false);
+
   useEffect(() => {
     try {
       const loadInserat = async () => {
+        "use server"
         try {
           const thisInserat = await db.query.inserat.findFirst({
             where: eq(inserat.id, id),
@@ -69,6 +72,11 @@ const InseratPage = () => {
            
           if(foundUser) {
               setUser(foundUser);
+              setIsFaved(user?.favourites
+                ? user?.favourites?.some(
+                    (favourites) => favourites?.inseratId === thisInserat?.id
+                  )
+                : false)
           }
           }
   
@@ -117,11 +125,7 @@ const InseratPage = () => {
             thisInserat={thisInserat}
             currentUserId={user?.id}
             isFaved={
-              user?.favourites
-                ? user?.favourites?.some(
-                    (favourites) => favourites?.inseratId === thisInserat?.id
-                  )
-                : false
+              isFaved
             }
           />
         ) : (
