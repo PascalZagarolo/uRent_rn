@@ -7,7 +7,7 @@ import { Drawer } from 'react-native-drawer-layout';
 import DrawerContentProfile from "@/components/_drawercontent/drawer-content-profile";
 
 import Header from "@/components/_searchpage/header";
-import Footer from "@/components/_searchpage/footer";
+
 import ConversationHeader from "./_components/conversation-header";
 import ConversationFooter from "./_components/conversation-footer";
 import MessageRender from "./_components/message-render";

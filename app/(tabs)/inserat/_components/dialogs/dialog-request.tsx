@@ -9,7 +9,7 @@ import {
     TouchableWithoutFeedback,
     View,
 } from "react-native";
-import { XIcon } from "lucide-react-native";
+
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Toast from "react-native-toast-message";
 import { getExistingOrCreateNewConversation } from "@/actions/conversations/find-existing-or-create-new";
@@ -108,7 +108,7 @@ const DialogRequest = ({ onClose, inseratUserId, currentUserId }: DialogRequestP
                                 Fahrzeug anfragen
                             </Text>
                             <TouchableOpacity className="ml-auto" onPress={onClose}>
-                                <XIcon color="#e5e7eb" />
+                                <MaterialCommunityIcons name="close" size={24} color="white" />
                             </TouchableOpacity>
                         </View>
 
