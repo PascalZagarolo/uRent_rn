@@ -3,13 +3,13 @@ import { Image, Text, TouchableOpacity, View } from "react-native";
 import { useAuth } from "../../AuthProvider";
 import { format } from "date-fns";
 import { useRouter } from "expo-router";
-import { FontAwesome } from "@expo/vector-icons";
+
 import { cn } from "@/~/lib/utils";
 
 
 interface RenderedConversationProps {
     thisConversation: typeof conversation.$inferSelect | any;
-    
+
 }
 
 const RenderedConversation: React.FC<RenderedConversationProps> = ({
@@ -26,35 +26,37 @@ const RenderedConversation: React.FC<RenderedConversationProps> = ({
 
     const lastMessageFromMe = lastMessage?.senderId === currentUser.id;
 
-    
+
     return (
         <TouchableOpacity className="border-b border-gray-800 py-4 px-2"
-        onPress={() => {
-            router.push(`/conversation/${thisConversation.id}`)
-        }}
+            onPress={() => {
+                router.push(`/conversation/${thisConversation.id}`)
+            }}
         >
             <View className="flex flex-row items-center">
                 <View className="w-2/12">
-                    <Image
-                        source={{ uri: otherUser.image }}
-                        className="w-12 h-12 rounded-full"
-                    />
+                    {otherUser?.image && (
+                        <Image
+                            source={{ uri: otherUser.image }}
+                            className="w-12 h-12 rounded-full"
+                        />
+                    )}
                 </View>
                 <View className="w-10/12 flex flex-col">
                     <View className="flex flex-row ">
                         <Text className="text-base text-gray-200 font-semibold w-10/12 line-clamp-1" numberOfLines={1}>
-                            {otherUser.name}
+                            {otherUser?.name}
                         </Text>
                         {lastMessage && (
                             <Text className="text-xs text-gray-200/60 font-semibold">
-                            {format(new Date(lastMessage?.createdAt), "HH:mm")}
-                        </Text>
+                                {format(new Date(lastMessage?.createdAt), "HH:mm")}
+                            </Text>
                         )}
                     </View>
                     <View>
                         <Text className={cn("text-sm text-gray-200/60 line-clamp-1", !lastMessage?.content && "font-semibold")} numberOfLines={1}>
-                           {lastMessageFromMe && "Ich: "} {lastMessage?.content ? lastMessage.content : 
-                            "Hat ein Foto gesendet."}
+                            {lastMessageFromMe && "Ich: "} {lastMessage?.content ? lastMessage.content :
+                                "Hat ein Foto gesendet."}
                         </Text>
                     </View>
                 </View>

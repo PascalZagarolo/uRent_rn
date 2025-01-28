@@ -51,9 +51,14 @@ const InseratOptions = ({ inseratUserId, currentUserId, inseratId, isFaved } : I
     }
 
     const onConversation = async () => {
-        try {
+        try { 
             if(isLoading) return;
             setIsLoading(true);
+
+            if(!currentUserId) {
+                return router.push('/login');
+            }
+
             const findConversation = await getExistingOrCreateNewConversation(inseratUserId, currentUserId);
 
             if(findConversation) {
