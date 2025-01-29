@@ -210,6 +210,9 @@ const MainPage = () => {
         }
     }
 
+    const onPageSwitch = (newPage : number) => {
+        return null;
+    }
 
 
     return (
@@ -302,6 +305,7 @@ const MainPage = () => {
                                 <PaginationComponent 
                                     currentPage={currentPage}
                                     inserateLength={inserate.length ?? 0}
+                                    onPageSwitch={onPageSwitch}
                                 />
                             </View>
                             <View className="mt-4">

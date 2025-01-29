@@ -7,11 +7,13 @@ import { TouchableOpacity, View } from "react-native";
 interface PaginationComponentProps {
     currentPage: number;
     inserateLength: number;
+    onPageSwitch: (page: number) => void;
 }
 
 const PaginationComponent = ({
     currentPage,
-    inserateLength
+    inserateLength,
+    onPageSwitch
 }: PaginationComponentProps) => {
 
     const availablePages = Math.ceil(inserateLength / 5);
