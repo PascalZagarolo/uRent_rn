@@ -53,12 +53,12 @@ const LocationTab = ({ foundAddresses, isOwn, setOpenLocation }: LocationTabProp
     return (
         <View>
             <View className="flex flex-row items-center">
-            <MaterialCommunityIcons name="location-enter" size={24} color={"red"} className="mr-4" />
-                {isOwn && (
-                    <Text className="text-lg font-semibold text-gray-200">
+            <MaterialCommunityIcons name="home-map-marker" size={20} color={"white"} className="mr-4" />
+                
+                    <Text className="text-lg font-semibold text-gray-200 ml-4">
                         Standort
                     </Text>
-                )}
+                
                 {isOwn && (
                     <TouchableOpacity className="ml-auto p-2.5" onPress={() => { setOpenLocation(true, null, null) }}>
                         <MaterialCommunityIcons name="plus-circle" size={24} color={"white"} />

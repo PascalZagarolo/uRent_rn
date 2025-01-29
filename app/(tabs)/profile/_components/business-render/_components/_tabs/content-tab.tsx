@@ -66,8 +66,8 @@ const onRenderMore = () => {
     return (
         <View className="">
             <View className="flex flex-row items-center">
-                <MaterialCommunityIcons name="chevron-right" size={24} color="#4B5563" />
-                <Text className="text-lg font-semibold text-gray-200">
+                <MaterialCommunityIcons name="chevron-right" size={20} color="#4B5563" />
+                <Text className="text-lg font-semibold text-gray-200 ml-4">
                     Mehr von {username}
                 </Text>
             </View>
@@ -84,7 +84,7 @@ const onRenderMore = () => {
             )}
             {amountRendered < foundInserate.length && (
                 <View className="mt-4">
-                    <TouchableOpacity className="bg-[#161820] shadow-lg rounded-lg flex flex-row items-center justify-center" onPress={onRenderMore}>
+                    <TouchableOpacity className="bg-indigo-800 shadow-lg rounded-lg flex flex-row items-center justify-center" onPress={onRenderMore}>
                     
                         <Text className="flex flex-row justify-center text-gray-200 text-lg text-center items-center p-2.5 ">
                             Mehr anzeigen

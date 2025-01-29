@@ -1,15 +1,15 @@
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
-import { Image, Modal, Text, TextInput, TouchableOpacity, View } from "react-native";
-import SearchBar from "./search-bar";
+import { Image, Modal, Platform, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
+
 import { userTable } from "@/db/schema";
-import { useRef, useState } from "react";
-import ActionSheet from "react-native-actions-sheet";
-import { Drawer } from 'react-native-drawer-layout';
-import { is } from "drizzle-orm";
-import { SafeAreaView } from "react-native";
+import {  useState } from "react";
+
+
+
 import { cn } from "@/~/lib/utils";
 import { router } from "expo-router";
 import CreateInseratPreview from "./_components/create-inserat-preview";
+
 interface HeaderProps {
   currentUser: typeof userTable.$inferSelect | any;
   toggleDrawer: () => void;
@@ -31,8 +31,11 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
 
   return (
 
-    <View className="bg-[#202336] p-4 py-45 border-b border-gray-800 shadow-lg">
-      <SafeAreaView className="flex flex-row items-center">
+    <View className="bg-[#1F2332] px-4 border-b border-gray-800 shadow-lg pt-4 mt-4">
+      <SafeAreaView className={cn(
+        "flex flex-row items-center mb-4",
+        Platform.OS === "ios" ? "" : "pt-4"
+      )}>
         
         <Text className="text-xl font-semibold text-gray-200">uRent</Text>
 
@@ -45,7 +48,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
             </TouchableOpacity>
             <TouchableOpacity onPress={toggleNotifications}>
               <Ionicons name="notifications" size={24} color="white" />
-              <View className={cn("absolute -top-1.5 -right-1.5 rounded-full px-1 py-0.5",
+              <View className={cn("absolute -top-2 -right-1.5 rounded-full px-1 py-0.5",
                 unseenNotifications === 0 ? "" : "bg-rose-600"
               )}>
                 <Text style={{ fontSize: 10, color: 'rgba(229, 231, 235, 0.9)' }}>{unseenNotifications}</Text>

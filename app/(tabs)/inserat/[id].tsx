@@ -1,4 +1,4 @@
-import { SafeAreaView, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import db from "@/db/drizzle";
 import { images, inserat } from "@/db/schema";
@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { getCurrentUserInseratPage } from "@/actions/retrieveUser/inserat-page/getCurrentUserInseratPage";
 import * as SecureStorage from 'expo-secure-store';
 import InseratRender from "./_components/inserat-render";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const InseratPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -120,7 +121,7 @@ const InseratPage = () => {
   return (
     <SafeAreaView className="bg-[#161923] flex-1 h-full w-full">
       <ScrollView>
-        {thisInserat ? (
+      {thisInserat ? (
           <InseratRender
             thisInserat={thisInserat}
             currentUserId={user?.id}

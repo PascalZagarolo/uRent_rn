@@ -52,8 +52,8 @@ const ImprintRender = ({ imprint, isOwn }: ImprintRenterProps) => {
         <View>
 
             <View className="flex flex-row items-center">
-            <MaterialCommunityIcons name="scale-balance" size={24} color="white" className="mr-4" />
-                <Text className="text-lg font-semibold text-gray-200">
+            <MaterialCommunityIcons name="scale-balance" size={20} color="white" className="mr-4" />
+                <Text className="text-lg font-semibold text-gray-200 ml-4">
                     Impressum
                 </Text>
                 {isOwn && (

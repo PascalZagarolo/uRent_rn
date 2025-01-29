@@ -49,8 +49,8 @@ const OpeningTimesRender = ({ foundTimes, setOpenOpeningTimes, isOwn, foundOpeni
     return (
         <View className="">
             <View className="flex flex-row items-center">
-                <MaterialCommunityIcons name="clock-time-four-outline" size={24} color="white" />
-                <Text className="text-lg font-semibold text-gray-200">
+                <MaterialCommunityIcons name="clock-time-four-outline" size={20} color="white" />
+                <Text className="text-lg font-semibold text-gray-200 ml-4">
                     Öffnungszeiten
                 </Text>
                 {isOwn && (

@@ -39,94 +39,58 @@ const ContentBusinessRender = ({ thisUser, isOwn, setOpenLocation, setOpenOpenin
     return (
 
         
-            <View >
-                <ScrollView
-                    className="py-2"
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={{ paddingHorizontal: 16, gap: 16 }}
-                >
-                    <View>
-                        <TouchableOpacity
-                            onPress={() => { setTab("content"); }}
-                            className={cn(
-                                "bg-[#181b27] px-4 py-4 rounded-md",
-                                tab !== "content" && "bg-transparent"
-                            )}
-                        >
-                            <Text className={cn(
-                                "text-gray-200/80 text-base",
-                                tab === "content" && "text-gray-200"
-                            )}>
-                                Inhalte
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        <TouchableOpacity
-                            onPress={() => { setTab("location"); }}
-                            className={cn(
-                                "bg-[#181b27] px-4 py-4 rounded-md",
-                                tab !== "location" && "bg-transparent"
-                            )}
-                        >
-                            <Text className={cn(
-                                "text-gray-200/80 text-base",
-                                tab === "location" && "text-gray-200"
-                            )}>
-                                Standort
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        <TouchableOpacity
-                            onPress={() => { setTab("openingTimes"); }}
-                            className={cn(
-                                "bg-[#181b27] px-4 py-4 rounded-md",
-                                tab !== "openingTimes" && "bg-transparent"
-                            )}
-                        >
-                            <Text className={cn(
-                                "text-gray-200/80 text-base",
-                                tab === "openingTimes" && "text-gray-200"
-                            )}>
-                                Öffnungszeiten
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    <View>
-                        <TouchableOpacity
-                            onPress={() => { setTab("imprint"); }}
-                            className={cn(
-                                "bg-[#181b27] px-4 py-4 rounded-md",
-                                tab !== "imprint" && "bg-transparent"
-                            )}
-                        >
-                            <Text className={cn(
-                                "text-gray-200/80 text-base",
-                                tab === "imprint" && "text-gray-200"
-                            )}>
-                                Impressum
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
-                <View className="mt-8 px-2 pb-4" >
-                    {{
-                        content: <ContentTab username={thisUser?.name} foundInserate={foundInserate} />,
-                        location: <LocationTab
-                            foundAddresses={foundAddresses}
-                            isOwn={isOwn}
-                            setOpenLocation={(value1, value2, value3) => {
-                                setOpenLocation(value1, value2, value3);
-                                console.log(value1, value2, value3);
-                            }}
-                        />,
-                        openingTimes: <OpeningTimesRender foundTimes={thisUser?.business?.openingTimes} setOpenOpeningTimes={setOpenOpeningTimes} isOwn={isOwn} foundOpeningTimes={foundOpeningTimes}/>,
-                        imprint: <ImprintRender imprint={thisUser?.business?.impressum} isOwn={isOwn} />,
-                    }[tab]}
+        <View className="relative">
+        <ScrollView
+            className="py-2"
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{
+                paddingHorizontal: 16,
+                gap: 16,
+                height: 60,
+                zIndex: 10, // Ensure it's above other content
+            }}
+        >
+            {["content", "location", "openingTimes", "imprint"].map((item) => (
+                <View key={item}>
+                    <TouchableOpacity
+                        onPress={() => setTab(item)}
+                        className={cn(
+                            "bg-[#181b27] px-4 py-4 rounded-md",
+                            tab !== item && "bg-transparent"
+                        )}
+                    >
+                        <Text className={cn(
+                            "text-gray-200/80 text-base",
+                            tab === item && "text-gray-200"
+                        )}>
+                            {item === "content" ? "Inhalte" :
+                             item === "location" ? "Standort" :
+                             item === "openingTimes" ? "Öffnungszeiten" :
+                             "Impressum"}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
-            </View>
+            ))}
+        </ScrollView>
+    
+        <View className="mt-8 px-2 pb-4 flex-1">
+            {{
+                content: <ContentTab username={thisUser?.name} foundInserate={foundInserate} />,
+                location: <LocationTab
+                    foundAddresses={foundAddresses}
+                    isOwn={isOwn}
+                    setOpenLocation={(value1, value2, value3) => {
+                        setOpenLocation(value1, value2, value3);
+                        console.log(value1, value2, value3);
+                    }}
+                />,
+                openingTimes: <OpeningTimesRender foundTimes={thisUser?.business?.openingTimes} setOpenOpeningTimes={setOpenOpeningTimes} isOwn={isOwn} foundOpeningTimes={foundOpeningTimes} />,
+                imprint: <ImprintRender imprint={thisUser?.business?.impressum} isOwn={isOwn} />,
+            }[tab]}
+        </View>
+    </View>
+    
      
 
     );

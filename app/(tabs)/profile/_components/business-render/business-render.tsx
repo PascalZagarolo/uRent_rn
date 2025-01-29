@@ -52,7 +52,7 @@ const BusinessRender = ({ thisUser, isOwner, setOpenLocation, setOpenOpeningTime
                     />
                 </View>
                 <View className="">
-                    <ContentBusinessRender 
+                <ContentBusinessRender 
                     thisUser={thisUser}
                     isOwn={isOwner}
                     setOpenLocation={(value1, value2, value3) => setOpenLocation(value1, value2, value3)}

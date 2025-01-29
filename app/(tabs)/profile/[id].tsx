@@ -3,7 +3,7 @@ import { businessAddress, paymentMethods, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Modal, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Modal,  ScrollView, Text, TouchableOpacity, View } from "react-native";
 import ProfileRender from "./_components/profile-render";
 import LocationDialog from "./_components/business-render/_components/_tabs/_dialogs/location-dialog";
 import LocationDialogDelete from "./_components/business-render/_components/_tabs/_dialogs/location-delete";
@@ -16,6 +16,7 @@ import SwitchProfileDialog from "./_components/business-render/_components/_tabs
 
 import { useAuth } from "../AuthProvider";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 
 
@@ -118,18 +119,18 @@ const ProfilePage = () => {
     const router = useRouter();
 
     return (
-
-        <View className=" bg-[#181b27] h-screen">
-            <SafeAreaView className="">
+<SafeAreaView className=" bg-[#181b27]">
+        <View className=" bg-[#181b27] h-full">
+            
                 <View className="border-b border-gray-800 p-4 bg-[#181b27] space-x-4 flex flex-row items-center">
                     <TouchableOpacity className="" onPress={() => {router.back()}}>
-                        <MaterialCommunityIcons name="arrow-left" className="text-gray-200 w-4 h-4 mr-2" />
+                        <MaterialCommunityIcons name="arrow-left" size={24} color={"white"} />
                     </TouchableOpacity>
                     <Text className="text-xl font-semibold text-gray-200">
                         {user?.isBusiness ? "Vermieterdetails" : "Nutzerdetails"}
                     </Text>
                 </View>
-            </SafeAreaView >
+           
 
 
             {user && (
@@ -211,7 +212,7 @@ const ProfilePage = () => {
                 )}
             </Modal>
         </View>
-
+        </SafeAreaView>
     );
 }
 
