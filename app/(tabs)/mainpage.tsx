@@ -20,6 +20,8 @@ import { useRouter } from "expo-router";
 import { addFavourite } from "@/actions/favourites/add-favourite";
 import Toast from "react-native-toast-message";
 import { deleteFavourite } from "@/actions/favourites/delete-favourite";
+import PaginationComponent from "@/components/_searchpage/_components/pagination";
+
 
 
 
@@ -32,6 +34,7 @@ const MainPage = () => {
 
     const { addDrawer, deleteDrawer, openDrawers } = useDrawerSettings();
 
+    
 
     useEffect(() => {
         
@@ -137,6 +140,7 @@ const MainPage = () => {
 
     const [currentUser, setCurrentUser] = useState(null);
     const [favs, setFavs] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     const [isDrawerVisible, setIsDrawerVisible] = useState(false);
     const [isFilterVisible, setIsFilterVisible] = useState(false);
@@ -288,12 +292,18 @@ const MainPage = () => {
                                     currentResults={inserate.length as number}
                                 />
                             </View>
-                            {inserate.map((pInserat : any) => (
+                            {inserate.slice(0,5).map((pInserat : any) => (
                                 <View key={pInserat?.id} className="border-t border-b border-gray-800 mb-2">
                                     <InseratCard thisInserat={pInserat} currentUser={currentUser} onFav={(inseratId : string) => {onFav(inseratId)}} 
                                     isFaved={favs.find((fav : any) => fav.inseratId == pInserat?.id)}/>
                                 </View>
                             ))}
+                            <View className="p-2">
+                                <PaginationComponent 
+                                    currentPage={currentPage}
+                                    inserateLength={inserate.length ?? 0}
+                                />
+                            </View>
                             <View className="mt-4">
                                 <Footer />
                             </View>
