@@ -6,6 +6,7 @@ import { Text, View } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
 import { useRouter } from "expo-router";
+import qs from "query-string";
 
 interface ResultProps {
     currentResults : number
@@ -57,28 +58,28 @@ const Results : React.FC<ResultProps> = ({
                 usedEnd = filteredValues.periodBegin;
             }
         }
-        // const url = qs.stringifyUrl({
-        //     url: '/mainpage',
+        const url = qs.stringifyUrl({
+            url: '/mainpage',
 
 
-        //     //@ts-ignore
-        //     query: {
-        //         //@ts-ignore
-        //         category: thisCategory,
-        //         //@ts-ignore
-        //         periodBegin: usedStart ? usedStart : null,
-        //         //@ts-ignore
-        //         periodEnd: usedEnd ? usedEnd : null,
-        //         //@ts-ignore
-        //         type: filteredValues.thisType,
-        //         ...filteredValues
-        //     },
+            //@ts-ignore
+            query: {
+                //@ts-ignore
+                category: thisCategory,
+                //@ts-ignore
+                periodBegin: usedStart ? usedStart : null,
+                //@ts-ignore
+                periodEnd: usedEnd ? usedEnd : null,
+                //@ts-ignore
+                type: filteredValues.thisType,
+                ...filteredValues
+            },
 
-        // }, { skipEmptyString: true, skipNull: true })
+        }, { skipEmptyString: true, skipNull: true })
         
-        // console.log(url)
+        console.log(url)
         
-        // router.push(url);
+        router.push(url);
     }
 
     return (

@@ -295,7 +295,7 @@ const MainPage = () => {
                                     currentResults={inserate.length as number}
                                 />
                             </View>
-                            {inserate.slice(0,5).map((pInserat : any) => (
+                            {inserate.slice(0 + ((currentPage - 1) * 5), 5 + ((currentPage - 1) * 5) ).map((pInserat : any) => (
                                 <View key={pInserat?.id} className="border-t border-b border-gray-800 mb-2">
                                     <InseratCard thisInserat={pInserat} currentUser={currentUser} onFav={(inseratId : string) => {onFav(inseratId)}} 
                                     isFaved={favs.find((fav : any) => fav.inseratId == pInserat?.id)}/>
@@ -305,7 +305,7 @@ const MainPage = () => {
                                 <PaginationComponent 
                                     currentPage={currentPage}
                                     inserateLength={inserate.length ?? 0}
-                                    onPageSwitch={onPageSwitch}
+                                    onPageSwitch={setCurrentPage}
                                 />
                             </View>
                             <View className="mt-4">
