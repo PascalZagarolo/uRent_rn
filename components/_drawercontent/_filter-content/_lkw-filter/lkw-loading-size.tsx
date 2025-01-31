@@ -102,6 +102,7 @@ const LoadingSizeFilter = () => {
                                     
                                     }
                                 } 
+                                placeholderTextColor="rgba(255, 255, 255, 0.5)"
                             />
                             
                         </View>
@@ -123,7 +124,8 @@ const LoadingSizeFilter = () => {
                                         setCurrentWidth(onChangeConvert(text))
                                     
                                     }
-                                }  
+                                } 
+                                placeholderTextColor="rgba(255, 255, 255, 0.5)" 
                                 keyboardType="numeric"
                                 onFocus={() => setIsEndFocused(true)}
                                 onBlur={() => setIsEndFocused(false)}
@@ -151,7 +153,8 @@ const LoadingSizeFilter = () => {
                                         setCurrentHeight(onChangeConvert(text))
                                     
                                     }
-                                }  
+                                } 
+                                placeholderTextColor="rgba(255, 255, 255, 0.5)" 
                                 keyboardType="numeric"
                                 onFocus={() => setIsEndFocused(true)}
                                 onBlur={() => setIsEndFocused(false)}

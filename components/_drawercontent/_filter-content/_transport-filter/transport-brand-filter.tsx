@@ -134,7 +134,7 @@ const TransportBrandFilter = () => {
                                     </Text>
                                 </TouchableOpacity>
                                 {Object.values(TransportBrandEnumRender).map((value) => (
-                                    <TouchableOpacity className="w-full bg-[#232635] p-2"
+                                    <TouchableOpacity className="w-full bg-[#232635] p-2" key={value}
                                     onPress={() => {
                                         setCurrentBrand(value);
                                         refRBSheet.current[1].close();

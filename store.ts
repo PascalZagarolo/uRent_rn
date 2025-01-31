@@ -15,7 +15,7 @@ export const usesearchUserByBookingStore = create<searchUserByBookingStore>((set
     user : null,
     changeUser : (newUser: typeof userTable.$inferSelect) => {
         set({ user : newUser })
-        console.log(newUser)
+        
     }, resetUser : () => {
         set({ user : null })
     }

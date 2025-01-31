@@ -40,7 +40,7 @@ export const getCurrentResults = async (values) => {
             volume, loading_l, loading_b, loading_h, title, radius, caution,
             ...filteredValues } = values;
 
-            console.log(periodBegin + "!!!!")
+            
 
         const ConditionFilter = (pInserat: typeof inserat) => {
             const bAge = reqAge ? Number(reqAge) >= Number(pInserat.reqAge) : true;
@@ -132,7 +132,7 @@ export const getCurrentResults = async (values) => {
                 bExtraType && bLoading && bWeightClass && bVolume && bLength && bBreite && bHeight;
         }
 
-        const LkwFilter = (pInserat: typeof inserat) => {
+        const LkwFilter = (pInserat: typeof inserat & { lkwAttribute }) => {
 
             const usedInitial = initial ? new Date(initial) : null;
 
@@ -205,7 +205,7 @@ export const getCurrentResults = async (values) => {
                 && bLkwBrand && bAxis && bVolume && bLength && bBreite && bHeight && bPower;
         }
 
-        const TrailerFilter = (pInserat: typeof inserat) => {
+        const TrailerFilter = (pInserat: typeof inserat & { trailerAttribute }) => {
 
             const usedInitial = initial ? new Date(initial) : null;
 
@@ -330,7 +330,7 @@ export const getCurrentResults = async (values) => {
                 && bExtraType && bVolume && bLength && bBreite && bHeight;
         }
 
-        const filterAvailability = (pInserat: typeof inserat) => {
+        const filterAvailability = (pInserat: typeof inserat & { bookings }) => {
 
             if (pInserat.bookings.length === 0) {
                 return true;
@@ -387,7 +387,7 @@ export const getCurrentResults = async (values) => {
                         if (endDateAppointments.has("0") && !isSameDay(usedPeriodBegin, usedPeriodEnd)) {
                             return false;
                         } else if (booking.endDate > usedPeriodEnd && booking.startDate > usedPeriodEnd) {
-                            console.log(booking)
+                            
 
                         }
                     } else if (booking.endDate > usedPeriodEnd && booking.startDate > usedPeriodEnd) {
@@ -427,7 +427,7 @@ export const getCurrentResults = async (values) => {
                     }
 
 
-                    console.log(endDateAppointments)
+                    
                     for (let i = Number(endTime); i >= Number(usedEnd); i = i - 30) {
                         if (endDateAppointments.has(Number(i))) {
                             return false;
@@ -440,7 +440,7 @@ export const getCurrentResults = async (values) => {
         }
 
         const filterAvailabilityMulti = (pInserat: any) => {
-            console.log("...")
+           
 
             if (pInserat.bookings.length === 0) {
                 return true;
@@ -456,7 +456,7 @@ export const getCurrentResults = async (values) => {
             for (const vehicle of pInserat?.vehicles) {
                 const startDateAppointments = new Set<any>()
                 const endDateAppointments = new Set<any>();
-                console.log("....")
+               
                 let isAvailable = true;
 
                 for (const booking of vehicle?.bookings) {
@@ -481,7 +481,7 @@ export const getCurrentResults = async (values) => {
                                 startDateAppointments.add(i);
                             }
                             if (startDateAppointments.has("1440") && !isSameDay(usedPeriodBegin, usedPeriodEnd)) {
-                                console.log("this")
+                                
                                 isAvailable = false;
                             }
                         } else if ((isSameDay(booking.endDate, usedPeriodEnd) && isSameDay(booking.startDate, usedPeriodEnd))
@@ -501,17 +501,17 @@ export const getCurrentResults = async (values) => {
                                 endDateAppointments.add(i);
                             }
                             if (endDateAppointments.has("0") && !isSameDay(usedPeriodBegin, usedPeriodEnd)) {
-                                console.log("this")
+                                
                                 return false;
                             } else if (booking.endDate > usedPeriodEnd && booking.startDate > usedPeriodEnd) {
-                                console.log(booking)
+                                
 
                             }
                         } else if (booking.endDate > usedPeriodEnd && booking.startDate > usedPeriodEnd) {
 
                         }
                         else if (index === pInserat.vehicles.length) {
-                            console.log("this")
+                            
                             isAvailable = false;
                         }
                     }
@@ -531,7 +531,7 @@ export const getCurrentResults = async (values) => {
 
                         for (let i = Number(startTime); i <= Number(usedEnd); i = i + 30) {
                             if (startDateAppointments.has(Number(i))) {
-                                console.log("...")
+                               
                                 isAvailable = false;
                             }
                         }
@@ -652,7 +652,7 @@ export const getCurrentResults = async (values) => {
             const usedRadius = radius ? radius : 50;
             let addressObject = await axios.get(`https://geocode.maps.co/search?q=${location}&api_key=${process.env.GEOCODING_API}`);
 
-            console.log(addressObject.data[0])
+            
 
             for (const pInserat of filteredArray) {
                 const distance = calculateDistance(addressObject.data[0].lat, addressObject.data[0].lon,
@@ -669,7 +669,7 @@ export const getCurrentResults = async (values) => {
         return filteredResult.length;
 
     } catch (error: any) {
-        console.log(error);
+        
         return 0;
     }
 }

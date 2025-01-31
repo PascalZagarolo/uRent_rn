@@ -308,9 +308,9 @@ const MainPage = () => {
                                     onPageSwitch={setCurrentPage}
                                 />
                             </View>
-                            <View className="mt-4">
+                            {/* <View className="mt-4">
                                 <Footer />
-                            </View>
+                            </View> */}
 
 
 

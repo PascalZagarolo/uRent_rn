@@ -132,7 +132,8 @@ const PowerFilter = () => {
                                 placeholder="Von.."
                                 onFocus={() => setIsStartFocused(true)}
                                 onBlur={() => setIsStartFocused(false)}
-                                value={currentPs?.toString() || ''}  
+                                value={currentPs?.toString() || ''}
+                                placeholderTextColor="rgba(255, 255, 255, 0.5)"  
                                 keyboardType="numeric"
                                 onChangeText={(text) => setCurrentPs(onChangeConvert(text))} 
                             />
@@ -155,6 +156,7 @@ const PowerFilter = () => {
                                 value={currentPsMax?.toString() || ''}  
                                 onChangeText={(text) => setCurrentPsMax(onChangeConvert(text))}  
                                 keyboardType="numeric"
+                                placeholderTextColor="rgba(255, 255, 255, 0.5)"
                                 onFocus={() => setIsEndFocused(true)}
                                 onBlur={() => setIsEndFocused(false)}
                             />

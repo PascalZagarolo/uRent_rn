@@ -63,9 +63,16 @@ const PaginationComponent = ({
     return (
         <View className="bg-[#1B1D28] shadow-lg p-4 rounded-lg">
             <View className="flex flex-row items-center justify-evenly w-full">
-                <TouchableOpacity className="shadow-lg p-2.5 bg-[#282b3a] rounded-md mr-auto" disabled>
-                    <MaterialCommunityIcons name="chevron-left" size={24} color="gray" />
+                
+                    <TouchableOpacity className="shadow-lg p-2.5 bg-[#282b3a] rounded-md mr-auto"
+                    onPress={() => {onPageSwitch(currentPage - 1)}} 
+                    disabled={currentPage == 1}
+                    >
+                    {currentPage != 1 && (
+                        <MaterialCommunityIcons name="chevron-left" size={24} color="white" />
+                    )}
                 </TouchableOpacity>
+              
                 <View className="flex flex-row items-center space-x-2">
                     {currentPage > 2 && (
                         <TouchableOpacity className="shadow-lg p-2.5 px-4 bg-indigo-800 rounded-md" onPress={() => {onPageSwitch(1)}}>
@@ -88,7 +95,7 @@ const PaginationComponent = ({
 <Text className="text-gray-400 text-base">...</Text>
                 </View>
                 {!renderedPages.some((page) => page === availablePages - 1) && (
-                    <TouchableOpacity className="shadow-lg p-2.5 bg-indigo-800 rounded-md ml-auto" onPress={() => {onPageSwitch(availablePages)}}>
+                    <TouchableOpacity className="shadow-lg p-2.5 px-4 bg-indigo-800 rounded-md ml-auto" onPress={() => {onPageSwitch(availablePages)}}>
                     <Text className="text-gray-200 text-base">{availablePages}</Text>
                     </TouchableOpacity>
                 )}

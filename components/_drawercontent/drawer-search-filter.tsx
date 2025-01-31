@@ -31,7 +31,7 @@ const DrawerSearchFilter: React.FC<DrawerSearchFilterProps> = ({
 
     const currentObject = useSavedSearchParams((state) => state.searchParams);
 
-    const router = useRouter();
+   
 
     const onDelete = () => {
         removeAll();

@@ -70,7 +70,8 @@ const Caution = () => {
                                 placeholder="Kautionsbetrag.."
                                 onFocus={() => setIsStartFocused(true)}
                                 onBlur={() => setIsStartFocused(false)}
-                                value={currentObject["caution"]?.toString() || ''}  
+                                value={currentObject["caution"]?.toString() || ''}
+                                placeholderTextColor="rgba(255, 255, 255, 0.5)"  
                                 keyboardType="numeric"
                                 onChangeText={(text) => setCaution(onChangeConvert(text))} 
                             />

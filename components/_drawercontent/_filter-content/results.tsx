@@ -21,7 +21,7 @@ const Results : React.FC<ResultProps> = ({
 
     const [currentResult, setCurrentResult] = useState<number | null>();
     const searchParams = useSavedSearchParams((state) => state.searchParams);
-    console.log(searchParams);
+    
 
     useMemo(() => {
         const getSearchResults = async () => {
@@ -77,7 +77,7 @@ const Results : React.FC<ResultProps> = ({
 
         }, { skipEmptyString: true, skipNull: true })
         
-        console.log(url)
+        
         
         router.push(url);
     }

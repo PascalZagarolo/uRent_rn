@@ -134,7 +134,7 @@ const LoadingRoomFilter = () => {
                                 }
                                 placeholder="Startpreis"
                                 editable={usesLiter}
-                                
+                                placeholderTextColor="rgba(255, 255, 255, 0.5)"
                                 value={currentLiter?.toString() || ''}  
                                 keyboardType="numeric"
                                 onChangeText={(text) => 
@@ -171,7 +171,7 @@ const LoadingRoomFilter = () => {
                                     }
                                 }  
                                 keyboardType="numeric"
-                                
+                                placeholderTextColor="rgba(255, 255, 255, 0.5)"
                             />
                             
                         </View>

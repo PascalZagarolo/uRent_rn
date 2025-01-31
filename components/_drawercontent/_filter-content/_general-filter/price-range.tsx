@@ -174,11 +174,12 @@ useEffect(() => {
                         </Text>
                         <View className="flex flex-row w-full">
                             <TextInput
-                                className="w-3/4 bg-[#1c1f2b] rounded-l-md text-base text-gray-200/90 p-4 font-semibold"
+                                className="w-3/4 bg-[#1c1f2b] rounded-l-md text-base text-gray-200 placeholder:text-gray-200 p-4 font-semibold"
                                 placeholder="Startpreis"
                                 onFocus={() => setIsStartFocused(true)}
                                 onBlur={() => setIsStartFocused(false)}
                                 value={currentObject["start"]?.toString() || ''}  
+                                placeholderTextColor="rgba(255, 255, 255, 0.5)"
                                 keyboardType="numeric"
                                 onChangeText={(text) => setStartPrice(onChangeConvert(text))} 
                             />
@@ -196,11 +197,12 @@ useEffect(() => {
                         </Text>
                         <View className="flex flex-row w-full">
                             <TextInput
-                                className="w-3/4 bg-[#1c1f2b] rounded-l-md text-base text-gray-200/90 p-4 font-semibold"
+                                className="w-3/4 bg-[#1c1f2b] rounded-l-md text-base text-gray-200 p-4 font-semibold"
                                 placeholder="Endpreis"
                                 value={currentObject["end"]?.toString() || ''}  
                                 onChangeText={(text) => setEndPrice(onChangeConvert(text))}  
                                 keyboardType="numeric"
+                                placeholderTextColor="rgba(255, 255, 255, 0.5)"
                                 onFocus={() => setIsEndFocused(true)}
                                 onBlur={() => setIsEndFocused(false)}
                             />
