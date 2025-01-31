@@ -172,7 +172,7 @@ export const getInserate = async ({
 
 'use server'
 
-
+console.log("used title", title)
 
     const ConditionFilter = (pInserat: any) => {
         const bAge = reqAge ? Number(reqAge) >= Number(pInserat.reqAge) : true;

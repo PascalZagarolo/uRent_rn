@@ -40,7 +40,7 @@ const FilterBubbles: React.FC<FilterBubblesProps> = ({
                 {Object.entries(params)
                     .filter(([key, value]) => value !== null && value !== undefined)
                     .map(([key, value]) => (
-                        <View className="mt-2">
+                        <View className="mt-2" key={key}>
                             <ExistingFilterBubble
                             key={key}
                             pKey={key}
