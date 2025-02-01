@@ -1,17 +1,23 @@
 
 
+
 import db from "@/db/drizzle";
 import {
     ApplicationEnumRender, BrandEnumRender, CategoryEnumRender, CouplingEnumRender,
-    DriveEnumRender, ExtraTypeEnumRender, FuelTypeEnumRender, inserat, lkwAttribute, LkwBrandEnumRender,
-    LoadingEnumRender, pkwAttribute, TrailerEnumRender, TransmissionEnumRender,
-    transportAttribute
+    DriveEnumRender, ExtraTypeEnumRender, FuelTypeEnumRender, images, inserat, lkwAttribute, LkwBrandEnumRender,
+    LoadingEnumRender, pkwAttribute, trailerAttribute, TrailerEnumRender, TransmissionEnumRender,
+    transportAttribute,
+    userSubscription,
+    userTable,
+    vehicle
 } from "@/db/schema";
+import { createDateWithTime } from "@/hooks/date/combine-date-with-minutes";
 import axios from "axios";
-import { isAfter, isBefore, isEqual, isSameDay } from "date-fns";
-import { and, eq, gte, ilike, lte } from "drizzle-orm";
-
+import { differenceInHours, isAfter, isBefore, isEqual, isSameDay } from "date-fns";
+import { and, eq, gte, ilike, inArray, isNull, lte, or } from "drizzle-orm";
 import { dynamicSearch } from "./dynamic-search";
+
+
 
 
 
@@ -39,6 +45,7 @@ type GetInserate = {
 
     reqAge?: number;
     reqLicense?: string;
+    minTime: number;
 
     //PKW
     thisBrand?: typeof BrandEnumRender[];
@@ -59,6 +66,8 @@ type GetInserate = {
     //LKW
     weightClass?: number;
     weightClassMax?: number;
+    payload?: number;
+    payloadMax?: number;
     drive?: typeof DriveEnumRender;
     loading?: typeof LoadingEnumRender;
     application?: typeof ApplicationEnumRender;
@@ -118,6 +127,7 @@ export const getInserate = async ({
     startDateDynamic,
     endDateDynamic,
     reqTime,
+    minTime,
 
 
     location,
@@ -143,6 +153,8 @@ export const getInserate = async ({
 
     weightClass,
     weightClassMax,
+    payload,
+    payloadMax,
     drive,
     loading,
     application,
@@ -170,9 +182,9 @@ export const getInserate = async ({
 
 }: GetInserate): Promise<typeof inserat.$inferSelect[]> => {
 
-'use server'
+    "use server"
 
-console.log("used title", title)
+
 
     const ConditionFilter = (pInserat: any) => {
         const bAge = reqAge ? Number(reqAge) >= Number(pInserat.reqAge) : true;
@@ -281,6 +293,17 @@ console.log("used title", title)
             isValidDate = false;
         }
 
+        const searchedPayload = (payload || payloadMax) ? true : false;
+        const startingPayload = payload ? payload : 0;
+        const endingPayload = payloadMax ? payloadMax : 100000;
+
+
+
+        const bPayload = searchedPayload ?
+            Number(pInserat?.lkwAttribute?.payload ?? 1000000000) <= Number(endingPayload) &&
+            Number(pInserat?.lkwAttribute?.payload ?? 0) >= Number(startingPayload)
+            : true;
+
         const searchedSeats = seats || seatsMax ? true : false;
         const startingIndex = seats ? seats : 0;
         const endingIndex = seatsMax ? seatsMax : 10;
@@ -317,15 +340,19 @@ console.log("used title", title)
             pInserat?.lkwAttribute?.seats <= endingIndex : true;
 
         const bWeightClass = searchedWeightClass ?
-            Number(pInserat?.lkwAttribute?.weightClass) <= Number(endingWeightClass) &&
-            Number(pInserat?.lkwAttribute?.weightClass) >= Number(startingWeightClass)
+            Number(pInserat?.lkwAttribute?.weightClass ?? 1000000000) <= Number(endingWeightClass) &&
+            Number(pInserat?.lkwAttribute?.weightClass ?? 0) >= Number(startingWeightClass)
             : true;
 
         const searchedAxis = (axis || axisMax) ? true : false;
+
         const minAxis = axis ? axis : 0;
         const maxAxis = axisMax ? axisMax : 10;
 
         const bAxis = searchedAxis ? minAxis <= pInserat?.lkwAttribute?.axis && maxAxis >= pInserat?.lkwAttribute?.axis : true;
+
+        const searchedAhk = (typeof (ahk) !== 'undefined' && ahk !== null);
+        const bAhk = searchedAhk ? String(ahk) === String(pInserat?.lkwAttribute?.ahk) : true;
 
         const bDrive = drive ? drive === pInserat.lkwAttribute?.drive : true;
         const bLoading = loading ? loading === pInserat.lkwAttribute?.loading : true;
@@ -338,15 +365,23 @@ console.log("used title", title)
         const bBreite = loading_b ? loading_b <= pInserat.lkwAttribute?.loading_b : true;
         const bHeight = loading_h ? loading_h <= pInserat.lkwAttribute?.loading_h : true;
 
-        return bSeats && bWeightClass && bDrive && bLoading && bApplication && bInitial && bTransmission && bPower && bFuel &&
+        return bSeats && bWeightClass && bDrive && bLoading && bApplication && bInitial && bTransmission && bPower && bFuel && bAhk && bPayload &&
             bLkwBrand && bAxis && bVolume && bLength && bBreite && bHeight;
     }
 
     const TrailerFilter = (pInserat: any) => {
 
 
+        //
+        const searchedPayload = (payload || payloadMax) ? true : false;
+        const startingPayload = payload ? payload : 0;
+        const endingPayload = payloadMax ? payloadMax : 100000;
 
-
+        const bPayload = searchedPayload ?
+            Number(pInserat?.trailerAttribute?.payload ?? 1000000000) <= Number(endingPayload) &&
+            Number(pInserat?.trailerAttribute?.payload ?? 0) >= Number(startingPayload)
+            : true;
+        //
 
         const searchedWeightClass = (weightClass || weightClassMax) ? true : false;
         const startingWeightClass = weightClass ? weightClass : 0;
@@ -374,8 +409,8 @@ console.log("used title", title)
         const bAxis = searchedAxis ? minAxis <= pInserat?.trailerAttribute?.axis && maxAxis >= pInserat?.trailerAttribute?.axis : true;
 
         const bWeightClass = searchedWeightClass ?
-            Number(pInserat?.trailerAttribute?.weightClass) <= Number(endingWeightClass) &&
-            Number(pInserat?.trailerAttribute?.weightClass) >= Number(startingWeightClass)
+            Number(pInserat?.trailerAttribute?.weightClass ?? 1000000000) <= Number(endingWeightClass) &&
+            Number(pInserat?.trailerAttribute?.weightClass ?? 0) >= Number(startingWeightClass)
             : true;
 
 
@@ -395,7 +430,7 @@ console.log("used title", title)
         const bBreite = loading_b ? loading_b <= pInserat.trailerAttribute?.loading_b : true;
         const bHeight = loading_h ? loading_h <= pInserat.trailerAttribute?.loading_h : true;
 
-        return bType && bExtraType && bCoupling && bLoading && bAxis && bInitial
+        return bType && bExtraType && bCoupling && bLoading && bAxis && bInitial && bPayload
             && bWeightClass && bBrake && bVolume && bLength && bBreite && bHeight;
     }
 
@@ -412,6 +447,18 @@ console.log("used title", title)
 
             isValidDate = false;
         }
+
+        //
+        const searchedPayload = (payload || payloadMax) ? true : false;
+        const startingPayload = payload ? payload : 0;
+        const endingPayload = payloadMax ? payloadMax : 100000;
+
+        const bPayload = searchedPayload ?
+            Number(pInserat?.transportAttribute?.payload ?? 1000000000) <= Number(endingPayload) &&
+            Number(pInserat?.transportAttribute?.payload ?? 0) >= Number(startingPayload)
+            : true;
+        //
+
 
         const searchedSeats = seats || seatsMax ? true : false;
         const startingIndex = seats ? seats : 0;
@@ -457,12 +504,15 @@ console.log("used title", title)
             : true;
 
         const bWeightClass = searchedWeightClass ?
-            Number(pInserat?.transportAttribute?.weightClass) <= Number(endingWeightClass) &&
-            Number(pInserat?.transportAttribute?.weightClass) >= Number(startingWeightClass)
+            Number(pInserat?.transportAttribute?.weightClass ?? 1000000000) <= Number(endingWeightClass) &&
+            Number(pInserat?.transportAttribute?.weightClass ?? 0) >= Number(startingWeightClass)
             : true;
 
         const bLoading = loading ? loading === pInserat.transportAttribute.loading : true;
         const bTransmission = transmission ? transmission === pInserat?.transportAttribute?.transmission : true;
+
+        const searchedAhk = (typeof (ahk) !== 'undefined' && ahk !== null);
+        const bAhk = searchedAhk ? String(ahk) === String(pInserat?.transportAttribute?.ahk) : true;
 
         const bExtraType = extraType ? extraType === pInserat.transportAttribute.extraType : true;
 
@@ -475,13 +525,19 @@ console.log("used title", title)
         const bBreite = loading_b ? loading_b <= pInserat.transportAttribute?.loading_b : true;
         const bHeight = loading_h ? loading_h <= pInserat.transportAttribute?.loading_h : true;
 
-        return bLoading && bTransmission && bSeats && bDoors && bFuel && bPower && bInitial && bBrand && bWeightClass
+        return bLoading && bTransmission && bSeats && bDoors && bFuel && bPower && bInitial && bBrand && bWeightClass && bAhk && bPayload
             && bExtraType && bVolume && bLength && bBreite && bHeight;
     }
 
     const filterAvailability = (pInserat: any) => {
-        console.log("test")
-        if (pInserat.bookings.length === 0) {
+
+        const fitsMinTime = checkFitsMinTime(pInserat);
+
+        if (!fitsMinTime) {
+            return false;
+        }
+
+        if (pInserat?.bookings?.length === 0) {
             return true;
         }
         //set start and date to same date if the user only provides one
@@ -542,7 +598,7 @@ console.log("used title", title)
 
                 }
                 else {
-                    console.log(booking)
+
                     console.log(booking.endDate > usedPeriodEnd && booking.startDate > usedPeriodEnd)
                     return false;
                 }
@@ -587,145 +643,218 @@ console.log("used title", title)
     }
 
     const filterAvailabilityMulti = (pInserat: any) => {
+        try {
+
+            const fitsMinTime = checkFitsMinTime(pInserat);
+
+            if (!fitsMinTime) {
+                return false;
+            }
+
+            if (pInserat.bookings?.length <= 0) {
+                return true;
+            }
+            //set start and date to same date if the user only provides one
+
+            const usedPeriodBegin = new Date(periodBegin);
+            const usedPeriodEnd = new Date(periodEnd);
+
+            const usedVehicles = pInserat?.vehicles;
+
+            for (const vehicle of usedVehicles) {
+
+                let startDateAppointments = new Set<any>();
+                let endDateAppointments = new Set<any>();
+
+                let isAvailable = true;
+
+                for (const booking of vehicle?.bookings) {
+                    //booking starts AND ends before the searched Period
+                    if (!(booking.startDate <= usedPeriodBegin) || !(booking.endDate <= usedPeriodBegin)
+                        //booking starts or ends on the first OR last day of the searched period
+                        || (isSameDay(booking.startDate, usedPeriodBegin) || isSameDay(booking.endDate, usedPeriodBegin)
+                            || isSameDay(booking.endDate, usedPeriodBegin) || isSameDay(booking.startDate, usedPeriodBegin))
+                        //booking
+                        && (!(booking.endDate > usedPeriodEnd) || !(booking.startDate > usedPeriodEnd))
+                    ) {
+                        if ((isSameDay(booking.startDate, usedPeriodBegin) &&
+                            (isSameDay(booking.endDate, usedPeriodBegin))) ||
+                            isSameDay(booking.endDate, usedPeriodBegin)) {
+
+                            let usedStart;
+
+                            if (isSameDay(booking.startDate, booking.endDate)) {
+                                usedStart = booking.startPeriod;
+                            } else {
+                                usedStart = "0"
+                            }
+
+                            for (let i = Number(usedStart); i <= Number(booking.endPeriod); i = i + 30) {
+                                startDateAppointments.add({ number: i, bookingId: booking.id });
+                            }
+                            if ([...startDateAppointments].some(appointment => appointment.number === "1440") && !isSameDay(usedPeriodBegin, usedPeriodEnd)) {
+
+                                isAvailable = false;
+                            }
+                        } else if ((isSameDay(booking.endDate, usedPeriodEnd) && isSameDay(booking.startDate, usedPeriodEnd))
+                            || isSameDay(booking.startDate, usedPeriodEnd)) {
+
+                            let usedEnd;
+
+                            if (isSameDay(booking.startDate, booking.endDate)) {
+                                usedEnd = booking.endPeriod;
+                            } else {
+
+                                usedEnd = "1440";
+                            }
+
+                            for (let i = Number(booking.startPeriod); i <= Number(usedEnd); i = i + 30) {
+
+                                endDateAppointments.add({ number: i, bookingId: booking.id });
+                            }
+                            if ([...endDateAppointments].some(appointment => appointment.number === "0") && !isSameDay(usedPeriodBegin, usedPeriodEnd)) {
 
 
-        if (pInserat.bookings.length === 0) {
-            return true;
-        }
-        //set start and date to same date if the user only provides one
+                                isAvailable = false;
 
-        const usedPeriodBegin = new Date(periodBegin);
-        const usedPeriodEnd = new Date(periodEnd);
+                            } else if (booking.endDate > usedPeriodEnd && booking.startDate > usedPeriodEnd) {
 
-        let index = 1;
+                            }
+                        } else if (booking.endDate > usedPeriodEnd && booking.startDate > usedPeriodEnd) {
 
-        for (const vehicle of pInserat?.vehicles) {
-
-            const startDateAppointments = new Set<any>()
-            const endDateAppointments = new Set<any>();
-            let isAvailable = true;
-
-
-
-            for (const booking of vehicle?.bookings) {
-                //booking starts AND ends before the searched Period
-
-
-
-                if (!(booking.startDate <= usedPeriodBegin) || !(booking.endDate <= usedPeriodBegin)
-                    //booking starts or ends on the first OR last day of the searched period
-                    || (isSameDay(booking.startDate, usedPeriodBegin) || isSameDay(booking.endDate, usedPeriodBegin)
-                        || isSameDay(booking.endDate, usedPeriodBegin) || isSameDay(booking.startDate, usedPeriodBegin))
-                    //booking
-                    && (!(booking.endDate > usedPeriodEnd) || !(booking.startDate > usedPeriodEnd))
-                ) {
-                    if ((isSameDay(booking.startDate, usedPeriodBegin) && (isSameDay(booking.endDate, usedPeriodBegin))) || isSameDay(booking.endDate, usedPeriodBegin)) {
-                        let usedStart;
-                        if (isSameDay(booking.startDate, booking.endDate)) {
-                            usedStart = booking.startPeriod;
-                        } else {
-                            usedStart = "0"
                         }
+                        else {
 
-                        for (let i = Number(usedStart); i <= Number(booking.endPeriod); i = i + 30) {
 
-                            startDateAppointments.add(i);
-                        }
-                        if (startDateAppointments.has("1440") && !isSameDay(usedPeriodBegin, usedPeriodEnd)) {
-                            console.log("this")
                             isAvailable = false;
                         }
-                    } else if ((isSameDay(booking.endDate, usedPeriodEnd) && isSameDay(booking.startDate, usedPeriodEnd))
-                        || isSameDay(booking.startDate, usedPeriodEnd)) {
+                    }
+                }
 
+                if (startDateAppointments.size !== 0 || endDateAppointments.size !== 0 && (startTime || endTime)) {
+                    if (startTime) {
                         let usedEnd;
 
-                        if (isSameDay(booking.startDate, booking.endDate)) {
-                            usedEnd = booking.endPeriod;
+                        if (isSameDay(usedPeriodBegin, usedPeriodEnd) && endTime) {
+                            usedEnd = endTime;
                         } else {
-
                             usedEnd = "1440";
                         }
 
-                        for (let i = Number(booking.startPeriod); i <= Number(usedEnd); i = i + 30) {
+                        for (let i = Number(startTime); i <= Number(usedEnd); i = i + 30) {
+                            if ([...startDateAppointments].some(appointment => appointment.number === Number(i))) {
 
-                            endDateAppointments.add(i);
+
+
+                                isAvailable = false;
+                            }
                         }
-                        if (endDateAppointments.has("0") && !isSameDay(usedPeriodBegin, usedPeriodEnd)) {
-                            console.log("this")
-                            isAvailable = false;
-                        } else if (booking.endDate > usedPeriodEnd && booking.startDate > usedPeriodEnd) {
-                            console.log(booking)
+                    }
+                    if (endTime) {
 
+                        let usedEnd;
+
+                        if (isSameDay(usedPeriodBegin, usedPeriodEnd) && startTime) {
+                            usedEnd = startTime;
+                        } else {
+                            usedEnd = "0";
                         }
-                    } else if (booking.endDate > usedPeriodEnd && booking.startDate > usedPeriodEnd) {
 
-                    }
-                    else if (index === pInserat.vehicles.length) {
 
-                        isAvailable = false;
-                    }
-                }
 
-            }
+                        for (let i = Number(endTime); i >= Number(usedEnd); i = i - 30) {
+                            if ([...endDateAppointments].some(appointment => appointment.number === Number(i))) {
 
-            if ((startTime || endTime)) {
+                                isAvailable = false;
+                            }
 
-                if (startTime) {
-                    let usedEnd;
 
-                    if (isSameDay(usedPeriodBegin, usedPeriodEnd) && endTime) {
-                        usedEnd = endTime;
-                    } else {
-                        usedEnd = "1440";
-                    }
-
-                    for (let i = Number(startTime); i <= Number(usedEnd); i = i + 30) {
-                        if (startDateAppointments.has(Number(i))) {
-                            isAvailable = false;
                         }
                     }
                 }
-                if (endTime) {
-                    let usedEnd;
-                    if (isSameDay(usedPeriodBegin, usedPeriodEnd) && startTime) {
-                        usedEnd = startTime;
-                    } else {
-                        usedEnd = "0";
-                    }
+
+                startDateAppointments.clear();
+                endDateAppointments.clear();
 
 
-                    for (let i = Number(endTime); i >= Number(usedEnd); i = i - 30) {
-                        if (endDateAppointments.has(Number(i))) {
-                            isAvailable = false;
-                        }
-                    }
+                if (isAvailable) {
+                    return true;
                 }
             }
 
-            if (isAvailable) {
+            return false;
+
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+
+    const checkFitsMinTime = (pInserat) => {
+        try {
+            if (!pInserat?.minTime) {
+                console.log(pInserat?.minTime)
                 return true;
             }
-            index++;
 
+            const usedStartTime = startTime ? Number(startTime) : 0;
+            const usedEndTime = endTime ? Number(endTime) : 1440;
+
+
+            const usedStartDate = createDateWithTime(periodBegin, usedStartTime);
+            const usedEndDate = createDateWithTime(periodEnd, usedEndTime);
+
+
+
+            const diffrence = differenceInHours(new Date(usedEndDate), new Date(usedStartDate));
+
+            if (pInserat?.minTime > diffrence) {
+
+                return false;
+            } else {
+                return true;
+            }
+
+        } catch (e) {
+            console.log(e);
+            return false; // Return false if an error occurs
         }
-
-        return false;
     }
 
+
     try {
-        const ilikeQuery = title ? title.split(' ').map((w) => ilike(inserat.title, `%${w}%`)) : "";
+        
 
         const findInserate = await db.query.inserat.findMany({
             where: (
                 and(
                     eq(inserat.isPublished, true),
-                    //@ts-ignore
-                    ...ilikeQuery,
+                    
+                    or(
+                        ...(
+                            title
+                                ? title.split(' ').map((w) =>
+                                    or(
+                                        ilike(inserat.title, `%${w}%`),
+                                        inArray(
+                                            inserat.userId,
+                                            db
+                                                .select({ userId: userTable.id })
+                                                .from(userTable)
+                                                .where(ilike(userTable.name, `%${w}%`))
+                                        )
+                                    )
+                                )
+                                : []
+                        )
+                    ),
                     start ? gte(inserat.price as any, start) : undefined,
                     end ? lte(inserat.price as any, end) : undefined,
                     thisCategory ? eq(inserat.category, thisCategory as any) : undefined,
-
+                    minTime ? or(
+                        lte(inserat.minTime, Number(minTime)),
+                        isNull(inserat.minTime)
+                    ) : undefined
                 )
             ),
             with: {
@@ -733,12 +862,16 @@ console.log("used title", title)
                     with: {
                         subscription: {
                             select: {
-                                plan: true
+                                subscriptionType: true,
+                                stripe_current_period_end: true,
                             }
                         }
                     }
                 },
-                images: true,
+                images: {
+                    orderBy: (created_at, { asc }) => [asc(images.position)],
+
+                },
                 address: true,
                 lkwAttribute: true,
                 pkwAttribute: true,
@@ -760,11 +893,38 @@ console.log("used title", title)
             },
             ...(filter === "desc") && {
                 orderBy: (price, { desc }) => [desc(inserat.price)]
-            }
+            },
 
-        }).prepare("findInserate");
+         }).prepare("findInserate");
+
+
+
 
         const foundInserate = await findInserate.execute();
+         /*
+        const foundInserate = await db
+            .select()
+            .from(inserat)
+            .where(eq(inserat.isPublished, true))
+            .leftJoin(user, eq(user.id, inserat.userId))
+            .leftJoin(userSubscription, eq(userSubscription.userId, user.id))
+            .leftJoin(images, eq(images.inseratId, inserat.id))
+            .leftJoin(address, eq(address.id, inserat.addressId))
+            .leftJoin(lkwAttribute, eq(lkwAttribute.id, inserat.lkwAttributeId))
+            .leftJoin(pkwAttribute, eq(pkwAttribute.id, inserat.pkwAttributeId))
+            .leftJoin(trailerAttribute, eq(trailerAttribute.id, inserat.trailerAttributeId))
+            .leftJoin(transportAttribute, eq(transportAttribute.id, inserat.transportAttributeId))
+            .leftJoin(booking, eq(booking.inseratId, inserat.id))
+            .leftJoin(vehicle, eq(vehicle.inseratId, inserat.id))
+           */
+
+        
+
+
+
+
+
+
 
 
 
@@ -794,13 +954,7 @@ console.log("used title", title)
 
                 if (!available) return false;
             } else if (startDateDynamic && endDateDynamic) {
-                console.log("test")
-                console.log(pInserat.bookings)
-                console.log(startTime)
-                console.log(endTime)
-                console.log(startDateDynamic)
-                console.log(endDateDynamic)
-                console.log(reqTime)
+
 
                 const usedStartTime = String(startTime);
                 const usedEndTime = String(endTime);
@@ -878,33 +1032,68 @@ console.log("used title", title)
                 }
             }
             */
-            for (const pInserat of filteredArray) {
-                const distance = calculateDistance(addressObject.data[0].lat, addressObject.data[0].lon,
-                    Number(pInserat.address?.latitude), Number(pInserat.address?.longitude));
-                if (distance < usedRadius) {
-                    returnedArray.push(pInserat);
+            if (addressObject?.data[0]?.lat && addressObject?.data[0]?.lon) {
+                for (const pInserat of filteredArray) {
+                    const distance = calculateDistance(addressObject.data[0].lat, addressObject.data[0].lon,
+                        Number(pInserat.address?.latitude), Number(pInserat.address?.longitude));
+                    if (distance < usedRadius) {
+                        returnedArray.push(pInserat);
+                    }
                 }
+            } else {
+
+                returnedArray = filteredArray;
             }
         } else {
             returnedArray = filteredArray;
         }
 
+        if (filter === "date_newest") {
+            returnedArray.sort((a, b) => {
+                return new Date(b.firstRelease).getTime() - new Date(a.firstRelease).getTime();
+            })
+        }
+
+        if (filter === "date_oldest") {
+            returnedArray.sort((a, b) => {
+                return new Date(a.firstRelease).getTime() - new Date(b.firstRelease).getTime();
+            })
+        }
+
 
 
         if (!filter || filter === "relevance") {
+
+
+
+            function shuffleArray(array) {
+                return array.sort(() => Math.random() - 0.5);
+            }
+            
             returnedArray.sort((a, b) => {
-
-                const aIsPremium = a.user?.subscription?.subscriptionType === "PREMIUM" || a.user?.subscription?.plan === "ENTERPRISE";
-                const bIsPremium = b.user?.subscription?.subscriptionType === "PREMIUM" || b.user?.subscription?.plan === "ENTERPRISE";
-
+                const aIsPremium = a.user?.subscription?.subscriptionType === "PREMIUM" || a.user?.subscription?.subscriptionType === "ENTERPRISE";
+                const bIsPremium = b.user?.subscription?.subscriptionType === "PREMIUM" || b.user?.subscription?.subscriptionType === "ENTERPRISE";
+            
                 if (aIsPremium && !bIsPremium) {
                     return -1; // a should come before b
                 } else if (!aIsPremium && bIsPremium) {
-                    return 1;
+                    return 1; // b should come before a
                 } else {
-                    return 0;
+                    return 0; // keep them at the same level for now
                 }
             });
+            
+            // Shuffle each group separately
+            const premiumUsers = returnedArray.filter(user => user.user?.subscription?.subscriptionType === "PREMIUM" || user.user?.subscription?.subscriptionType === "ENTERPRISE");
+            const nonPremiumUsers = returnedArray.filter(user => !(user.user?.subscription?.subscriptionType === "PREMIUM" || user.user?.subscription?.subscriptionType === "ENTERPRISE"));
+            
+            // Shuffle both groups
+            const shuffledPremium = shuffleArray(premiumUsers);
+            const shuffledNonPremium = shuffleArray(nonPremiumUsers);
+            
+            // Combine the shuffled groups
+            returnedArray = [...shuffledPremium, ...shuffledNonPremium];
+            
         }
 
         return returnedArray;
@@ -913,6 +1102,4 @@ console.log("used title", title)
         console.log(error)
         return [];
     }
-    
-
 };
