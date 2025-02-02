@@ -11,6 +11,7 @@ import { createLogin } from "@/app/api";
 import Toast from "react-native-toast-message";
 import Twofa from "./_components/2fa";
 import * as SecureStorage from 'expo-secure-store';
+import GoogleSignIn from "./_components/google-signin";
 
 interface LoginFormProps {
     show2Fa : boolean;
@@ -137,16 +138,7 @@ const LoginForm : React.FC<LoginFormProps> = ({
                 </TouchableOpacity>
             </View>
 
-            <View className="mt-2">
-                <TouchableOpacity
-                    className='py-4 rounded-md w-full bg-[#1A1C2C] flex items-center flex-row justify-center'
-                    onPress={onSignUp}>
-                    <FontAwesome name="google" size={24} color="white" />
-                    <Text className='ml-2 text-gray-200 text-center font-semibold'>
-                        Mit Google anmelden
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            <GoogleSignIn />
             </View>
             )}
         </View>

@@ -1,12 +1,11 @@
-import { getInserate } from "@/actions/getInserate";
+x
 import Footer from "@/components/_searchpage/footer";
 import Header from "@/components/_searchpage/header";
 import InseratCard from "@/components/_searchpage/inserat-card";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, SafeAreaView, ScrollView, Text, View, TouchableOpacity } from "react-native";
 import * as SecureStore from 'expo-secure-store';
-import { getCurrentUser } from "@/actions/getCurrentUser";
-import { useAuth } from "./AuthProvider";
+
 import FilterBubbles from "@/components/_searchpage/_components/filter-bubbles";
 import { Drawer } from 'react-native-drawer-layout';
 import DrawerContentProfile from "@/components/_drawercontent/drawer-content-profile";
@@ -21,6 +20,7 @@ import { addFavourite } from "@/actions/favourites/add-favourite";
 import Toast from "react-native-toast-message";
 import { deleteFavourite } from "@/actions/favourites/delete-favourite";
 import PaginationComponent from "@/components/_searchpage/_components/pagination";
+import { getInserate } from "@/actions/getInserate";
 
 
 

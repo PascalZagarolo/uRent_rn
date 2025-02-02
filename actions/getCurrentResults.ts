@@ -3,7 +3,7 @@ import db from "@/db/drizzle";
 import { inserat, userTable } from "@/db/schema";
 import axios from "axios";
 import { and, eq, gte, ilike, inArray, isNull, lte, or } from "drizzle-orm";
-import { NextResponse } from "next/server";
+
 
 
 import { differenceInHours, isAfter, isBefore, isEqual, isSameDay } from "date-fns";
@@ -669,7 +669,7 @@ export const getCurrentResults = async (values) => {
 
             } catch (e) {
                 console.log(e);
-                return new NextResponse("Error", { status: 500 });
+                return null;
             }
         }
 
@@ -808,10 +808,10 @@ export const getCurrentResults = async (values) => {
             filteredResult = filteredArray;
         }
 
-        return NextResponse.json(filteredResult.length);
+        return filteredResult?.length
 
     } catch (error: any) {
         console.log(error);
-        return new NextResponse(error, { status: 500 })
+        return null;
     }
 }

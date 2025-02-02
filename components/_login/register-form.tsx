@@ -7,6 +7,7 @@ import { Keyboard, ScrollView } from "react-native";
 import { KeyboardAvoidingView } from "react-native";
 import { View, Text, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import Toast from "react-native-toast-message";
+import GoogleSignIn from "./_components/google-signin";
 
 interface RegisterFormProps {
     switchLayout: () => void;
@@ -131,16 +132,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                 </TouchableOpacity>
             </View>
 
-            <View className="mt-2">
-                <TouchableOpacity
-                    className='py-4 rounded-md w-full bg-[#1A1C2C] flex items-center flex-row justify-center'
-                    onPress={onSocial}>
-                    <FontAwesome name="google" size={24} color="white" />
-                    <Text className='ml-2 text-gray-200 text-center font-semibold'>
-                        Mit Google anmelden
-                    </Text>
-                </TouchableOpacity>
-            </View>
+            <GoogleSignIn />
             </KeyboardAvoidingView>
         </View>
     );
