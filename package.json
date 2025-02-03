@@ -22,6 +22,7 @@
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "@neondatabase/serverless": "^0.9.4",
     "@react-email/components": "^0.0.23",
+    "@react-native-async-storage/async-storage": "^2.1.0",
     "@react-navigation/native": "^7.0.14",
     "@rn-primitives/accordion": "^1.0.3",
     "@rn-primitives/dialog": "^1.0.3",
@@ -45,6 +46,7 @@
     "drizzle-orm": "^0.32.2",
     "events": "^1.0.0",
     "expo": "~52.0.26",
+    "expo-auth-session": "~6.0.3",
     "expo-constants": "~17.0.3",
     "expo-crypto": "~14.0.2",
     "expo-font": "~13.0.1",
@@ -122,12 +124,12 @@
     "util": "^0.10.4",
     "vm-browserify": "^0.0.4",
     "zod": "^3.23.8",
-    "zustand": "^4.5.4",
-    "expo-auth-session": "~6.0.3"
+    "zustand": "^4.5.4"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
     "@react-native-community/cli": "latest",
+    "@react-native-google-signin/google-signin": "^13.1.0",
     "@react-native/gradle-plugin": "^0.75.1",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.12",

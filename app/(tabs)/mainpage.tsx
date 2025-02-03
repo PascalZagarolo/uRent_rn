@@ -1,4 +1,4 @@
-x
+
 import Footer from "@/components/_searchpage/footer";
 import Header from "@/components/_searchpage/header";
 import InseratCard from "@/components/_searchpage/inserat-card";
