@@ -1,4 +1,8 @@
+import db from "@/db/drizzle";
+import { userTable } from "@/db/schema";
 import { GoogleSignin, isErrorWithCode, isSuccessResponse, statusCodes } from "@react-native-google-signin/google-signin";
+import { eq } from "drizzle-orm";
+import JWT from "expo-jwt";
 
   
   // Somewhere in your code
@@ -9,6 +13,9 @@ import { GoogleSignin, isErrorWithCode, isSuccessResponse, statusCodes } from "@
       const response = await GoogleSignin.signIn();
       if (isSuccessResponse(response)) {
         console.log(response.data)
+        console.log(response.data?.user)
+        const res = await loginWithGoogle(response.data?.user)
+        return { token : res }
       } else {
         // sign in was cancelled by user
       }
@@ -27,5 +34,43 @@ import { GoogleSignin, isErrorWithCode, isSuccessResponse, statusCodes } from "@
       } else {
         console.log("...")
       }
+    }
+  }
+
+
+  const loginWithGoogle = async (values) => {
+    "use server";
+    try {
+
+      const findExistingUser = await db.query.userTable.findFirst({
+        where : eq(userTable.email, values.email)
+      })
+
+      if(findExistingUser) {
+        const usedSecret = "77375149353387154508860974358780";
+        const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
+
+        
+
+        const generatedTokenJWT = JWT.encode({
+            userId : findExistingUser.id,
+            exp : oneMonthInMilliseconds
+        },
+        usedSecret
+        )
+
+        return  generatedTokenJWT
+      }
+
+    } catch(e : any) {
+
+    }
+  }
+
+  const createAccount = async (email, photo) => {
+    try {
+
+    } catch(e: any) {
+
     }
   }

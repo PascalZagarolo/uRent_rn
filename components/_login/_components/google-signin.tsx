@@ -3,6 +3,10 @@ import { Text,  View } from "react-native";
 
 import { GoogleSignin, GoogleSigninButton } from "@react-native-google-signin/google-signin";
 import { signIn } from "@/actions/google/sign-in";
+import { useState } from "react";
+import * as SecureStore from 'expo-secure-store';
+import Toast from "react-native-toast-message";
+import { router } from "expo-router";
 
 
 const GoogleSignIn = () => {
@@ -20,8 +24,39 @@ const GoogleSignIn = () => {
     forceCodeForRefreshToken: true,
 
   })
-  
 
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const onSignUp = async () => {
+        
+    try {
+      if(isLoading) return;
+        setIsLoading(true);
+        const res = await signIn()
+        
+            if (res?.error) {
+                console.log("schade");
+                return;
+            } else {
+                if(res?.token) {
+                    const token = res.token;
+                SecureStore.setItem("authToken", token);
+                Toast.show({
+                    type: 'success',
+                    text1: 'Erfolgreich eingeloggt',
+                    visibilityTime: 4000
+                })
+                    router.replace("/")
+                }
+            }
+       
+    } catch(e : any) {
+        console.log(e);
+        return;
+    } finally {
+        setIsLoading(false);
+    }
+}
   
 
   
@@ -39,7 +74,7 @@ const GoogleSignIn = () => {
                 </Text>
             </TouchableOpacity> */}
             <GoogleSigninButton 
-            onPress={signIn}
+            onPress={onSignUp}
             />
 
         </View>
