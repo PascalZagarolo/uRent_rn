@@ -17,7 +17,11 @@ import JWT from "expo-jwt";
         const res = await loginWithGoogle(response.data?.user)
         return { token : res }
       } else {
-        // sign in was cancelled by user
+        if(response?.data) {
+          await createAccount(response.data?.user.email, response.data?.user.photo, response.data?.user.name)
+          const res = await loginWithGoogle(response.data?.user)
+          return { token : res }
+        }
       }
     } catch (error) {
       if (isErrorWithCode(error)) {
@@ -67,10 +71,17 @@ import JWT from "expo-jwt";
     }
   }
 
-  const createAccount = async (email, photo) => {
+  const createAccount = async (email, photo, name) => {
     try {
+      const newUser = await db.insert(userTable).values({
+        email : email,
+        image : photo,
+        name: name
+      }).returning();
+
+      return newUser[0].id
 
     } catch(e: any) {
-
+      throw new Error(e)
     }
   }
