@@ -63,9 +63,7 @@ const GoogleSignIn = () => {
 
     return (
         <View className="mt-2">
-          <Text>
- asda            Hallo! 
-          </Text>
+          
             {/* <TouchableOpacity
                 className='py-4 rounded-md w-full bg-[#1A1C2C] flex items-center flex-row justify-center'>
                 <FontAwesome name="google" size={24} color="white" />
