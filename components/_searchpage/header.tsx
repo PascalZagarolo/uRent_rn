@@ -1,4 +1,4 @@
-import { FontAwesome, Ionicons } from "@expo/vector-icons";
+import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { Image, Modal, Platform, SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 
 import { userTable } from "@/db/schema";
@@ -47,9 +47,9 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
 
             </TouchableOpacity>
             <TouchableOpacity onPress={toggleNotifications}>
-              <Ionicons name="notifications" size={24} color="white" />
-              <View className={cn("absolute -top-2 -right-1.5 rounded-full px-1 py-0.5",
-                unseenNotifications === 0 ? "" : "bg-rose-600"
+             {unseenNotifications > 0 ?  <Ionicons name="notifications" size={24} color="white" /> : <MaterialIcons name="notifications-none" size={24} color="white" />}
+              <View className={cn("absolute -top-2 -right-2 rounded-full px-1 py-0.5",
+                unseenNotifications > 0 ? "bg-rose-600" : ""
               )}>
                 <Text style={{ fontSize: 10, color: 'rgba(229, 231, 235, 0.9)' }}>{unseenNotifications}</Text>
               </View>

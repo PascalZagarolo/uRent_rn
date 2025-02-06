@@ -1,10 +1,10 @@
 import { notification } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
-import { Entypo, Ionicons, Feather } from "@expo/vector-icons";
+import { Entypo, Ionicons, Feather, MaterialIcons } from "@expo/vector-icons";
 import { format, isThisMonth, isThisWeek, isToday } from "date-fns";
 
 import { useMemo, useState } from "react";
-import { ScrollView, SafeAreaView, View, Text, TouchableOpacity } from "react-native"
+import { ScrollView, SafeAreaView, View, Text, TouchableOpacity, Platform } from "react-native"
 
 
 
@@ -56,8 +56,8 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
             value: "B"
         },
         {
-            key : "uRent - News",
-            value : "N"
+            key: "uRent - News",
+            value: "N"
         }
     ]
 
@@ -101,6 +101,10 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
                 case "BOOKING":
                     return (
                         <Feather name="bookmark" size={24} color="white" />
+                    )
+                case "WELCOME":
+                    return (
+                        <MaterialIcons name="waving-hand" size={24} color="white" />
                     )
                 default:
                     ""
@@ -212,7 +216,10 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
 
     return (
         <View className="bg-[#1F2332] h-full">
-            <SafeAreaView>
+            <SafeAreaView className={cn(
+                "flex flex-row items-center mb-4",
+                Platform.OS === "ios" ? "" : "pt-8"
+            )}>
                 <ScrollView className="bg-[#1F2332] border-gray-600">
                     <View className="flex-1 flex ">
                         <View className="p-4 flex flex-row items-center space-x-4">
@@ -223,17 +230,25 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
                                 Benachrichtigungen
                             </Text>
                         </View>
-                        <ScrollView horizontal={true} contentContainerStyle={{ paddingHorizontal: 4 }}>
-                            <View className="flex flex-row items-center space-x-2 p-4">
-                                {usedFilter.map((item) => filterBubble(item.key, item.value))}
-                            </View>
+                        <ScrollView horizontal={true} contentContainerStyle={{ paddingHorizontal: 4 }} className="w-full space-x-2 p-4">
+
+                            {usedFilter.map((item) => filterBubble(item.key, item.value))}
+
                         </ScrollView>
-                        <View className="mt-4 flex flex-col space-y-4 ">
-                            {renderSection(today, "Heute")}
-                            {renderSection(lastWeek, "Letzte Woche")}
-                            {renderSection(lastMonth, "Letzter Monat")}
-                            {renderSection(older, "Älter")}
-                        </View>
+                        {renderedNotifications?.length > 0 ? (
+                            <View className="mt-4 flex flex-col space-y-4 ">
+                                {renderSection(today, "Heute")}
+                                {renderSection(lastWeek, "Letzte Woche")}
+                                {renderSection(lastMonth, "Letzter Monat")}
+                                {renderSection(older, "Älter")}
+                            </View>
+                        ) : (
+                            <View className="py-16 px-8 flex flex-row items-center justify-center">
+                                <Text className="text-gray-200/60 text-base ">
+                                    Keine passenden Benachrichtigungen gefunden..
+                                </Text>
+                            </View>
+                        )}
                     </View>
                 </ScrollView>
             </SafeAreaView>

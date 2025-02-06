@@ -34,10 +34,10 @@ const MainPage = () => {
 
     const { addDrawer, deleteDrawer, openDrawers } = useDrawerSettings();
 
-    
+
 
     useEffect(() => {
-        
+
         const load = async () => {
 
             try {
@@ -119,11 +119,11 @@ const MainPage = () => {
         const loadUser = async () => {
             try {
                 const jwtString = await SecureStore.getItemAsync("authToken");
-                if(!jwtString) {
+                if (!jwtString) {
                     setCurrentUser(null);
                 }
                 const foundUser = await getCurrentUserMainPage(jwtString);
-                if(foundUser) {
+                if (foundUser) {
                     setCurrentUser(foundUser);
                     setFavs(foundUser?.favourites);
                 } else {
@@ -169,29 +169,29 @@ const MainPage = () => {
     const router = useRouter();
 
 
-    const onFav = async (inseratId : string) => {
+    const onFav = async (inseratId: string) => {
         try {
-            if(isLoading) return;
+            if (isLoading) return;
 
             setIsLoading(true);
 
-            if(!currentUser) {
+            if (!currentUser) {
                 return router.push('/login');
             }
 
             const authToken = await SecureStore.getItemAsync("authToken");
 
-            if(favs.find((fav : any) => fav.inseratId == inseratId)) {
-            await deleteFavourite(authToken, inseratId);
-            setFavs(favs.filter((fav : any) => fav.inseratId != inseratId));
-            Toast.show({
-                type: 'success',
-                text1: 'Favorit entfernt',
-                text2: 'Das Inserat wurde aus deinen Favoriten entfernt'
-            })
+            if (favs.find((fav: any) => fav.inseratId == inseratId)) {
+                await deleteFavourite(authToken, inseratId);
+                setFavs(favs.filter((fav: any) => fav.inseratId != inseratId));
+                Toast.show({
+                    type: 'success',
+                    text1: 'Favorit entfernt',
+                    text2: 'Das Inserat wurde aus deinen Favoriten entfernt'
+                })
             } else {
                 await addFavourite(authToken, inseratId);
-                setFavs([...favs, {inseratId}]);
+                setFavs([...favs, { inseratId }]);
                 Toast.show({
                     type: 'success',
                     text1: 'Favorit hinzugefügt',
@@ -199,7 +199,7 @@ const MainPage = () => {
                 })
             }
 
-        } catch(e : any) {
+        } catch (e: any) {
             Toast.show({
                 type: 'error',
                 text1: 'Fehler',
@@ -210,14 +210,14 @@ const MainPage = () => {
         }
     }
 
-    const onPageSwitch = (newPage : number) => {
+    const onPageSwitch = (newPage: number) => {
         return null;
     }
 
 
     return (
         <View className="flex-1 h-full  bg-[#1F2332] w-full">
-             <Drawer
+            <Drawer
                 open={isNotificationsVisible}
                 onOpen={() => { setIsNotificationsVisible(true) }}
                 onClose={() => { setIsNotificationsVisible(false) }}
@@ -244,12 +244,12 @@ const MainPage = () => {
                     drawerStyle={{ width: '100%' }}
                     renderDrawerContent={() => {
                         return (
-                            
-                                <DrawerSearchFilter
-                                    toggleFilter={toggleFilter}
-                                    currentResults={inserate.length as number}
-                                />
-                           
+
+                            <DrawerSearchFilter
+                                toggleFilter={toggleFilter}
+                                currentResults={inserate.length as number}
+                            />
+
                         )
                     }}
                 >
@@ -295,19 +295,29 @@ const MainPage = () => {
                                     currentResults={inserate.length as number}
                                 />
                             </View>
-                            {inserate.slice(0 + ((currentPage - 1) * 5), 5 + ((currentPage - 1) * 5) ).map((pInserat : any) => (
-                                <View key={pInserat?.id} className="border-t border-b border-gray-800 mb-2">
-                                    <InseratCard thisInserat={pInserat} currentUser={currentUser} onFav={(inseratId : string) => {onFav(inseratId)}} 
-                                    isFaved={favs.find((fav : any) => fav.inseratId == pInserat?.id)}/>
+                            {inserate.length > 0 ? (
+                                inserate.slice(0 + ((currentPage - 1) * 5), 5 + ((currentPage - 1) * 5)).map((pInserat: any) => (
+                                    <View key={pInserat?.id} className="border-t border-b border-gray-800 mb-2">
+                                        <InseratCard thisInserat={pInserat} currentUser={currentUser} onFav={(inseratId: string) => { onFav(inseratId) }}
+                                            isFaved={favs.find((fav: any) => fav.inseratId == pInserat?.id)} />
+                                    </View>
+                                ))
+                            ) : (
+                                <View className="flex flex-row items-center w-full justify-center p-8">
+                                    <Text className="text-base text-gray-200/60">
+                                    Keine passenden Inserate gefunden..
+                                </Text>
                                 </View>
-                            ))}
-                            <View className="p-2">
-                                <PaginationComponent 
-                                    currentPage={currentPage}
-                                    inserateLength={inserate.length ?? 0}
-                                    onPageSwitch={setCurrentPage}
-                                />
-                            </View>
+                            )}
+                            {inserate.length > 5 && (
+                                <View className="p-2">
+                                    <PaginationComponent
+                                        currentPage={currentPage}
+                                        inserateLength={inserate.length ?? 0}
+                                        onPageSwitch={setCurrentPage}
+                                    />
+                                </View>
+                            )}
                             {/* <View className="mt-4">
                                 <Footer />
                             </View> */}
@@ -317,7 +327,7 @@ const MainPage = () => {
                         </ScrollView>
                     </Drawer>
                 </Drawer>
-            </Drawer> 
+            </Drawer>
         </View>
     );
 }
