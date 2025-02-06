@@ -54,8 +54,7 @@ import JWT from "expo-jwt";
         const usedSecret = "77375149353387154508860974358780";
         const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
 
-        
-
+      
         const generatedTokenJWT = JWT.encode({
             userId : findExistingUser.id,
             exp : oneMonthInMilliseconds
@@ -82,6 +81,7 @@ import JWT from "expo-jwt";
       return newUser[0].id
 
     } catch(e: any) {
-      throw new Error(e)
+      console.log(e)
+      throw new Error(e);
     }
   }
