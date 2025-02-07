@@ -1,9 +1,9 @@
 import { userTable } from "@/db/schema";
 import { Entypo, FontAwesome, FontAwesome6, Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { Feather } from "lucide-react-native";
+
 import { useState } from "react";
-import { Modal, SafeAreaView, Touchable } from 'react-native';
+import { Modal, SafeAreaView } from 'react-native';
 import { Image, Text, TouchableOpacity } from "react-native";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
