@@ -7,7 +7,7 @@ import { BookmarkIcon, StarIcon } from "lucide-react-native";
 
 
 interface InseratCardProps {
-    thisInserat: typeof inserat.$inferSelect;
+    thisInserat: typeof inserat.$inferSelect & { user, images};
     currentUser: typeof userTable.$inferSelect;
     onFav: (inseratId: string) => void;
     isFaved: boolean;
@@ -39,7 +39,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
 
 
     return (
-        <View className="bg-[#141620]  w-full">
+        <View className="bg-[#2b2e41]  w-full">
             <View>
 
                 <TouchableOpacity
@@ -84,7 +84,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                     />
 
                 </View>
-                <View className=" bg-[#1a1d29] border-t border-b border-gray-800">
+                <View className=" bg-[#2b2e41] border-t border-b border-gray-800">
                     <View className="w-full  p-4 py-4">
                         <View className="flex flex-row gap-x-2">
                             <View>
@@ -98,7 +98,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                             </Text>
                         </View>
                     </View>
-                    <View className="w-full bg-[#1a1d29] px-4 pb-2 ">
+                    <View className="w-full bg-[#2b2e41] px-4 pb-2 ">
                         <View>
                             <Text className="text-lg font-bold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
                                 {thisInserat.price} <Text className="text-xs text-gray-300">/Tag</Text> €
@@ -106,15 +106,15 @@ const InseratCard: React.FC<InseratCardProps> = ({
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity className="flex flex-row py-2 px-2 items-center gap-x-4 bg-[#151720]"
+                <TouchableOpacity className="flex flex-row py-2.5 px-2 items-center gap-x-4 bg-[#151720]"
                     onPress={() => { router.push(`/profile/${thisInserat?.user?.id}`) }}
                 >
                     <View className="flex ">
-                        <Image
-                            className="w-12 h-12 rounded-full "
+                    <Image
+                            className="w-10 h-10 rounded-full "
                             source={{
 
-                                uri: thisInserat.user?.image ? thisInserat.user?.image : "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg"
+                                uri: thisInserat.user?.image ? thisInserat.user?.image : "https://media.istockphoto.com/id/1223671392/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=s0aTdmT5aU6b8ot7VKm11DeID6NctRCpB755rA1BIP0="
                             }}
                         />
                     </View>

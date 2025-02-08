@@ -15,41 +15,52 @@ const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, created
 
 
     return (
-        <View>
-            <TouchableOpacity onPress={() => { setOpenDialogBanner(true) }}>
-                {thisImage ? (
-                    <Image
-                    source={{ uri: thisImage }}
-                    className="w-full h-48 border-b border-black"
+        <View className="w-full">
+    <TouchableOpacity onPress={() => { setOpenDialogBanner(true) }}>
+        {thisImage ? (
+            <Image
+                source={{ uri: thisImage }}
+                className="w-full h-48 border-b border-black"
+            />
+        ) : (
+            <View className="w-full h-48 bg-gray-800 border-b border-black" />
+        )}
+    </TouchableOpacity>
+
+    {/* Profile and Username Section */}
+    <View className="absolute top-36 left-2 flex flex-row gap-x-4 items-center">
+        {/* Profile Picture */}
+        <View className="w-1/3">
+            <TouchableOpacity
+                className="rounded-full shadow-lg w-28 h-28 border border-gray-900"
+                onPress={() => { setOpenImageDialog(true) }}
+            >
+                <Image
+                    source={{
+                        uri: thisProfilePic ? thisProfilePic :
+                            "https://media.istockphoto.com/id/1223671392/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=s0aTdmT5aU6b8ot7VKm11DeID6NctRCpB755rA1BIP0="
+                    }}
+                    className="w-full h-full rounded-full"
                 />
-                ) : (
-                    <View className="w-full h-48 bg-gray-800 border-b border-black" />
-                )}
             </TouchableOpacity>
-
-            {/* Profile and Username Section */}
-            <View className="absolute top-36 left-2 flex flex-row gap-x-8">
-                {/* Profile Picture */}
-                <View className="w-1/3">
-                    <TouchableOpacity className="" onPress={() => { setOpenImageDialog(true) }}>
-                        <Image
-                            source={{ uri: thisProfilePic ? thisProfilePic : "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg" }}
-                            className="w-28 h-28 rounded-full border border-black"
-                        />
-                    </TouchableOpacity>
-                </View>
-
-                {/* Username */}
-                <View className="mt-14">
-                    <Text className="text-xl font-semibold text-gray-200 break-all w-2/3">
-                        {thisUsername}
-                    </Text>
-                    <Text className="text-sm text-gray-200/60">
-                        Mitglied seit {createdAt}
-                    </Text>
-                </View>
-            </View>
         </View>
+
+        {/* Username */}
+        <View className="flex-1 mt-14">
+            <Text
+                className="text-xl font-semibold text-gray-200 break-all"
+                numberOfLines={2} // Limits the username to a single line
+                ellipsizeMode="tail" // Adds "..." if the text overflows
+            >
+                {`${thisUsername}`} 
+            </Text>
+            <Text className="text-sm text-gray-400">
+                Mitglied seit {createdAt}
+            </Text>
+        </View>
+    </View>
+</View>
+
     );
 }
 

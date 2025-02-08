@@ -22,39 +22,39 @@ const LkwAttributeRender: React.FC<LkwAttributeRenderProps> = ({
     return(
         <View className="w-full grid grid-cols-2 gap-2 mt-4 text-gray-200">
             {attributes?.lkwBrand && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome5 name="truck-moving" className="w-4 h-4 mr-2" size={20} color="white" />
-                    <Text className="font-semibold text-gray-200">{attributes.lkwBrand}</Text>
+                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
+                    <FontAwesome5 name="truck-moving" className="w-4 h-4 mr-2" size={16} color="white" />
+                    <Text className="font-semibold text-gray-200 text-base">{attributes.lkwBrand}</Text>
                 </View>
             )}
             {attributes?.initial && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialIcons name="construction" className="w-4 h-4 mr-2" size={20} color="white"/>
-                    <Text className="font-semibold text-gray-200">Baujahr: {format(new Date(attributes?.initial), "MM/yyyy")}</Text>
+                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialIcons name="construction" className="w-4 h-4 mr-2" size={16} color="white"/>
+                    <Text className="font-semibold text-gray-200 text-base">Baujahr: {format(new Date(attributes?.initial), "MM/yyyy")}</Text>
                 </View>
             )}
             {attributes?.application && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome5 name="truck-loading" className="w-4 h-4 mr-2" size={20} color="white" />
-                    <Text className="font-semibold text-gray-200">{attributes.application.substring(0, 1)}{attributes.application.substring(1).toLowerCase()}</Text>
+                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
+                    <FontAwesome5 name="truck-loading" className="w-4 h-4 mr-2" size={16} color="white" />
+                    <Text className="font-semibold text-gray-200 text-base">{attributes.application.substring(0, 1)}{attributes.application.substring(1).toLowerCase()}</Text>
                 </View>
             )}
             {attributes?.loading && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="crane" className="w-4 h-4 mr-2" size={20} color="white"/>
-                    <Text className="font-semibold text-gray-200">{attributes.loading.substring(0, 1)}{attributes.loading.substring(1).toLowerCase()}</Text>
+                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialCommunityIcons name="crane" className="w-4 h-4 mr-2" size={16} color="white"/>
+                    <Text className="font-semibold text-gray-200 text-base">{attributes.loading.substring(0, 1)}{attributes.loading.substring(1).toLowerCase()}</Text>
                 </View>
             )}
             {attributes?.drive && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome name="gear" className="w-4 h-4 mr-2" size={20} color="white"/>
-                    <Text className="font-semibold text-gray-200">{attributes.drive.substring(1)}</Text>
+                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
+                    <FontAwesome name="gear" className="w-4 h-4 mr-2" size={16} color="white"/>
+                    <Text className="font-semibold text-gray-200 text-base">{attributes.drive.substring(1)}</Text>
                 </View>
             )}
             {attributes?.weightClass && attributes?.weightClass != 0 && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="weight" className="w-4 h-4 mr-2" size={20} color="white"/>
-                    <Text className="font-semibold text-gray-200">
+                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialCommunityIcons name="weight" className="w-4 h-4 mr-2" size={16} color="white"/>
+                    <Text className="font-semibold text-gray-200 text-base">
                         {{
                             '75': " bis 0,75 t",
                             '150': " bis 1,5 t",
@@ -72,15 +72,15 @@ const LkwAttributeRender: React.FC<LkwAttributeRenderProps> = ({
                 </View>
             )}
             {attributes?.seats && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome5 name="couch" className="w-4 h-4 mr-2" size={20} color="white"/>
-                    <Text className="font-semibold text-gray-200">{attributes.seats} {attributes.seats > 1 ? 'Sitze' : 'Sitz'}</Text>
+                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
+                    <FontAwesome5 name="couch" className="w-4 h-4 mr-2" size={16} color="white"/>
+                    <Text className="font-semibold text-gray-200 text-base">{attributes.seats} {attributes.seats > 1 ? 'Sitze' : 'Sitz'}</Text>
                 </View>
             )}
             {attributes?.axis && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="axis" className="w-4 h-4 mr-2" size={20} color="white"/>
-                    <Text className="font-semibold text-gray-200">
+                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialCommunityIcons name="axis" className="w-4 h-4 mr-2" size={16} color="white"/>
+                    <Text className="font-semibold text-gray-200 text-base">
                         {{
                             '1': "Einachser",
                             '2': "Zweiachser",
@@ -92,21 +92,21 @@ const LkwAttributeRender: React.FC<LkwAttributeRenderProps> = ({
                 </View>
             )}
             {attributes?.power && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="engine" className="w-4 h-4 mr-2" size={20} color="white"/>
-                    <Text className="font-semibold text-gray-200">{attributes.power} PS</Text>
+                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialCommunityIcons name="engine" className="w-4 h-4 mr-2" size={16} color="white"/>
+                    <Text className="font-semibold text-gray-200 text-base">{attributes.power} PS</Text>
                 </View>
             )}
             {attributes?.loading_volume && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <Ionicons name="cube" className="w-4 h-4 mr-2 text-gray-200" size={20} color="white"/>
-                    <Text className="font-semibold text-gray-200">{attributes.loading_volume} l</Text>
+                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
+                    <Ionicons name="cube" className="w-4 h-4 mr-2 text-gray-200" size={16} color="white"/>
+                    <Text className="font-semibold text-gray-200 text-base">{attributes.loading_volume} l</Text>
                 </View>
             )}
             {(attributes?.loading_l || attributes?.loading_b || attributes?.loading_h) && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <Fontisto name="arrow-resize" className="w-4 h-4 mr-2" size={20} color="white" />
-                    <Text className="font-semibold text-gray-200">{attributes?.loading_l} x {attributes?.loading_b} x {attributes?.loading_h} m</Text>
+                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
+                    <Fontisto name="arrow-resize" className="w-4 h-4 mr-2" size={16} color="white" />
+                    <Text className="font-semibold text-gray-200 text-base">{attributes?.loading_l} x {attributes?.loading_b} x {attributes?.loading_h} m</Text>
                 </View>
             )}
         </View>

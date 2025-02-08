@@ -19,8 +19,8 @@ const InseratDescription: React.FC<InseratDescriptionProps> = ({ description }) 
     return (
         <View>
             <View className="flex flex-row items-center gap-x-2">
-                <View>
-                    <FontAwesome name="align-left" size={20} color="white" />
+                <View className="mr-2">
+                    <FontAwesome name="align-left" size={16} color="white" />
                 </View>
                 <Text className="text-lg font-semibold text-gray-200">
                     Beschreibung der Anzeige

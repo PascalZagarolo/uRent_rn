@@ -25,38 +25,38 @@ const TransportAttributeRender: React.FC<TransportAttributeRenderProps> = ({
     return (
         <View className="w-full grid grid-cols-2 gap-2 mt-4 text-gray-200">
             {attributes?.transportBrand && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="van-utility" className="w-4 h-4 mr-2" size={20} color="white" />
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialCommunityIcons name="van-utility" className="w-4 h-4 mr-2" size={16} color="white" />
                     <Text className="font-semibold text-gray-200">{attributes.transportBrand}</Text>
                 </View>
             )}
             {attributes?.initial && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialIcons name="construction" className="w-4 h-4 mr-2" size={20} color="white" />
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialIcons name="construction" className="w-4 h-4 mr-2" size={16} color="white" />
                     <Text className="font-semibold text-gray-200">Baujahr: {format(new Date(attributes.initial), "MM/yyyy")}</Text>
                 </View>
             )}
             {attributes?.loading && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="crane" className="w-4 h-4 mr-2" size={20} color="white" />
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialCommunityIcons name="crane" className="w-4 h-4 mr-2" size={16} color="white" />
                     <Text className="font-semibold text-gray-200">{attributes.loading.substring(0, 1)}{attributes.loading.substring(1).toLowerCase()}</Text>
                 </View>
             )}
             {attributes?.seats && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome5 name="couch" className="w-4 h-4 mr-2" size={20} color="white" />
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <FontAwesome5 name="couch" className="w-4 h-4 mr-2" size={16} color="white" />
                     <Text className="font-semibold text-gray-200">{attributes.seats}</Text>
                 </View>
             )}
             {attributes?.fuel && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="gas-station" className="w-4 h-4 mr-2" size={20} color="white" />
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialCommunityIcons name="gas-station" className="w-4 h-4 mr-2" size={16} color="white" />
                     <Text className="font-semibold text-gray-200">{attributes.fuel.substring(0, 1)}{attributes.fuel.substring(1).toLowerCase()}</Text>
                 </View>
             )}
             {attributes?.transmission && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome name="gear" className="w-4 h-4 mr-2" size={20} color="white" />
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <FontAwesome name="gear" className="w-4 h-4 mr-2" size={16} color="white" />
                     <Text className="font-semibold text-gray-200">
                         {{
                             'MANUAL': 'Schaltgetriebe',
@@ -67,14 +67,14 @@ const TransportAttributeRender: React.FC<TransportAttributeRenderProps> = ({
                 </View>
             )}
             {Number(attributes?.doors) !== 0 && attributes?.doors && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="door" className="w-4 h-4 mr-2" size={20} color="white" />
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialCommunityIcons name="door" className="w-4 h-4 mr-2" size={16} color="white" />
                     <Text className="font-semibold text-gray-200">{attributes.doors}/{Number(attributes.doors) + 1}</Text>
                 </View>
             )}
             {attributes?.weightClass && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="weight" className="w-4 h-4 mr-2" size={20} color="white" />
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialCommunityIcons name="weight" className="w-4 h-4 mr-2" size={16} color="white" />
                     <Text className="font-semibold text-gray-200">
                         {{
                             '75': " bis 0,75 t",
@@ -93,26 +93,26 @@ const TransportAttributeRender: React.FC<TransportAttributeRenderProps> = ({
                 </View>
             )}
             {attributes?.extraType && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome5 name="caravan" className="w-4 h-4 mr-2" size={20} color="white" />
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <FontAwesome5 name="caravan" className="w-4 h-4 mr-2" size={16} color="white" />
                     <Text className="font-semibold text-gray-200">{attributes.extraType.substring(0, 1)}{attributes.extraType.substring(1).toLowerCase()}</Text>
                 </View>
             )}
             {attributes?.power && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="engine" className="w-4 h-4 mr-2" size={20} color="white" />
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <MaterialCommunityIcons name="engine" className="w-4 h-4 mr-2" size={16} color="white" />
                     <Text className="font-semibold text-gray-200">{attributes.power} PS</Text>
                 </View>
             )}
             {attributes?.loading_volume && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <Ionicons name="cube" className="w-4 h-4 mr-2 text-gray-200" size={20} color="white"/>
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <Ionicons name="cube" className="w-4 h-4 mr-2 text-gray-200" size={16} color="white"/>
                     <Text className="font-semibold text-gray-200">{attributes.loading_volume} l</Text>
                 </View>
             )}
             {(attributes?.loading_l || attributes?.loading_b || attributes?.loading_h) && (
-                <View className="bg-[#13151C] p-4 font-semibold flex-row items-center space-x-4">
-                    <Fontisto name="arrow-resize" className="w-4 h-4 mr-2" size={20} color="white" />
+                <View className="bg-[#2d3141] shadow-lg rounded-md text-base p-4 font-semibold flex-row items-center space-x-4">
+                    <Fontisto name="arrow-resize" className="w-4 h-4 mr-2" size={16} color="white" />
                     <Text className="font-semibold text-gray-200">{attributes.loading_l} x {attributes.loading_b} x {attributes.loading_h} m</Text>
                 </View>
             )}

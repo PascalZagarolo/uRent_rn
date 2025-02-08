@@ -1,5 +1,5 @@
 import { inserat } from "@/db/schema";
-import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+
 import { Text, View } from "react-native";
 
 interface InseratConditionsProps {
@@ -13,9 +13,7 @@ const InseratConditions : React.FC<InseratConditionsProps> = ({
         <View>
             <View>
                 <Text className="text-lg font-semibold flex flex-row gap-x-2 items-center text-gray-200">
-                    <View>
-                    
-                    </View>Rahmenbedingungen
+                    Rahmenbedingungen
                 </Text>
             </View>
             {(thisInserat?.caution || thisInserat?.reqAge) && (
@@ -25,9 +23,7 @@ const InseratConditions : React.FC<InseratConditionsProps> = ({
                     <View className="w-full flex flex-row items-center">
                         <View className="w-1/2 flex flex-row items-center">
                             
-                            <View className="mr-2">
-                            <FontAwesome5 name="money-check" size={12} color="white" />
-                            </View>
+                            
                             <Text className="text-gray-200 text-base font-medium break-all line-clamp-1" numberOfLines={1}>
                             Kaution
                            </Text>
@@ -44,9 +40,7 @@ const InseratConditions : React.FC<InseratConditionsProps> = ({
                     <View className="w-full flex flex-row items-center">
                         <View className="w-1/2 flex flex-row items-center">
                             
-                            <View className="mr-4">
-                            <FontAwesome5 name="user-circle" size={12} color="white" />
-                            </View>
+                            
                             <Text className="text-gray-200 text-sm font-semibold flex flex-row items-center gap-x-2">
                             Mindestalter
                             </Text>

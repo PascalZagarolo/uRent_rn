@@ -13,8 +13,8 @@ const InseratContactOptions : React.FC<InseratContactOptionsProps> = ({
         <View className="">
             <View>
                 <Text className=" text-lg text-gray-200 font-semibold flex flex-row items-center">
-                  <View>
-                <MaterialIcons name="contacts" size={20} color="white" />
+                  <View className="mr-2">
+                <MaterialIcons name="contacts" size={16} color="white" />
                 </View>  Kontaktinformationen
                 </Text>
             </View>
