@@ -16,7 +16,7 @@ const AccountPart : React.FC<AccountPartProps> = ({
         <View>
             <View>
                 <View className="flex flex-row items-center gap-x-4">
-                    <FontAwesome5 name="user" size={24} color="white" />
+                    <FontAwesome5 name="user" size={20} color="white" />
                     <Text className="text-lg font-semibold text-gray-200">
                         Account verwalten
                     </Text>

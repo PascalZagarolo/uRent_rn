@@ -103,8 +103,9 @@ const ChangeName: React.FC<ChangeNameProps> = ({
                                 </Text>
                                 <TextInput
                                 value={currentName}
-                                onTextInput={(e) => setCurrentName(e.nativeEvent.text)}
+                                onChangeText={setCurrentName}
                                 placeholder="Nutzername.."
+                                placeholderTextColor={"#6B7280"}
                                 className="p-4 bg-[#101219] rounded-md text-gray-200/80 font-medium"
                                 />
                             </View>
@@ -115,7 +116,8 @@ const ChangeName: React.FC<ChangeNameProps> = ({
                                 </Text>
                                 <TextInput
                                 value={currentFirstName}
-                                onTextInput={(e) => setCurrentFirstName(e.nativeEvent.text)}
+                                onChangeText={setCurrentFirstName}
+                                placeholderTextColor={"#6B7280"}
                                 placeholder="Nutzername.."
                                 className="p-4 bg-[#101219] rounded-md text-gray-200/80 font-medium"
                                 />
@@ -128,7 +130,8 @@ const ChangeName: React.FC<ChangeNameProps> = ({
                                 <KeyboardAvoidingView behavior="padding">
                                 <TextInput
                                 value={currentLastName}
-                                onTextInput={(e) => setCurrentLastName(e.nativeEvent.text)}
+                                placeholderTextColor={"#6B7280"}
+                                onChangeText={setCurrentLastName}
                                 placeholder="Nutzername.."
                                 className="p-4 bg-[#101219] rounded-md text-gray-200/80 font-medium"
                                 />
