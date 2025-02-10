@@ -1,13 +1,14 @@
 import { favourite, inserat, userTable } from "@/db/schema";
-import { Globe2Icon, LockIcon, SearchIcon, XIcon } from "lucide-react-native";
+
 import { useEffect, useState } from "react";
 import { Modal, SafeAreaView, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { cn } from "@/~/lib/utils";
+
 import FavouriteRender from "./_favourites/favourites-render";
 import Toast from "react-native-toast-message";
 import { deleteFavourite } from "@/actions/favourites/delete-favourite";
 import * as SecureStorage from 'expo-secure-store';
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 
 
@@ -106,7 +107,7 @@ const FavouritesTab = ({ currentUser, onReloadAll }: FavouritesTabProps) => {
                             setSearchedTitle(prefilledTitle);
                         }}
                         >
-                            <SearchIcon size={20} color="white" />
+                            <MaterialCommunityIcons name="search-web" size={20} color="white" />
                         </TouchableOpacity>
                     </View>
                     <View className="flex flex-row items-center mt-4 justify-between">
@@ -121,7 +122,7 @@ const FavouritesTab = ({ currentUser, onReloadAll }: FavouritesTabProps) => {
                                     setPrefilledTitle(undefined)
                                 }}
                             >
-                                <XIcon size={20} className="mr-2 text-gray-200" />
+                                <MaterialCommunityIcons name="close" size={20} className="mr-2 text-gray-200" />
                                 <Text className="text-sm font-semibold text-gray-200 text-center">
                                     Titel: {searchedTitle}
                                 </Text>

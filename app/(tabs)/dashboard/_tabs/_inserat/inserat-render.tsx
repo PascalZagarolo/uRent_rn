@@ -1,6 +1,7 @@
 import { inserat } from "@/db/schema";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { ImageIcon, PencilIcon, TrashIcon } from "lucide-react-native";
+
 import { Image, Text, TouchableOpacity } from "react-native";
 import { View } from "react-native";
 
@@ -27,7 +28,7 @@ const InseratRender = ({ thisInserat, setOpenDeleteDialog }: InseratRenderProps)
                         <View
                             className="w-28 h-28 bg-[#2a2f41] rounded-l-md flex flex-row items-center justify-center"
                         >
-                            <ImageIcon
+                            <MaterialCommunityIcons name="image"
                                 className="w-4 h-4 text-gray-200/60"
                             />
                         </View>
@@ -40,10 +41,10 @@ const InseratRender = ({ thisInserat, setOpenDeleteDialog }: InseratRenderProps)
                 </View>
                 <View className="ml-auto flex flex-col p-2">
                     <TouchableOpacity className=" p-2 rounded-md" onPress={() => {router.push(`/inserat/create/${thisInserat?.id}`)}}>
-                        <PencilIcon className="text-gray-200 w-4 h-4" />
+                        <MaterialCommunityIcons name="pencil-minus-outline" className="text-gray-200 w-4 h-4" />
                     </TouchableOpacity>
                     <TouchableOpacity className="mt-4 p-2 rounded-md" onPress={() => { setOpenDeleteDialog(thisInserat?.id) }}>
-                        <TrashIcon className="text-rose-800 font-semibold w-4 h-4" />
+                        <MaterialCommunityIcons name="trash-can" className="text-rose-800 font-semibold w-4 h-4" />
                     </TouchableOpacity>
                 </View>
             </View>

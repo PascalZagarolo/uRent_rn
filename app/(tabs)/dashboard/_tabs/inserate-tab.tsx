@@ -1,10 +1,11 @@
 import { inserat, userTable } from "@/db/schema";
-import { Globe2Icon, LockIcon, SearchIcon, XIcon } from "lucide-react-native";
+
 import { useEffect, useState } from "react";
 import { Modal, SafeAreaView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import InseratRender from "./_inserat/inserat-render";
 import { cn } from "@/~/lib/utils";
 import DeleteInseratDialog from "../_dialogs/_inserat/delete-inserat-dialog";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 interface InserateTabProps {
     currentUser: typeof userTable.$inferSelect & {
@@ -76,7 +77,7 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
                         <TouchableOpacity className="flex flex-row justify-center w-1/4 bg-[#202430] p-4 rounded-r-md"
                             onPress={() => setCurrentTitle(prefilledTitle)}
                         >
-                            <SearchIcon size={20} color="white" />
+                            <MaterialCommunityIcons name="search-web" size={20} color="white" />
                         </TouchableOpacity>
                     </View>
                     <View className="flex flex-row items-center mt-4 justify-between">
@@ -91,7 +92,7 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
                                 }
                             }}
                         >
-                            <Globe2Icon size={20} className={cn(
+                            <MaterialCommunityIcons name="globe-light" size={20} className={cn(
                                 "mr-2 text-gray-200", currentFilter === "public" && "text-gray-200/60"
                             )} />
                             <Text className={cn
@@ -118,7 +119,7 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
                                 }
                             }}
                         >
-                            <LockIcon size={20} className={cn(
+                            <MaterialCommunityIcons name="lock" size={20} className={cn(
                                 "mr-2 text-gray-200", currentFilter === "private" && "text-gray-200/60"
                             )} />
                             <Text className={cn("text-base text-gray-200 text-center font-semibold",
@@ -139,7 +140,7 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
             className="bg-[#252b3b] border border-indigo-800 rounded-2xl p-2.5 flex flex-row items-center shadow-lg mr-2 mb-2 mt-2"
             onPress={() => setCurrentFilter(undefined)}
         >
-            <XIcon size={20} className="mr-2 text-gray-200" />
+            <MaterialCommunityIcons name="close" size={20} className="mr-2 text-gray-200" />
             <Text className="text-sm font-semibold text-gray-200 text-center">
                 Sichtbarkeit: {currentFilter === "public" ? "Öffentlich" : "Privat"}
             </Text>
@@ -154,7 +155,7 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
                 setPrefilledTitle(undefined);
             }}
         >
-            <XIcon size={20} className="mr-2 text-gray-200" />
+            <MaterialCommunityIcons name="close" size={20} className="mr-2 text-gray-200" />
             <Text
                 className="text-sm font-semibold text-gray-200 text-center break-all"
                 numberOfLines={1}

@@ -3,7 +3,8 @@ import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@ex
 import { Image, Text, View, TouchableOpacity } from "react-native";
 
 import { useRouter } from "expo-router";
-import images from "@/assets/images";
+
+import placeholderPicture from "@/assets/images";
 
 
 interface InseratCardProps {
@@ -20,9 +21,8 @@ const InseratCard: React.FC<InseratCardProps> = ({
     isFaved
 }) => {
 
-    const kaka = images.placeholderPicture;
+    
 
-    console.log(kaka)
     
 
     const matchingIcon = (usedCategory: string) => {
@@ -120,7 +120,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                             source={{
 
                                 uri: thisInserat.user?.image ? thisInserat.user?.image : 
-                                String(kaka)
+                                placeholderPicture
                             }}
                         />
                     </View>

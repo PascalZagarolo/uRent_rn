@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { ArrowLeft } from "lucide-react-native";
+
 import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import SelectDashboardTab from "./_components/select-dashboard-tab";
 import { useEffect, useState } from "react";
@@ -7,6 +7,7 @@ import InserateTab from "./_tabs/inserate-tab";
 import * as SecureStorage from 'expo-secure-store';
 import { getCurrentUserDashboard } from "@/actions/retrieveUser/dashboard-page/getUserDashboard";
 import FavouritesTab from "./_tabs/favourites-tab";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 
 
@@ -45,16 +46,16 @@ const DashboardPage = () => {
 
     return ( 
         <View className=" bg-[#181b27] h-screen">
-            <SafeAreaView className="">
+           <SafeAreaView className="">
                 <View className="border-b border-gray-800 p-4 bg-[#181b27] space-x-4 flex flex-row items-center">
-                    <TouchableOpacity className="" onPress={() => {router.back()}}>
-                        <ArrowLeft className="text-gray-200 w-4 h-4 mr-2" />
+                    <TouchableOpacity className="" onPress={() => {router.push("/")}}>
+                        <MaterialCommunityIcons name="arrow-left" className="text-gray-200 w-4 h-4 mr-2" />
                     </TouchableOpacity>
                     <Text className="text-xl font-semibold text-gray-200">
                         Dashboard
                     </Text>
                 </View>
-            </SafeAreaView >
+            </SafeAreaView > 
             <View className="">
                 <View className="border-b">
                     <SelectDashboardTab 

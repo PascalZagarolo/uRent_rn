@@ -1,7 +1,7 @@
 import { favourite, inserat } from "@/db/schema";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { BookmarkIcon, ImageIcon, PencilIcon, TrashIcon } from "lucide-react-native";
+
 import { Image, Text, TouchableOpacity } from "react-native";
 import { View } from "react-native";
 
@@ -28,7 +28,7 @@ const FavouriteRender = ({ thisFavourite, onDeFav }: FavouriteRenderProps) => {
                         <View
                             className="w-28 h-28 bg-[#2a2f41] rounded-l-md flex flex-row items-center justify-center"
                         >
-                            <ImageIcon
+                            <MaterialCommunityIcons name="image"
                                 className="w-4 h-4 text-gray-200/60"
                             />
                         </View>
