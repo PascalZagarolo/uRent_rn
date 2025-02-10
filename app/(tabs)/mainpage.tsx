@@ -216,7 +216,7 @@ const MainPage = () => {
 
 
     return (
-        <View className="flex-1 h-full  bg-[#1F2332] w-full">
+        <View className="flex-1 h-full  bg-[#1f2332] w-full">
             <Drawer
                 open={isNotificationsVisible}
                 onOpen={() => { setIsNotificationsVisible(true) }}
@@ -270,9 +270,7 @@ const MainPage = () => {
                             )
                         }}
                     >
-                        <View className=" bg-[#202336]">
-
-                        </View>
+                        
 
 
                         <Header
@@ -297,7 +295,7 @@ const MainPage = () => {
                             </View>
                             {inserate.length > 0 ? (
                                 inserate.slice(0 + ((currentPage - 1) * 5), 5 + ((currentPage - 1) * 5)).map((pInserat: any) => (
-                                    <View key={pInserat?.id} className="border-t border-b border-gray-800 mb-2">
+                                    <View key={pInserat?.id} className="mb-4">
                                         <InseratCard thisInserat={pInserat} currentUser={currentUser} onFav={(inseratId: string) => { onFav(inseratId) }}
                                             isFaved={favs.find((fav: any) => fav.inseratId == pInserat?.id)} />
                                     </View>

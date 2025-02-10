@@ -1,9 +1,9 @@
 import { inserat, userTable } from "@/db/schema";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image, Text, View, TouchableOpacity } from "react-native";
-import { address } from '../../db/schema';
+
 import { useRouter } from "expo-router";
-import { BookmarkIcon, StarIcon } from "lucide-react-native";
+import images from "@/assets/images";
 
 
 interface InseratCardProps {
@@ -19,6 +19,11 @@ const InseratCard: React.FC<InseratCardProps> = ({
     onFav,
     isFaved
 }) => {
+
+    const kaka = images.placeholderPicture;
+
+    console.log(kaka)
+    
 
     const matchingIcon = (usedCategory: string) => {
         switch (usedCategory) {
@@ -39,7 +44,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
 
 
     return (
-        <View className="bg-[#2b2e41]  w-full">
+        <View className="bg-[#262a3bc5]  w-full shadow-lg ">
             <View>
 
                 <TouchableOpacity
@@ -84,7 +89,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                     />
 
                 </View>
-                <View className=" bg-[#2b2e41] border-t border-b border-gray-800">
+                <View className=" bg-[#262a3bc5] ">
                     <View className="w-full  p-4 py-4">
                         <View className="flex flex-row gap-x-2">
                             <View>
@@ -98,7 +103,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                             </Text>
                         </View>
                     </View>
-                    <View className="w-full bg-[#2b2e41] px-4 pb-2 ">
+                    <View className="w-full bg-[#262a3bc5] px-4 pb-2 ">
                         <View>
                             <Text className="text-lg font-bold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
                                 {thisInserat.price} <Text className="text-xs text-gray-300">/Tag</Text> €
@@ -106,7 +111,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity className="flex flex-row py-2.5 px-2 items-center gap-x-4 bg-[#151720]"
+                <TouchableOpacity className="flex flex-row py-2.5 px-2 items-center gap-x-4 bg-[#1d1e25d7]"
                     onPress={() => { router.push(`/profile/${thisInserat?.user?.id}`) }}
                 >
                     <View className="flex ">
@@ -114,7 +119,8 @@ const InseratCard: React.FC<InseratCardProps> = ({
                             className="w-10 h-10 rounded-full "
                             source={{
 
-                                uri: thisInserat.user?.image ? thisInserat.user?.image : "https://media.istockphoto.com/id/1223671392/vector/default-profile-picture-avatar-photo-placeholder-vector-illustration.jpg?s=612x612&w=0&k=20&c=s0aTdmT5aU6b8ot7VKm11DeID6NctRCpB755rA1BIP0="
+                                uri: thisInserat.user?.image ? thisInserat.user?.image : 
+                                String(kaka)
                             }}
                         />
                     </View>
