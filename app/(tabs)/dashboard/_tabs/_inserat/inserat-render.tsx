@@ -28,7 +28,7 @@ const InseratRender = ({ thisInserat, setOpenDeleteDialog }: InseratRenderProps)
                         <View
                             className="w-28 h-28 bg-[#2a2f41] rounded-l-md flex flex-row items-center justify-center"
                         >
-                            <MaterialCommunityIcons name="image"
+                            <MaterialCommunityIcons name="image" color={"white"} size={24}
                                 className="w-4 h-4 text-gray-200/60"
                             />
                         </View>
@@ -41,10 +41,10 @@ const InseratRender = ({ thisInserat, setOpenDeleteDialog }: InseratRenderProps)
                 </View>
                 <View className="ml-auto flex flex-col p-2">
                     <TouchableOpacity className=" p-2 rounded-md" onPress={() => {router.push(`/inserat/create/${thisInserat?.id}`)}}>
-                        <MaterialCommunityIcons name="pencil-minus-outline" className="text-gray-200 w-4 h-4" />
+                        <MaterialCommunityIcons name="pencil-minus-outline" size={20} color={"white"} className="text-gray-200 w-4 h-4" />
                     </TouchableOpacity>
                     <TouchableOpacity className="mt-4 p-2 rounded-md" onPress={() => { setOpenDeleteDialog(thisInserat?.id) }}>
-                        <MaterialCommunityIcons name="trash-can" className="text-rose-800 font-semibold w-4 h-4" />
+                        <MaterialCommunityIcons name="trash-can" size={20} color={"white"} className="text-rose-800 font-semibold w-4 h-4" />
                     </TouchableOpacity>
                 </View>
             </View>

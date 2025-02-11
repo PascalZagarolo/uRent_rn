@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 
-import { SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Platform, SafeAreaView, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import SelectDashboardTab from "./_components/select-dashboard-tab";
 import { useEffect, useState } from "react";
 import InserateTab from "./_tabs/inserate-tab";
@@ -8,6 +8,7 @@ import * as SecureStorage from 'expo-secure-store';
 import { getCurrentUserDashboard } from "@/actions/retrieveUser/dashboard-page/getUserDashboard";
 import FavouritesTab from "./_tabs/favourites-tab";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { cn } from "@/~/lib/utils";
 
 
 
@@ -47,9 +48,12 @@ const DashboardPage = () => {
     return ( 
         <View className=" bg-[#181b27] h-screen">
            <SafeAreaView className="">
-                <View className="border-b border-gray-800 p-4 bg-[#181b27] space-x-4 flex flex-row items-center">
+                <View className={cn(
+                    "border-b border-gray-800 p-4 bg-[#181b27] space-x-4 flex flex-row items-center",
+                    Platform.OS === "ios" ? "mt-4" : "mt-8"
+                )}>
                     <TouchableOpacity className="" onPress={() => {router.push("/")}}>
-                        <MaterialCommunityIcons name="arrow-left" className="text-gray-200 w-4 h-4 mr-2" />
+                        <MaterialCommunityIcons name="arrow-left" color={"white"} size={20} className="text-gray-200 w-4 h-4 mr-2" />
                     </TouchableOpacity>
                     <Text className="text-xl font-semibold text-gray-200">
                         Dashboard
@@ -57,7 +61,7 @@ const DashboardPage = () => {
                 </View>
             </SafeAreaView > 
             <View className="">
-                <View className="border-b">
+                <View className="">
                     <SelectDashboardTab 
                     tab={tab}
                     setTab={setTab}

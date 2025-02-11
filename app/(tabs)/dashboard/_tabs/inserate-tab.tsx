@@ -5,7 +5,7 @@ import { Modal, SafeAreaView, Text, TextInput, TouchableOpacity, View } from "re
 import InseratRender from "./_inserat/inserat-render";
 import { cn } from "@/~/lib/utils";
 import DeleteInseratDialog from "../_dialogs/_inserat/delete-inserat-dialog";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
 
 interface InserateTabProps {
     currentUser: typeof userTable.$inferSelect & {
@@ -68,9 +68,10 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
                 <View>
                     <View className="mt-4 flex flex-row items-center">
                         <TextInput
-                            className="p-4   rounded-md rounded-r-none bg-[#292f42] w-3/4 text-gray-200"
+                            className="p-4  text-sm rounded-md rounded-r-none bg-[#292f42] w-3/4 text-gray-200"
                             placeholder="Suche nach Inseraten.."
                             onChange={(e) => setPrefilledTitle(e.nativeEvent.text)}
+                            placeholderTextColor={"#E5E7EB"}
                             value={prefilledTitle}
                             maxLength={100}
                         />
@@ -92,9 +93,11 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
                                 }
                             }}
                         >
-                            <MaterialCommunityIcons name="globe-light" size={20} className={cn(
+                            <View className="mr-4">
+                            <Octicons name="globe" color={"white"} size={16} className={cn(
                                 "mr-2 text-gray-200", currentFilter === "public" && "text-gray-200/60"
                             )} />
+                            </View>
                             <Text className={cn
                                 (
                                     "text-base text-center font-semibold text-gray-200",
@@ -119,9 +122,11 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
                                 }
                             }}
                         >
-                            <MaterialCommunityIcons name="lock" size={20} className={cn(
+                            <View className="mr-4">
+                            <MaterialCommunityIcons name="lock" size={16} color={"white"} className={cn(
                                 "mr-2 text-gray-200", currentFilter === "private" && "text-gray-200/60"
                             )} />
+                            </View>
                             <Text className={cn("text-base text-gray-200 text-center font-semibold",
                                 currentFilter === "private" && "text-gray-200/60"
                             )}>
