@@ -66,7 +66,7 @@ const ConversationPage = () => {
                     )
                 }}
             >
-                <ScrollView>
+                <ScrollView className="flex flex-col">
 
                     <Header
                         currentUser={currentUser}
@@ -84,9 +84,7 @@ const ConversationPage = () => {
                             foundConversations={currentConversations}
                         />
                     </View>
-                    <View className="">
-                        <Footer />
-                    </View>
+                    
                 </ScrollView>
             </Drawer>
 

@@ -1,4 +1,5 @@
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { router } from "expo-router";
 
 import { useEffect, useMemo, useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
@@ -27,15 +28,27 @@ const ConversationSearchHeader : React.FC<ConversationSearchHeaderProps> = ({
     return ( 
         <View>
             <View>
-                <View className="px-4 pt-4">
+                <View className="px-4 pt-4 flex flex-row items-center">
+                    <TouchableOpacity className="mr-4"
+                    onPress={() => {
+                        router.push("/")
+                    }}
+                    >
+                    <MaterialCommunityIcons 
+                    color={"white"}
+                    size = {20}
+                    name="arrow-left"
+                    />
+                    </TouchableOpacity>
                     <Text className="text-xl text-gray-200 font-semibold">
                     Konversationen ({currentConversationsLength})
                     </Text>
                 </View>
-                <View className="mt-2 px-4 w-full flex items-center flex-row">
+                <View className="mt-4 px-4 w-full flex items-center flex-row">
                     <TextInput 
                     className="bg-[#141620] p-4 rounded-r-none rounded-l-md text-gray-200 w-10/12"
                     placeholder="Suche nach Konversationen.."
+                    placeholderTextColor={"gray"}
                     />
                     <View className=" flex flex-row justify-center bg-[#1E2839] w-2/12 p-4 rounded-r-md">
                         <FontAwesome name="search" size={20} color="white" />

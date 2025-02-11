@@ -15,7 +15,7 @@ const ConversationsRenderedList : React.FC<ConversationsRenderListProps> = ({
 
     useMemo(() => {
         const sortedConversations = [...foundConversations].sort((a, b) => {  
-            return a.lastMessage.createdAt < b?.lastMessage.createdAt ? 1 : -1;
+            return a.lastMessage?.createdAt < b?.lastMessage?.createdAt ? 1 : -1;
         });
     
         setUsedConversations(sortedConversations);
