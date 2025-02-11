@@ -101,6 +101,7 @@ const FavouritesTab = ({ currentUser, onReloadAll }: FavouritesTabProps) => {
                             placeholder="Suche nach gespeicherten Inseraten.."
                             value={prefilledTitle}
                             onChangeText={setPrefilledTitle}
+                            placeholderTextColor={"#E5E7EB"}
                         />
                         <TouchableOpacity className="flex flex-row justify-center w-1/4 bg-[#202430] p-4 rounded-r-md"
                         onPress={() => {

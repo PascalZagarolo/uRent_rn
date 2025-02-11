@@ -42,11 +42,11 @@ const FavouriteRender = ({ thisFavourite, onDeFav }: FavouriteRenderProps) => {
                 <View className="ml-auto flex flex-col mb-auto px-4">
                     
                     <TouchableOpacity className="mt-4  rounded-md" onPress={() => {onDeFav(thisFavourite?.inseratId)}}>
-                        <Ionicons name="bookmark" size={28} color="white" />
+                        <Ionicons name="bookmark" size={20} color="white" />
                     </TouchableOpacity>
                 </View>
             </View>
-            <TouchableOpacity className="p-2.5 flex flex-row items-center rounded-b-md bg-[#1e222e] shadow-lg" onPress={() => {router.push(`/profile/${thisFavourite?.inserat?.userId}`)}}>
+            <TouchableOpacity className="p-2.5 flex flex-row items-center rounded-b-md bg-[#1e222e] border-t border-gray-800 shadow-lg" onPress={() => {router.push(`/profile/${thisFavourite?.inserat?.userId}`)}}>
                 <View>
                     <Image 
                     source={{ uri: thisFavourite?.inserat?.user?.image ? thisFavourite?.inserat?.user?.image : "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg" }}
