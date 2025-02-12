@@ -45,7 +45,6 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
 
             setRenderedInserate(filteredInserate);
         };
-
         filterInserate();
     }, [currentFilter, currentTitle, currentUser?.inserat]);
 
