@@ -1,116 +1,49 @@
-
-
-
 import { lkwAttribute } from "@/db/schema";
 import { FontAwesome, FontAwesome5, Fontisto, Ionicons, MaterialCommunityIcons, MaterialIcons } from "@expo/vector-icons";
-
 import { format } from "date-fns";
 import { Text, View } from "react-native";
 
 interface LkwAttributeRenderProps {
-    attributes: typeof lkwAttribute.$inferSelect
-
+    attributes: typeof lkwAttribute.$inferSelect;
 }
 
+const LkwAttributeRender: React.FC<LkwAttributeRenderProps> = ({ attributes }) => {
+    const iconColors = ["#F59E0B", "#10B981", "#3B82F6", "#EF4444", "#8B5CF6"]; // Alternating colors
+    let colorIndex = 0;
 
-const LkwAttributeRender: React.FC<LkwAttributeRenderProps> = ({
-    attributes
-}) => {
+    const attributeList = [
+        { condition: attributes?.lkwBrand, icon: "truck-moving", label: attributes?.lkwBrand, component: FontAwesome5 },
+        { condition: attributes?.initial, icon: "construction", label: `Baujahr: ${format(new Date(attributes?.initial), "MM/yyyy")}`, component: MaterialIcons },
+        { condition: attributes?.application, icon: "truck-loading", label: attributes.application.charAt(0).toUpperCase() + attributes.application.slice(1).toLowerCase(), component: FontAwesome5 },
+        { condition: attributes?.loading, icon: "crane", label: attributes.loading.charAt(0).toUpperCase() + attributes.loading.slice(1).toLowerCase(), component: MaterialCommunityIcons },
+        { condition: attributes?.drive, icon: "gear", label: attributes.drive.charAt(0).toUpperCase() + attributes.drive.slice(1), component: FontAwesome },
+        { condition: Number(attributes?.weightClass ?? 0) !== 0 && attributes?.weightClass != 0, icon: "weight", label: (attributes?.weightClass) + " kg zulässiges Gesamtgewicht", component: MaterialCommunityIcons },
+        { condition: attributes?.seats, icon: "couch", label: `${attributes.seats} ${attributes.seats > 1 ? 'Sitze' : 'Sitz'}`, component: FontAwesome5 },
+        { condition: attributes?.axis, icon: "axis", label: { '1': "Einachser", '2': "Zweiachser", '3': "Dreiachser", '4': "Vierachser", '5': " > 4 Achsen" }[attributes?.axis], component: MaterialCommunityIcons },
+        { condition: attributes?.power, icon: "engine", label: `${attributes.power} PS`, component: MaterialCommunityIcons },
+        { condition: attributes?.loading_volume, icon: "cube", label: `${attributes.loading_volume} l`, component: Ionicons },
+        { condition: attributes?.loading_l || attributes?.loading_b || attributes?.loading_h, icon: "arrow-resize", label: `${attributes?.loading_l} x ${attributes?.loading_b} x ${attributes?.loading_h} m`, component: Fontisto }
+    ];
 
-    let shownItems = 0;
-
-    return(
+    return (
         <View className="w-full grid grid-cols-2 gap-2 mt-4 text-gray-200">
-            {attributes?.lkwBrand && (
-                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome5 name="truck-moving" className="w-4 h-4 mr-2" size={16} color="white" />
-                    <Text className="font-semibold text-gray-200 text-base">{attributes.lkwBrand}</Text>
-                </View>
-            )}
-            {attributes?.initial && (
-                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialIcons name="construction" className="w-4 h-4 mr-2" size={16} color="white"/>
-                    <Text className="font-semibold text-gray-200 text-base">Baujahr: {format(new Date(attributes?.initial), "MM/yyyy")}</Text>
-                </View>
-            )}
-            {attributes?.application && (
-                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome5 name="truck-loading" className="w-4 h-4 mr-2" size={16} color="white" />
-                    <Text className="font-semibold text-gray-200 text-base">{attributes.application.substring(0, 1)}{attributes.application.substring(1).toLowerCase()}</Text>
-                </View>
-            )}
-            {attributes?.loading && (
-                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="crane" className="w-4 h-4 mr-2" size={16} color="white"/>
-                    <Text className="font-semibold text-gray-200 text-base">{attributes.loading.substring(0, 1)}{attributes.loading.substring(1).toLowerCase()}</Text>
-                </View>
-            )}
-            {attributes?.drive && (
-                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome name="gear" className="w-4 h-4 mr-2" size={16} color="white"/>
-                    <Text className="font-semibold text-gray-200 text-base">{attributes.drive.substring(1)}</Text>
-                </View>
-            )}
-            {attributes?.weightClass && attributes?.weightClass != 0 && (
-                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="weight" className="w-4 h-4 mr-2" size={16} color="white"/>
-                    <Text className="font-semibold text-gray-200 text-base">
-                        {{
-                            '75': " bis 0,75 t",
-                            '150': " bis 1,5 t",
-                            '280': " bis 2,8 t",
-                            '350': " bis 3,5 t",
-                            '750': " bis 7,5 t",
-                            '1200': " bis 12 t",
-                            '1800': " bis 18 t",
-                            '2600': " bis 26 t",
-                            '3200': " bis 32 t",
-                            '3900': " bis 39 t",
-                            '5000': " {'>'} 39 t",
-                        }[attributes?.weightClass]}
-                    </Text>
-                </View>
-            )}
-            {attributes?.seats && (
-                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
-                    <FontAwesome5 name="couch" className="w-4 h-4 mr-2" size={16} color="white"/>
-                    <Text className="font-semibold text-gray-200 text-base">{attributes.seats} {attributes.seats > 1 ? 'Sitze' : 'Sitz'}</Text>
-                </View>
-            )}
-            {attributes?.axis && (
-                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="axis" className="w-4 h-4 mr-2" size={16} color="white"/>
-                    <Text className="font-semibold text-gray-200 text-base">
-                        {{
-                            '1': "Einachser",
-                            '2': "Zweiachser",
-                            '3': "Dreiachser",
-                            '4': "Vierachser",
-                            '5': " > 4 Achsen"
-                        }[attributes?.axis]}
-                    </Text>
-                </View>
-            )}
-            {attributes?.power && (
-                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
-                    <MaterialCommunityIcons name="engine" className="w-4 h-4 mr-2" size={16} color="white"/>
-                    <Text className="font-semibold text-gray-200 text-base">{attributes.power} PS</Text>
-                </View>
-            )}
-            {attributes?.loading_volume && (
-                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
-                    <Ionicons name="cube" className="w-4 h-4 mr-2 text-gray-200" size={16} color="white"/>
-                    <Text className="font-semibold text-gray-200 text-base">{attributes.loading_volume} l</Text>
-                </View>
-            )}
-            {(attributes?.loading_l || attributes?.loading_b || attributes?.loading_h) && (
-                <View className="bg-[#2d3141] shadow-lg rounded-md p-4 font-semibold flex-row items-center space-x-4">
-                    <Fontisto name="arrow-resize" className="w-4 h-4 mr-2" size={16} color="white" />
-                    <Text className="font-semibold text-gray-200 text-base">{attributes?.loading_l} x {attributes?.loading_b} x {attributes?.loading_h} m</Text>
-                </View>
-            )}
+            {attributeList.map(({ condition, icon, label, component: IconComponent }) => {
+                if (!condition) return null;
+                const color = iconColors[colorIndex % iconColors.length]; // Cycle through colors
+                colorIndex++;
+
+                return (
+                    <View key={icon} className="bg-[#2d3141] shadow-lg p-4 rounded-lg flex-row items-center space-x-4">
+                        {/* Fixed-width container for icons to ensure alignment */}
+                        <View className="w-6 h-6 flex items-center justify-center">
+                            <IconComponent name={icon as any} size={20} color={color} />
+                        </View>
+                        <Text className="text-gray-200 font-semibold">{label}</Text>
+                    </View>
+                );
+            })}
         </View>
-    )
-}
+    );
+};
 
 export default LkwAttributeRender;

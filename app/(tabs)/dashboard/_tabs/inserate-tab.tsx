@@ -32,9 +32,9 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
             let filteredInserate = currentUser?.inserat;
 
             if (currentFilter === "public") {
-                filteredInserate = filteredInserate?.filter((inserat) => inserat.isPublic);
+                filteredInserate = filteredInserate?.filter((inserat) => inserat.isPublished);
             } else if (currentFilter === "private") {
-                filteredInserate = filteredInserate?.filter((inserat) => !inserat.isPublic);
+                filteredInserate = filteredInserate?.filter((inserat) => !inserat.isPublished);
             }
 
             if (currentTitle) {
