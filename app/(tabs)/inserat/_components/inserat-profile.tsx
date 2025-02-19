@@ -5,6 +5,7 @@ import { useRouter } from "expo-router";
 
 import { Image, Text, TouchableOpacity, View } from "react-native";
 import { businessAddress } from '../../../../db/schema';
+import placeholderPicture from "@/assets/images";
 
 interface InseratProfileProps {
     thisUser : typeof userTable.$inferSelect & { inserat, business : typeof business.$inferSelect & { businessAddresses : typeof businessAddress.$inferSelect[] } };
@@ -25,25 +26,25 @@ const InseratProfile : React.FC<InseratProfileProps> = ({
     const router = useRouter();
 
     return ( 
-        <View>
+        <View className="px-2 ">
             <View className="flex flex-row items-center gap-x-4">
-            <Image source={{uri: thisUser.image }} style={{width: 50, height: 50}} 
-                className="rounded-md"
+            <Image source={{uri: thisUser.image ?? placeholderPicture }}  
+                className="w-8 h-8 rounded-full"
                 />
-            <Text className="text-lg font-semibold w-3/4 text-gray-200 break-all line-clamp-1" numberOfLines={1}>
+            <Text className="text-base font-semibold w-3/4 text-gray-200 break-all line-clamp-1" numberOfLines={1}>
                 {thisUser.name} 
             </Text>
             </View>
-            <View className="mt-4 space-y-4">
-            <View className="flex flex-row items-center gap-x-4">
-                        <MaterialIcons name="public" size={20} color="white" className="text-indigo-800 bg-indigo-800" />
-                        <Text className="text-gray-200 font-semibold break-all line-clamp-1 text-md" numberOfLines={1}>
+            <View className=" mt-2 space-y-2">
+            <View className="flex flex-row items-center gap-x-2">
+                        
+                        <Text className="text-gray-200/80 font-semibold break-all line-clamp-1 text-md" numberOfLines={1}>
                             {publicInserate.length} Inserate online
                         </Text>
                     </View>
                 {(thisUser?.sharesRealName && (thisUser?.vorname || thisUser?.nachname)) && (
                     <View className="flex flex-row items-center gap-x-4">
-                        <FontAwesome name="user-circle" size={20} color="white" />
+                        <FontAwesome name="user-circle" size={16} color="white" />
                         <Text className="text-gray-200 font-medium break-all line-clamp-1" numberOfLines={1}>
                             {thisUser.vorname} {thisUser.nachname}
                         </Text>
@@ -51,7 +52,7 @@ const InseratProfile : React.FC<InseratProfileProps> = ({
                 )}
                 {thisUser?.sharesEmail && (
                     <View className="flex flex-row items-center gap-x-4">
-                        <FontAwesome name="envelope" size={20} color="white" />
+                        <FontAwesome name="envelope" size={16} color="white" />
                         <Text className="text-gray-200 font-medium break-all line-clamp-1" numberOfLines={1}>
                             {thisUser.email}
                         </Text>
@@ -59,18 +60,18 @@ const InseratProfile : React.FC<InseratProfileProps> = ({
                 )}
                 {thisUser?.createdAt && (
                     <View className="flex flex-row items-center gap-x-4">
-                        <FontAwesome name="calendar" size={20} color="white" />
-                        <Text className="text-gray-200 font-medium break-all line-clamp-1" numberOfLines={1}>
+                        
+                        <Text className="text-gray-200/60 text-xs font-medium break-all line-clamp-1" numberOfLines={1}>
                             Mitglied seit: {format(new Date(thisUser.createdAt), "dd.MM.yyyy")}
                         </Text>
                     </View>
                 )}
 {thisUser?.isBusiness && (
-                    <View className="py-4 w-full border-b border-t border-gray-800">
+                    <View className=" w-full  border-gray-800">
                         {thisUser?.business.businessAddresses?.length > 0 && (
                             <View>
                                 <View className="flex flex-row items-center gap-x-4">
-                                    <FontAwesome name="map-marker" size={20} color="red" />
+                                    <FontAwesome name="map-marker" size={16} color="red" />
                                     <Text className="text-md font-semibold text-gray-200">
                                     Firmenstandort
                                     </Text>
@@ -94,13 +95,15 @@ const InseratProfile : React.FC<InseratProfileProps> = ({
                                 </Text>
                             </View>
                             <View className="flex flex-row items-center">
-                                <View className="w-1/6 flex flex-row items-center gap-x-4">
+                                <View className="w-2/6 flex flex-row items-center gap-x-4">
                                     
-                                    <Feather name="globe" size={20} color="white" />
-                                    
+                                    <Feather name="globe" size={16} color="white" />
+                                    <Text className="text-md font-medium text-gray-200/80">
+                                    Website
+                                    </Text>
                                 </View>
                                 <View className="w-5/6">
-                                    <Text className="text-md font-medium text-gray-200 underline">
+                                    <Text className="text-md font-medium text-gray-200 ">
                                         {thisUser?.business?.website ? thisUser?.business?.website : "-"}
                                     </Text>
                                 </View>
@@ -110,9 +113,9 @@ const InseratProfile : React.FC<InseratProfileProps> = ({
                                 <View className="w-2/6 flex flex-row items-center gap-x-4">
                                     
                                     <View>
-                                    <Ionicons name="mail-outline" size={20} color="white" />
+                                    <Ionicons name="mail-unread" size={16} color="white" />
                                     </View>
-                                    <Text className="text-md font-medium text-gray-200">
+                                    <Text className="text-md font-medium text-gray-200/80">
                                     Email
                                     </Text>
                                 </View>
@@ -122,26 +125,26 @@ const InseratProfile : React.FC<InseratProfileProps> = ({
                                     </Text>
                                 </View>
                             </View>
-                            <View className="flex flex-row items-center mt-2">
+                            
+                            <View className="flex flex-row items-center mt-4">
                                 <View className="w-2/6 flex flex-row items-center gap-x-4">
-                                <View className="w-1/6">
-                                    <FontAwesome name="phone" size={20} color="white" />
-                                    </View>
-                                    <Text className="text-md font-medium text-gray-200">
-                                        Tel.
+                                    
+                                <FontAwesome name="phone-square" size={16} color="white" />
+                                    <Text className="text-md font-medium text-gray-200/80">
+                                        Telefon
                                     </Text>
                                 </View>
                                 <View className="w-4/6">
-                                    <Text className="text-md font-medium text-gray-200">
+                                <Text className="text-md font-medium text-gray-200/80">
                                         {thisUser?.business?.telephone_number ? thisUser?.business?.telephone_number : "-"}
                                     </Text>
                                 </View>
                             </View>
-                            <View className="flex flex-row items-center mt-2">
+                            <View className="flex flex-row items-center mt-4">
                                 <View className="w-2/6 flex flex-row items-center gap-x-4">
                                     
-                                    <FontAwesome5 name="fax" size={20} color="white" />
-                                    <Text className="text-md font-medium text-gray-200">
+                                    <FontAwesome5 name="fax" size={16} color="white" />
+                                    <Text className="text-md font-medium text-gray-200/80">
                                         Fax
                                     </Text>
                                 </View>
@@ -156,7 +159,7 @@ const InseratProfile : React.FC<InseratProfileProps> = ({
 )}
                 <TouchableOpacity onPress={() => {router.push(`/profile/${thisUser.id}`)}} className="bg-[#242635] 
                 p-2 mt-2 rounded-md w-full flex justify-center flex-row space-x-4">
-                    <FontAwesome name="user" size={20} color="white" />
+                    <FontAwesome name="user" size={16} color="white" />
                         <Text className="text-sm text-gray-200 font-semibold items-center flex justify-center text-center">
                             Zum Profil
                         </Text>

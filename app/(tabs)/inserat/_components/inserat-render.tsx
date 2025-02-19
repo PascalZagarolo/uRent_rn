@@ -14,11 +14,12 @@ import InseratDescription from "./inserat-description";
 import InseratAttributes from "./inserat-attributes";
 import InseratProfile from "./inserat-profile";
 import InseratMoreContent from "./inserat-user-more-content";
+import BookingCalendar from "./dialogs/booking-calendar";
 
 interface InseratRenderProps {
     thisInserat: typeof inserat.$inferSelect & { user, address, images };
     currentUserId?: string;
-    isFaved : boolean;
+    isFaved: boolean;
 }
 
 const InseratRender: React.FC<InseratRenderProps> = ({
@@ -92,42 +93,47 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                 </View>
                 {thisInserat?.images?.length > 0 && (
                     <View className="">
-                    <Image
-                        className="w-full h-60  rounded-t-md"
-                        source={{
-                            uri: thisInserat?.images[0]?.url,
-                        }}
-                    />
-                </View>
-                )}
-
-                <View className="p-4 flex flex-row items-center">
-                    <View className="mr-4">
-                        <FontAwesome name="map-marker" size={24} color="red" className="mr-4" />
+                        <Image
+                            className="w-full h-60  rounded-t-md"
+                            source={{
+                                uri: thisInserat?.images[0]?.url,
+                            }}
+                        />
                     </View>
-                    <Text className="flex flex-row text-base font-semibold items-center w-full break-all line-clamp-1 text-gray-200" numberOfLines={1}>
-                        {thisInserat?.address?.postalCode} | {thisInserat?.address?.locationString}
-                    </Text>
+                )}
+                <BookingCalendar />
+                <View className="px-4 ">
+                <View className="bg-[#252836] rounded-md">
+                    <View className="p-4 flex flex-row items-center">
+                        <View className="mr-4">
+                            <FontAwesome name="map-marker" size={24} color="red" className="mr-4" />
+                        </View>
+                        <Text className="flex flex-row text-base font-semibold items-center w-full break-all line-clamp-1 text-gray-200" numberOfLines={1}>
+                            {thisInserat?.address?.postalCode} | {thisInserat?.address?.locationString}
+                        </Text>
+                    </View>
+                    <View className="px-4 flex justify-end ml-auto items-center">
+                        <Text className="text-gray-200 font-semibold text-xl items-center">
+                            {integerPart}.<Text className="text-sm">{decimalPart}</Text> <Text className="text-gray-200/60 font-normal text-sm">/Tag</Text>
+                        </Text>
+                    </View>
                 </View>
-                <View className="px-4 flex justify-end ml-auto items-center">
-                    <Text className="text-gray-200 font-semibold text-xl items-center">
-                        {integerPart}.<Text className="text-sm">{decimalPart}</Text> €
-                    </Text>
                 </View>
+
                 <View className="py-2">
                     <InseratOptions
-                    inseratId={thisInserat?.id}
-                    currentUserId={currentUserId}
-                    inseratUserId={thisInserat?.userId}
-                    isFaved={isFaved}
+                        inseratId={thisInserat?.id}
+                        currentUserId={currentUserId}
+                        inseratUserId={thisInserat?.userId}
+                        isFaved={isFaved}
                     />
-                </View> 
-                 <View>
+                </View>
+                <View>
                     <InseratPriceProfiles
                         thisInserat={thisInserat}
                     />
                 </View>
-                <View className="p-8">
+                <View className="p-4">
                     <InseratConditions
                         thisInserat={thisInserat}
                     />
@@ -152,12 +158,12 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                         thisUser={thisInserat.user}
                     />
                 </View>
-                <View className="p-4">
+                <View className="p-4 px-6">
                     <InseratMoreContent
                         username={thisInserat.user.name}
                         foundInserat={thisInserat.user.inserat}
                     />
-                </View> 
+                </View>
             </View>
         </View>
     );

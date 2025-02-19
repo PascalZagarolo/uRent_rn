@@ -3,15 +3,17 @@ import { Text, View } from "react-native";
 import InseratPriceProfileDialog from './inserat-price-profile-dialog';
 
 interface InseratPriceProfilesProps {
-    thisInserat : typeof inserat.$inferSelect;
+    thisInserat: typeof inserat.$inferSelect;
 }
 
-const InseratPriceProfiles : React.FC<InseratPriceProfilesProps> = ({
+const InseratPriceProfiles: React.FC<InseratPriceProfilesProps> = ({
     thisInserat
 }) => {
-    return ( 
+    return (
         <View>
-            <View>
+            {thisInserat?.priceprofiles?.length > 0 && (
+               <View>
+                 <View>
                 <Text className="px-4 text-lg text-gray-200 font-semibold">
                     Weitere Preisprofile
                 </Text>
@@ -23,8 +25,10 @@ const InseratPriceProfiles : React.FC<InseratPriceProfilesProps> = ({
                 ))}
                 </View>
             </View>
+                </View>
+            )}
         </View>
-     );
+    );
 }
- 
+
 export default InseratPriceProfiles;

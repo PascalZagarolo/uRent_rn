@@ -12,7 +12,7 @@ const InseratConditions : React.FC<InseratConditionsProps> = ({
     return ( 
         <View>
             <View>
-                <Text className="text-lg font-semibold flex flex-row gap-x-2 items-center text-gray-200">
+                <Text className="text-lg font-semibold flex flex-row items-center text-gray-200">
                     Rahmenbedingungen
                 </Text>
             </View>
@@ -24,7 +24,7 @@ const InseratConditions : React.FC<InseratConditionsProps> = ({
                         <View className="w-1/2 flex flex-row items-center">
                             
                             
-                            <Text className="text-gray-200 text-base font-medium break-all line-clamp-1" numberOfLines={1}>
+                            <Text className="text-gray-200/80 text-sm  font-medium break-all line-clamp-1" numberOfLines={1}>
                             Kaution
                            </Text>
                         </View>
@@ -41,7 +41,7 @@ const InseratConditions : React.FC<InseratConditionsProps> = ({
                         <View className="w-1/2 flex flex-row items-center">
                             
                             
-                            <Text className="text-gray-200 text-sm font-semibold flex flex-row items-center gap-x-2">
+                            <Text className="text-gray-200/80 text-sm font-semibold flex flex-row items-center">
                             Mindestalter
                             </Text>
                         </View>

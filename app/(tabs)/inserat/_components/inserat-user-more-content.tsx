@@ -23,14 +23,9 @@ const InseratMoreContent : React.FC<InseratMoreContentProps> = ({
                 <Text className="text-lg text-gray-200 font-semibold">
                     Weitere Inhalte ({matchingInserate?.length})
                 </Text>
-                <View className=" flex flex-row items-center space-x-4" >
-                    <View className="">
-                    <FontAwesome name="user-circle" size={20} color="white" />
-                    </View>
-                    <Text className="text-sm text-gray-200/80 font-semibold line-clamp-1 break-all " numberOfLines={1}>
-                    {username} 
+                <Text className="text-sm text-gray-200/80 font-semibold line-clamp-1 break-all " numberOfLines={1}>
+                  von {username} 
                     </Text>
-                    </View>
             </View>
             <View className="mt-4">
                 <ScrollView className="max-h-72 border-t-2 border-b-2 border-gray-600  space-y-4">
