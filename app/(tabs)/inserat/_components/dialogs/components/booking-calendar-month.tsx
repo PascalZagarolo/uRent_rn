@@ -31,7 +31,7 @@ const BookingCalendarMonth = () => {
     };
 
     return (
-        <View className="p-4">
+        <View className="p-4 h-[420px]">
             {/* Header */}
             <View className="flex flex-row space-x-4 items-center mb-4 ">
                 <TouchableOpacity onPress={() => changeMonth(-1)}>
@@ -46,7 +46,7 @@ const BookingCalendarMonth = () => {
             </View>
             
             {/* Weekday Headers */}
-            <View className="flex flex-row bg-indigo-800 py-4 rounded-md">
+            <View className="flex flex-row bg-[#222531] shadow-lg py-4 rounded-md">
                 {weekdays.map((day, index) => (
                     <View key={index} className="flex-1 items-center">
                         <Text className="text-gray-200 text-center">
