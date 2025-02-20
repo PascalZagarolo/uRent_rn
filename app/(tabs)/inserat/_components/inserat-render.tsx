@@ -1,9 +1,9 @@
 import { inserat } from "@/db/schema";
 import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Image, Modal, Text, TouchableOpacity, View } from "react-native";
 import { format } from "date-fns";
 
-
+import { Drawer } from 'react-native-drawer-layout';
 
 import { useRouter } from "expo-router";
 import InseratOptions from "./inserat-options";
@@ -16,6 +16,9 @@ import InseratProfile from "./inserat-profile";
 import InseratMoreContent from "./inserat-user-more-content";
 import BookingCalendar from "./dialogs/booking-calendar";
 
+import { useState } from "react";
+import BookingDialog from "./dialogs/booking-dialog";
+
 interface InseratRenderProps {
     thisInserat: typeof inserat.$inferSelect & { user, address, images };
     currentUserId?: string;
@@ -27,6 +30,8 @@ const InseratRender: React.FC<InseratRenderProps> = ({
     currentUserId,
     isFaved
 }) => {
+
+    const [showBookings, setShowBookings] = useState(false);
 
     const matchingIcon = (usedCategory: string) => {
         switch (usedCategory) {
@@ -66,7 +71,8 @@ const InseratRender: React.FC<InseratRenderProps> = ({
     const router = useRouter()
 
     return (
-        <View>
+        <View className="h-full w-full">
+            
             <View>
                 <View className="">
                     <TouchableOpacity className="p-4 flex flex-row items-center" onPress={() => { router.push("/") }}>
@@ -80,13 +86,13 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                     <View className="w-2/12">
                         {matchingIcon(thisInserat?.category)}
                     </View>
-                    <Text className="text-xl font-semibold text-gray-200 w-10/12 break-all line-clamp-1" numberOfLines={1}>
+                    <Text className="text-lg font-semibold text-gray-200 w-10/12 break-all line-clamp-1" numberOfLines={1}>
                         {thisInserat?.title}
                     </Text>
                 </View>
-                <View className="flex flex-row items-center p-2 ">
+                <View className="flex flex-row items-center px-2  mb-4">
                     <View>
-                        <Text className="text-gray-200 font-semibold">
+                        <Text className="text-gray-200/60 text-sm font-medium">
                             <Text className="font-normal">erstellt am: </Text>{format(new Date(thisInserat?.createdAt), "dd.MM.yyyy")}
                         </Text>
                     </View>
@@ -101,7 +107,9 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                         />
                     </View>
                 )}
-                <BookingCalendar />
+                <BookingCalendar 
+                setShowBookings = {setShowBookings}
+                />
                 <View className="px-4 ">
                 <View className="bg-[#252836] rounded-md">
                     <View className="p-4 flex flex-row items-center">
@@ -165,6 +173,19 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                     />
                 </View>
             </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={showBookings}
+                onRequestClose={() => {
+                    setShowBookings(false);
+                }}
+
+            >
+                <BookingDialog/>
+            </Modal>
+
+                
         </View>
     );
 }
