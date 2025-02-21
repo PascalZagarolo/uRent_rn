@@ -41,6 +41,7 @@ const InseratPage = () => {
                       images: true,
                     },
                   },
+                  bookings : true,
                 },
               },
               images: {
@@ -124,6 +125,7 @@ const InseratPage = () => {
       {thisInserat ? (
           <InseratRender
             thisInserat={thisInserat}
+            inseratBookings={thisInserat.bookings}
             currentUserId={user?.id}
             isFaved={
               isFaved

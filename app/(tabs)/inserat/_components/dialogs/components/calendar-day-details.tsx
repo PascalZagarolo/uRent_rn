@@ -6,7 +6,7 @@ import { format, isAfter, isBefore, isSameDay } from "date-fns";
 import { de } from "date-fns/locale";
 
 import { useEffect } from "react";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 
 
 
@@ -199,7 +199,7 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
             >
                 {/* Left Section: Time Display */}
                 <View className="w-2/5 bg-[#222222] text-white shadow-md h-full flex justify-center items-center">
-                    <View className="p-2.5 font-semibold">{hour}:00 Uhr</View>
+                    <Text className="p-2.5 font-semibold">{hour}:00 Uhr</Text>
                 </View>
             
                 {/* Right Section: Booking Slots */}
@@ -211,7 +211,7 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
                             ${!checkBooked(String((hour * 60) + 30)) ? "rounded-b-none" : "rounded-b-none"}`}
                     >
                         {!checkBooked(String(hour * 60)) && checkBooked(String((hour * 60) - 30)) && (
-                            <span className="text-sm text-gray-200 font-semibold">Verfügbar ab {hour}:00 Uhr</span>
+                            <Text className="text-sm text-gray-200 font-semibold">Verfügbar ab {hour}:00 Uhr</Text>
                         )}
                     </View>
             
@@ -224,7 +224,7 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
                         {!checkBooked(String((hour * 60) + 30)) && checkBooked(String((hour * 60))) && (
                             <View className="flex items-center">
                                 <MaterialCommunityIcons name="check" className="w-4 h-4 mr-2 text-green-500" />
-                                <span className="text-sm text-gray-200 font-semibold">Verfügbar ab {hour}:30 Uhr</span>
+                                <Text className="text-sm text-gray-200 font-semibold">Verfügbar ab {hour}:30 Uhr</Text>
                             </View>
                         )}
                     </View>
@@ -251,16 +251,16 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
     
             <View className="p-0 dark:border-none dark:bg-[#191919]">
                 <View className="h-[520px] overflow-y-auto no-scrollbar">
-                    <h3 className="font-medium text-sm flex items-center gap-x-2 px-4 pt-6">
+                    <View className="font-medium text-sm flex items-center gap-x-2 px-4 pt-6">
                         <MaterialCommunityIcons name="calendar-blank" className="w-4 h-4 text-indigo-800" />
-                        <View className="font-semibold">
+                        <Text className="font-semibold">
                             {format(new Date(day_date), "d. MMMM yyyy", { locale: de })}{" "}
-                        </View>
-                        <View className="dark:text-gray-200">Verfügbarkeitsübersicht</View>
-                    </h3>
-                    <p className="px-4 text-xs dark:text-gray-200/60">
+                        </Text>
+                        <Text className="dark:text-gray-200">Verfügbarkeitsübersicht</Text>
+                    </View>
+                    <Text className="px-4 text-xs dark:text-gray-200/60">
                         Finde heraus, wann das Inserat verfügbar ist, und wann nicht.
-                    </p>
+                    </Text>
     
                     <View className="mt-4">
                         {renderSegments()}

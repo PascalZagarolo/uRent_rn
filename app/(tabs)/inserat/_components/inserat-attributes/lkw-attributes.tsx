@@ -14,9 +14,9 @@ const LkwAttributeRender: React.FC<LkwAttributeRenderProps> = ({ attributes }) =
     const attributeList = [
         { condition: attributes?.lkwBrand, icon: "truck-moving", label: attributes?.lkwBrand, component: FontAwesome5 },
         { condition: attributes?.initial, icon: "construction", label: `Baujahr: ${format(new Date(attributes?.initial), "MM/yyyy")}`, component: MaterialIcons },
-        { condition: attributes?.application, icon: "truck-loading", label: attributes.application.charAt(0).toUpperCase() + attributes.application.slice(1).toLowerCase(), component: FontAwesome5 },
-        { condition: attributes?.loading, icon: "crane", label: attributes.loading.charAt(0).toUpperCase() + attributes.loading.slice(1).toLowerCase(), component: MaterialCommunityIcons },
-        { condition: attributes?.drive, icon: "gear", label: attributes.drive.charAt(0).toUpperCase() + attributes.drive.slice(1), component: FontAwesome },
+        { condition: attributes?.application, icon: "truck-loading", label: attributes.application.charAt(0)?.toUpperCase() + attributes.application.slice(1).toLowerCase(), component: FontAwesome5 },
+        { condition: attributes?.loading, icon: "crane", label: attributes.loading.charAt(0)?.toUpperCase() + attributes.loading.slice(1).toLowerCase(), component: MaterialCommunityIcons },
+        { condition: attributes?.drive, icon: "gear", label: attributes.drive.charAt(0)?.toUpperCase() + attributes.drive.slice(1), component: FontAwesome },
         { condition: Number(attributes?.weightClass ?? 0) !== 0 && attributes?.weightClass != 0, icon: "weight", label: (attributes?.weightClass) + " kg zulässiges Gesamtgewicht", component: MaterialCommunityIcons },
         { condition: attributes?.seats, icon: "couch", label: `${attributes.seats} ${attributes.seats > 1 ? 'Sitze' : 'Sitz'}`, component: FontAwesome5 },
         { condition: attributes?.axis, icon: "axis", label: { '1': "Einachser", '2': "Zweiachser", '3': "Dreiachser", '4': "Vierachser", '5': " > 4 Achsen" }[attributes?.axis], component: MaterialCommunityIcons },

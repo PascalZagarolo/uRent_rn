@@ -1,4 +1,4 @@
-import { inserat } from "@/db/schema";
+import { booking, inserat } from "@/db/schema";
 import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image, Modal, Text, TouchableOpacity, View } from "react-native";
 import { format } from "date-fns";
@@ -22,12 +22,14 @@ import BookingDialog from "./dialogs/booking-dialog";
 interface InseratRenderProps {
     thisInserat: typeof inserat.$inferSelect & { user, address, images };
     currentUserId?: string;
+    inseratBookings : typeof booking.$inferSelect[];
     isFaved: boolean;
 }
 
 const InseratRender: React.FC<InseratRenderProps> = ({
     thisInserat,
     currentUserId,
+    inseratBookings,
     isFaved
 }) => {
 
@@ -184,7 +186,7 @@ const InseratRender: React.FC<InseratRenderProps> = ({
             >
                 <BookingDialog
                 thisInserat={thisInserat}
-                receivedBookings={thisInserat?.bookings}
+                receivedBookings={inseratBookings}
                 />
             </Modal>
 

@@ -12,6 +12,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 
 import { useEffect, useState } from "react";
 import CalenderDayDetail from "./calendar-day-details";
+import { View } from "react-native";
 
 
 interface Event {
@@ -53,7 +54,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
     <>
 
 
-      <div
+      <View
         key={index}
         className={clsx("dark:bg-[#0F0F0F]  p-4 text-center rounded-md ", {
           "bg-gray-200": isToday(day),
@@ -78,7 +79,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
 
 
 
-      </div>
+      </View>
     </>
 
   );
