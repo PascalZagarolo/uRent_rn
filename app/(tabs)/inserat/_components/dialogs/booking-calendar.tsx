@@ -15,6 +15,7 @@ const BookingCalendar = ({ setShowBookings } : BookingCalendar) => {
             <Text className="text-gray-200 font-semibold">
                 Verfügbarkeit anschauen
             </Text>
+            
         </TouchableOpacity>
         </View>
      );

@@ -1,33 +1,34 @@
 import React, { useState } from "react";
 import { View, Text, FlatList, TouchableOpacity } from "react-native";
-import moment from "moment";
+import { format, startOfMonth, endOfMonth, addMonths, subMonths, eachDayOfInterval, getDay } from "date-fns";
+import { de } from "date-fns/locale";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 const BookingCalendarMonth = () => {
-    const [currentMonth, setCurrentMonth] = useState(moment().locale("de"));
+    const [currentMonth, setCurrentMonth] = useState(new Date());
 
     const weekdays = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
     const daysInMonth = () => {
         let days = [];
-        const startOfMonth = currentMonth.clone().startOf("month");
-        const endOfMonth = currentMonth.clone().endOf("month");
-        const startDayOfWeek = startOfMonth.isoWeekday();
+        const start = startOfMonth(currentMonth);
+        const end = endOfMonth(currentMonth);
+        const daysArray = eachDayOfInterval({ start, end });
+        const startDayOfWeek = (getDay(start) + 6) % 7; // Adjust for Monday start
 
         // Fill empty slots for first week
-        for (let i = 1; i < startDayOfWeek; i++) {
+        for (let i = 0; i < startDayOfWeek; i++) {
             days.push(null);
         }
 
         // Fill actual days
-        for (let day = startOfMonth; day.isBefore(endOfMonth) || day.isSame(endOfMonth); day.add(1, "day")) {
-            days.push(day.clone());
-        }
+        days.push(...daysArray);
+
         return days;
     };
 
     const changeMonth = (direction) => {
-        setCurrentMonth((prev) => prev.clone().add(direction, "month"));
+        setCurrentMonth((prev) => (direction === 1 ? addMonths(prev, 1) : subMonths(prev, 1)));
     };
 
     return (
@@ -37,8 +38,8 @@ const BookingCalendarMonth = () => {
                 <TouchableOpacity onPress={() => changeMonth(-1)}>
                     <MaterialCommunityIcons size={24} color={"white"} name="arrow-left-bold-circle-outline" />
                 </TouchableOpacity>
-                <Text className="text-gray-200 font-semibold text-lg">
-                    {currentMonth.format("MMMM YYYY")}
+                <Text className="text-gray-200 font-semibold text-lg w-36">
+                    {format(currentMonth, "MMMM yyyy", { locale: de })}
                 </Text>
                 <TouchableOpacity onPress={() => changeMonth(1)}>
                     <MaterialCommunityIcons size={24} color={"white"} name="arrow-right-bold-circle-outline" />
@@ -61,7 +62,7 @@ const BookingCalendarMonth = () => {
                 {daysInMonth().map((day, index) => (
                     <View key={index} className="w-[14.28%] h-12 flex items-center justify-center">
                         {day ? (
-                            <Text className="text-gray-200">{day.format("D")}</Text>
+                            <Text className="text-gray-200">{format(day, "d")}</Text>
                         ) : null}
                     </View>
                 ))}
