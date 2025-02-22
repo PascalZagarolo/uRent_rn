@@ -65,12 +65,12 @@ const BookingCalendar = ({ receivedBookings, thisInserat }: EventCalendarProps) 
 
     const eventsByDate = useMemo(() => {
         if (!receivedBookings) return {}; // Ensure it's always an object
-    
+
         return receivedBookings.reduce((acc: { [key: string]: typeof booking.$inferSelect[] }, pBooking: typeof booking.$inferSelect) => {
             const startDate = new Date(pBooking.startDate);
             const endDate = new Date(pBooking.endDate);
             const currentDate = new Date(startDate);
-    
+
             while (currentDate <= endDate) {
                 const dateKey = format(currentDate, "yyyy-MM-dd");
                 if (!acc[dateKey]) {
@@ -79,16 +79,16 @@ const BookingCalendar = ({ receivedBookings, thisInserat }: EventCalendarProps) 
                 acc[dateKey].push(pBooking);
                 currentDate.setDate(currentDate.getDate() + 1);
             }
-    
+
             return acc;
         }, {});
     }, [receivedBookings]);
-    
+
 
 
 
     return (
-        <View className="flex-1 bg-black/80 justify-center items-center p-4">
+        <View className="flex-1 bg-black/80 justify-center items-center p-2">
             <KeyboardAvoidingView
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 className="w-full"
@@ -123,40 +123,36 @@ const BookingCalendar = ({ receivedBookings, thisInserat }: EventCalendarProps) 
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View className="w-full">
+                    <View className="w-full h-[320px]">
                         {/* Render Weekday Headers */}
-                        <View className="flex-row">
+                        <View className="flex-row w-full bg-[#232535] rounded-t-md shadow-lg">
                             {WEEKDAYS.map((day) => (
-                                <View key={day} className="flex-1 font-bold text-center bg-[#232535] p-2.5">
-                                    <Text className="text-white text-center">{day}</Text>
+                                <View key={day} className="flex-1  w-12 h-10 items-center justify-center">
+                                    <Text className="text-white text-center font-bold">{day}</Text>
                                 </View>
                             ))}
                         </View>
 
-                        {/* Render Empty Days for Offset */}
-                        <View className="flex-row flex-wrap">
+                        <View className="flex-row flex-wrap w-full">
+                            {/* Render Empty Days for Offset */}
                             {Array.from({ length: startingDayIndex }).map((_, index) => (
-                                <View key={`empty-${index}`} className="w-4 h-4 p-2.5 bg-[#171717]" />
+                                <View key={`empty-${index}`} className="w-[14.28%] h-12 bg-[#232535]" />
                             ))}
+
+                            {/* Render Days */}
+                            {daysInMonth.map((day, index) => {
+                                const dateKey = format(day, "yyyy-MM-dd");
+                                const todaysEvents = eventsByDate[dateKey] || [];
+                                return (
+                                    <View key={dateKey} className="w-[14.28%] h-12  flex items-center justify-center">
+                                        <Text className="text-white">{format(day, "d")}</Text>
+                                    </View>
+                                );
+                            })}
                         </View>
 
-                        {daysInMonth.map((day, index) => {
-                            const dateKey = format(day, "yyyy-MM-dd");
-                            const todaysEvents = eventsByDate[dateKey] || [];
-                            return (
-                                <View key={index} className="">
-                                     <CalendarDay
-                                        index={index}
-                                        day={day}
-                                        key={dateKey}
-                                        bookings={todaysEvents}
-                                        isMulti={thisInserat?.multi}
-                                        vehicles={thisInserat?.vehicles}
-                                    /> 
-                                </View>
-                            );
-                        })}
                     </View>
+
 
                     <View className="mt-auto">
                         <View className="mt-2">

@@ -8,11 +8,11 @@ import { booking, vehicle } from "@/db/schema";
 import clsx from "clsx";
 import { format, isToday } from "date-fns";
 
-import { useRouter, useSearchParams } from "next/navigation";
+
 
 import { useEffect, useState } from "react";
 import CalenderDayDetail from "./calendar-day-details";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 
 
 interface Event {
@@ -38,7 +38,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
   vehicles
 }) => {
 
-  const searchParams = useSearchParams();
+
 
 
 
@@ -64,8 +64,8 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
           "hover:bg-[#1b1b1b]": !isCompletelyUnaivalable && !isPartiallyUnaivalable
         })}
       >
-        {isCompletelyUnaivalable ? (
-          <>{format(new Date(day), "d")}</>
+        {!isCompletelyUnaivalable ? (
+          <Text className="text-gray-200 text-sm text-center font-semibold">{format(new Date(day), "d")}</Text>
         ) : (
           <CalenderDayDetail
             day_date={day}
@@ -74,6 +74,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
             setIsPartiallyUnaivalable={setIsPartiallyUnaivalable}
             isMulti={isMulti}
             vehicles={vehicles}
+            showDialog={false}
           />
         )}
 

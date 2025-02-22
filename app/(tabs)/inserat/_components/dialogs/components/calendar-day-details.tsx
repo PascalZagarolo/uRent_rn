@@ -17,6 +17,7 @@ interface CalenderDayDetailProps {
     setIsPartiallyUnaivalable: (value: boolean) => void;
     isMulti?: boolean;
     vehicles?: typeof vehicle.$inferSelect[];
+    showDialog?: boolean;
 }
 
 const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
@@ -25,7 +26,8 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
     setCompletelyUnaivalable,
     setIsPartiallyUnaivalable,
     isMulti,
-    vehicles
+    vehicles,
+    showDialog
 }) => {
 
     let appointedTimes = [];
@@ -243,32 +245,34 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
 
    
     
-    return (
-        <View>
-            {/* <DialogTrigger>
-                {format(new Date(day_date), "d")}
-            </DialogTrigger> */}
-    
-            <View className="p-0 dark:border-none dark:bg-[#191919]">
-                <View className="h-[520px] overflow-y-auto no-scrollbar">
-                    <View className="font-medium text-sm flex items-center gap-x-2 px-4 pt-6">
-                        <MaterialCommunityIcons name="calendar-blank" className="w-4 h-4 text-indigo-800" />
-                        <Text className="font-semibold">
-                            {format(new Date(day_date), "d. MMMM yyyy", { locale: de })}{" "}
+    if(showDialog) {
+        return (
+            <View>
+                <Text>
+                    {format(new Date(day_date), "d")}
+                </Text>
+        
+                <View className="p-0 dark:border-none dark:bg-[#191919]">
+                    <View className="h-[520px] overflow-y-auto no-scrollbar">
+                        <View className="font-medium text-sm flex items-center gap-x-2 px-4 pt-6">
+                            <MaterialCommunityIcons name="calendar-blank" className="w-4 h-4 text-indigo-800" />
+                            <Text className="font-semibold">
+                                {format(new Date(day_date), "d. MMMM yyyy", { locale: de })}{" "}
+                            </Text>
+                            <Text className="dark:text-gray-200">Verfügbarkeitsübersicht</Text>
+                        </View>
+                        <Text className="px-4 text-xs dark:text-gray-200/60">
+                            Finde heraus, wann das Inserat verfügbar ist, und wann nicht.
                         </Text>
-                        <Text className="dark:text-gray-200">Verfügbarkeitsübersicht</Text>
-                    </View>
-                    <Text className="px-4 text-xs dark:text-gray-200/60">
-                        Finde heraus, wann das Inserat verfügbar ist, und wann nicht.
-                    </Text>
-    
-                    <View className="mt-4">
+        
+                        <View className="mt-4">
                         {renderSegments()}
+                        </View>
                     </View>
                 </View>
             </View>
-        </View>
-    );
+        );
+    }
     
 }
 
