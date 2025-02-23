@@ -43,7 +43,12 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
 
     const [currentMonth, setCurrentMonth] = useState(0);
 
-
+    const [showDayDetail, setShowDayDetail] = useState<{
+        isOpen: boolean,
+        currentDate? : Date
+    }>({
+        isOpen : false,
+    });
 
     const daysInMonth = eachDayOfInterval({
         start: firstDayOfMonth,
@@ -95,7 +100,12 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
                 behavior={Platform.OS === "ios" ? "padding" : "height"}
                 className="w-full"
             >
-                <View className="container  p-4 border dark:border-none w-full bg-[#151821] rounded-lg">
+                {showDayDetail.isOpen ? (
+                    <View className="container  p-4 border dark:border-none w-full bg-[#151821] rounded-lg">
+
+                    </View>
+                ) : (
+                    <View className="container  p-4 border dark:border-none w-full bg-[#151821] rounded-lg">
                     <View className="mb-4 ">
                         {/* Header */}
                         <View className="flex flex-row justify-between items-center space-x-4 w-full">
@@ -148,9 +158,16 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
                                 const dateKey = format(day, "yyyy-MM-dd");
                                 const todaysEvents = eventsByDate[dateKey] || [];
                                 return (
-                                    <View key={dateKey} className="w-[14.28%] h-12 shadow-lg flex items-center justify-center">
+                                    <TouchableOpacity key={dateKey} className="w-[14.28%] h-12 shadow-lg flex items-center justify-center"
+                                    onPress={() => {
+                                        setShowDayDetail({
+                                            isOpen : true,
+
+                                        })
+                                    }}
+                                    >
                                         <Text className="text-white">{format(day, "d")}</Text>
-                                    </View>
+                                    </TouchableOpacity>
                                 );
                             })}
                         </View>
@@ -176,6 +193,7 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
                         </View>
                     </View>
                 </View>
+                )}
             </KeyboardAvoidingView>
         </View>
     );
