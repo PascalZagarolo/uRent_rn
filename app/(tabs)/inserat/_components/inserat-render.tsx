@@ -187,6 +187,7 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                 <BookingDialog
                 thisInserat={thisInserat}
                 receivedBookings={inseratBookings}
+                onClose={() => setShowBookings(false)}
                 />
             </Modal>
 

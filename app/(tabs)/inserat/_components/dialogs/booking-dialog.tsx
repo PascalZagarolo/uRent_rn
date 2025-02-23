@@ -24,16 +24,17 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CalendarDay from "./components/booking-day";
 
 
-const WEEKDAYS = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"];
+const WEEKDAYS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
 
 
 interface EventCalendarProps {
+    onClose: () => void;
     thisInserat: typeof inserat.$inferSelect,
     receivedBookings: typeof booking.$inferSelect[]
 }
 
-const BookingCalendar = ({ receivedBookings, thisInserat }: EventCalendarProps) => {
+const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalendarProps) => {
 
     const [currentFilter, setCurrentFilter] = useState<string | null>(null);
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -49,7 +50,8 @@ const BookingCalendar = ({ receivedBookings, thisInserat }: EventCalendarProps) 
         end: lastDayOfMonth,
     }) ?? [];
 
-    const startingDayIndex = getDay(firstDayOfMonth);
+    const startingDayIndex = (getDay(firstDayOfMonth) + 6) % 7;
+
 
     const increaseMonth = () => {
         const newDate = new Date(currentDate);
@@ -103,7 +105,9 @@ const BookingCalendar = ({ receivedBookings, thisInserat }: EventCalendarProps) 
                                     Verfügbarkeiten prüfen
                                 </Text>
                             </View>
-                            <TouchableOpacity className="ml-auto items-end flex justify-end">
+                            <TouchableOpacity className="ml-auto items-end flex justify-end"
+                            onPress={onClose}
+                            >
                                 <MaterialCommunityIcons name="close" size={20} color={"white"} />
                             </TouchableOpacity>
                         </View>
@@ -123,7 +127,7 @@ const BookingCalendar = ({ receivedBookings, thisInserat }: EventCalendarProps) 
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View className="w-full h-[320px]">
+                    <View className="w-full h-[340px]">
                         {/* Render Weekday Headers */}
                         <View className="flex-row w-full bg-[#232535] rounded-t-md shadow-lg">
                             {WEEKDAYS.map((day) => (
@@ -136,7 +140,7 @@ const BookingCalendar = ({ receivedBookings, thisInserat }: EventCalendarProps) 
                         <View className="flex-row flex-wrap w-full">
                             {/* Render Empty Days for Offset */}
                             {Array.from({ length: startingDayIndex }).map((_, index) => (
-                                <View key={`empty-${index}`} className="w-[14.28%] h-12 bg-[#232535]" />
+                                <View key={`empty-${index}`} className="w-[14.28%] h-12 bg-[#161720]" />
                             ))}
 
                             {/* Render Days */}
@@ -144,7 +148,7 @@ const BookingCalendar = ({ receivedBookings, thisInserat }: EventCalendarProps) 
                                 const dateKey = format(day, "yyyy-MM-dd");
                                 const todaysEvents = eventsByDate[dateKey] || [];
                                 return (
-                                    <View key={dateKey} className="w-[14.28%] h-12  flex items-center justify-center">
+                                    <View key={dateKey} className="w-[14.28%] h-12 shadow-lg flex items-center justify-center">
                                         <Text className="text-white">{format(day, "d")}</Text>
                                     </View>
                                 );
