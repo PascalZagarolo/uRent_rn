@@ -41,7 +41,7 @@ const InseratPage = () => {
                       images: true,
                     },
                   },
-                  bookings : true,
+                  
                 },
               },
               images: {
@@ -53,6 +53,7 @@ const InseratPage = () => {
               lkwAttribute: true,
               transportAttribute: true,
               trailerAttribute: true,
+              bookings : true,
             },
           });
   
