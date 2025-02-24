@@ -43,7 +43,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
 
 
 
-    console.log(bookings);
+    
 
     const [isCompletelyUnaivalable, setIsCompletelyUnaivalable] = useState(false);
     const [isPartiallyUnaivalable, setIsPartiallyUnaivalable] = useState(false);
@@ -58,7 +58,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
             day,
             vehicles
         );
-    }, [bookings, isMulti, day, vehicles]);
+    }, [bookings, isMulti, day, vehicles, index]);
 
 
 
@@ -69,7 +69,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
                 className={clsx("w-full h-full justify-center", {
                     "": isToday(day),
                     "font-black": isToday(day),
-                    "dark:bg-rose-800 bg-rose-800 rounded-md shadow-lg": isCompletelyUnaivalable,
+                    "bg-rose-800 rounded-md shadow-lg": isCompletelyUnaivalable,
                     " bg-indigo-800 rounded-md shadow-lg": isPartiallyUnaivalable && !isCompletelyUnaivalable,
                     "hover:bg-[#1b1b1b]": !isCompletelyUnaivalable && !isPartiallyUnaivalable
                 })}

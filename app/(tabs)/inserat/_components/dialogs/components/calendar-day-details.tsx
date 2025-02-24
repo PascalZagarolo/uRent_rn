@@ -13,16 +13,18 @@ import { ScrollView, Text, View } from "react-native";
 interface CalenderDayDetailProps {
     day_date: Date;
     affectedBookings: typeof booking.$inferSelect[];
-
     isMulti?: boolean;
     vehicles?: typeof vehicle.$inferSelect[];
     showDialog?: boolean;
+    setCompletelyUnaivalable : (value : boolean) => void;
+    setIsPartiallyUnaivalable : (value : boolean) => void;
 }
 
 const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
     day_date,
     affectedBookings,
-
+    setCompletelyUnaivalable,
+    setIsPartiallyUnaivalable,
     isMulti,
     vehicles,
     showDialog
@@ -30,7 +32,8 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
 
     let appointedTimes = [];
 
-
+  
+    
 
 
 
@@ -38,8 +41,10 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
 
         const helpArray = [];
 
-
-
+        if (affectedBookings.length === 0) {
+            setCompletelyUnaivalable(false);
+        }
+        
         let index = 0;
 
         for (const vehicle of vehicles) {
@@ -54,7 +59,7 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
                             appointedTimes[index].push(i);
 
                         }
-
+                        
                     }
                     //Buchung liegt auf aktuellen Tag, Buchung started & endet am selben Tag
                     if (isSameDay(pBooking.startDate, day_date) && isSameDay(pBooking.startDate, pBooking.endDate)) {
@@ -105,39 +110,38 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
         let isAvailable = false;
 
         for (let i = 0; i < 1440; i = i + 30) {
-
+            
             if (!helpArray.includes(i)) {
                 isAvailable = true;
-
+                setCompletelyUnaivalable(false);
                 break;
             }
         }
 
         if (!isAvailable) {
-
-
-        } else if (appointedTimes.length === 0) {
-
-        } else if (appointedTimes.length !== 1440) {
-
+            setCompletelyUnaivalable(true);
+            
+        } else if (appointedTimes.length === 0){
+            setCompletelyUnaivalable(false);
+        } else if(appointedTimes.length !== 1440){
+            setIsPartiallyUnaivalable(true);
         }
 
-
+        
 
 
     } else {
-
+        
         for (const pBooking of affectedBookings) {
             if (affectedBookings) {
+                
                 //Buchung startet vor dem aktuellen Tag und endet nach dem aktuellen Tag, kompletter Tag ist belegt
                 if (isBefore(pBooking.startDate, day_date) && isAfter(pBooking.endDate, day_date)) {
                     for (let i = 0; i <= 1440; i = i + 30) {
                         appointedTimes.push(i);
-
-
                     }
-
-                    break;
+                    setCompletelyUnaivalable(true);
+                   
                 }
                 //Buchung liegt auf aktuellen Tag, Buchung started & endet am selben Tag
                 if (isSameDay(pBooking.startDate, day_date) && isSameDay(pBooking.startDate, pBooking.endDate)) {
@@ -152,10 +156,11 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
                         appointedTimes.push(i);
                     }
                 }
-
+                
                 //Buchung endet am aktuellen Tag und startet nicht am aktuellen Tag
                 if (isSameDay(pBooking?.endDate, day_date) && isBefore(pBooking?.startDate, day_date)) {
                     for (let i = 0; i <= Number(pBooking.endPeriod); i = i + 30) {
+                        
                         appointedTimes.push(i);
                     }
                 }
@@ -165,22 +170,24 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
 
             for (let i = 0; i <= 1440; i = i + 30) {
                 if (!appointedTimes.includes(i)) {
-
+                    setCompletelyUnaivalable(false);
                     break;
                 }
             }
 
-
-
-            if (appointedTimes.length === 0) {
-
-            } else if (appointedTimes?.length !== 0) {
-
+            if(appointedTimes.length === 0){
+                setCompletelyUnaivalable(false);
+            } else if(appointedTimes?.length !== 0) {
+                setIsPartiallyUnaivalable(true)
             }
         }
     }
 
-    const checkBooked = (number) => appointedTimes.includes(Number(number));
+    const checkBooked = (number: string | number) => {
+        if (appointedTimes.includes(Number(number))) {
+            return true;
+        }
+    }
 
   const renderSegments = () => {
     return Array.from({ length: 24 }).map((_, hour) => (

@@ -5,10 +5,14 @@ import {
     endOfMonth,
     format,
     getDay,
+    isAfter,
+    isBefore,
+    isSameDay,
     startOfMonth,
 } from "date-fns";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import { formatInTimeZone, toZonedTime } from "date-fns-tz";
 
 
 
@@ -16,13 +20,14 @@ import { useEffect, useMemo, useState } from "react";
 
 
 
-import { de } from 'date-fns/locale';
 
 import { booking, inserat } from "@/db/schema";
 import { KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CalendarDay from "./components/booking-day";
 import CalenderDayDetail from "./components/calendar-day-details";
+import { de } from "date-fns/locale";
+
 
 
 const WEEKDAYS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
@@ -31,7 +36,7 @@ const WEEKDAYS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
 
 interface EventCalendarProps {
     onClose: () => void;
-    thisInserat: typeof inserat.$inferSelect,
+    thisInserat: typeof inserat.$inferSelect & { vehicles },
     receivedBookings: typeof booking.$inferSelect[]
 }
 
@@ -47,7 +52,7 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
     const [showDayDetail, setShowDayDetail] = useState<{
         isOpen: boolean,
         currentDate?: Date,
-        bookings?: typeof booking.$inferSelect[],
+        receivedBookings?: typeof booking.$inferSelect[],
     }>({
         isOpen: false,
     });
@@ -59,7 +64,7 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
 
     const startingDayIndex = (getDay(firstDayOfMonth) + 6) % 7;
 
-    console.log(receivedBookings)
+
 
     const increaseMonth = () => {
         const newDate = new Date(currentDate);
@@ -73,29 +78,60 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
         setCurrentDate(newDate);
     };
 
+
+
+    // const eventsByDate = useMemo(() => {
+    //     return receivedBookings?.reduce((acc: { [key: string]: typeof booking.$inferSelect[] }, pBooking: typeof booking.$inferSelect) => {
+            
+            
+    //         const timeZone = 'Europe/Berlin';
+
+    //         // Convert to Berlin timezone
+    //         const endBerlin = toZonedTime(pBooking.endDate, timeZone);
+            
+    //         // Format the date correctly
+    //         const formattedDate = format(endBerlin, "dd. MM");
+            
+    //         console.log(formattedDate);
+
+    //         while (currentDate <= endBerlin || isSameDay(currentDate, endBerlin)) {
+    //             const dateKey = format(currentDate, "yyyy-MM-dd");
+    //             if (!acc[dateKey]) {
+    //                 acc[dateKey] = [];
+    //             }
+
+    //             acc[dateKey].push(pBooking);
+
+    //             currentDate.setDate(currentDate.getDate() + 1);
+    //         }
+
+    //         return acc;
+    //     }, {});
+    // }, [receivedBookings]);
+
     const eventsByDate = useMemo(() => {
-        if (!receivedBookings) return {}; // Ensure it's always an object
-
-        return receivedBookings.reduce((acc: { [key: string]: typeof booking.$inferSelect[] }, pBooking: typeof booking.$inferSelect) => {
+        return receivedBookings?.reduce((acc: { [key: string]: typeof booking.$inferSelect[] }, pBooking : typeof booking.$inferSelect) => {
             const startDate = new Date(pBooking.startDate);
-            const endDate = new Date(pBooking.endDate);
-            const currentDate = new Date(startDate);
+            const timeZone = 'Europe/Berlin';
 
-            while (currentDate <= endDate) {
+    
+            const endDate = new Date(toZonedTime(pBooking.endDate, timeZone));
+            console.log(format(endDate, "dd. MM"))
+            const currentDate = new Date(startDate);
+            while (currentDate <= endDate || isSameDay(currentDate, endDate)) {
                 const dateKey = format(currentDate, "yyyy-MM-dd");
                 if (!acc[dateKey]) {
                     acc[dateKey] = [];
                 }
+
                 acc[dateKey].push(pBooking);
+
                 currentDate.setDate(currentDate.getDate() + 1);
             }
 
             return acc;
         }, {});
     }, [receivedBookings]);
-
-
-
 
     return (
         <View className="flex-1 bg-black/80 justify-center items-center p-2">
@@ -121,12 +157,14 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
                                 </TouchableOpacity>
                             </View>
                             <View>
-                                <CalenderDayDetail 
-                                day_date={showDayDetail.currentDate}
-                                affectedBookings={showDayDetail.bookings}
-                                isMulti={thisInserat?.multi}
-                                vehicles={thisInserat?.vehicles}
-                                showDialog={true}
+                                <CalenderDayDetail
+                                    day_date={showDayDetail.currentDate}
+                                    affectedBookings={showDayDetail.receivedBookings}
+                                    isMulti={thisInserat?.multi}
+                                    vehicles={thisInserat?.vehicles}
+                                    setCompletelyUnaivalable={() => { }}
+                                    setIsPartiallyUnaivalable={() => { }}
+                                    showDialog={true}
                                 />
                             </View>
                         </View>
@@ -193,12 +231,13 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
                                                 bookings={todaysEvents}
                                                 isMulti={thisInserat?.multi}
                                                 vehicles={thisInserat?.vehicles}
-                                                setCurrentDay={(day, bookings) => {
+
+                                                setCurrentDay={(day, receivedBookings) => {
                                                     setShowDayDetail(
                                                         {
-                                                            isOpen : true,
-                                                            currentDate : day,
-                                                            bookings : bookings
+                                                            isOpen: true,
+                                                            currentDate: day,
+                                                            receivedBookings: receivedBookings
                                                         }
                                                     )
                                                 }}

@@ -13,6 +13,11 @@ export const checkAvailableCalendar = (
 
     let appointedTimes = [];
 
+  
+    
+
+
+
     if (isMulti) {
 
         const helpArray = [];
@@ -20,7 +25,7 @@ export const checkAvailableCalendar = (
         if (affectedBookings.length === 0) {
             setCompletelyUnaivalable(false);
         }
-
+        
         let index = 0;
 
         for (const vehicle of vehicles) {
@@ -89,7 +94,6 @@ export const checkAvailableCalendar = (
             
             if (!helpArray.includes(i)) {
                 isAvailable = true;
-                console.log("KEINE");
                 setCompletelyUnaivalable(false);
                 break;
             }
@@ -99,10 +103,8 @@ export const checkAvailableCalendar = (
             setCompletelyUnaivalable(true);
             
         } else if (appointedTimes.length === 0){
-            console.log("KEINE");
             setCompletelyUnaivalable(false);
         } else if(appointedTimes.length !== 1440){
-            console.log("KEINE");
             setIsPartiallyUnaivalable(true);
         }
 
@@ -113,15 +115,14 @@ export const checkAvailableCalendar = (
         
         for (const pBooking of affectedBookings) {
             if (affectedBookings) {
+                
                 //Buchung startet vor dem aktuellen Tag und endet nach dem aktuellen Tag, kompletter Tag ist belegt
                 if (isBefore(pBooking.startDate, day_date) && isAfter(pBooking.endDate, day_date)) {
                     for (let i = 0; i <= 1440; i = i + 30) {
                         appointedTimes.push(i);
-
-
                     }
                     setCompletelyUnaivalable(true);
-                    break;
+                   
                 }
                 //Buchung liegt auf aktuellen Tag, Buchung started & endet am selben Tag
                 if (isSameDay(pBooking.startDate, day_date) && isSameDay(pBooking.startDate, pBooking.endDate)) {
@@ -136,10 +137,11 @@ export const checkAvailableCalendar = (
                         appointedTimes.push(i);
                     }
                 }
-
+                
                 //Buchung endet am aktuellen Tag und startet nicht am aktuellen Tag
                 if (isSameDay(pBooking?.endDate, day_date) && isBefore(pBooking?.startDate, day_date)) {
                     for (let i = 0; i <= Number(pBooking.endPeriod); i = i + 30) {
+                        
                         appointedTimes.push(i);
                     }
                 }
@@ -154,13 +156,9 @@ export const checkAvailableCalendar = (
                 }
             }
 
-            
-
             if(appointedTimes.length === 0){
-                console.log("KEINE");
                 setCompletelyUnaivalable(false);
             } else if(appointedTimes?.length !== 0) {
-                console.log("DOCH");
                 setIsPartiallyUnaivalable(true)
             }
         }
