@@ -54,6 +54,7 @@ const InseratPage = () => {
               transportAttribute: true,
               trailerAttribute: true,
               bookings : true,
+              vehicles : true
             },
           });
   

@@ -6,15 +6,14 @@ import { format, isAfter, isBefore, isSameDay } from "date-fns";
 import { de } from "date-fns/locale";
 
 
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 
 
 interface CalenderDayDetailProps {
     day_date: Date;
     affectedBookings: typeof booking.$inferSelect[];
-    setCompletelyUnaivalable: (value: boolean) => void;
-    setIsPartiallyUnaivalable: (value: boolean) => void;
+
     isMulti?: boolean;
     vehicles?: typeof vehicle.$inferSelect[];
     showDialog?: boolean;
@@ -23,8 +22,7 @@ interface CalenderDayDetailProps {
 const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
     day_date,
     affectedBookings,
-    setCompletelyUnaivalable,
-    setIsPartiallyUnaivalable,
+
     isMulti,
     vehicles,
     showDialog
@@ -32,7 +30,7 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
 
     let appointedTimes = [];
 
-    
+
 
 
 
@@ -40,9 +38,7 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
 
         const helpArray = [];
 
-        if (affectedBookings.length === 0) {
-            setCompletelyUnaivalable(false);
-        }
+
 
         let index = 0;
 
@@ -58,7 +54,7 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
                             appointedTimes[index].push(i);
 
                         }
-                        
+
                     }
                     //Buchung liegt auf aktuellen Tag, Buchung started & endet am selben Tag
                     if (isSameDay(pBooking.startDate, day_date) && isSameDay(pBooking.startDate, pBooking.endDate)) {
@@ -109,28 +105,28 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
         let isAvailable = false;
 
         for (let i = 0; i < 1440; i = i + 30) {
-            
+
             if (!helpArray.includes(i)) {
                 isAvailable = true;
-                setCompletelyUnaivalable(false);
+
                 break;
             }
         }
 
         if (!isAvailable) {
-            setCompletelyUnaivalable(true);
-            
-        } else if (appointedTimes.length === 0){
-            setCompletelyUnaivalable(false);
-        } else if(appointedTimes.length !== 1440){
-            setIsPartiallyUnaivalable(true);
+
+
+        } else if (appointedTimes.length === 0) {
+
+        } else if (appointedTimes.length !== 1440) {
+
         }
 
-        
+
 
 
     } else {
-        
+
         for (const pBooking of affectedBookings) {
             if (affectedBookings) {
                 //Buchung startet vor dem aktuellen Tag und endet nach dem aktuellen Tag, kompletter Tag ist belegt
@@ -140,7 +136,7 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
 
 
                     }
-                    setCompletelyUnaivalable(true);
+
                     break;
                 }
                 //Buchung liegt auf aktuellen Tag, Buchung started & endet am selben Tag
@@ -169,112 +165,68 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
 
             for (let i = 0; i <= 1440; i = i + 30) {
                 if (!appointedTimes.includes(i)) {
-                    setCompletelyUnaivalable(false);
+
                     break;
                 }
             }
 
-            
 
-            if(appointedTimes.length === 0){
-                setCompletelyUnaivalable(false);
-            } else if(appointedTimes?.length !== 0) {
-                setIsPartiallyUnaivalable(true)
+
+            if (appointedTimes.length === 0) {
+
+            } else if (appointedTimes?.length !== 0) {
+
             }
         }
     }
 
-    const checkBooked = (number: string) => {
-        if (appointedTimes.includes(Number(number))) {
-            return true;
-        }
-    }
+    const checkBooked = (number) => appointedTimes.includes(Number(number));
 
-    const renderSegments = () => {
-        const segments = [];
-        
-    
-        for (let hour = 0; hour <= 23; hour++) {
-            segments.push(
-                <View
-                key={hour}
-                className="dark:bg-[#1a1a1a] bg-white text-sm flex  flex-row h-full items-start shadow-sm overflow-hidden"
-            >
-                {/* Left Section: Time Display */}
-                <View className="w-2/5 bg-[#222222] text-white shadow-md h-full flex justify-center items-center">
-                    <Text className="p-2.5 font-semibold">{hour}:00 Uhr</Text>
-                </View>
+  const renderSegments = () => {
+    return Array.from({ length: 24 }).map((_, hour) => (
+      <View key={hour} className="flex flex-row items-center">
+        <View className="w-2/5 flex items-center">
+          <Text className="font-bold text-white">{hour}:00 Uhr</Text>
+        </View>
+        <View className="w-3/5">
+          <View className={`h-10 flex items-center justify-center px-2 ${checkBooked(hour * 60) ? 'bg-rose-600' : 'bg-[#222435]'}`}> 
+            {!checkBooked(hour * 60) && checkBooked((hour * 60) - 30) && (
+              <Text className="text-white font-bold">Verfügbar ab {hour}:00 Uhr</Text>
+            )}
+          </View>
+          <View className={`h-10 flex items-center justify-center px-2 ${checkBooked((hour * 60) + 30) ? 'bg-rose-600' : 'bg-[#222435]'}`}> 
+            {!checkBooked((hour * 60) + 30) && checkBooked(hour * 60) && (
+              <View className="flex flex-row items-center">
+                <MaterialCommunityIcons name="check" size={16} color="green" />
+                <Text className="ml-2 text-white font-bold">Verfügbar ab {hour}:30 Uhr</Text>
+              </View>
+            )}
+          </View>
+        </View>
+      </View>
+    ));
+  };
+
+
+
+
+    return (
+        <View className="">
             
-                {/* Right Section: Booking Slots */}
-                <View className="h-full ml-auto w-3/5 flex flex-col ">
-                    {/* First Slot */}
-                    <View
-                        className={`h-10 flex items-center justify-between p-2.5  
-                            ${checkBooked(String(hour * 60)) ? "bg-red-600 text-white" : "bg-[#222222] dark:text-gray-200"} 
-                            ${!checkBooked(String((hour * 60) + 30)) ? "rounded-b-none" : "rounded-b-none"}`}
-                    >
-                        {!checkBooked(String(hour * 60)) && checkBooked(String((hour * 60) - 30)) && (
-                            <Text className="text-sm text-gray-200 font-semibold">Verfügbar ab {hour}:00 Uhr</Text>
-                        )}
+            <View className="mt-2">
+                <ScrollView className="h-[500px]">
+                    <View className="flex flex-row items-center py-2">
+                        <MaterialCommunityIcons name="calendar-blank" size={20} color="white" />
+                        <Text className="ml-2 font-bold text-white">{format(new Date(day_date), "d. MMMM yyyy", { locale: de })}</Text>
                     </View>
-            
-                    {/* Second Slot */}
-                    <View
-                        className={`h-10 flex items-center justify-between p-2.5  
-                            ${checkBooked(String((hour * 60) + 30)) ? "bg-red-600 text-white" : "bg-[#222222] dark:text-gray-200"} 
-                            ${!checkBooked(String((hour * 60) + 60)) ? "rounded-t-none border-b-4 border-[#1a1a1a]" : "rounded-b-none"}`}
-                    >
-                        {!checkBooked(String((hour * 60) + 30)) && checkBooked(String((hour * 60))) && (
-                            <View className="flex items-center">
-                                <MaterialCommunityIcons name="check" className="w-4 h-4 mr-2 text-green-500" />
-                                <Text className="text-sm text-gray-200 font-semibold">Verfügbar ab {hour}:30 Uhr</Text>
-                            </View>
-                        )}
-                    </View>
-                </View>
+                    <Text className="text-sm text-gray-400">Verfügbarkeitsübersicht</Text>
+                    {renderSegments()}
+                </ScrollView>
             </View>
-            
+        </View>
+    )
 
-            );
-        }
-    
-        // Scroll to 8:00 segment on initial render
-        
-    
-        return segments;
-    };
 
-   
-    
-    if(showDialog) {
-        return (
-            <View>
-                <Text>
-                    {format(new Date(day_date), "d")}
-                </Text>
-        
-                <View className="p-0 dark:border-none dark:bg-[#191919]">
-                    <View className="h-[520px] overflow-y-auto no-scrollbar">
-                        <View className="font-medium text-sm flex items-center gap-x-2 px-4 pt-6">
-                            <MaterialCommunityIcons name="calendar-blank" className="w-4 h-4 text-indigo-800" />
-                            <Text className="font-semibold">
-                                {format(new Date(day_date), "d. MMMM yyyy", { locale: de })}{" "}
-                            </Text>
-                            <Text className="dark:text-gray-200">Verfügbarkeitsübersicht</Text>
-                        </View>
-                        <Text className="px-4 text-xs dark:text-gray-200/60">
-                            Finde heraus, wann das Inserat verfügbar ist, und wann nicht.
-                        </Text>
-        
-                        <View className="mt-4">
-                        {renderSegments()}
-                        </View>
-                    </View>
-                </View>
-            </View>
-        );
-    }
-    
 }
 
 export default CalenderDayDetail;

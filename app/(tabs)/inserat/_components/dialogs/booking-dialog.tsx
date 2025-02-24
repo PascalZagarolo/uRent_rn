@@ -22,6 +22,7 @@ import { booking, inserat } from "@/db/schema";
 import { KeyboardAvoidingView, Platform, Text, TouchableOpacity, View } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import CalendarDay from "./components/booking-day";
+import CalenderDayDetail from "./components/calendar-day-details";
 
 
 const WEEKDAYS = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"];
@@ -45,7 +46,8 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
 
     const [showDayDetail, setShowDayDetail] = useState<{
         isOpen: boolean,
-        currentDate?: Date
+        currentDate?: Date,
+        bookings?: typeof booking.$inferSelect[],
     }>({
         isOpen: false,
     });
@@ -118,6 +120,15 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
                                     <MaterialCommunityIcons name="close" size={20} color={"white"} />
                                 </TouchableOpacity>
                             </View>
+                            <View>
+                                <CalenderDayDetail 
+                                day_date={showDayDetail.currentDate}
+                                affectedBookings={showDayDetail.bookings}
+                                isMulti={thisInserat?.multi}
+                                vehicles={thisInserat?.vehicles}
+                                showDialog={true}
+                                />
+                            </View>
                         </View>
                     </View>
                 ) : (
@@ -182,6 +193,15 @@ const BookingCalendar = ({ receivedBookings, thisInserat, onClose }: EventCalend
                                                 bookings={todaysEvents}
                                                 isMulti={thisInserat?.multi}
                                                 vehicles={thisInserat?.vehicles}
+                                                setCurrentDay={(day, bookings) => {
+                                                    setShowDayDetail(
+                                                        {
+                                                            isOpen : true,
+                                                            currentDate : day,
+                                                            bookings : bookings
+                                                        }
+                                                    )
+                                                }}
                                             />
                                         </View>
                                     );

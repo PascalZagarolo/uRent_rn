@@ -12,7 +12,7 @@ import { format, isAfter, isBefore, isSameDay, isToday } from "date-fns";
 
 import { useEffect, useState } from "react";
 import CalenderDayDetail from "./calendar-day-details";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { checkAvailableCalendar } from "@/hooks/inserat/checkAvailableCalendar";
 
 
@@ -28,6 +28,7 @@ interface CalendarDayProps {
     bookings: typeof booking.$inferSelect[];
     isMulti?: boolean;
     vehicles?: typeof vehicle.$inferSelect[];
+    setCurrentDay : (day : Date, foundBookings : typeof booking.$inferSelect[]) => void;
 }
 
 
@@ -36,7 +37,8 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
     day,
     bookings,
     isMulti,
-    vehicles
+    vehicles,
+    setCurrentDay
 }) => {
 
 
@@ -62,7 +64,7 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
 
     return (
         <>
-            <View
+            <TouchableOpacity
                 key={index}
                 className={clsx("w-full h-full justify-center", {
                     "": isToday(day),
@@ -71,25 +73,14 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
                     " bg-indigo-800 rounded-md shadow-lg": isPartiallyUnaivalable && !isCompletelyUnaivalable,
                     "hover:bg-[#1b1b1b]": !isCompletelyUnaivalable && !isPartiallyUnaivalable
                 })}
+                onPress={() => setCurrentDay(day, bookings)}
             >
-                {/* {!isCompletelyUnaivalable ? (
-          <Text className="text-gray-200 text-center">{format(new Date(day), "d")}</Text>
-        ) : (
-          <CalenderDayDetail
-            day_date={day}
-            affectedBookings={bookings}
-            setCompletelyUnaivalable={setIsCompletelyUnaivalable}
-            setIsPartiallyUnaivalable={setIsPartiallyUnaivalable}
-            isMulti={isMulti}
-            vehicles={vehicles}
-            showDialog={false}
-          />
-        )} */}
+                
 
                 <Text className="text-gray-200 text-center">{format(new Date(day), "d")}</Text>
 
 
-            </View>
+            </TouchableOpacity>
         </>
 
     );
