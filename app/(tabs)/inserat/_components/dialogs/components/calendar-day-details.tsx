@@ -27,7 +27,7 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
     setIsPartiallyUnaivalable,
     isMulti,
     vehicles,
-    showDialog
+
 }) => {
 
     let appointedTimes = [];
