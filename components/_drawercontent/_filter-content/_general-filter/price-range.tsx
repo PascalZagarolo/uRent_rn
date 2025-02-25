@@ -23,7 +23,7 @@ const PriceRange = () => {
     const [isStartFocused, setIsStartFocused] = useState(false);
     const [isEndFocused, setIsEndFocused] = useState(false);
 
-    const local = getSearchParamsFunction();
+    
 
     const prefilledValues = [
         {
