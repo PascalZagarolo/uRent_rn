@@ -210,9 +210,7 @@ const MainPage = () => {
         }
     }
 
-    const onPageSwitch = (newPage: number) => {
-        return null;
-    }
+  
 
 
     return (
