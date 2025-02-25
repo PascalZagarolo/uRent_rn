@@ -362,7 +362,7 @@ const ExistingFilterBubble: React.FC<ExistingFilterBubbleProps> = ({
 
          }, { skipEmptyString: true, skipNull: true })
 
-         console.log(url)
+         
          router.push(url as any);
     }
     return (

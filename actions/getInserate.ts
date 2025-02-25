@@ -23,7 +23,7 @@ import { dynamicSearch } from "./dynamic-search";
 
 
 
-type GetInserate = {
+export type GetInserate = {
     title?: string;
     thisCategory?: typeof CategoryEnumRender;
     filter?: string;

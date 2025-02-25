@@ -2,7 +2,7 @@
 import { booking, vehicle } from "@/db/schema";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { format, isAfter, isBefore, isSameDay } from "date-fns";
+import { addDays, format, isAfter, isBefore, isSameDay } from "date-fns";
 import { de } from "date-fns/locale";
 
 
@@ -158,7 +158,8 @@ const CalenderDayDetail: React.FC<CalenderDayDetailProps> = ({
                 }
                 
                 //Buchung endet am aktuellen Tag und startet nicht am aktuellen Tag
-                if (isSameDay(pBooking?.endDate, day_date) && isBefore(pBooking?.startDate, day_date)) {
+                //Timezone offset
+                if ((isSameDay(pBooking?.endDate, day_date) || isSameDay(addDays(pBooking?.endDate, 1),day_date)) && isBefore(pBooking?.startDate, day_date)) {
                     for (let i = 0; i <= Number(pBooking.endPeriod); i = i + 30) {
                         
                         appointedTimes.push(i);

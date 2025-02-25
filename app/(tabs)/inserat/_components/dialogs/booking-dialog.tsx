@@ -61,12 +61,16 @@ import {
         let currentDate = new Date(startDateUTC);
   
         while (isBefore(currentDate, new Date(endDateUTC)) || isSameDay(currentDate, new Date(endDateUTC))) {
+          
           const dateKey = format(currentDate, 'yyyy-MM-dd');
+          console.log(dateKey);
           if (!acc[dateKey]) acc[dateKey] = [];
           acc[dateKey].push(pBooking);
+          
           currentDate.setUTCDate(currentDate.getUTCDate() + 1);
+         
         }
-  
+        
         return acc;
       }, {} as { [key: string]: typeof booking.$inferSelect[] });
     }, [receivedBookings]);

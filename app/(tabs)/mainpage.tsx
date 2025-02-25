@@ -32,7 +32,7 @@ const MainPage = () => {
 
     const params = getSearchParamsFunction();
 
-    const { addDrawer, deleteDrawer, openDrawers } = useDrawerSettings();
+   
 
 
 
@@ -103,7 +103,7 @@ const MainPage = () => {
                     radius: params?.["radius"] as any,
                     userId: params?.["userId"] as any,
                     caution: params?.["caution"] as any
-                });
+                } as any);
 
                 setInserate(res);
             } catch (e: any) {

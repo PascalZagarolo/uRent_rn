@@ -28,7 +28,7 @@ const SearchBar = () => {
 
     const onSearch = () => {
 
-        console.log(currentTitle + "!!!!!")
+        
 
         const {//@ts-ignore
             thisCategory, ...filteredValues} = searchParams;

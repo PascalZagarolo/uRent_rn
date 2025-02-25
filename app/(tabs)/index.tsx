@@ -18,7 +18,7 @@ export default function HomeScreen() {
   }, []);
 
   useEffect(() => {
-    console.log("LOGIN PAGE LOGIN PAGE LOGIN PAGE LOGIN PAGE LOGIN PAGE")
+   
     if (hasRendered && currentUser) {
       router.push(`/mainpage`);
     }

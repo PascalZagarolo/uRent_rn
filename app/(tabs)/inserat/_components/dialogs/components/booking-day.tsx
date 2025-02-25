@@ -16,11 +16,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { checkAvailableCalendar } from "@/hooks/inserat/checkAvailableCalendar";
 
 
-interface Event {
-    date: Date;
-    title: string;
 
-}
 
 interface CalendarDayProps {
     index: number;
@@ -42,24 +38,27 @@ const CalendarDay: React.FC<CalendarDayProps> = ({
 }) => {
 
 
-
+    
     
 
     const [isCompletelyUnaivalable, setIsCompletelyUnaivalable] = useState(false);
     const [isPartiallyUnaivalable, setIsPartiallyUnaivalable] = useState(false);
 
 
+    
     useEffect(() => {
-        checkAvailableCalendar(
-            bookings,
-            setIsCompletelyUnaivalable,
-            setIsPartiallyUnaivalable,
-            isMulti ?? false, // Default to false if undefined
-            day,
-            vehicles
-        );
+        if(bookings.length > 0) {
+            
+            checkAvailableCalendar(
+                bookings,
+                setIsCompletelyUnaivalable,
+                setIsPartiallyUnaivalable,
+                isMulti,
+                day,
+                vehicles
+            );
+        }
     }, [bookings, isMulti, day, vehicles, index]);
-
 
 
     return (
