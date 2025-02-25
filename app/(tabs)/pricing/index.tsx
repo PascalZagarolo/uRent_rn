@@ -44,6 +44,7 @@ const PricingPage = () => {
     const [isFilterVisible, setIsFilterVisible] = useState(false);
     const [isNotificationsVisible, setIsNotificationsVisible] = useState(false);
 
+    const [currentInserat, setCurrentInserat] = useState<number>(1);
 
     const toggleDrawer = () => {
         setIsDrawerVisible(!isDrawerVisible);
@@ -105,10 +106,15 @@ const PricingPage = () => {
               <PricingHeader />
               <ActionHeader />
               <View className="mt-8">
-                <ChooseAmount />
+                <ChooseAmount 
+                setCurrentInserate={setCurrentInserat}
+                currentValue={currentInserat}
+                />
               </View>
               <View className="mt-4">
-                <PlanOptions />
+                <PlanOptions 
+                
+                />
               </View>
             </View>
           </ScrollView>

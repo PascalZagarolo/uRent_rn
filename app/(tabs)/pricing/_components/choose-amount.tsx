@@ -6,7 +6,12 @@ import { Text } from "react-native";
 import { View } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
 
-const ChooseAmount = () => {
+interface PlanOptionsProps {
+    setCurrentInserate : (value : number) => void;
+    currentValue : number;
+}
+
+const ChooseAmount = ({ setCurrentInserate, currentValue } : PlanOptionsProps) => {
 
 
     const prefilledValues = [
@@ -27,15 +32,20 @@ const ChooseAmount = () => {
 
     return (
         <View>
+            <View>
+                <Text className="text-base text-gray-200/80 font-semibold">
+                    Wie viele Inserate möchtest du schalten?
+                </Text>
+            </View>
             <TouchableOpacity
-                className="w-full flex flex-row items-center bg-indigo-800  shadow-lg p-4 rounded-md"
+                className="w-full flex flex-row items-center bg-indigo-800  shadow-lg p-2.5 rounded-md"
                 onPress={() => { refRBSheet.current[1].open() }}
             >   
-            <Text className="text-base font-bold text-gray-200/60">
-                Wie viele Inserate möchtest du schalten?
+            <Text className="text-base font-bold text-gray-200">
+               {currentValue} {currentValue == 1 ? "Inserat" : "Inserate"}
             </Text>
                 <View className="ml-auto">
-                <FontAwesome name="chevron-down" size={20} color="white" />
+                <FontAwesome name="chevron-down" size={20} color="gray" />
                 </View>
             </TouchableOpacity>
             <RBSheet
@@ -70,7 +80,10 @@ const ChooseAmount = () => {
                             {prefilledValues.map((value) => (
                                 <TouchableOpacity className="w-full bg-[#232635] p-2"
                                     key={value}
-                                    onPress={() => { }}
+                                    onPress={() => {
+                                        setCurrentInserate(value);
+                                        refRBSheet.current[1].close();
+                                    }}
                                 >
                                     <Text className="text-center text-lg text-gray-200 font-semibold">
                                         {value} {value == 1 ? "Inserat" : "Inserate"}

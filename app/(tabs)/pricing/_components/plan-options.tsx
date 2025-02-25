@@ -2,6 +2,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Text } from "react-native";
 import { ScrollView, View } from "react-native";
 
+
+
 const PlanOptions = () => {
 
     type planOptionType = {
