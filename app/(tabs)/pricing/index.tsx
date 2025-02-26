@@ -11,6 +11,7 @@ import PricingHeader from "./_components/pricing-header";
 import ActionHeader from "./_components/action-header";
 import PlanOptions from "./_components/plan-options";
 import ChooseAmount from "./_components/choose-amount";
+import RedeemGiftCard from "./_components/redeem-gift";
 
 const PricingPage = () => {
 
@@ -302,33 +303,26 @@ const PricingPage = () => {
       />
       
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-        style={{ flex: 1 }}
-      >
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <ScrollView className="p-4 flex-1" keyboardShouldPersistTaps="handled">
-            <View className="min-h-screen">
-              <PricingHeader />
-              <ActionHeader />
-              <View className="mt-8">
-                <ChooseAmount 
-                setCurrentInserate={setCurrentInserat}
-                currentValue={currentInserat}
-                
-                />
-              </View>
-              <View className="mt-4">
-                <PlanOptions
-                basisPrice={basisPrice}
-                premiumPrice = {premiumPrice}
-                enterprisePrice = {enterprisePrice} 
-                
-                />
-              </View>
-            </View>
-          </ScrollView>
-        </TouchableWithoutFeedback>
-      </KeyboardAvoidingView>
+  behavior={Platform.OS === "ios" ? "padding" : "height"}
+  className="flex-1"
+>
+  <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <ScrollView keyboardShouldPersistTaps="handled" className="p-4" contentContainerStyle={{ paddingBottom: 20 }}>
+      <PricingHeader />
+      <ActionHeader />
+      <View className="mt-8">
+        <ChooseAmount setCurrentInserate={setCurrentInserat} currentValue={currentInserat} />
+      </View>
+      <View className="mt-8 h-full">
+        <PlanOptions basisPrice={basisPrice} premiumPrice={premiumPrice} enterprisePrice={enterprisePrice} />
+      </View>
+      <View className="mt-4">
+        <RedeemGiftCard />
+      </View>
+    </ScrollView>
+  </TouchableWithoutFeedback>
+</KeyboardAvoidingView>
+
 
     </Drawer>
   </Drawer>

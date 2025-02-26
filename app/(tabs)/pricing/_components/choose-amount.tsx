@@ -33,20 +33,20 @@ const ChooseAmount = ({ setCurrentInserate, currentValue } : PlanOptionsProps) =
 
     return (
         <View>
-            <View>
+            <View className="mb-2">
                 <Text className="text-base text-gray-200/80 font-semibold">
                     Wie viele Inserate möchtest du schalten?
                 </Text>
             </View>
             <TouchableOpacity
-                className="w-full flex flex-row items-center bg-indigo-800  shadow-lg p-2.5 rounded-md"
+                className="w-full flex flex-row items-center bg-[#0d0f14] shadow-lg p-2.5 rounded-md"
                 onPress={() => { refRBSheet.current[1].open() }}
             >   
             <Text className="text-base font-bold text-gray-200">
                {currentValue} {currentValue == 1 ? "Inserat" : "Inserate"}
             </Text>
                 <View className="ml-auto">
-                <FontAwesome name="chevron-down" size={20} color="gray" />
+                <FontAwesome name="chevron-down" size={20} color="white" />
                 </View>
             </TouchableOpacity>
             <RBSheet
