@@ -12,6 +12,7 @@ import ActionHeader from "./_components/action-header";
 import PlanOptions from "./_components/plan-options";
 import ChooseAmount from "./_components/choose-amount";
 import RedeemGiftCard from "./_components/redeem-gift";
+import ComparisonTable from "./_components/comparison-table";
 
 const PricingPage = () => {
 
@@ -319,6 +320,9 @@ const PricingPage = () => {
       <View className="mt-4">
         <RedeemGiftCard />
        
+      </View>
+      <View className="mt-8">
+        <ComparisonTable />
       </View>
     </ScrollView>
   </TouchableWithoutFeedback>

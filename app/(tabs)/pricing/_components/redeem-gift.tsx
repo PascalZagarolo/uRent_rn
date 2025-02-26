@@ -29,7 +29,7 @@ const RedeemGiftCard = () => {
             color={"gray"}
             /> 
             <Text className="text-gray-200/60 underline">
-                Woher kriege ich Gutschein / Rabattcodes?
+                Woher kriege ich Gutschein- /Rabattcodes?
             </Text>
             </View>
         </View>
