@@ -39,7 +39,7 @@ const ChooseAmount = ({ setCurrentInserate, currentValue } : PlanOptionsProps) =
                 </Text>
             </View>
             <TouchableOpacity
-                className="w-full flex flex-row items-center bg-[#0d0f14] shadow-lg p-2.5 rounded-md"
+                className="w-full flex flex-row items-center bg-[#161b25] shadow-lg p-2.5 rounded-md"
                 onPress={() => { refRBSheet.current[1].open() }}
             >   
             <Text className="text-base font-bold text-gray-200">

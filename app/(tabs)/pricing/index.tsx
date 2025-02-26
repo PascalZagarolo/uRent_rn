@@ -1,6 +1,6 @@
 import Header from "@/components/_searchpage/header";
 import { useEffect, useState } from "react";
-import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, TouchableWithoutFeedback, View } from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TouchableWithoutFeedback, View } from "react-native";
 import * as SecureStorage from 'expo-secure-store';
 import { getCurrentUserMainPage } from "@/actions/retrieveUser/main-page/getUserMainPage";
 
@@ -307,17 +307,18 @@ const PricingPage = () => {
   className="flex-1"
 >
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-    <ScrollView keyboardShouldPersistTaps="handled" className="p-4" contentContainerStyle={{ paddingBottom: 20 }}>
+    <ScrollView keyboardShouldPersistTaps="handled" className="p-4 " contentContainerStyle={{ paddingBottom: 48 }}>
       <PricingHeader />
       <ActionHeader />
       <View className="mt-8">
         <ChooseAmount setCurrentInserate={setCurrentInserat} currentValue={currentInserat} />
       </View>
-      <View className="mt-8 h-full">
-        <PlanOptions basisPrice={basisPrice} premiumPrice={premiumPrice} enterprisePrice={enterprisePrice} />
+      <View className="mt-8 ">
+      <PlanOptions basisPrice={basisPrice} premiumPrice={premiumPrice} enterprisePrice={enterprisePrice} />
       </View>
       <View className="mt-4">
         <RedeemGiftCard />
+       
       </View>
     </ScrollView>
   </TouchableWithoutFeedback>
