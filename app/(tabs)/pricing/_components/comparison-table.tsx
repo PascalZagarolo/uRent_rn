@@ -16,14 +16,62 @@ const ComparisonTable = () => {
             basis: true,
             premium: true,
             enterprise: true
-        }
+        },
+        {
+            attribute: "Fahrzeuge und Verfügbarkeiten verwalten",
+            basis: true,
+            premium: true,
+            enterprise: true
+        },
+        {
+            attribute: "Exklusives Geschäftsprofil",
+            basis: true,
+            premium: true,
+            enterprise: true
+        },
+        {
+            attribute: "Vermieter Dashboard",
+            basis: true,
+            premium: true,
+            enterprise: true
+        },
+        {
+            attribute: "Anz. Bilder pro Inserat",
+            basis: "8",
+            premium: "12",
+            enterprise: "20"
+        },
+        {
+            attribute: "Hervorhebung \nvon Inseraten*",
+            basis: false,
+            premium: "1",
+            enterprise: "2"
+        },
+        {
+            attribute: "Inseratspriorisierung bei der Suche*",
+            basis: false,
+            premium: true,
+            enterprise: true
+        },
+        {
+            attribute: "uRent Mieter- \n &  Buchungs\nverwaltungs\nsystem",
+            basis: false,
+            premium: false,
+            enterprise: true
+        },
+        {
+            attribute: "Enterprise Betriebsstempel",
+            basis: false,
+            premium: false,
+            enterprise: true
+        },
     ]
 
     return (
         <ScrollView horizontal={true}>
             <View>
             <View className="flex flex-row items-center">
-                <View className="w-32">
+                <View className="w-40">
                     <Text className="text-lg font-semibold text-gray-200">
                         Feature
                     </Text>
@@ -51,7 +99,7 @@ const ComparisonTable = () => {
                 <View className="flex flex-col space-y-4 mt-4">
                     {renderedOptions.map((option) => (
                         <View className="flex flex-row items-center border-b border-slate-700 pb-2" key={option.attribute}>
-                        <View className="w-32">
+                        <View className="w-40">
                             <Text className="text-lg font-semibold  text-gray-200/80">
                                 {option.attribute}
                             </Text>
