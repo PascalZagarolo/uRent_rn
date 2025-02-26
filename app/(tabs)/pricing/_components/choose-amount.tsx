@@ -9,6 +9,7 @@ import RBSheet from "react-native-raw-bottom-sheet";
 interface PlanOptionsProps {
     setCurrentInserate : (value : number) => void;
     currentValue : number;
+    
 }
 
 const ChooseAmount = ({ setCurrentInserate, currentValue } : PlanOptionsProps) => {

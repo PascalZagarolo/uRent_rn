@@ -3,49 +3,62 @@ import { Text } from "react-native";
 import { ScrollView, View } from "react-native";
 
 
+interface PlanOptionsProps {
+    basisPrice: number;
+    premiumPrice: number;
+    enterprisePrice: number;
+}
 
-const PlanOptions = () => {
+const PlanOptions = ({ basisPrice, premiumPrice, enterprisePrice } : PlanOptionsProps) => {
 
     type planOptionType = {
         title: string,
         description: string,
-        headline : string,
+        headline: string,
         attributes: string[]
     }
+
+
 
     const planOptions: planOptionType[] = [
         {
             title: "Basis",
             description: "Das Basis Paket für den Einstieg in die Welt von uRent.",
-            headline : "Perfekt zum Erreichen von Kunden und Ausbau der eigenen Marke.",
+            headline: "Perfekt zum Erreichen von Kunden und Ausbau der eigenen Marke.",
             attributes: ["uRent Basispaket", "Fahrzeuge und \nVerfügbarkeiten verwalten"]
         },
         {
             title: "Premium",
             description: "Für den ambitionierten Vermieter. \nMehr Funktionen, mehr Möglichkeiten,  \nmehr Kunden.",
-            headline : "Erlebe das Potential von uRent. Präsentiere und Verwalte deinen Fuhrpark effizient.",
+            headline: "Erlebe das Potential von uRent. Präsentiere und Verwalte deinen Fuhrpark effizient.",
             attributes: ["uRent Basispaket", "Fahrzeuge und \nVerfügbarkeiten verwalten", "Priorisierung bei der Suche", "Farbliche Hervorhebung \nvon bis zu 1 Inserat"]
         },
         {
             title: "Enterprise",
             description: `Die All-in-One Lösung für ihr Unternehmen. Vermieten war noch nie so einfach.`,
-            headline : "Fange dort an wo andere aufhören. \nVerwalte, Erreiche & Profitiere",
-            attributes: ["uRent Basispaket", "Fahrzeuge und \nVerfügbarkeiten verwalten", "Priorisierung bei der Suche", 
-            "Farbliche Hervorhebung \nvon bis zu 1 Inserat", "uRent Mieter- & Buchungsverwaltungssystem", "Enterprise Betriebsstempel"]
+            headline: "Fange dort an wo andere aufhören. \nVerwalte, Erreiche & Profitiere",
+            attributes: ["uRent Basispaket", "Fahrzeuge und \nVerfügbarkeiten verwalten", "Priorisierung bei der Suche",
+                "Farbliche Hervorhebung \nvon bis zu 1 Inserat", "uRent Mieter- & Buchungsverwaltungssystem", "Enterprise Betriebsstempel"]
         }
     ];
 
     const optionRender = (planOption: planOptionType) => {
         return (
             <View className="bg-[#2e324b] p-4 rounded-lg w-80 shadow-lg py-4"
-            key={planOption.title}
+                key={planOption.title}
             >
                 <Text className="text-gray-200 text-xl font-bold">
                     {planOption.title}
                 </Text>
                 <View className="pt-4">
                     <Text className="font-semibold text-gray-200 text-5xl">
-                        85€
+                        {
+                            {
+                                "Basis" : basisPrice,
+                                "Premium" : premiumPrice,
+                                "Enterprise" : enterprisePrice
+                            }[planOption.title]
+                        } €
                     </Text>
                 </View>
                 <View className="">
@@ -65,11 +78,11 @@ const PlanOptions = () => {
                 </View>
                 <View className="flex flex-col h-20">
                     {planOption.attributes.map((attribute) => (
-                        <View className="w-full flex flex-row space-x-2 py-2">
-                            <MaterialCommunityIcons 
-                            name="check"
-                            size={24}
-                            color={"#3730a3"}
+                        <View className="w-full flex flex-row space-x-2 py-2" key={attribute}>
+                            <MaterialCommunityIcons
+                                name="check"
+                                size={24}
+                                color={"#3730a3"}
                             />
                             <Text className="text-gray-200 font-semibold text-lg">
                                 {attribute}

@@ -59,7 +59,212 @@ const PricingPage = () => {
     }
 
 
+    const [basisPrice, setBasisPrice] = useState(25);
+    const [premiumPrice, setPremiumPrice] = useState(25);
+    const [enterprisePrice, setEnterprisePrice] = useState(25);
 
+    const [basisDiffrence, setBasisDiffrence] = useState(0);
+    const [premiumDiffrence, setPremiumDiffrence] = useState(0);
+    const [enterpriseDiffrence, setEnterpriseDiffrence] = useState(0);
+
+    useEffect(() => {
+        // Function to calculate basis price based on currentInserat
+        const calculateBasisPrice = () => {
+            switch (currentInserat) {
+                case 1:
+                    return 29;
+                case 5:
+                    return 44;
+                case 10:
+                    return 50;
+                case 15:
+                    return 58;
+                case 25:
+                    return 73;
+                case 35:
+                    return 78;
+                case 50:
+                    return 87;
+                case 65:
+                    return 93;
+                case 80:
+                    return 101;
+                case 100:
+                    return 111;
+                case 250:
+                    return 122;
+                default:
+                    return /* Default calculation */;
+            }
+        };
+
+        const calculatePremiumPrice = () => {
+            switch (currentInserat) {
+                case 1:
+                    return 35;
+                case 5:
+                    return 53;
+                case 10:
+                    return 59;
+                case 15:
+                    return 70;
+                case 25:
+                    return 88;
+                case 35:
+                    return 95;
+                case 50:
+                    return 105;
+                case 65:
+                    return 112;
+                case 80:
+                    return 123;
+                case 100:
+                    return 133;
+                case 250:
+                    return 147;
+                default:
+                    return /* Default calculation */;
+            }
+        };
+
+        const calculateEnterprisePrice = () => {
+            switch (currentInserat) {
+                case 1:
+                    return 49;
+                case 5:
+                    return 74;
+                case 10:
+                    return 84;
+                case 15:
+                    return 90;
+                case 25:
+                    return 123;
+                case 35:
+                    return 132;
+                case 50:
+                    return 147;
+                case 65:
+                    return 157;
+                case 80:
+                    return 172;
+                case 100:
+                    return 187;
+                case 250:
+                    return 206;
+            }
+        };
+
+
+
+        setBasisPrice(calculateBasisPrice());
+        setPremiumPrice(calculatePremiumPrice());
+        setEnterprisePrice(calculateEnterprisePrice());
+
+        setBasisDiffrence((calculateBasisPrice() - currentUserWorth) > 10 ? (calculateBasisPrice() - currentUserWorth) : 10);
+        setPremiumDiffrence((calculatePremiumPrice() - currentUserWorth) > 10 ? (calculatePremiumPrice() - currentUserWorth) : 10);
+        setEnterpriseDiffrence((calculateEnterprisePrice() - currentUserWorth) > 10 ? (calculateEnterprisePrice() - currentUserWorth) : 10);
+    }, [currentInserat]);
+
+    const calculateBasisPrice = (amount: number) => {
+        switch (amount) {
+            case 1:
+                return 29;
+            case 5:
+                return 44;
+            case 10:
+                return 50;
+            case 15:
+                return 58;
+            case 25:
+                return 73;
+            case 35:
+                return 78;
+            case 50:
+                return 87;
+            case 65:
+                return 93;
+            case 80:
+                return 101;
+            case 100:
+                return 111;
+            case 250:
+                return 122;
+            default:
+                return /* Default calculation */;
+        }
+    };
+
+    const calculatePremiumPrice = (amount: number) => {
+        switch (amount) {
+            case 1:
+                return 35;
+            case 5:
+                return 53;
+            case 10:
+                return 59;
+            case 15:
+                return 70;
+            case 25:
+                return 88;
+            case 35:
+                return 95;
+            case 50:
+                return 105;
+            case 65:
+                return 112;
+            case 80:
+                return 123;
+            case 100:
+                return 133;
+            case 250:
+                return 147;
+            default:
+                return /* Default calculation */;
+        }
+    };
+
+    const calculateEnterpriseP = (amount: number) => {
+        switch (amount) {
+            case 1:
+                return 49;
+            case 5:
+                return 74;
+            case 10:
+                return 84;
+            case 15:
+                return 90;
+            case 25:
+                return 123;
+            case 35:
+                return 132;
+            case 50:
+                return 147;
+            case 65:
+                return 157;
+            case 80:
+                return 172;
+            case 100:
+                return 187;
+            case 250:
+                return 206;
+            default:
+                return /* Default calculation */;
+        }
+    };
+
+    let currentUserWorth: any;
+
+    switch (currentUser?.subscription?.subscriptionType) {
+        case "BASIS":
+            currentUserWorth = calculateBasisPrice(currentUser?.subscription?.amount);
+            break;
+        case "PREMIUM":
+            currentUserWorth = calculatePremiumPrice(currentUser?.subscription?.amount);
+            break;
+        case "ENTERPRISE":
+            currentUserWorth = calculateEnterpriseP(currentUser?.subscription?.amount);
+            break;
+    }
     return (
         <View className="flex-1 bg-[#1f2332] w-full">
   <Drawer
@@ -109,10 +314,14 @@ const PricingPage = () => {
                 <ChooseAmount 
                 setCurrentInserate={setCurrentInserat}
                 currentValue={currentInserat}
+                
                 />
               </View>
               <View className="mt-4">
-                <PlanOptions 
+                <PlanOptions
+                basisPrice={basisPrice}
+                premiumPrice = {premiumPrice}
+                enterprisePrice = {enterprisePrice} 
                 
                 />
               </View>
