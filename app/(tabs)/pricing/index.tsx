@@ -319,7 +319,9 @@ const PricingPage = () => {
       <PlanOptions basisPrice={basisPrice} premiumPrice={premiumPrice} enterprisePrice={enterprisePrice} />
       </View>
       <View className="mt-4">
-        <RedeemGiftCard />
+        <RedeemGiftCard 
+        currentUser = {currentUser}
+        />
        
       </View>
       <View className="mt-8">
