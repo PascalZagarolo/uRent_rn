@@ -13,6 +13,7 @@ import PlanOptions from "./_components/plan-options";
 import ChooseAmount from "./_components/choose-amount";
 import RedeemGiftCard from "./_components/redeem-gift";
 import ComparisonTable from "./_components/comparison-table";
+import FaqsPricingPage from "./_components/faqs-pricing-page";
 
 const PricingPage = () => {
 
@@ -323,6 +324,9 @@ const PricingPage = () => {
       </View>
       <View className="mt-8">
         <ComparisonTable />
+      </View>
+      <View className="mt-16">
+        <FaqsPricingPage />
       </View>
     </ScrollView>
   </TouchableWithoutFeedback>
