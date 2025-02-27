@@ -848,7 +848,7 @@ export const booking = pgTable("booking", {
         .references(() => vehicle.id, { onDelete : "cascade"}),
 
     name : text("name"),
-    buchungsnummer : text("buchungsnummer"),
+    buchungsnummer : text("buchungsnummer"), 
     content: text("content"),
 
     startDate: timestamp("startDate", {mode: "date", withTimezone : true}),
@@ -885,6 +885,26 @@ export const bookingRequest = pgTable("bookingRequest", {
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
 
 })
+
+export const userGifts = pgTable("userGifts", {
+    id : uuid("id").default(sql`gen_random_uuid()`).primaryKey(),
+    createdAt : timestamp("createdAt", { mode: "date" }).defaultNow(),
+    userId : text("userId")
+                .references(() => userTable.id, { onDelete: "cascade" }),
+    giftCodeId : uuid("giftCodeId")
+                .references(() => giftCode.id, { onDelete: "cascade" }),
+})
+
+export const userGiftsRelations = relations(userGifts, ({ one }) => ({
+    users : one(userTable, {
+        fields : [userGifts.userId],
+        references : [userTable.id]
+    }),
+    giftCode : one(giftCode, {
+        fields : [userGifts.giftCodeId],
+        references : [giftCode.id]
+    })
+}))
 
 export const vehicle = pgTable("vehicle", {
     id: uuid("id").default(sql`gen_random_uuid()`).primaryKey(),

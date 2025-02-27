@@ -78,6 +78,11 @@ const FaqsPricingPage = () => {
 
     return ( 
         <View>
+            <View className="">
+                <Text className="text-lg font-semibold text-gray-200">
+                    FAQ - Häufig gestellte Fragen
+                </Text>
+            </View>
             {faqs.map((faq, index) => (
                 <View key={index} className="mt-4">
                     <TouchableOpacity onPress={() => handlePress(index)} className="flex flex-row items-center border-b border-gray-800 pb-2">
