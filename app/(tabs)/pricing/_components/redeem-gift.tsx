@@ -36,7 +36,9 @@ const RedeemGiftCard = ({
             if(res?.error) {
                 setError(res?.error)
             }
-            
+            if(res?.success) {
+                setSuccess(res?.success)
+            }
 
         } catch(e : any) {
             setError("Etwas ist schiefgelaufen")
@@ -47,6 +49,7 @@ const RedeemGiftCard = ({
 
     useEffect(() => {
         setError(null);
+        setSuccess(null);
     },[currentInput])
 
     return ( 
@@ -83,6 +86,18 @@ const RedeemGiftCard = ({
                     />
                     <Text className="text-sm text-gray-200">
                         {error}
+                    </Text>
+                </View>
+            )}
+            {success && (
+                <View className="p-2.5 bg-emerald-400/40 mt-2 border border-emerald-600 flex flex-row items-center space-x-2">
+                    <MaterialCommunityIcons 
+                    name="check"
+                    size={20}
+                    color={"white"}
+                    />
+                    <Text className="text-sm text-gray-200">
+                        {success}
                     </Text>
                 </View>
             )}
