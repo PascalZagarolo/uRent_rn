@@ -2,21 +2,24 @@ import db from "@/db/drizzle";
 import { businessAddress, paymentMethods, userTable } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { useLocalSearchParams, useRouter } from "expo-router";
-import { useEffect, useState } from "react";
-import { Modal,  ScrollView, Text, TouchableOpacity, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {  Text, TouchableOpacity, View } from "react-native";
 import ProfileRender from "./_components/profile-render";
 import LocationDialog from "./_components/business-render/_components/_tabs/_dialogs/location-dialog";
 import LocationDialogDelete from "./_components/business-render/_components/_tabs/_dialogs/location-delete";
 import LocationDialogEdit from "./_components/business-render/_components/_tabs/_dialogs/location-edit";
 import OpeningTimesDialog from "./_components/business-render/_components/_tabs/_dialogs/opening-times-dialog";
 
-import ImageDialog from "./_components/business-render/_components/_tabs/_dialogs/image-dialog";
+
 import BannerDialog from "./_components/business-render/_components/_tabs/_dialogs/banner-dialog";
 import SwitchProfileDialog from "./_components/business-render/_components/_tabs/_dialogs/switch-profile-dialog";
 
 import { useAuth } from "../AuthProvider";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import placeholderPicture from "@/assets/images";
+import ImageDialog from "./_components/business-render/_components/_tabs/_dialogs/image-dialog";
+import { Modal } from "react-native";
 
 
 
@@ -160,7 +163,8 @@ const ProfilePage = () => {
                 }}
 
             >
-                {switchProfile && (
+               
+               {/* {switchProfile && (
                     <SwitchProfileDialog 
                     onClose={() => setSwitchProfile(false)}
                     onReload={onReload}
@@ -172,18 +176,19 @@ const ProfilePage = () => {
                     imageUrl={bannerUrl}
                     setImageUrl={(newOne) => setBannerUrl(newOne)}
                     />
-                )}
+                )} */}
                 {openDialogImage && (
                     <ImageDialog 
-                    imageUrl={imageUrl}
+                    imageUrl={imageUrl ? imageUrl : placeholderPicture}
                     onClose={() => {
                         setOpenDialogImage(false);
                         setImageUrl(user?.image)
                     }}
                     setImageUrl={(newOne) => setImageUrl(newOne)}
                     />
+                    
                 )}
-                {showOpeningTimes && (
+                {/* {showOpeningTimes && (
                     <OpeningTimesDialog 
                     onClose={() => setShowOpeningTimes(false)}
                     foundTimes={foundOpeningTimes}
@@ -209,7 +214,8 @@ const ProfilePage = () => {
                         onEdit={(newOne) => setFoundAddresses([...foundAddresses.map(address => address.id === newOne.id ? newOne : address)])}
                         prefilledAddress={foundAddresses.find(address => address.id === showLocation.id)}
                     />
-                )}
+                )} */}
+               
             </Modal>
         </View>
         </SafeAreaView>

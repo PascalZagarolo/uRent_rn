@@ -21,7 +21,7 @@ const DeleteAccount: React.FC<DeleteAccountProps> = ({
         try {
 
             const foundToken = await SecureStore.getItemAsync("authToken");
-            console.log("jajja")
+            
             await ConfirmUserDeleteFunction(foundToken);
             setShowDialog(false);
         } catch(e : any) {

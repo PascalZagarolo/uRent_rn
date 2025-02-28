@@ -1,5 +1,5 @@
 
-import { Text,  View } from "react-native";
+import { Text,  TouchableOpacity,  View } from "react-native";
 
 import { GoogleSignin, GoogleSigninButton } from "@react-native-google-signin/google-signin";
 import { signIn } from "@/actions/google/sign-in";
@@ -7,6 +7,7 @@ import { useState } from "react";
 import * as SecureStore from 'expo-secure-store';
 import Toast from "react-native-toast-message";
 import { router } from "expo-router";
+import { FontAwesome } from "@expo/vector-icons";
 
 
 const GoogleSignIn = () => {
@@ -62,7 +63,7 @@ const GoogleSignIn = () => {
   
 
     return (
-        <View className="mt-2">
+        <View className="mt-2 w-full">
           
             {/* <TouchableOpacity
                 className='py-4 rounded-md w-full bg-[#1A1C2C] flex items-center flex-row justify-center'>
@@ -70,10 +71,10 @@ const GoogleSignIn = () => {
                 <Text className='ml-2 text-gray-200 text-center font-semibold'>
                     Mit Google anmelden
                 </Text>
-            </TouchableOpacity> */}
-            <GoogleSigninButton 
+            </TouchableOpacity>  */}
+             <GoogleSigninButton 
             onPress={onSignUp}
-            />
+            /> 
 
         </View>
     );

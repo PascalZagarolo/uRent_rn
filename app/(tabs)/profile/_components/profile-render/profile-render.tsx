@@ -2,6 +2,7 @@ import { TouchableOpacity } from "react-native";
 import { Image, Text, View } from "react-native";
 import ProfileDescription from "./_components/profile-description";
 import TransformProfile from "./_components/transform-profile";
+import placeholderPicture from "@/assets/images";
 
 
 
@@ -41,7 +42,7 @@ const ProfileRenderFull = ({ thisProfilePic, thisUsername, createdAt, setOpenIma
                     <View className="w-1/3">
                         <TouchableOpacity className="" onPress={() => { setOpenImageDialog(true) }}>
                             <Image
-                                source={{ uri: thisProfilePic ? thisProfilePic : "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg" }}
+                                source={{ uri: thisProfilePic ? thisProfilePic : placeholderPicture }}
                                 className="w-28 h-28 rounded-full border border-black"
                             />
                         </TouchableOpacity>

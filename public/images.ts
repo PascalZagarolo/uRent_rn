@@ -1,1 +1,1 @@
-export const placeholderUrl = "";
+export const placeholderUrl = "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg";

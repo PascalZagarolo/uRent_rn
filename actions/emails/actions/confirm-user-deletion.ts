@@ -27,13 +27,13 @@ export async function ConfirmUserDeleteFunction(authToken : string){
         }
         
         const currentDate = new Date();
-        const generateToken = "Halllo!"
+        const generateToken = generateUUIDv4();
         const expireInOneHour = new Date(currentDate.getTime() + 60 * 60 * 1000);
 
        
         const createNewToken = await db.insert(deleteUserToken).values({
             userId : currentUser.id,
-            token : generateToken as string,
+            token : generateToken as any,
             expires : expireInOneHour,
         })
 
@@ -55,3 +55,9 @@ export async function ConfirmUserDeleteFunction(authToken : string){
     }
 }
  
+function generateUUIDv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
