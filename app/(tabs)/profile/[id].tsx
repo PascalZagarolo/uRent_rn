@@ -164,7 +164,7 @@ const ProfilePage = () => {
 
             >
                
-               {/* {switchProfile && (
+              {switchProfile && (
                     <SwitchProfileDialog 
                     onClose={() => setSwitchProfile(false)}
                     onReload={onReload}
@@ -176,7 +176,7 @@ const ProfilePage = () => {
                     imageUrl={bannerUrl}
                     setImageUrl={(newOne) => setBannerUrl(newOne)}
                     />
-                )} */}
+                )} x
                 {openDialogImage && (
                     <ImageDialog 
                     imageUrl={imageUrl ? imageUrl : placeholderPicture}
@@ -214,7 +214,7 @@ const ProfilePage = () => {
                         onEdit={(newOne) => setFoundAddresses([...foundAddresses.map(address => address.id === newOne.id ? newOne : address)])}
                         prefilledAddress={foundAddresses.find(address => address.id === showLocation.id)}
                     />
-                )} */}
+                )}  */}
                
             </Modal>
         </View>

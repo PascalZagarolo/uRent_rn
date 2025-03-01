@@ -6,9 +6,9 @@ import * as ImagePicker from 'expo-image-picker';
 import { Feather, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { cn } from "@/~/lib/utils";
 import Toast from "react-native-toast-message";
-import { editProfilePic } from "@/actions/user/edit/edit-image";
+
 import * as SecureStorage from 'expo-secure-store';
-import { editBanner } from "@/actions/business/banner/edit-banner";
+
 import { switchToBusiness } from "@/actions/user/switch-to-business";
 
 

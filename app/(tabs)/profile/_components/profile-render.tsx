@@ -55,6 +55,7 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
                 >
                     {thisUser?.isBusiness ? (
                         <BusinessRender
+                            
                             thisUser={thisUser}
                             isOwner={isOwner}
                             foundAddresses={foundAddresses}

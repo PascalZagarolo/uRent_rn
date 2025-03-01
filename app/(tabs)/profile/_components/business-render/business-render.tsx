@@ -7,6 +7,7 @@ import ContentBusinessRender from "./_components/content";
 
 
 interface BusinessRenderProps {
+    
     thisUser: typeof userTable.$inferSelect & { business};
     isOwner: boolean;
     setOpenLocation: (open: boolean, id: string, type: string) => void;
@@ -36,6 +37,7 @@ const BusinessRender = ({ thisUser, isOwner, setOpenLocation, setOpenOpeningTime
             <View className="flex flex-col h-full">
                 <View>
                     <BusinessBannerRender
+                    isOwner={isOwner}
                     setOpenImageDialog={(open) => setOpenDialogImage(open)}
                     setOpenDialogBanner={(open) => setOpenDialogBanner(open)}
                         thisImage={thisUser?.business?.businessImages[0]?.url ?? null}

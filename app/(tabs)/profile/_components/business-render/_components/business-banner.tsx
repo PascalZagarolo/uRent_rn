@@ -2,6 +2,7 @@ import { TouchableOpacity } from "react-native";
 import { Image, Text, View } from "react-native";
 
 interface BusinessBannerRenderProps {
+    isOwner : boolean;
     thisImage: string | null;
     thisProfilePic: string | null
     thisUsername: string | null
@@ -10,13 +11,17 @@ interface BusinessBannerRenderProps {
     setOpenDialogBanner: (open: boolean) => void;
 }
 
-const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, createdAt, setOpenImageDialog, setOpenDialogBanner }: BusinessBannerRenderProps) => {
+const BusinessBannerRender = ({ isOwner, thisImage, thisProfilePic, thisUsername, createdAt, setOpenImageDialog, setOpenDialogBanner }: BusinessBannerRenderProps) => {
 
 
 
     return (
         <View className="w-full">
-    <TouchableOpacity onPress={() => { setOpenDialogBanner(true) }}>
+    <TouchableOpacity onPress={() => { 
+        if(isOwner) {
+            setOpenDialogBanner(true)
+        }
+     }}>
         {thisImage ? (
             <Image
                 source={{ uri: thisImage }}
@@ -33,7 +38,11 @@ const BusinessBannerRender = ({ thisImage, thisProfilePic, thisUsername, created
         <View className="w-1/3">
             <TouchableOpacity
                 className="rounded-full shadow-lg w-28 h-28 border border-gray-900"
-                onPress={() => { setOpenImageDialog(true) }}
+                onPress={() => { 
+                    if(isOwner) {
+                        setOpenImageDialog(true)
+                    }
+                 }}
             >
                 <Image
                     source={{
