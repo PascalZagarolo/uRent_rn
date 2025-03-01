@@ -3,8 +3,8 @@ import { Image, Modal, Text, TouchableOpacity, View } from "react-native";
 import DraggableFlatList, { ScaleDecorator } from "react-native-draggable-flatlist";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import * as ImagePicker from 'expo-image-picker';
-import { Feather, FontAwesome } from "@expo/vector-icons";
-import { CircleIcon, ReplaceAllIcon, TrashIcon, XIcon } from "lucide-react-native";
+import { Feather, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+
 
 interface LocationDialogUploadProps {
     setImageUrl : (url : string) => void;
@@ -94,13 +94,13 @@ const LocationDialogUpload = ({ setImageUrl, imageUrl } : LocationDialogUploadPr
                     className="w-full rounded-md object-cover h-40" />
                     <View className="w-full flex flex-row items-center space-x-4">
                         <TouchableOpacity className="w-[48%] p-2.5 flex flex-row items-center" onPress={() => setShowModal(true)}>
-                            <ReplaceAllIcon className="w-4 h-4 mr-2 text-gray-200" />
+                            <MaterialCommunityIcons name="file-replace" className="w-4 h-4 mr-2 text-gray-200" />
                             <Text className="text-gray-200">
                                 Bild ändern
                             </Text>
                         </TouchableOpacity>
                         <TouchableOpacity className="w-[48%] rounded-b-md p-2.5 flex flex-row items-center bg-rose-600" onPress={() => setCurrentPicture(null)}>
-                            <XIcon className="w-4 h-4 mr-2 text-gray-200" />
+                            <MaterialCommunityIcons name="close" className="w-4 h-4 mr-2 text-gray-200" />
                             <Text className="text-gray-200">
                                 Bild entfernen
                             </Text>

@@ -176,7 +176,7 @@ const ProfilePage = () => {
                     imageUrl={bannerUrl}
                     setImageUrl={(newOne) => setBannerUrl(newOne)}
                     />
-                )} x
+                )} 
                 {openDialogImage && (
                     <ImageDialog 
                     imageUrl={imageUrl ? imageUrl : placeholderPicture}
@@ -188,7 +188,7 @@ const ProfilePage = () => {
                     />
                     
                 )}
-                {/* {showOpeningTimes && (
+                {showOpeningTimes && (
                     <OpeningTimesDialog 
                     onClose={() => setShowOpeningTimes(false)}
                     foundTimes={foundOpeningTimes}
@@ -201,6 +201,7 @@ const ProfilePage = () => {
                         onInsert={(newOne) => setFoundAddresses([...foundAddresses, newOne])}
                     />
                 )}
+                
                 {showLocation?.type == "delete" && (
                     <LocationDialogDelete
                         locationId={showLocation.id}
@@ -214,7 +215,7 @@ const ProfilePage = () => {
                         onEdit={(newOne) => setFoundAddresses([...foundAddresses.map(address => address.id === newOne.id ? newOne : address)])}
                         prefilledAddress={foundAddresses.find(address => address.id === showLocation.id)}
                     />
-                )}  */}
+                )}   
                
             </Modal>
         </View>

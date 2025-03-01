@@ -1,4 +1,4 @@
-import { CirclePlusIcon, XIcon } from "lucide-react-native";
+
 import { useState } from "react";
 import { ActivityIndicator, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import LocationDialogUpload from "./location-dialog-upload";
@@ -7,6 +7,7 @@ import * as SecureStorage from 'expo-secure-store';
 import Toast from "react-native-toast-message";
 
 import LetterRestriction from "@/components/LetterRestriction";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 interface LocationDialogProps {
     onClose: () => void;
     onInsert : (newAddress) => void;
@@ -150,7 +151,7 @@ const LocationDialog = ({ onClose, onInsert }: LocationDialogProps) => {
                                 Standort hinzufügen
                             </Text>
                             <TouchableOpacity className="ml-auto" onPress={onClose}>
-                                <XIcon />
+                                <MaterialCommunityIcons name="close" />
                             </TouchableOpacity>
                         </View>
                         <View className="px-4">
@@ -221,7 +222,7 @@ const LocationDialog = ({ onClose, onInsert }: LocationDialogProps) => {
                                     </View>
                                 ) : (
                                     <>
-                                        <CirclePlusIcon className="w-4 h-4 mr-2 text-gray-200" />
+                                        <MaterialCommunityIcons name="location-enter" className="w-4 h-4 mr-2 text-gray-200" />
                                         <Text className="text-sm font-semibold text-gray-200 rounded-lg text-center">
                                             Standort hinzufügen
                                         </Text>
