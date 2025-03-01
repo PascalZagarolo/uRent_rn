@@ -134,8 +134,6 @@ const ImageDialog = ({ onClose, setImageUrl, imageUrl }: ImageDialogProps) => {
                 body: formData
             })
                 .then((response) => {
-
-
                     return response.json();
                 })
                 .then((data) => {
