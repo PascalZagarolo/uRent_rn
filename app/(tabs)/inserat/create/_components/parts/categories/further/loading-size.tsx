@@ -61,7 +61,8 @@ const LoadingSize = ({ currentValue, currentValue2, currentValue3,
                                         setValue(onChangeConvert(text))
                                     
                                     }
-                                } 
+                                }
+                                placeholderTextColor={"gray"}
                             />
                             
                         </View>
@@ -85,7 +86,7 @@ const LoadingSize = ({ currentValue, currentValue2, currentValue3,
                                     }
                                 }  
                                 keyboardType="numeric"
-                                
+                                placeholderTextColor={"gray"}
                             />
                             
                         </View>
@@ -112,6 +113,7 @@ const LoadingSize = ({ currentValue, currentValue2, currentValue3,
                                     }
                                 }  
                                 keyboardType="numeric"
+                                placeholderTextColor={"gray"}
                             />
                             
                         </View>

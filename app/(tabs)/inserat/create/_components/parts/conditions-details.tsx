@@ -128,6 +128,7 @@ const ConditionsDetails = forwardRef(({ thisInserat, refetchInserat }: Condition
                         <TextInput
                             placeholder="Gebe deine Kaution an..."
                             value={currentCaution}
+                            placeholderTextColor={"gray"}
                             keyboardType="numeric"
                             onChangeText={(text) => setCaution(text)}
                             className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg" />

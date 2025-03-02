@@ -34,6 +34,7 @@ const PayloadCreation = ({ currentValue, setValue, label }: PayloadCreationProps
                 placeholder="Nutzlast in kg"
                 value={String(currentValue ?? "")}
                 keyboardType="numeric"
+                placeholderTextColor={"gray"}
                 maxLength={5}
                 onChangeText={(text) => setValue(onChangeConvert(text))}
             />

@@ -103,6 +103,7 @@ console.log(thisInserat.priceprofiles)
                     <TextInput
                         placeholder="Preis in EUR"
                         inputMode="numeric"
+                        placeholderTextColor={"gray"}
                         value={currentPrice}
                         onChangeText={(text) => setCurrentPrice(text)}
                         className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg" />
@@ -173,7 +174,7 @@ console.log(thisInserat.priceprofiles)
                                 </View>
                             ))
                         ): (
-                                <Text className = "text-center text-sm text-gray-200/40">
+                                <Text className = " text-sm text-gray-200/40">
                             Noch keine Preisprofile hinzugefügt..
                     </Text>
                         )}

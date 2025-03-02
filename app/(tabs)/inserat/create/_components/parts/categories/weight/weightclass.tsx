@@ -33,6 +33,7 @@ const WeightClass = ({ currentValue, setValue, label }: WeightClassProps) => {
                 placeholder="Gewicht in kg"
                 value={String(currentValue ?? "")}
                 keyboardType="numeric"
+                placeholderTextColor={"gray"}
                 maxLength={5}
                 onChangeText={(text) => setValue(text)}
             />

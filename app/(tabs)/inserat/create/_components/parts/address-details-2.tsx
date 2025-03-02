@@ -1,7 +1,7 @@
 import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { CheckIcon, XIcon } from "lucide-react-native";
+
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import {
     Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
@@ -70,16 +70,19 @@ const AddressDetails2 = forwardRef(({ thisInserat, refetchInserat }: AddressDeta
 
                 behavior="height" // or "height" depending on your needs
             >
-                <View className="flex flex-row items-center justify-start mt-4">
-                        {postalCode ? (
-                            <CheckIcon 
+                <View className="flex flex-row items-center justify-start mt-4 space-x-2">
+                      
+                       {postalCode ? (
+                            <MaterialCommunityIcons name="check"
+                            size={20} color={"green"} 
                             className="w-4 h-4 text-green-600 mr-4"
                             />
                         ) : (
-                            <XIcon 
-                            className="w-4 h-4 text-rose-600 mr-4"
+                            <MaterialCommunityIcons name="close" color={"red"} 
+                            className="w-4 h-4 text-rose-600 mr-4" size={20}
                             />
                         )}
+                     
                         <Text className={cn("text-base text-gray-200", !postalCode && "text-gray-200/60")}>
                             {postalCode ? postalCode : "Postleitzahl noch nicht gesetzt"}
                         </Text>
@@ -123,6 +126,7 @@ const AddressDetails2 = forwardRef(({ thisInserat, refetchInserat }: AddressDeta
                                     powered: styles.powered,
                                 }}
                                 textInputProps={{
+                                    placeholderTextColor : "gray",
                                     onFocus: () => setIsFocused(true),
                                     onBlur: () => setIsFocused(false),
                                     contextMenuHidden: true,

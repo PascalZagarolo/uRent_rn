@@ -14,10 +14,14 @@ import { ImagePickerResult } from "expo-image-picker";
 
 interface ConversationFooterProps {
   conversationId: string;
+  userId : string;
+  setRenderedMessages : (message) => void;
 }
 
 const ConversationFooter: React.FC<ConversationFooterProps> = ({
-  conversationId
+  conversationId,
+  userId,
+  setRenderedMessages
 }) => {
 
   const apiUrl = process.env.EXPO_PUBLIC_BASE_URL;
@@ -86,11 +90,11 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
   const onImageSend = async () => {
     try {
       setIsLoading(true);
-      console.log(1)
+      
       const uploadedResult = await uploadImage(currentImage);
 
       const token = await SecureStore.getItemAsync("authToken");
-      
+
       if (!token) {
 
         return null;
@@ -135,7 +139,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
         type: 'image/jpeg', // Change according to your image type
         name: 'upload.jpg', // Provide a name for the file
       };
-  
+
       // Here, we need to either convert the file to base64 or pass the actual bytes
       // In a React Native environment, you might need an additional library like `react-native-fs`
       // to read the file and convert it to base64.
@@ -175,23 +179,34 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
     try {
 
       setIsLoading(true);
+      const addedMessage = {
+        userId : "..",
+        conversationId : conversationId,
+        content: currentText
+      }
+      setRenderedMessages(addedMessage)
+     
+      setCurrentText("");
       const token = await SecureStore.getItemAsync("authToken");
-      
+
       if (!token) {
         return null;
       }
-      console.log("2")
+      
       const values = {
         conversationId: conversationId,
         token: token,
         content: currentText,
       }
 
+      
+      
+     
+      Keyboard.dismiss();
       const response = await writeMessage(values)
         .then((res) => {
-          console.log(res);
-          setCurrentText("");
-          Keyboard.dismiss();
+          
+          
         })
 
     } catch (e: any) {
@@ -206,34 +221,29 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
 
   return (
     <View className="flex flex-row items-center bg-[#1a1c27] w-full p-2 justify-between">
-      <SafeAreaView className="flex flex-row items-center w-full">
-        <TouchableOpacity
-          className="flex items-center justify-center w-2/12"
-          onPress={() => refRBSheet.current[1].open()}
-        >
-          <FontAwesome name="plus" size={20} color="white" />
-        </TouchableOpacity>
-        <View className="flex-grow px-2">
-          <TextInput
-            className="w-full p-2.5 text-sm bg-[#202336] text-gray-200 font-semibold rounded-md"
-            placeholder="Schreibe eine Nachricht.."
-            placeholderTextColor="#888"
-            onChangeText={(e) => setCurrentText(e)}
-            value={currentText}
-          />
-        </View>
-        <TouchableOpacity
-          className={cn(
-            "flex items-center justify-center w-2/12 bg-indigo-800 py-2 px-2 rounded-full",
-            !currentText && "opacity-60"
-          )}
-          onPress={onMessageSend}
-          disabled={!currentText || isLoading}
-        >
-          <FontAwesome name="paper-plane" size={20} color="white" />
-        </TouchableOpacity>
-      </SafeAreaView>
-
+    <TouchableOpacity className="flex items-center justify-center w-2/12" onPress={() => refRBSheet.current[1].open()}>
+      <FontAwesome name="plus" size={20} color="white" />
+    </TouchableOpacity>
+    
+    <View className="flex-grow px-2">
+      <TextInput
+        className="w-full p-2.5 text-sm bg-[#202336] text-gray-200 font-semibold rounded-md"
+        placeholder="Schreibe eine Nachricht.."
+        placeholderTextColor="#888"
+        onChangeText={(e) => setCurrentText(e)}
+        value={currentText}
+        style={{ paddingBottom: 0 }} // Adding style here to fix padding issues
+      />
+    </View>
+  
+    <TouchableOpacity
+      className={cn("flex items-center justify-center w-2/12 bg-indigo-800 py-2 px-2 rounded-full", !currentText && "opacity-60")}
+      onPress={onMessageSend}
+      disabled={!currentText || isLoading}
+    >
+      <FontAwesome name="paper-plane" size={20} color="white" />
+    </TouchableOpacity>
+ 
 
       <Modal
         animationType="slide"

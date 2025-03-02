@@ -69,6 +69,7 @@ const LoadingVolume = ({ currentValue, currentValue2, setValue, setValue2, label
                                             text ? Number(onChangeConvert(text)) / 1000 : null)
                                     }
                                     }
+                                    placeholderTextColor={"gray"}
                                 />
 
                             </View>
@@ -95,7 +96,7 @@ const LoadingVolume = ({ currentValue, currentValue2, setValue, setValue2, label
                                     }
                                     }
                                     keyboardType="numeric"
-
+                                    placeholderTextColor={"gray"}
                                 />
 
                             </View>

@@ -45,6 +45,7 @@ const FurtherPower = ({ currentValue, setValue, label }: FurtherPowerProps) => {
                 placeholder="Leistung in PS"
                 value={currentValue}
                 keyboardType="numeric"
+                placeholderTextColor={"gray"}
                 onChangeText={(text) => setValue(onChangeConvert(text))}
             />
             <TouchableOpacity

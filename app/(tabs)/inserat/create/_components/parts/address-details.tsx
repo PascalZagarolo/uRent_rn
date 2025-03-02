@@ -1,7 +1,7 @@
 import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { CheckIcon, XIcon } from "lucide-react-native";
+
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import {
     Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
@@ -67,14 +67,14 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
 
                 behavior="height" // or "height" depending on your needs
             >
-                <View className="flex flex-row items-center justify-start mt-4">
+                <View className="flex flex-row items-center justify-start mt-4 space-x-2">
                         {fixedAddress ? (
-                            <CheckIcon 
-                            className="w-4 h-4 text-green-600 mr-4"
+                            <MaterialCommunityIcons name="check" size={20} color={"green"}
+                            
                             />
                         ) : (
-                            <XIcon 
-                            className="w-4 h-4 text-rose-600 mr-4"
+                            <MaterialCommunityIcons name="close" 
+                            size={20} color={"red"}
                             />
                         )}
                         <Text className={cn("text-base text-gray-200", !fixedAddress && "text-gray-200/60")}>
@@ -89,6 +89,7 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
                         </Text>
                         <View style={{ width: '100%', height: '100%' }} >
                             <GooglePlacesAutocomplete
+                            
                                 placeholder="Gib deine Adresse ein.."
                                 onPress={(data, details = null) => {
                                     console.log("Coming from Address UseState: ", data?.description);
@@ -110,6 +111,7 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
                                     textInputContainer: styles.textInputContainer,
                                     textInput: styles.textInput,
                                     listView: styles.listView,
+                                    placeholderTextColor : "gray",
                                     row: styles.row,
                                     loader: styles.loader,
                                     description: styles.description,
@@ -119,6 +121,7 @@ const AddressDetails = forwardRef(({ thisInserat, refetchInserat }: AddressDetai
                                     powered: styles.powered,
                                 }}
                                 textInputProps={{
+                                    placeholderTextColor : "gray",
                                     onFocus: () => setIsFocused(true),
                                     onBlur: () => setIsFocused(false),
                                     value: currentAddress,

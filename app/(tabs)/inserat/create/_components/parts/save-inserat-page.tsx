@@ -3,7 +3,7 @@ import { inserat } from "@/db/schema";
 import { cn } from "@/~/lib/utils";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { CheckIcon, GlobeIcon, MessageSquareWarningIcon } from "lucide-react-native";
+
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import {
     Text, View, TextInput, TouchableOpacity, KeyboardAvoidingView,
@@ -91,13 +91,13 @@ const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, setCurrentPage,
 
     const renderMissingInputs = (inputField: neededInputsType) => {
         return (
-            <TouchableOpacity className="p-2.5 rounded-md bg-[#222435] shadow-lg flex flex-row" key={inputField?.name} 
+            <TouchableOpacity className=" rounded-md bg-[#222435] shadow-lg flex flex-row" key={inputField?.name} 
             onPress={() => setCurrentPage(inputField?.page)}
             >
-                <View className="w-1/4 p-4">
-                    <MessageSquareWarningIcon size={24} className="text-rose-600" />
+                <View className="w-1/4 items-center flex flex-row justify-center shadow-lg rounded-lg p-4 bg-[#1d1e2c] mr-4">
+                    <MaterialCommunityIcons name="alert-decagram-outline" color={"red"} size={24} className="text-rose-600" />
                 </View>
-                <View className="w-3/4 flex flex-col">
+                <View className="w-3/4 p-2.5 flex flex-col">
                 <View>
                     <Text className="text-gray-200 text-base font-semibold">
                         {inputField?.name}
@@ -123,22 +123,22 @@ const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, setCurrentPage,
                     <View className="w-full mt-4 ">
                         <View className=" justify-center items-center">
                             <TouchableOpacity className={cn(
-                                "bg-indigo-800 w-full p-4 flex-row justify-center ml-auto rounded-md space-x-4",
+                                "bg-indigo-800 w-full p-4 flex-row justify-center items-center ml-auto rounded-md space-x-4",
                                 missingInputs?.length > 0 && "bg-indigo-800/20"
                             )}>
-                                <GlobeIcon size={24} className={cn("text-gray-200", missingInputs?.length > 0 && "text-gray-200/40")} />
+                                <MaterialCommunityIcons name="earth" color={"gray"} size={20} className={cn("text-gray-200", missingInputs?.length > 0 && "text-gray-200/40")} />
                                 <Text className={cn("text-base font-semibold text-gray-200", missingInputs?.length > 0 && "text-gray-200/40")}>
                                     Inserat veröffentlichen
                                 </Text>
                             </TouchableOpacity>
                         </View>
                         <View className="mt-4">
-                            <TouchableOpacity className="bg-gray-800 w-full p-4 flex-row justify-center ml-auto rounded-md space-x-4"
+                            <TouchableOpacity className="bg-[#222435] border-indigo-800 border items-center w-full p-4 flex-row justify-center ml-auto rounded-md space-x-4"
                             onPress={() => {
                                 router.push(`/dashboard/${thisInserat?.userId}`)
                             }}
                             >
-                                <FontAwesome5 name="save" size={24} color="white" />
+                                <FontAwesome5 name="save" size={20} color="white" />
                                 <Text className="text-base font-semibold text-gray-200">
                                     Speichern & zum Dashboard
                                 </Text>
@@ -152,20 +152,20 @@ const SaveInseratPage = forwardRef(({ thisInserat, neededInputs, setCurrentPage,
                     </View>
                     <View className="mt-16 w-full">
                     {missingInputs?.length > 0 ? (
-                        <Text className="text-lg text-gray-200">
+                        <Text className="text-lg text-gray-200 font-semibold">
                             Folgende Felder fehlen noch:
                         </Text>
                     ) : (
                         <View className="flex flex-row items-center space-x-4 w-full">
                             <View>
-                                <CheckIcon size={24} className="text-emerald-600"/>
+                                <MaterialCommunityIcons name="check" size={24} className="text-emerald-600"/>
                             </View>
                             <Text className="text-sm text-gray-200/60">
                             Dein Inserat ist bereit zur Veröffentlichung
                         </Text>
                         </View>
                     )}
-                        <ScrollView className="h-72 mt-4 flex flex-col space-y-4">
+                        <ScrollView className="h-72  flex flex-col space-y-4">
                         {missingInputs?.length > 0 && (
                                 missingInputs?.map((neededInput, index) => (
                                     renderMissingInputs(neededInput)

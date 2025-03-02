@@ -74,10 +74,11 @@ const CreateInseratPreview: React.FC<CreateInseratPreviewProps> = ({
                         Titel
                     </Text>
                     <TextInput
-                        placeholder="Titel deines Inserats..."
+                        placeholderTextColor={"gray"}
+                        placeholder="z.B. Bmw mieten in München.."
                         value={currentTitle}
                         onChangeText={(text) => setCurrentTitle(text)}
-                        className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg" />
+                        className="w-full bg-[#1a1e29] text-gray-200 font-semibold p-4 rounded-lg" />
 
                 </View>
                 <View className="p-4">

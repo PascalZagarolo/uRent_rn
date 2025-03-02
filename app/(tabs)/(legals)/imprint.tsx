@@ -11,7 +11,9 @@ const Imprint = () => {
         <SafeAreaView className="flex flex-1 bg-[#1F2332]">
             <ScrollView className=" ">
             
-            <Header />
+            <Header currentUser={undefined} toggleDrawer={function (): void {
+                    throw new Error("Function not implemented.");
+                } } />
             <View className="flex justify-center  p-4">
                 <View className="sm:w-[1044px] w-full  rounded-md ">
                     <View className="  min-h-screen">

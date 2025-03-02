@@ -12,7 +12,7 @@ import ConversationHeader from "./_components/conversation-header";
 import ConversationFooter from "./_components/conversation-footer";
 import MessageRender from "./_components/message-render";
 
-import  {socket}  from "@/lib/utils/socketService";
+import { socket } from "@/lib/utils/socketService";
 import { set } from "date-fns";
 
 
@@ -32,17 +32,34 @@ const ConversationChatPage = () => {
 
     const [otherUser, setOtherUser] = useState(null);
 
-    useMemo(() => {
+
+
+    const POLLING_INTERVAL = 5000; // Adjust the interval as needed
+
+    useEffect(() => {
+        let isMounted = true;
+
         const load = async () => {
             const res = await getSelectedConversation(conversationId);
-            setCurrentConversation(res);
-            setRenderedMessages(res?.messages.filter((message) => message?.createdAt).sort((a, b) => {
-                return a.createdAt > b.createdAt ? 1 : -1;
-            }));
-        }
+            if (isMounted) {
+                setCurrentConversation(res);
+                setRenderedMessages(res?.messages
+                    ?.filter((message) => message?.createdAt)
+                    .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1))
+                );
+            }
+        };
 
-        load();
-    }, [])
+        load(); // Initial load
+
+        const intervalId = setInterval(load, POLLING_INTERVAL);
+
+        return () => {
+            isMounted = false;
+            clearInterval(intervalId);
+        };
+    }, [conversationId]);
+
 
     useMemo(() => {
         setOtherUser(currentConversation?.user1Id === currentUser.id ? currentConversation?.user2 : currentConversation?.user1)
@@ -50,48 +67,47 @@ const ConversationChatPage = () => {
 
     const toggleDrawer = () => {
         setIsDrawerVisible(!isDrawerVisible);
-
     };
 
     useEffect(() => {
         const handleMessageSend = (data) => {
-            
+
             if (data.conversationId === conversationId) {
                 console.log(data);
                 setRenderedMessages((prevMessages) => [...prevMessages, data]);
                 scrollViewRef.current?.scrollToEnd({ animated: true });
             }
         };
-        
+
         socket.on(conversationId, handleMessageSend);
-    
+
         // Cleanup listener on component unmount
         return () => {
             socket.off(conversationId, handleMessageSend);
         };
     }, [socket, conversationId]);
-    
+
 
     return (
 
 
 
         <View className="flex-1 bg-[#202336] w-full h-full">
-        <Drawer
-            open={isDrawerVisible}
-            onOpen={() => setIsDrawerVisible(true)}
-            onClose={() => setIsDrawerVisible(false)}
-            drawerPosition="right"
-            drawerType="front"
-            renderDrawerContent={() => (
-                <DrawerContentProfile currentUser={currentUser} 
-                    closeModal={
-                    () => setIsDrawerVisible(false)
-                    }
-                />
-            )}
-        >
-            <SafeAreaView className="h-full">
+            <Drawer
+                open={isDrawerVisible}
+                onOpen={() => setIsDrawerVisible(true)}
+                onClose={() => setIsDrawerVisible(false)}
+                drawerPosition="right"
+                drawerType="front"
+                renderDrawerContent={() => (
+                    <DrawerContentProfile currentUser={currentUser}
+                        closeModal={
+                            () => setIsDrawerVisible(false)
+                        }
+                    />
+                )}
+            >
+
                 {/* Header */}
                 <Header currentUser={currentUser} toggleDrawer={toggleDrawer} />
                 {(currentConversation && otherUser) && (
@@ -102,8 +118,8 @@ const ConversationChatPage = () => {
                 )}
 
                 {/* Message List */}
-                <ScrollView className="flex-1 gap-y-2 px-4  bg-[#222639]"
-                ref={scrollViewRef}
+                <ScrollView className=" px-4  bg-[#222639]"
+                    ref={scrollViewRef}
                 >
                     {renderedMessages.slice(renderedMessages.length - 10, renderedMessages.length).map((message, index) => (
                         <View className="w-full" key={index}>
@@ -118,16 +134,20 @@ const ConversationChatPage = () => {
                 </ScrollView>
 
                 {/* Footer (Input Area) */}
-                
-            </SafeAreaView>
-            
-        </Drawer>
-        <KeyboardAvoidingView behavior="padding">
-                    <ConversationFooter 
+
+
+
+            </Drawer>
+
+            <View className="mt-auto items-end">
+                <ConversationFooter
+                    userId={currentUser?.id ?? ""}
                     conversationId={conversationId}
-                    />
-                </KeyboardAvoidingView>
-    </View>
+                    setRenderedMessages={(newMessage) => { setRenderedMessages((previous) => [...previous, newMessage]) }}
+                />
+            </View>
+
+        </View>
 
 
     );

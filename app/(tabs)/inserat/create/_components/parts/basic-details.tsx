@@ -63,7 +63,7 @@ const BasicDetails = forwardRef(({ thisInserat, refetchInserat }: BasicDetailsPr
                         value={currentTitle}
                         onChangeText={(text) => setCurrentTitle(text)}
                         maxLength={160}
-                        
+                        placeholderTextColor={"gray"}
                         className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg" />
                     <LetterRestriction
                         inputLength={currentTitle?.length ?? 0}
@@ -85,6 +85,7 @@ const BasicDetails = forwardRef(({ thisInserat, refetchInserat }: BasicDetailsPr
                             maxLength={2000}
                             className="w-full bg-[#1f2330] text-gray-200 p-4 rounded-lg h-2/3"
                             textAlignVertical="top"
+                            placeholderTextColor={"gray"}
                         />
                         <LetterRestriction
                             inputLength={currentDescription?.length ?? 0}

@@ -66,7 +66,7 @@ const ContactDetails = forwardRef(({ thisInserat, refetchInserat }: ContactDetai
                             placeholder="Gebe deine Email-Addresse ein.."
 
                             value={currentEmail}
-                            
+                            placeholderTextColor={"gray"}
                             onChangeText={(text) => setCurrentEmail(text)}
                         />
                         <TouchableOpacity
@@ -89,6 +89,7 @@ const ContactDetails = forwardRef(({ thisInserat, refetchInserat }: ContactDetai
                             value={currentPhone}
                             onChangeText={(text) => setCurrentPhone(text)}
                             keyboardType="numeric"
+                            placeholderTextColor={"gray"}
                             className="w-10/12 bg-[#1f2330] rounded-l-md text-base text-gray-200/90 p-4 font-semibold"
                         />
                         <TouchableOpacity
