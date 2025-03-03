@@ -51,10 +51,10 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
             key: "Anfragen",
             value: "R"
         },
-        {
-            key: "Buchungen",
-            value: "B"
-        },
+        // {
+        //     key: "Buchungen",
+        //     value: "B"
+        // },
         {
             key: "uRent - News",
             value: "N"
@@ -141,6 +141,10 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
             setRenderedNotifications(foundNotifications);
         } else if (currentFilter === "C") {
             setRenderedNotifications(foundNotifications.filter((item) => item.notificationType === "MESSAGE"));
+        } else if(currentFilter === "R") {
+            setRenderedNotifications(foundNotifications.filter((item) => item.notificationType === "BOOKING_REQUEST"));
+        } else if(currentFilter === "N") {
+            setRenderedNotifications(foundNotifications.filter((item) => item.notificationType === "NEWS"));
         }
     }, [currentFilter])
 
