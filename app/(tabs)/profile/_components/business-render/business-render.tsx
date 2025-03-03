@@ -8,6 +8,7 @@ import ContentBusinessRender from "./_components/content";
 
 interface BusinessRenderProps {
     imageUrl : string | null;
+    bannerUrl : string | null;
     thisUser: typeof userTable.$inferSelect & { business};
     isOwner: boolean;
     setOpenLocation: (open: boolean, id: string, type: string) => void;
@@ -27,7 +28,7 @@ interface BusinessRenderProps {
     }
 }
 
-const BusinessRender = ({ thisUser, isOwner, setOpenLocation, setOpenOpeningTimes, foundAddresses, foundOpeningTimes, setOpenDialogImage, setOpenDialogBanner }: BusinessRenderProps) => {
+const BusinessRender = ({ thisUser, bannerUrl, imageUrl, isOwner, setOpenLocation, setOpenOpeningTimes, foundAddresses, foundOpeningTimes, setOpenDialogImage, setOpenDialogBanner }: BusinessRenderProps) => {
 
     
 
@@ -40,8 +41,8 @@ const BusinessRender = ({ thisUser, isOwner, setOpenLocation, setOpenOpeningTime
                     isOwner={isOwner}
                     setOpenImageDialog={(open) => setOpenDialogImage(open)}
                     setOpenDialogBanner={(open) => setOpenDialogBanner(open)}
-                        thisImage={thisUser?.business?.businessImages[0]?.url ?? null}
-                        thisProfilePic={thisUser?.image}
+                        thisImage={bannerUrl ?? null}
+                        thisProfilePic={imageUrl}
                         thisUsername={thisUser?.name}
                         createdAt={format(new Date(thisUser?.createdAt), "dd.MM.yyyy")}
                     />

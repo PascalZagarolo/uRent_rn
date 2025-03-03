@@ -1,12 +1,12 @@
-import {  ImageIcon, ReplaceAllIcon, SaveIcon, UserIcon, XIcon } from "lucide-react-native";
+
 import React from "react";
 import { Image, Modal } from "react-native";
 import { Keyboard, KeyboardAvoidingView, Platform, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
-import { Feather, FontAwesome } from "@expo/vector-icons";
+import { Feather, FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { cn } from "@/~/lib/utils";
 import Toast from "react-native-toast-message";
-import { editProfilePic } from "@/actions/user/edit/edit-image";
+
 import * as SecureStorage from 'expo-secure-store';
 import { editBanner } from "@/actions/business/banner/edit-banner";
 
@@ -167,7 +167,7 @@ const BannerDialog = ({ onClose, setImageUrl, imageUrl }: BannerDialogProps) => 
                                 Banner ändern
                             </Text>
                             <TouchableOpacity className="ml-auto" onPress={onClose}>
-                                <XIcon />
+                                <MaterialCommunityIcons name="close" size={20} color={"white"} />
                             </TouchableOpacity>
                         </View>
                         <View className="flex flex-row items-center justify-center px-4">
@@ -179,7 +179,7 @@ const BannerDialog = ({ onClose, setImageUrl, imageUrl }: BannerDialogProps) => 
                             className="  object-cover h-40 w-full " />
                          ) : (
                             <TouchableOpacity className="w-full h-40 bg-gray-800  flex items-center justify-center">
-                                <ImageIcon className="w-32 h-32 text-gray-200" />
+                                <MaterialCommunityIcons name="image" size={20} color={"white"} className="w-32 h-32 text-gray-200" />
                             </TouchableOpacity>
                          )}
                         </View>
@@ -188,13 +188,13 @@ const BannerDialog = ({ onClose, setImageUrl, imageUrl }: BannerDialogProps) => 
                                 
                                 <View className="w-full flex flex-row items-center space-x-4 justify-center">
                                     <TouchableOpacity className="w-[44%] p-2.5 py-4 flex items-center bg-gray-800 shadow-lg rounded-md" onPress={() => setShowModal(true)}>
-                                        <ReplaceAllIcon className="w-4 h-4 mr-2 text-gray-200" />
+                                        <MaterialCommunityIcons name="file-replace-outline" size={20} color={"white"} className="w-4 h-4 mr-2 text-gray-200" />
                                         <Text className="text-gray-200 mt-2">
                                             Bild ändern
                                         </Text>
                                     </TouchableOpacity>
                                     <TouchableOpacity className="w-[44%] p-2.5 py-4 flex  items-center bg-rose-600 shadow-lg rounded-md" onPress={() => setImageUrl(null)}>
-                                        <XIcon className="w-4 h-4 mr-2 text-gray-200" />
+                                        <MaterialCommunityIcons name="close" className="w-4 h-4 mr-2 text-gray-200" />
                                         <Text className="text-gray-200 mt-2">
                                             Bild entfernen
                                         </Text>
@@ -208,7 +208,7 @@ const BannerDialog = ({ onClose, setImageUrl, imageUrl }: BannerDialogProps) => 
                                     "w-full rounded-md shadow-lg justify-center flex flex-row items-center  p-2.5",
                                     imageUrl == previousUrl ? "bg-opacity-50 bg-indigo-600/50" : "bg-opacity-100 bg-indigo-800"
                                 )}>
-                                    <SaveIcon className={cn("w-4 h-4 mr-4 text-gray-200",
+                                    <MaterialCommunityIcons name="memory" size={20} color={"white"} className={cn("w-4 h-4 mr-4 text-gray-200",
                                         imageUrl == previousUrl ? "text-gray-200/40" : "text-gray-200"
                                     )} />
                                     <Text className={cn(

@@ -79,6 +79,10 @@ const ProfilePage = () => {
             if(thisUser) {
                 setImageUrl(thisUser?.image)
             }
+
+            if(thisUser?.isBusiness) {
+                setBannerUrl(thisUser?.business.businessImages[0].url)
+            }
         } catch (e: any) {
             console.log(e);
             setUser(null);
@@ -148,6 +152,7 @@ const ProfilePage = () => {
                         setShowLocation({ open: value1, id: value2, type: value3 });
                         console.log(value1, value2, value3);
                     }}
+                    bannerUrl = {bannerUrl}
                     imageUrl = {imageUrl}
                     setOpenOpeningTimes={(value) => setShowOpeningTimes(value)}
                     setOpenDialogImage={(value) => setOpenDialogImage(value)}

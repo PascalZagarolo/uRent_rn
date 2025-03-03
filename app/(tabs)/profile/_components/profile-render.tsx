@@ -10,6 +10,7 @@ interface ProfileRenderProps {
     thisUser: typeof userTable.$inferSelect | any;
     isOwner: boolean;
     imageUrl : string;
+    bannerUrl : string;
     setOpenLocation: (open: boolean, id: string, type: any) => void;
     setOpenOpeningTimes: (open: boolean) => void;
     setOpenDialogImage: (open: boolean) => void;
@@ -31,6 +32,7 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
     thisUser,
     isOwner,
     imageUrl,
+    bannerUrl,
     setOpenLocation,
     setOpenOpeningTimes,
     setOpenDialogBanner,
@@ -58,6 +60,7 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
                     {thisUser?.isBusiness ? (
                         <BusinessRender
                             imageUrl = {imageUrl}
+                            bannerUrl = {bannerUrl}
                             thisUser={thisUser}
                             isOwner={isOwner}
                             foundAddresses={foundAddresses}
