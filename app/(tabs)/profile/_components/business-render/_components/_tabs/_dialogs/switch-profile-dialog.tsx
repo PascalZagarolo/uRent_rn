@@ -1,4 +1,4 @@
-import {  ImageIcon, ReplaceAllIcon, SaveIcon, UserIcon, XIcon } from "lucide-react-native";
+
 import React from "react";
 import { Image, Modal } from "react-native";
 import { Keyboard, KeyboardAvoidingView, Platform, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
@@ -81,7 +81,7 @@ const SwitchProfileDialog = ({ onClose, onReload }: SwitchProfileDialogProps) =>
                                 Konto umwandeln
                             </Text>
                             <TouchableOpacity className="ml-auto" onPress={onClose}>
-                                <XIcon />
+                                <MaterialCommunityIcons name="close" size={20} color={"white"} />
                             </TouchableOpacity>
                         </View>
                         <View className="mt-4 px-4 pb-4">

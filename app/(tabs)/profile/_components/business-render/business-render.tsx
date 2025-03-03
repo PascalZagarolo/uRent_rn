@@ -7,7 +7,7 @@ import ContentBusinessRender from "./_components/content";
 
 
 interface BusinessRenderProps {
-    
+    imageUrl : string | null;
     thisUser: typeof userTable.$inferSelect & { business};
     isOwner: boolean;
     setOpenLocation: (open: boolean, id: string, type: string) => void;

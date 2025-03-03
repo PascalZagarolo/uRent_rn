@@ -7,7 +7,7 @@ import placeholderPicture from "@/assets/images";
 
 
 interface ProfileRenderFullProps {
-
+    imageUrl : string | null;
     thisProfilePic: string | null
     thisUsername: string | null
     createdAt: string | null;
@@ -17,7 +17,7 @@ interface ProfileRenderFullProps {
     ownProfile: boolean;
 }
 
-const ProfileRenderFull = ({ thisProfilePic, thisUsername, createdAt, setOpenImageDialog, thisDescription, ownProfile, setOpenSwitchProfile }: ProfileRenderFullProps) => {
+const ProfileRenderFull = ({ imageUrl, thisProfilePic, thisUsername, createdAt, setOpenImageDialog, thisDescription, ownProfile, setOpenSwitchProfile }: ProfileRenderFullProps) => {
 
 
 
@@ -42,7 +42,7 @@ const ProfileRenderFull = ({ thisProfilePic, thisUsername, createdAt, setOpenIma
                     <View className="w-1/3">
                         <TouchableOpacity className="" onPress={() => { setOpenImageDialog(true) }}>
                             <Image
-                                source={{ uri: thisProfilePic ? thisProfilePic : placeholderPicture }}
+                                source={{ uri: imageUrl ? imageUrl : placeholderPicture }}
                                 className="w-28 h-28 rounded-full border border-black"
                             />
                         </TouchableOpacity>

@@ -9,6 +9,7 @@ import { format, set } from 'date-fns';
 interface ProfileRenderProps {
     thisUser: typeof userTable.$inferSelect | any;
     isOwner: boolean;
+    imageUrl : string;
     setOpenLocation: (open: boolean, id: string, type: any) => void;
     setOpenOpeningTimes: (open: boolean) => void;
     setOpenDialogImage: (open: boolean) => void;
@@ -29,6 +30,7 @@ interface ProfileRenderProps {
 const ProfileRender: React.FC<ProfileRenderProps> = ({
     thisUser,
     isOwner,
+    imageUrl,
     setOpenLocation,
     setOpenOpeningTimes,
     setOpenDialogBanner,
@@ -55,7 +57,7 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
                 >
                     {thisUser?.isBusiness ? (
                         <BusinessRender
-                            
+                            imageUrl = {imageUrl}
                             thisUser={thisUser}
                             isOwner={isOwner}
                             foundAddresses={foundAddresses}
@@ -67,6 +69,7 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
                         />
                     ) : (
                         <ProfileRenderFull 
+                        imageUrl = {imageUrl}
                         thisUsername={thisUser?.name}
                         thisProfilePic={thisUser?.image}
                         createdAt={format(new Date(thisUser?.createdAt), "dd.MM.yyyy")}
