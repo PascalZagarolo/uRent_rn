@@ -2,7 +2,7 @@
 import Footer from "@/components/_searchpage/footer";
 import Header from "@/components/_searchpage/header";
 import InseratCard from "@/components/_searchpage/inserat-card";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, SafeAreaView, ScrollView, Text, View, TouchableOpacity } from "react-native";
 import * as SecureStore from 'expo-secure-store';
 
@@ -32,7 +32,7 @@ const MainPage = () => {
 
     const params = getSearchParamsFunction();
 
-   
+    const scrollViewRef = useRef<ScrollView>(null);
 
 
 
@@ -137,6 +137,11 @@ const MainPage = () => {
         loadUser();
 
     }, [])
+
+    const onPageSwitch = (newPage : number) => {
+        setCurrentPage(newPage)
+        scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+    }
 
     const [currentUser, setCurrentUser] = useState(null);
     const [favs, setFavs] = useState([]);
@@ -279,7 +284,7 @@ const MainPage = () => {
                             currentUser={currentUser}
                         />
 
-                        <ScrollView className=" ">
+                        <ScrollView className=" " ref={scrollViewRef}>
 
 
 
@@ -312,7 +317,7 @@ const MainPage = () => {
                                     <PaginationComponent
                                         currentPage={currentPage}
                                         inserateLength={inserate.length ?? 0}
-                                        onPageSwitch={setCurrentPage}
+                                        onPageSwitch={onPageSwitch}
                                     />
                                 </View>
                             )}
