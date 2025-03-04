@@ -180,7 +180,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
 
       setIsLoading(true);
       const addedMessage = {
-        userId : "..",
+        userId : userId,
         conversationId : conversationId,
         content: currentText
       }

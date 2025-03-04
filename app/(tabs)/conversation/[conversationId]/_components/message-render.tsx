@@ -52,7 +52,7 @@ const MessageRender: React.FC<MessageRenderProps> = ({
                 </Text>
             </View>
             <Text className="text-xs text-gray-200/60 mt-1">
-                {format(date, "HH:mm")}
+                {format(date ?? new Date(), "HH:mm")}
             </Text>
             <Modal
                 animationType="slide"

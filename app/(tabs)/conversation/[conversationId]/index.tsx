@@ -112,9 +112,9 @@ const ConversationChatPage = () => {
                 <Header currentUser={currentUser} toggleDrawer={toggleDrawer} />
                 {(currentConversation && otherUser) && (
                     <ConversationHeader
-                        username={otherUser?.name}
-                        imageUrl={otherUser?.image}
-                    />
+                    username={otherUser?.name}
+                    imageUrl={otherUser?.image}
+                />
                 )}
 
                 {/* Message List */}
