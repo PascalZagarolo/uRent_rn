@@ -96,14 +96,15 @@ const InseratProfile: React.FC<InseratProfileProps> = ({
                                 </View>
                             </View>
                         )}
+                        {(thisUser?.business?.website || thisUser?.business?.email || thisUser?.business?.telephone_number || thisUser?.business?.fax) && (
                         <View className="py-4">
-                            {(thisUser?.business?.website || thisUser?.business?.email || thisUser?.business?.telephone_number || thisUser?.business?.fax) && (
+                            
                                 <View className="w-full ">
                                 <Text className="text-base font-semibold text-gray-200">
                                     Kontaktdaten
                                 </Text>
                             </View>
-                            )}
+                           
                             {thisUser?.business?.website && (
                                 <View className="flex flex-row items-center mt-2">
                                     <View className="w-2/6 flex flex-row items-center gap-x-4">
@@ -174,7 +175,7 @@ const InseratProfile: React.FC<InseratProfileProps> = ({
                             
                             )}
                             
-                            </View>
+                            </View> )}
                     </View>
                 )}
                 <TouchableOpacity onPress={() => { router.push(`/profile/${thisUser.id}`) }} className="bg-[#242635] 
