@@ -9,7 +9,7 @@ export async function addFavourite(authToken : string, inseratId : string) {
 
         const findUser  = await getCurrentUser(authToken);
 
-        console.log(findUser);
+        
         if(!findUser || !findUser?.id) throw new Error("User not found");
 
         const addFavourite = await db.insert(favourite).values({

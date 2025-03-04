@@ -11,6 +11,7 @@ import { getCurrentUserInseratPage } from "@/actions/retrieveUser/inserat-page/g
 import * as SecureStorage from 'expo-secure-store';
 import InseratRender from "./_components/inserat-render";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { ActivityIndicator } from "react-native";
 
 const InseratPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -134,7 +135,12 @@ const InseratPage = () => {
             }
           />
         ) : (
-          <Text className="text-white">Lade Inserat...</Text>
+          <View className="flex flex-row h-full items-center mt-32 justify-center">
+            <ActivityIndicator 
+            color={"white"}
+            size={24}
+            />
+          </View>
         )} 
       </ScrollView>
     </SafeAreaView>

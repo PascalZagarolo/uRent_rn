@@ -10,7 +10,7 @@ export async function deleteFavourite(authToken : string, inseratId : string) {
 
         const findUser  = await getCurrentUser(authToken);
 
-        console.log(findUser);
+        
         if(!findUser || !findUser?.id) throw new Error("User not found");
 
         const deleteFavourite = await db.delete(favourite)

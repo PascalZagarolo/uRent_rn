@@ -54,7 +54,7 @@ const InseratOptions = ({ inseratUserId, currentUserId, inseratId, isFaved } : I
         try { 
             if(isLoading) return;
             setIsLoading(true);
-
+            
             if(!currentUserId) {
                 return router.push('/login');
             }
@@ -82,26 +82,36 @@ const InseratOptions = ({ inseratUserId, currentUserId, inseratId, isFaved } : I
         }
     }
 
+    const RATE_LIMIT_DELAY = 3000; // 3 seconds delay
+    let lastFavActionTime = 0; // Store the last time the function was executed
+    
     const onFav = async () => {
         try {
-            if(isLoading) return;
-
+            if (isLoading) return;
+    
+            const currentTime = Date.now();
+            if (currentTime - lastFavActionTime < RATE_LIMIT_DELAY) {
+                return; // Prevent frequent calls within the limit
+            }
+            lastFavActionTime = currentTime; // Update last action time
+            
             setIsLoading(true);
-
-            if(!currentUserId) {
+            
+    
+            if (!currentUserId) {
                 return router.push('/login');
             }
-
+            console.log("faved")
             const authToken = await SecureStore.getItemAsync("authToken");
-
-            if(faved) {
-            await deleteFavourite(authToken, inseratId);
-            setFaved(false);
-            Toast.show({
-                type: 'success',
-                text1: 'Favorit entfernt',
-                text2: 'Das Inserat wurde aus deinen Favoriten entfernt'
-            })
+    
+            if (faved) {
+                await deleteFavourite(authToken, inseratId);
+                setFaved(false);
+                Toast.show({
+                    type: 'success',
+                    text1: 'Favorit entfernt',
+                    text2: 'Das Inserat wurde aus deinen Favoriten entfernt'
+                });
             } else {
                 await addFavourite(authToken, inseratId);
                 setFaved(true);
@@ -109,19 +119,22 @@ const InseratOptions = ({ inseratUserId, currentUserId, inseratId, isFaved } : I
                     type: 'success',
                     text1: 'Favorit hinzugefügt',
                     text2: 'Das Inserat wurde zu deinen Favoriten hinzugefügt'
-                })
+                });
             }
-
-        } catch(e : any) {
+    
+        } catch (e: any) {
             Toast.show({
                 type: 'error',
                 text1: 'Fehler',
                 text2: 'Favorit konnte nicht hinzugefügt werden'
-            })
+            });
         } finally {
-            setIsLoading(false);
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 3000);
         }
-    }
+    };
+    
 
     return (
         <View className="flex flex-col px-4">
