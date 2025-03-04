@@ -3,7 +3,7 @@ import { cn } from "@/~/lib/utils";
 import { Entypo, Ionicons, Feather, MaterialIcons } from "@expo/vector-icons";
 import { format, isThisMonth, isThisWeek, isToday } from "date-fns";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ScrollView, SafeAreaView, View, Text, TouchableOpacity, Platform } from "react-native"
 
 
@@ -145,8 +145,10 @@ const DrawerNotifications: React.FC<DrawerNotificationsProps> = ({
             setRenderedNotifications(foundNotifications.filter((item) => item.notificationType === "BOOKING_REQUEST"));
         } else if(currentFilter === "N") {
             setRenderedNotifications(foundNotifications.filter((item) => item.notificationType === "NEWS"));
+        } else {
+            setRenderedNotifications(foundNotifications)
         }
-    }, [currentFilter])
+    }, [currentFilter, foundNotifications])
 
     const returnContent = (type: string, title: string) => {
         const formatContent = () => {
