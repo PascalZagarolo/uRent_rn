@@ -167,6 +167,7 @@ const LocationDialog = ({ onClose, onInsert }: LocationDialogProps) => {
                                 placeholder="z.B. Autohaus Mömer"
                                 maxLength={80}
                                 value={title}
+                                placeholderTextColor={"gray"}
                                 onChangeText={(text) => setTitle(text)}
                                 className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg"
                             />
@@ -182,6 +183,7 @@ const LocationDialog = ({ onClose, onInsert }: LocationDialogProps) => {
                             <TextInput
                                 placeholder="Musterstraße 13"
                                 maxLength={100}
+                                placeholderTextColor={"gray"}
                                 value={street}
                                 onChangeText={(text) => setStreet(text)}
                                 className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg"
@@ -194,6 +196,7 @@ const LocationDialog = ({ onClose, onInsert }: LocationDialogProps) => {
                                     placeholder="Musterstadt"
                                     maxLength={80}
                                     value={city}
+                                    placeholderTextColor={"gray"}
                                     onChangeText={(text) => setCity(text)}
                                     className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg"
                                 />
@@ -205,6 +208,7 @@ const LocationDialog = ({ onClose, onInsert }: LocationDialogProps) => {
                                     keyboardType="number-pad"
                                     maxLength={5}
                                     value={plz}
+                                    placeholderTextColor={"gray"}
                                     onChangeText={(text) => setPLZ(text)}
                                     className="w-full bg-[#1a1e29] text-gray-200 p-4 rounded-lg"
                                 />
@@ -212,7 +216,7 @@ const LocationDialog = ({ onClose, onInsert }: LocationDialogProps) => {
                         </View>
                         <View className="py-4 px-4">
                             <TouchableOpacity
-                                className="px-4 flex flex-row justify-center items-center p-2.5 bg-indigo-800 rounded-md"
+                                className="px-4 flex flex-row justify-center items-center p-2.5 bg-indigo-800 rounded-md space-x-2"
                                 onPress={onCreate}
                             >
 
@@ -222,7 +226,7 @@ const LocationDialog = ({ onClose, onInsert }: LocationDialogProps) => {
                                     </View>
                                 ) : (
                                     <>
-                                        <MaterialCommunityIcons name="location-enter" className="w-4 h-4 mr-2 text-gray-200" />
+                                        <MaterialCommunityIcons name="location-enter" size={20} color={"white"} className="w-4 h-4 mr-2 text-gray-200" />
                                         <Text className="text-sm font-semibold text-gray-200 rounded-lg text-center">
                                             Standort hinzufügen
                                         </Text>

@@ -15,7 +15,7 @@ const LocationTab = ({ foundAddresses, isOwn, setOpenLocation }: LocationTabProp
 
     const RenderedAddress = (title: string, postalCode: string, city: string, street: string, imageUrl: string, id : string) => {
         return (
-            <View>
+            <View key={title}>
                 <View>
                     <Image
                         source={{ uri: imageUrl }}
@@ -68,7 +68,7 @@ const LocationTab = ({ foundAddresses, isOwn, setOpenLocation }: LocationTabProp
             {foundAddresses?.length > 0 ? (
                 <View className="mt-8 space-y-8">
                     {foundAddresses.map(address => (
-                        RenderedAddress(address.title, String(address.postalCode ?? ""), address.city, address.street, address.image, address?.id)
+                        RenderedAddress(address?.title, String(address.postalCode ?? ""), address.city, address.street, address.image, address?.id)
                     ))}
                 </View>
             ) : (

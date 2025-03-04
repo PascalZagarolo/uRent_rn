@@ -74,18 +74,14 @@ const ImprintRender = ({ imprint, isOwn }: ImprintRenterProps) => {
                 )}
             </View>
             {isEditing ? (
-                
-                    
-                        <TextInput 
-                         className="text-gray-200/80 border-indigo-800 border p-4 mt-4 rounded-lg h-40"
-                         multiline
-                         autoFocus
-                         placeholder="Impressum hinzufügen.."
-                        />
-                    
-                        
-                    
-                
+               <TextInput 
+                className="text-gray-200/80 border-indigo-800 border p-4 mt-4 rounded-lg h-40"
+                multiline
+                placeholderTextColor={"gray"}
+                autoFocus
+                placeholder="Impressum hinzufügen.."
+                style={{ textAlignVertical: "top" }}
+              />
             ) : (
                 <View className="mt-8">
                     {imprint ? (

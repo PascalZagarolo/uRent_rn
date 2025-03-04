@@ -85,7 +85,7 @@ const LocationDialogUpload = ({ setImageUrl, imageUrl } : LocationDialogUploadPr
     return (
       
         <View className="w-full">
-        {currentPicture ? (
+        {currentPicture?.url ? (
             <View>
                 <Image
                     source={{ uri: currentPicture.url }}
@@ -93,14 +93,14 @@ const LocationDialogUpload = ({ setImageUrl, imageUrl } : LocationDialogUploadPr
                     resizeMode="cover"
                     className="w-full rounded-md object-cover h-40" />
                     <View className="w-full flex flex-row items-center space-x-4">
-                        <TouchableOpacity className="w-[48%] p-2.5 flex flex-row items-center" onPress={() => setShowModal(true)}>
-                            <MaterialCommunityIcons name="file-replace" className="w-4 h-4 mr-2 text-gray-200" />
+                        <TouchableOpacity className="w-[48%] p-2.5 flex flex-row space-x-4 items-center" onPress={() => setShowModal(true)}>
+                            <MaterialCommunityIcons name="file-replace" size={20} color={"white"} className="space-x-4 w-4 h-4 mr-2 text-gray-200" />
                             <Text className="text-gray-200">
                                 Bild ändern
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity className="w-[48%] rounded-b-md p-2.5 flex flex-row items-center bg-rose-600" onPress={() => setCurrentPicture(null)}>
-                            <MaterialCommunityIcons name="close" className="w-4 h-4 mr-2 text-gray-200" />
+                        <TouchableOpacity className="w-[48%] rounded-b-md p-2.5 flex flex-row space-x-4 items-center bg-rose-600" onPress={() => setCurrentPicture(null)}>
+                            <MaterialCommunityIcons name="close" size={20} color={"white"} className="w-4 h-4 mr-2 text-gray-200" />
                             <Text className="text-gray-200">
                                 Bild entfernen
                             </Text>

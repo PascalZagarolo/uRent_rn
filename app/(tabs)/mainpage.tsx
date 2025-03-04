@@ -206,7 +206,9 @@ const MainPage = () => {
                 text2: 'Favorit konnte nicht hinzugefügt werden'
             })
         } finally {
-            setIsLoading(false);
+            setTimeout(() => {
+                setIsLoading(false);
+            },2000)
         }
     }
 
