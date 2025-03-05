@@ -52,7 +52,7 @@ const RenderedConversation: React.FC<RenderedConversationProps> = ({
                 <View className="w-10/12 flex flex-col">
                     <View className="flex flex-row ">
                         <Text className="text-base text-gray-200 font-semibold w-10/12 line-clamp-1" numberOfLines={1}>
-                            {otherUser?.name} {otherUser?.id}
+                            {otherUser?.name} 
                         </Text>
                         {lastMessage && (
                             <Text className="text-xs text-gray-200/60 font-semibold">

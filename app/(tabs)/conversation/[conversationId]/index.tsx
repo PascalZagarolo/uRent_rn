@@ -14,6 +14,7 @@ import MessageRender from "./_components/message-render";
 
 import { socket } from "@/lib/utils/socketService";
 import { set } from "date-fns";
+import { markAsSeen } from "@/actions/conversations/mark-as-seen";
 
 
 const ConversationChatPage = () => {
@@ -60,9 +61,21 @@ const ConversationChatPage = () => {
         };
     }, [conversationId]);
 
+    const markAllAsRead = async () => {
+        try {
+            const values = {
+                otherUserId : otherUser?.id,
+                conversationId : conversationId
+            }
+            markAsSeen(values)
+        } catch(e : any) {
+            console.log(e);
+        }
+    }
 
     useMemo(() => {
-        setOtherUser(currentConversation?.user1Id === currentUser.id ? currentConversation?.user2 : currentConversation?.user1)
+        setOtherUser(currentConversation?.user1Id === currentUser.id ? currentConversation?.user2 : currentConversation?.user1);
+        markAllAsRead();
     }, [currentConversation])
 
     const toggleDrawer = () => {
@@ -70,6 +83,8 @@ const ConversationChatPage = () => {
     };
 
     useEffect(() => {
+
+
         const handleMessageSend = (data) => {
 
             if (data.conversationId === conversationId) {
@@ -87,6 +102,7 @@ const ConversationChatPage = () => {
         };
     }, [socket, conversationId]);
 
+   
 
     return (
 
