@@ -1,3 +1,4 @@
+import placeholderPicture from "@/assets/images";
 import { FontAwesome } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { View, Text, Image, TouchableOpacity } from "react-native";
@@ -24,10 +25,10 @@ const ConversationHeader : React.FC<ConversationHeaderProps> = ({
                 <TouchableOpacity className="w-1/12" onPress={() => {router.push("/conversation")}}>
         <FontAwesome name="arrow-left" size={20} color="white" />
                 </TouchableOpacity>
-                <View className="w-2/12">
+                <View className="w-14 ">
                     <Image 
-                    source={{uri : imageUrl}}
-                    className="w-12 h-12 rounded-full"
+                    source={{uri : imageUrl ? imageUrl : placeholderPicture}}
+                    className="w-10 h-10 rounded-full"
                     />
                 </View>
                 <View className="w-8/12">

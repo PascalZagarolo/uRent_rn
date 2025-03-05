@@ -9,6 +9,7 @@ import { Drawer } from 'react-native-drawer-layout';
 import ConversationSearchHeader from "./_components/conversation-search-header";
 import { getConversations } from "@/actions/getConversations";
 import ConversationsRenderedList from "./_components/conversations-rendered-list";
+import DrawerNotifications from "@/components/_drawercontent/drawer-notifications";
 
 
 
@@ -41,6 +42,13 @@ const ConversationPage = () => {
 
     };
 
+    const toggleNotifications = () => {
+        setIsNotificationsVisible(!isNotificationsVisible);
+        setIsDrawerVisible(false);
+        
+    }
+
+    const [isNotificationsVisible, setIsNotificationsVisible] = useState(false);
     return (
 
 
@@ -66,11 +74,29 @@ const ConversationPage = () => {
                     )
                 }}
             >
+                <Drawer
+                open={isNotificationsVisible}
+                onOpen={() => { setIsNotificationsVisible(true) }}
+                onClose={() => { setIsNotificationsVisible(false) }}
+
+                drawerPosition="right"
+                drawerType="slide"
+                drawerStyle={{ width: '100%' }}
+                renderDrawerContent={() => {
+                    return (
+                        <DrawerNotifications
+                            toggleDrawerNotifications={toggleNotifications}
+                            foundNotifications={currentUser?.notifications}
+                        />
+                    )
+                }}
+            >
                 <ScrollView className="flex flex-col">
 
                     <Header
                         currentUser={currentUser}
                         toggleDrawer={toggleDrawer}
+                        toggleNotifications={toggleNotifications}
                     />
 
                     <View className="">
@@ -87,7 +113,7 @@ const ConversationPage = () => {
                     
                 </ScrollView>
             </Drawer>
-
+            </Drawer>
         </View>
 
 
