@@ -47,30 +47,41 @@ const DrawerSearchFilter: React.FC<DrawerSearchFilterProps> = ({
                 <ScrollView className="bg-[#1F2332]   border-gray-600 ">
                 
                 <View className="flex-1 flex">
-                    <View className="p-4">
+                    <View className="p-4  mt-8">
                         <View className="ml-auto ">
                             <TouchableOpacity onPress={toggleFilter}>
                                 <FontAwesome name="close" size={24} color="#fff" />
                             </TouchableOpacity>
                         </View>
-                        <View className="flex flex-row items-center w-full justify-center">
+                        <View className="space-x-2 flex flex-row items-center w-full justify-center ">
+                            <MaterialCommunityIcons name="book-search" 
+                            className=""
+                            size={24}
+                            color={"white"}
+                            />
                             <Text className="text-gray-200 text-2xl font-semibold">
                                 Suchfilter
                             </Text>
                         </View>
-                        <View className="mt-2">
-                            <TouchableOpacity className="flex flex-row items-center space-x-2"
+                        <View className="mb-8">
+                            <Text className="text-gray-200/60 text-center font-semibold">
+                            Wähle Filter aus und scrolle nach unten, um auf Ergebnisse zu klicken.
+                            </Text>
+                            
+                        </View>
+                        <View className="flex flex-row justify-center">
+                            <TouchableOpacity className="flex flex-row items-center space-x-2 shadow-lg bg-rose-800 p-1 px-2.5  rounded-lg"
                             onPress={onDelete}
                             >
-                                <View className="w-1/12">
-                                    <MaterialCommunityIcons name="delete" size={24} color="red" />
+                                <View className="">
+                                    <MaterialCommunityIcons name="close" size={20} color="white" />
                                 </View>
                                 <Text className="text-gray-200/90 text-sm">
                                     Filter zurücksetzen
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                        <View className="mt-2">
+                        {/* <View className="mt-2">
                             <View className="flex flex-row items-center space-x-2">
                                 <View className="w-1/12">
                                     <MaterialCommunityIcons name="content-save" size={24} color="#fff" />
@@ -79,9 +90,9 @@ const DrawerSearchFilter: React.FC<DrawerSearchFilterProps> = ({
                                     Suche speichern
                                 </Text>
                             </View>
-                        </View>
+                        </View> */}
                     </View>
-                    <View className="mt-4">
+                    <View className="">
                         <View>
                             <CategoryFilter />
                         </View>

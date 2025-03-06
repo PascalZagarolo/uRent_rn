@@ -61,10 +61,7 @@ const TransportTransmissionFilter = () => {
 
     
 
-    function removeUnderscore(inputString: string): string {
-        const outputString = inputString.replace(/_/g, ' ');
-        return outputString;
-    }
+    
 
     return (
         <View>
@@ -134,6 +131,7 @@ const TransportTransmissionFilter = () => {
                                 </TouchableOpacity>
                                 {prefilledValues.map((value) => (
                                     <TouchableOpacity className="w-full bg-[#232635] p-2"
+                                    key={value.string}
                                     onPress={() => {
                                         setCurrentTransmission(value.value);
                                         refRBSheet.current[1].close();

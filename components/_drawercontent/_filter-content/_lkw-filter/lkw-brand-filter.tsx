@@ -62,10 +62,7 @@ const LkwBrandFilter = () => {
 
     
 
-    function removeUnderscore(inputString: string): string {
-        const outputString = inputString.replace(/_/g, ' ');
-        return outputString;
-    }
+   
 
     return (
         <View>
@@ -135,6 +132,7 @@ const LkwBrandFilter = () => {
                                 </TouchableOpacity>
                                 {Object.values(LkwBrandEnumRender).map((value) => (
                                     <TouchableOpacity className="w-full bg-[#232635] p-2"
+                                    key={value}
                                     onPress={() => {
                                         setCurrentBrand(value);
                                         refRBSheet.current[1].close();
