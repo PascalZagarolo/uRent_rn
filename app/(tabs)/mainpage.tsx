@@ -5,7 +5,7 @@ import InseratCard from "@/components/_searchpage/inserat-card";
 import { useEffect, useRef, useState } from "react";
 import { ActivityIndicator, SafeAreaView, ScrollView, Text, View, TouchableOpacity } from "react-native";
 import * as SecureStore from 'expo-secure-store';
-
+import { throttle } from 'lodash';
 import FilterBubbles from "@/components/_searchpage/_components/filter-bubbles";
 import { Drawer } from 'react-native-drawer-layout';
 import DrawerContentProfile from "@/components/_drawercontent/drawer-content-profile";
@@ -174,48 +174,48 @@ const MainPage = () => {
     const router = useRouter();
 
 
-    const onFav = async (inseratId: string) => {
-        try {
-            if (isLoading) return;
+   
 
-            setIsLoading(true);
+const onFav = async (inseratId: string) => {
+    try {
+        if (isLoading) return;
+        
+        setIsLoading(true);
 
-            if (!currentUser) {
-                return router.push('/login');
-            }
-
-            const authToken = await SecureStore.getItemAsync("authToken");
-
-            if (favs.find((fav: any) => fav.inseratId == inseratId)) {
-                await deleteFavourite(authToken, inseratId);
-                setFavs(favs.filter((fav: any) => fav.inseratId != inseratId));
-                Toast.show({
-                    type: 'success',
-                    text1: 'Favorit entfernt',
-                    text2: 'Das Inserat wurde aus deinen Favoriten entfernt'
-                })
-            } else {
-                await addFavourite(authToken, inseratId);
-                setFavs([...favs, { inseratId }]);
-                Toast.show({
-                    type: 'success',
-                    text1: 'Favorit hinzugefügt',
-                    text2: 'Das Inserat wurde zu deinen Favoriten hinzugefügt'
-                })
-            }
-
-        } catch (e: any) {
-            Toast.show({
-                type: 'error',
-                text1: 'Fehler',
-                text2: 'Favorit konnte nicht hinzugefügt werden'
-            })
-        } finally {
-            setTimeout(() => {
-                setIsLoading(false);
-            },2000)
+        if (!currentUser) {
+            return router.push('/login');
         }
+
+        const authToken = await SecureStore.getItemAsync("authToken");
+
+        if (favs.find((fav: any) => fav.inseratId == inseratId)) {
+            await deleteFavourite(authToken, inseratId);
+            setFavs(favs.filter((fav: any) => fav.inseratId != inseratId));
+            Toast.show({
+                type: 'success',
+                text1: 'Favorit entfernt',
+                text2: 'Das Inserat wurde aus deinen Favoriten entfernt'
+            });
+        } else {
+            await addFavourite(authToken, inseratId);
+            setFavs([...favs, { inseratId }]);
+            Toast.show({
+                type: 'success',
+                text1: 'Favorit hinzugefügt',
+                text2: 'Das Inserat wurde zu deinen Favoriten hinzugefügt'
+            });
+        }
+    } catch (e: any) {
+        Toast.show({
+            type: 'error',
+            text1: 'Fehler',
+            text2: 'Favorit konnte nicht hinzugefügt werden'
+        });
+    } finally {
+        setIsLoading(false);
     }
+}; // Limits calls to once every 3 seconds
+
 
   
 

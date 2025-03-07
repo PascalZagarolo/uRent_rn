@@ -209,3 +209,7 @@ export const useDrawerSettings = create<drawerSettings>((set) => ({
         return this.openDrawers;
     },
 }))
+
+type lastApiHit = {
+    
+}

@@ -82,18 +82,13 @@ const InseratOptions = ({ inseratUserId, currentUserId, inseratId, isFaved } : I
         }
     }
 
-    const RATE_LIMIT_DELAY = 3000; // 3 seconds delay
-    let lastFavActionTime = 0; // Store the last time the function was executed
+   
     
     const onFav = async () => {
         try {
             if (isLoading) return;
     
-            const currentTime = Date.now();
-            if (currentTime - lastFavActionTime < RATE_LIMIT_DELAY) {
-                return; // Prevent frequent calls within the limit
-            }
-            lastFavActionTime = currentTime; // Update last action time
+            
             
             setIsLoading(true);
             
@@ -129,9 +124,9 @@ const InseratOptions = ({ inseratUserId, currentUserId, inseratId, isFaved } : I
                 text2: 'Favorit konnte nicht hinzugefügt werden'
             });
         } finally {
-            setTimeout(() => {
+           
                 setIsLoading(false);
-            }, 3000);
+            
         }
     };
     
