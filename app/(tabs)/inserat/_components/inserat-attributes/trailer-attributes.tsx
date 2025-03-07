@@ -30,7 +30,7 @@ const TrailerAttributeRender: React.FC<TrailerAttributeRenderProps> = ({ attribu
                 colorIndex++;
 
                 return (
-                    <View key={icon} className="bg-[#2d3141] shadow-lg p-4 rounded-lg flex-row items-center space-x-4">
+                    <View key={label} className="bg-[#2d3141] shadow-lg p-4 rounded-lg flex-row items-center space-x-4">
                         {/* Fixed-width container for icons to ensure alignment */}
                         <View className="w-6 h-6 flex items-center justify-center">
                             <IconComponent name={icon as any} size={20} color={color} />
