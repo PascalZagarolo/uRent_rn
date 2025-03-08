@@ -9,6 +9,7 @@ import {  useState } from "react";
 import { cn } from "@/~/lib/utils";
 import { router } from "expo-router";
 import CreateInseratPreview from "./_components/create-inserat-preview";
+import placeholderPicture from "@/assets/images";
 
 interface HeaderProps {
   currentUser: typeof userTable.$inferSelect | any;
@@ -27,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
 
   const usedUrl = currentUser?.image
     ? currentUser.image
-    : "https://cdn.vectorstock.com/i/500p/08/19/gray-photo-placeholder-icon-design-ui-vector-35850819.jpg";
+    : placeholderPicture;
 
   return (
 
@@ -51,7 +52,9 @@ const Header: React.FC<HeaderProps> = ({ currentUser, toggleDrawer, toggleNotifi
               <View className={cn("absolute -top-2 -right-2 rounded-full px-1 py-0.5",
                 unseenNotifications > 0 ? "bg-rose-600" : ""
               )}>
-                <Text style={{ fontSize: 10, color: 'rgba(229, 231, 235, 0.9)' }}>{unseenNotifications}</Text>
+                {unseenNotifications > 0 && (
+                  <Text style={{ fontSize: 10, color: 'rgba(229, 231, 235, 0.9)' }}>{unseenNotifications}</Text>
+                )}
               </View>
             </TouchableOpacity>
             <TouchableOpacity onPress={toggleDrawer}>

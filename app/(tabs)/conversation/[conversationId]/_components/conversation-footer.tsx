@@ -187,6 +187,7 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
       setRenderedMessages(addedMessage)
      
       setCurrentText("");
+      setInputHeight(40)
       const token = await SecureStore.getItemAsync("authToken");
 
       if (!token) {
@@ -217,23 +218,30 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
     }
   }
 
-
+  const [inputHeight, setInputHeight] = useState(40);
 
   return (
     <View className="flex flex-row items-center bg-[#1a1c27] w-full p-2 justify-between">
     <TouchableOpacity className="flex items-center justify-center w-2/12" onPress={() => refRBSheet.current[1].open()}>
-      <FontAwesome name="plus" size={20} color="white" />
+      <FontAwesome name="image" size={20} color="white" />
     </TouchableOpacity>
     
-    <View className="flex-grow px-2">
-      <TextInput
-        className="w-full p-2.5 text-sm bg-[#202336] text-gray-200 font-semibold rounded-md"
-        placeholder="Schreibe eine Nachricht.."
-        placeholderTextColor="#888"
-        onChangeText={(e) => setCurrentText(e)}
-        value={currentText}
-        style={{ paddingBottom: 0 }} // Adding style here to fix padding issues
-      />
+    <View className="flex-grow w-1/3 px-2">
+    <TextInput
+  className="px-2.5 text-sm bg-[#202336] text-gray-200 font-semibold rounded-md items-center"
+  placeholder="Schreibe eine Nachricht.."
+  placeholderTextColor="#888"
+  multiline
+  onChangeText={(e) => setCurrentText(e)}
+  value={currentText}
+  style={{
+    height: Math.min(Math.max(40, inputHeight), 120), // Min 40, Max 120
+    paddingBottom: 0,
+  }}
+  onContentSizeChange={(event) => {
+    setInputHeight(event.nativeEvent.contentSize.height);
+  }}
+/>
     </View>
   
     <TouchableOpacity
@@ -279,9 +287,10 @@ const ConversationFooter: React.FC<ConversationFooterProps> = ({
             />
             <View className="p-2">
               <TextInput
-                className="w-full p-2.5 text-sm bg-[#202336] text-gray-200 font-semibold rounded-md"
+                className="w-full p-2.5  text-base bg-[#202336] text-gray-200 font-semibold rounded-md"
                 placeholder="Schreibe eine Nachricht.."
                 placeholderTextColor="#888"
+                multiline
                 onChangeText={(e) => setCurrentText(e)}
                 value={currentText}
               />
