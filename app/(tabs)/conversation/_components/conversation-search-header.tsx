@@ -17,13 +17,9 @@ const ConversationSearchHeader : React.FC<ConversationSearchHeaderProps> = ({
     
     const [search, setSearch] = useState("");
 
-    useMemo(() => {
-        if(search.length > 0){
-            setCurrentTag(search);
-        } else {
-            setCurrentTag("");
-        }
-    },[search])
+    const onPress = () => {
+        setCurrentTag(search)
+    }
 
     return ( 
         <View>
@@ -48,11 +44,14 @@ const ConversationSearchHeader : React.FC<ConversationSearchHeaderProps> = ({
                     <TextInput 
                     className="bg-[#141620] p-4 rounded-r-none rounded-l-md text-gray-200 w-10/12"
                     placeholder="Suche nach Konversationen.."
+                    onChangeText={setSearch}
                     placeholderTextColor={"gray"}
                     />
-                    <View className=" flex flex-row justify-center bg-[#1E2839] w-2/12 p-4 rounded-r-md">
+                    <TouchableOpacity className=" flex flex-row justify-center bg-[#1E2839] w-2/12 p-4 rounded-r-md"
+                    onPress={onPress}
+                    >
                         <FontAwesome name="search" size={20} color="white" />
-                    </View>
+                    </TouchableOpacity>
                 </View>
             </View>
             <View className="p-4 w-full flex flex-row items-center justify-evenly">

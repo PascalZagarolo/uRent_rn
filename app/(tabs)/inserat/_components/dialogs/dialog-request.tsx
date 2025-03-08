@@ -26,22 +26,9 @@ interface DialogRequestProps {
 const DialogRequest = ({ onClose, inseratUserId, currentUserId }: DialogRequestProps) => {
 
 
-    const [currentContent, setCurrentContent] = React.useState<string>(`
-    Betreff: Anfrage bezüglich ihres Inserates
-
-    Sehr geehrte Damen und Herren,
-
-    Nach eingehender Prüfung Ihres Mietangebots bin ich 
-    sehr interessiert an dem genannten Fahrzeug.
-    Gerne würde ich weitere Details zu den Konditionen besprechen und 
-    das Fahrzeug persönlich in Augenschein nehmen.
-
-    Mit freundlichen Grüßen,
-    [Dein Name]
-
-    Meine Kontaktdaten: 
-    E-Mail: [Deine Email]
-    `);
+    const [currentContent, setCurrentContent] = React.useState<string>(
+        `Betreff: Anfrage bezüglich Ihres Inserats\n\nSehr geehrte Damen und Herren,\n\nnach eingehender Prüfung Ihres Mietangebots bin ich sehr interessiert an dem genannten Fahrzeug. \nGerne würde ich weitere Details zu den Konditionen besprechen und das Fahrzeug persönlich in Augenschein nehmen.\n\nMit freundlichen Grüßen,\n[Dein Name]\n\nMeine Kontaktdaten:\nE-Mail: [Deine E-Mail]`
+    );
 
     const [isLoading, setIsLoading] = React.useState<boolean>(false);
     const router = useRouter()
@@ -121,6 +108,7 @@ const DialogRequest = ({ onClose, inseratUserId, currentUserId }: DialogRequestP
                                 multiline
                                 value={currentContent}
                                 onChangeText={setCurrentContent}
+                                style={{ textAlignVertical : "top"}}
                             />
                         </View>
 

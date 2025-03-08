@@ -27,15 +27,38 @@ const ConversationPage = () => {
     const [isDrawerVisible, setIsDrawerVisible] = useState(false);
     const [currentConversations, setCurrentConversations] = useState([]);
     const [currentTag, setCurrentTag] = useState("");
-
+    let allConversations = [];
     useMemo(() => {
         const load = async () => {
             const res = await getConversations(currentUser.id);
-            setCurrentConversations(res);
+            allConversations = res.filter((thisConversation) => {
+                return thisConversation?.message?.length > 0;
+            });
+            
+            setCurrentConversations(res.filter((thisConversation) => {
+                return thisConversation?.messages?.length > 0;
+            }));
         }
 
         load();
     }, [])
+
+    useMemo(() => {
+        if (currentTag) {
+            
+            const filteredConversations = allConversations.filter((thisConversation) => 
+                {   
+                    //ToDO : compare usernames..
+                    const otherUser = currentUser?.id == thisConversation?.user1 ? thisConversation?.user2 : thisConversation?.user2
+                    return String(thisConversation.title).toLowerCase().includes(currentTag.toLowerCase())
+                }
+                
+            );
+            setCurrentConversations(filteredConversations)
+        } else {    
+            setCurrentConversations(allConversations);
+        }
+    }, [currentTag])
 
     const toggleDrawer = () => {
         setIsDrawerVisible(!isDrawerVisible);
