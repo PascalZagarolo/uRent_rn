@@ -73,6 +73,7 @@ const GoogleSignIn = () => {
                 </Text>
             </TouchableOpacity>  */}
              <GoogleSigninButton 
+             
             onPress={onSignUp}
             /> 
 

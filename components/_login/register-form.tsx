@@ -1,7 +1,7 @@
 'use client'
 
 import { registerUser } from "@/actions/user/register-user";
-import { FontAwesome } from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import { Keyboard, ScrollView } from "react-native";
 import { KeyboardAvoidingView } from "react-native";
@@ -118,16 +118,19 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                 </View>
             </View>
             <View className="mt-8">
-                <TouchableOpacity className='px-8 py-4 rounded-md w-full bg-white  justify-center'
+                <TouchableOpacity className='px-8 py-4 rounded-md w-full bg-[#3f455c] flex flex-row items-center shadow-lg  justify-center'
                     onPress={onSignUp}
                     disabled={isLoading}>
 
                     {isLoading ? (
                         <ActivityIndicator size="small" color="#000" />
                     ) : (
-                        <Text className='justify-center text-gray-800 text-center font-semibold'>
+                       <View className="flex flex-row items-center w-full justify-center space-x-4">
+                        <MaterialCommunityIcons name="account-plus" size={20} color={"white"} />
+                         <Text className='justify-center  text-gray-200  font-semibold'>
                             Account erstellen
                         </Text>
+                       </View>
                     )}
                 </TouchableOpacity>
             </View>

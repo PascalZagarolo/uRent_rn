@@ -7,7 +7,7 @@ import { getCurrentUser } from "../getCurrentUser";
 
 
 // Somewhere in your code
-export const signIn = async () => {
+export const signIn = async (): Promise<{error? : string, success? : string, token? : string}> => {
   "use server";
   try {
     await GoogleSignin.hasPlayServices();

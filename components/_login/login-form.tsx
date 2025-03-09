@@ -126,12 +126,12 @@ const LoginForm : React.FC<LoginFormProps> = ({
                 </View>
             </View>
             <View className="mt-8">
-                <TouchableOpacity className='px-8 py-4 rounded-md w-full bg-white  justify-center'
+            <TouchableOpacity className='px-8 py-4 rounded-md w-full bg-[#3f455c] shadow-lg flex flex-row items-center  justify-center'
                     onPress={onSignUp}>
                     {isLoading ? (
                         <ActivityIndicator size="small" color="#000" />
                     ) : (
-                        <Text className='justify-center text-gray-800 text-center font-semibold'>
+                        <Text className='justify-center text-gray-200 text-center font-semibold'>
                             Einloggen
                         </Text>
                     )}

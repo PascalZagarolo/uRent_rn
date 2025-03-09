@@ -7,12 +7,12 @@ import { View } from "react-native";
 import RBSheet from "react-native-raw-bottom-sheet";
 
 interface PlanOptionsProps {
-    setCurrentInserate : (value : number) => void;
-    currentValue : number;
-    
+    setCurrentInserate: (value: number) => void;
+    currentValue: number;
+
 }
 
-const ChooseAmount = ({ setCurrentInserate, currentValue } : PlanOptionsProps) => {
+const ChooseAmount = ({ setCurrentInserate, currentValue }: PlanOptionsProps) => {
 
 
     const prefilledValues = [
@@ -26,7 +26,7 @@ const ChooseAmount = ({ setCurrentInserate, currentValue } : PlanOptionsProps) =
         65,
         80,
         100,
-        500
+        250
     ]
 
     const refRBSheet = useRef([]);
@@ -41,12 +41,17 @@ const ChooseAmount = ({ setCurrentInserate, currentValue } : PlanOptionsProps) =
             <TouchableOpacity
                 className="w-full flex flex-row items-center bg-[#161b25] shadow-lg p-2.5 rounded-md"
                 onPress={() => { refRBSheet.current[1].open() }}
-            >   
-            <Text className="text-base font-bold text-gray-200">
-               {currentValue} {currentValue == 1 ? "Inserat" : "Inserate"}
-            </Text>
+            >
+                <Text className="text-base font-bold text-gray-200">
+                {currentValue != 250 ?
+                                            (currentValue + " ") : (
+                                                "über 100 "
+                                            )}
+
+                                        {currentValue == 1 ? "Inserat" : "Inserate"}
+                </Text>
                 <View className="ml-auto">
-                <FontAwesome name="chevron-down" size={20} color="white" />
+                    <FontAwesome name="chevron-down" size={20} color="white" />
                 </View>
             </TouchableOpacity>
             <RBSheet
@@ -75,7 +80,7 @@ const ChooseAmount = ({ setCurrentInserate, currentValue } : PlanOptionsProps) =
                     <Text className="text-base font-semibold text-gray-200">
                         Anzahl Inserate auswählen
                     </Text>
-                    <ScrollView className="h-[160px] w-full p-4 ">
+                    <ScrollView className="h-[160px] w-full px-4 mb-4">
                         <View className="flex flex-col justify-center space-y-4">
 
                             {prefilledValues.map((value) => (
@@ -87,7 +92,12 @@ const ChooseAmount = ({ setCurrentInserate, currentValue } : PlanOptionsProps) =
                                     }}
                                 >
                                     <Text className="text-center text-lg text-gray-200 font-semibold">
-                                        {value} {value == 1 ? "Inserat" : "Inserate"}
+                                        {value != 250 ?
+                                            (value + " ") : (
+                                                "über 100 "
+                                            )}
+
+                                        {value == 1 ? "Inserat" : "Inserate"}
                                     </Text>
                                 </TouchableOpacity>
                             ))}
