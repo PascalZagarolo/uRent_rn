@@ -5,7 +5,7 @@ import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from "./schema"
 
 
-const connnectionString = process.env.EXPO_PUBLIC_DATABASE_URL;
+const connnectionString = process.env.EXPO_SECRET_DATABASE_URL;
 
 
 

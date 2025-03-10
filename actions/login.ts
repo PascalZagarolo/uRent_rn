@@ -9,12 +9,10 @@ export const login = async (email : string, password : string) => {
     'use server'
     try {
         
-       
-
+    
         const findUser = await db.query.userTable.findFirst({
             where : eq(userTable.email , email),
         })
-
         
 
         if(!findUser || findUser.password !== password) {
