@@ -1,6 +1,6 @@
 import { booking, inserat } from "@/db/schema";
 import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Image, Modal, Text, TouchableOpacity, View } from "react-native";
+import { Animated, Dimensions, Image, Modal, Platform, Text, TouchableOpacity, View } from "react-native";
 import { format } from "date-fns";
 
 import { Drawer } from 'react-native-drawer-layout';
@@ -16,15 +16,22 @@ import InseratProfile from "./inserat-profile";
 import InseratMoreContent from "./inserat-user-more-content";
 import BookingCalendar from "./dialogs/booking-calendar";
 
-import { useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import BookingDialog from "./dialogs/booking-dialog";
+import { GestureDetector, Gesture, GestureHandlerRootView, PanGestureHandler, State } from 'react-native-gesture-handler';
+import ImageCarousel from "./image-carousel";
+
 
 interface InseratRenderProps {
     thisInserat: typeof inserat.$inferSelect & { user, address, images };
     currentUserId?: string;
-    inseratBookings : typeof booking.$inferSelect[];
+    inseratBookings: typeof booking.$inferSelect[];
     isFaved: boolean;
 }
+
+const SWIPE_DISTANCE = Platform.OS === 'android' ? 50 : 100; // Higher = harder to swipe
+const MAX_Y_SCROLL_DISTANCE_TO_ALLOW_SWIPE = 100; // Lower = harder to swipe
+const { width } = Dimensions.get('window'); // Device width for horizontal swipe
 
 const InseratRender: React.FC<InseratRenderProps> = ({
     thisInserat,
@@ -49,6 +56,19 @@ const InseratRender: React.FC<InseratRenderProps> = ({
         }
     }
 
+ 
+
+  
+
+  
+   
+  
+    
+
+
+
+  
+
     function separatePrice(priceString) {
         // Remove the currency symbol and trim any extra spaces
         let price = priceString.replace('€', '').trim();
@@ -71,10 +91,68 @@ const InseratRender: React.FC<InseratRenderProps> = ({
     let { integerPart, decimalPart } = separatePrice(thisInserat?.price);
 
     const router = useRouter()
+    ///////////////////////////////////////
+    const [currentIndex, setCurrentIndex] = useState(0);
+  const translateX = useRef(new Animated.Value(0)).current; // For smooth transition of images
+  const touchX = useRef(0);
+  const touchY = useRef(0);
+
+    const renderImage = (index) => {
+        return (
+          <Animated.Image
+            style={{
+              width,
+              height: 300, // Adjust based on your desired height
+              transform: [{ translateX: Animated.multiply(translateX, -1) }],
+            }}
+            source={{ uri: thisInserat?.images[index]?.url }}
+          />
+        );
+      };
+
+      const onSwipeTab = useCallback((direction) => {
+        let newIndex = currentIndex;
+        if (direction === 'next' && currentIndex < thisInserat?.images?.length - 1) {
+          newIndex++;
+        } else if (direction === 'previous' && currentIndex > 0) {
+          newIndex--;
+        }
+    
+        // Animation zur nächsten oder vorherigen Seite
+        Animated.spring(translateX, {
+          toValue: -newIndex * width, // Bewegt sich zur neuen Position
+          useNativeDriver: false, // Setze `false`, um `_value` korrekt zu verwenden
+        }).start();
+    
+        setCurrentIndex(newIndex);
+      }, [currentIndex, thisInserat?.images?.length, translateX]);
+    
+      const onGestureEvent = Animated.event(
+        [{ nativeEvent: { translationX: translateX } }],
+        { useNativeDriver: false } // Wichtig: setze `false`, um `translateX._value` zu verwenden
+      );
+    
+      const onHandlerStateChange = useCallback((event) => {
+        if (event.nativeEvent.state === State.END) {
+          const { translationX } = event.nativeEvent;
+    
+          if (translationX < -50) {
+            onSwipeTab('next');
+          } else if (translationX > 50) {
+            onSwipeTab('previous');
+          } else {
+            // Falls der Swipe zu klein ist, springt das Bild zurück
+            Animated.spring(translateX, {
+              toValue: -currentIndex * width,
+              useNativeDriver: false,
+            }).start();
+          }
+        }
+      }, [onSwipeTab, currentIndex, translateX]);
 
     return (
         <View className="h-full w-full">
-            
+
             <View>
                 <View className="">
                     <TouchableOpacity className="p-4 flex flex-row items-center" onPress={() => { router.push("/") }}>
@@ -99,35 +177,30 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                         </Text>
                     </View>
                 </View>
-                {thisInserat?.images?.length > 0 && (
-                    <View className="">
-                        <Image
-                            className="w-full h-60  rounded-t-md"
-                            source={{
-                                uri: thisInserat?.images[0]?.url,
-                            }}
-                        />
-                    </View>
-                )}
-                <BookingCalendar 
-                setShowBookings = {setShowBookings}
+                
+                <View className="w-full">
+                {thisInserat?.images?.length > 0 && <ImageCarousel images={thisInserat.images} />}
+                </View>
+               
+                <BookingCalendar
+                    setShowBookings={setShowBookings}
                 />
                 <View className="px-4 ">
-                <View className="bg-[#252836] rounded-md">
-                    <View className="p-4 flex flex-row items-center">
-                        <View className="mr-4">
-                            <FontAwesome name="map-marker" size={24} color="red" className="mr-4" />
+                    <View className="bg-[#252836] rounded-md">
+                        <View className="p-4 flex flex-row items-center">
+                            <View className="mr-4">
+                                <FontAwesome name="map-marker" size={24} color="red" className="mr-4" />
+                            </View>
+                            <Text className="flex flex-row text-base font-semibold items-center w-full break-all line-clamp-1 text-gray-200" numberOfLines={1}>
+                                {thisInserat?.address?.postalCode} | {thisInserat?.address?.locationString}
+                            </Text>
                         </View>
-                        <Text className="flex flex-row text-base font-semibold items-center w-full break-all line-clamp-1 text-gray-200" numberOfLines={1}>
-                            {thisInserat?.address?.postalCode} | {thisInserat?.address?.locationString}
-                        </Text>
+                        <View className="px-4 flex justify-end ml-auto items-center">
+                            <Text className="text-gray-200 font-semibold text-xl items-center">
+                                {integerPart}.<Text className="text-sm">{decimalPart}</Text> <Text className="text-gray-200/60 font-normal text-sm">/Tag</Text>
+                            </Text>
+                        </View>
                     </View>
-                    <View className="px-4 flex justify-end ml-auto items-center">
-                        <Text className="text-gray-200 font-semibold text-xl items-center">
-                            {integerPart}.<Text className="text-sm">{decimalPart}</Text> <Text className="text-gray-200/60 font-normal text-sm">/Tag</Text>
-                        </Text>
-                    </View>
-                </View>
                 </View>
 
                 <View className="py-2">
@@ -185,13 +258,13 @@ const InseratRender: React.FC<InseratRenderProps> = ({
 
             >
                 <BookingDialog
-                thisInserat={thisInserat}
-                receivedBookings={inseratBookings}
-                onClose={() => setShowBookings(false)}
+                    thisInserat={thisInserat}
+                    receivedBookings={inseratBookings}
+                    onClose={() => setShowBookings(false)}
                 />
             </Modal>
 
-                
+
         </View>
     );
 }

@@ -5,11 +5,13 @@ import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from "./schema"
 
 
-const connnectionString = process.env.EXPO_SECRET_DATABASE_URL;
 
 
 
-const client = neon(connnectionString as string);
+
+
+
+const client = neon(process.env.EXPO_PUBLIC_DATABASE_URL as string);
 const db = drizzle(client, { schema });
 
 
