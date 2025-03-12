@@ -1,10 +1,17 @@
 import db from "@/db/drizzle";
 import { report } from "@/db/schema";
+import { checkRateLimit } from "@/lib/api-rate-limiter";
 import { and, eq, isNotNull, or } from "drizzle-orm";
 
 export const createReport = async (values) : Promise<{error? : string, success? : string }> => {
     "use server";
     try {
+
+        const isAllowed = await checkRateLimit();
+        if(!isAllowed) {
+            console.log("Zu viele Anfragen..");
+            return { error : "Zu viele Anfragen"}
+        } 
 
         const {
             reportType,

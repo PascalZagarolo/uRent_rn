@@ -47,7 +47,8 @@ const ReportModalInserat = ({ onClose, currentUserId, inseratId }: ReportModalIn
                 userId: currentUserId,
                 inseratId,
                 reportType: getKeyByLabel(reportType),
-                reportedAsset: "INSERAT"
+                reportedAsset: "INSERAT",
+                content : content,
             }
             const res = await createReport(values);
             if (res.success) {
