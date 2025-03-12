@@ -65,7 +65,7 @@ const InseratRender: React.FC<InseratRenderProps> = ({
 
 
 
-
+    
 
 
 
@@ -268,6 +268,8 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                 )}
                 {showReport && (
                     <ReportModalInserat
+                        inseratId={thisInserat.id}
+                        currentUserId = {currentUserId}
                         onClose={() => setShowReport(false)}
                     />
                 )}

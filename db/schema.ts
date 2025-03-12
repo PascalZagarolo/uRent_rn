@@ -1016,6 +1016,8 @@ export const businessFaqs = pgTable("businessFaqs", {
 export const report = pgTable("report", {
     id : uuid("id").default(sql`gen_random_uuid()`).primaryKey(),
 
+    createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
+
     userId : text("userId")
                 .references(() => userTable.id, { onDelete: "cascade" }),
 
@@ -1028,9 +1030,15 @@ export const report = pgTable("report", {
     conversationId : uuid("conversationId")
                     .references(() => conversation.id, { onDelete: "cascade" }),
 
-    reportType : text("reportType"),
+   
+
+    reportedUser : text("reportedUser")
+                    .references(() => userTable.id, { onDelete: "cascade" }, ),
     
     content : text("content"),
+    reportType : text("reportType"),
+    reportStatus : text("reportStatus"),
+
 })
 
 export const block = pgTable("block", {
