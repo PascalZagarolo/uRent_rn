@@ -20,6 +20,7 @@ import { useCallback, useRef, useState } from "react";
 import BookingDialog from "./dialogs/booking-dialog";
 import { GestureDetector, Gesture, GestureHandlerRootView, PanGestureHandler, State } from 'react-native-gesture-handler';
 import ImageCarousel from "./image-carousel";
+import ReportModalInserat from "./report/report-modal";
 
 
 interface InseratRenderProps {
@@ -41,6 +42,7 @@ const InseratRender: React.FC<InseratRenderProps> = ({
 }) => {
 
     const [showBookings, setShowBookings] = useState(false);
+    const [showReport, setShowReport] = useState(false);
 
     const matchingIcon = (usedCategory: string) => {
         switch (usedCategory) {
@@ -56,18 +58,18 @@ const InseratRender: React.FC<InseratRenderProps> = ({
         }
     }
 
- 
-
-  
-
-  
-   
-  
-    
 
 
 
-  
+
+
+
+
+
+
+
+
+
 
     function separatePrice(priceString) {
         // Remove the currency symbol and trim any extra spaces
@@ -93,62 +95,51 @@ const InseratRender: React.FC<InseratRenderProps> = ({
     const router = useRouter()
     ///////////////////////////////////////
     const [currentIndex, setCurrentIndex] = useState(0);
-  const translateX = useRef(new Animated.Value(0)).current; // For smooth transition of images
-  const touchX = useRef(0);
-  const touchY = useRef(0);
+    const translateX = useRef(new Animated.Value(0)).current; // For smooth transition of images
+    const touchX = useRef(0);
+    const touchY = useRef(0);
 
-    const renderImage = (index) => {
-        return (
-          <Animated.Image
-            style={{
-              width,
-              height: 300, // Adjust based on your desired height
-              transform: [{ translateX: Animated.multiply(translateX, -1) }],
-            }}
-            source={{ uri: thisInserat?.images[index]?.url }}
-          />
-        );
-      };
 
-      const onSwipeTab = useCallback((direction) => {
+
+    const onSwipeTab = useCallback((direction) => {
         let newIndex = currentIndex;
         if (direction === 'next' && currentIndex < thisInserat?.images?.length - 1) {
-          newIndex++;
+            newIndex++;
         } else if (direction === 'previous' && currentIndex > 0) {
-          newIndex--;
+            newIndex--;
         }
-    
+
         // Animation zur nächsten oder vorherigen Seite
         Animated.spring(translateX, {
-          toValue: -newIndex * width, // Bewegt sich zur neuen Position
-          useNativeDriver: false, // Setze `false`, um `_value` korrekt zu verwenden
+            toValue: -newIndex * width, // Bewegt sich zur neuen Position
+            useNativeDriver: false, // Setze `false`, um `_value` korrekt zu verwenden
         }).start();
-    
+
         setCurrentIndex(newIndex);
-      }, [currentIndex, thisInserat?.images?.length, translateX]);
-    
-      const onGestureEvent = Animated.event(
+    }, [currentIndex, thisInserat?.images?.length, translateX]);
+
+    const onGestureEvent = Animated.event(
         [{ nativeEvent: { translationX: translateX } }],
         { useNativeDriver: false } // Wichtig: setze `false`, um `translateX._value` zu verwenden
-      );
-    
-      const onHandlerStateChange = useCallback((event) => {
+    );
+
+    const onHandlerStateChange = useCallback((event) => {
         if (event.nativeEvent.state === State.END) {
-          const { translationX } = event.nativeEvent;
-    
-          if (translationX < -50) {
-            onSwipeTab('next');
-          } else if (translationX > 50) {
-            onSwipeTab('previous');
-          } else {
-            // Falls der Swipe zu klein ist, springt das Bild zurück
-            Animated.spring(translateX, {
-              toValue: -currentIndex * width,
-              useNativeDriver: false,
-            }).start();
-          }
+            const { translationX } = event.nativeEvent;
+
+            if (translationX < -50) {
+                onSwipeTab('next');
+            } else if (translationX > 50) {
+                onSwipeTab('previous');
+            } else {
+                // Falls der Swipe zu klein ist, springt das Bild zurück
+                Animated.spring(translateX, {
+                    toValue: -currentIndex * width,
+                    useNativeDriver: false,
+                }).start();
+            }
         }
-      }, [onSwipeTab, currentIndex, translateX]);
+    }, [onSwipeTab, currentIndex, translateX]);
 
     return (
         <View className="h-full w-full">
@@ -177,11 +168,20 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                         </Text>
                     </View>
                 </View>
-                
+
                 <View className="w-full">
-                {thisInserat?.images?.length > 0 && <ImageCarousel images={thisInserat.images} />}
+                    {thisInserat?.images?.length > 0 && <ImageCarousel images={thisInserat.images} />}
                 </View>
-               
+                <View className="ml-auto ">
+                    <TouchableOpacity className="mr-8 flex flex-row w-full underline items-center mt-2 space-x-2 rounded-md"
+                    onPress={() => setShowReport(true)}
+                    >
+                        <MaterialCommunityIcons name="alert-circle" size={16} color={"gray"} />
+                        <Text className="text-sm text-gray-200/60 underline">
+                            Anzeige melden
+                        </Text>
+                    </TouchableOpacity>
+                </View>
                 <BookingCalendar
                     setShowBookings={setShowBookings}
                 />
@@ -236,11 +236,13 @@ const InseratRender: React.FC<InseratRenderProps> = ({
                         thisInserat={thisInserat}
                     />
                 </View>
+
                 <View className="p-4">
                     <InseratProfile
                         thisUser={thisInserat.user}
                     />
                 </View>
+
                 <View className="p-4 px-6">
                     <InseratMoreContent
                         username={thisInserat.user.name}
@@ -251,17 +253,24 @@ const InseratRender: React.FC<InseratRenderProps> = ({
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={showBookings}
+                visible={showBookings || showReport}
                 onRequestClose={() => {
                     setShowBookings(false);
                 }}
 
             >
-                <BookingDialog
-                    thisInserat={thisInserat}
-                    receivedBookings={inseratBookings}
-                    onClose={() => setShowBookings(false)}
-                />
+                {showBookings && (
+                    <BookingDialog
+                        thisInserat={thisInserat}
+                        receivedBookings={inseratBookings}
+                        onClose={() => setShowBookings(false)}
+                    />
+                )}
+                {showReport && (
+                    <ReportModalInserat
+                        onClose={() => setShowReport(false)}
+                    />
+                )}
             </Modal>
 
 
