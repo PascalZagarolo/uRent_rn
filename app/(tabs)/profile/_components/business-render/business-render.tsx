@@ -47,7 +47,7 @@ const BusinessRender = ({ thisUser, bannerUrl, imageUrl, isOwner, setOpenLocatio
                         createdAt={format(new Date(thisUser?.createdAt), "dd.MM.yyyy")}
                     />
                 </View>
-                <View className="mt-32 px-4">
+                <View className="mt-8 px-4">
                     <Businessdescription
                         username={thisUser?.name}
                         isOwnProfile={isOwner}
