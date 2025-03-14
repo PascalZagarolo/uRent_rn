@@ -21,12 +21,12 @@ const REPORT_REASONS = [
     { key: "STALKING", label: "Belästigung oder Stalking" },
     { key: "FAKE", label: "Fake-Profile" },
     { key: "FALSCH", label: "Falschangaben oder \nBetrug" },
-    { key: "VERLETZEN_DER_EIGENEN_RECHTE", label: "Gefährliche oder \nirreführende Inhalte" },
-    { key: "VERLETZEN_DER_EIGENEN_RECHTE", label: "Privatsphären-Verletzung" },
-    { key: "VERLETZEN_DER_EIGENEN_RECHTE", label: "Spam" },
-    { key: "VERLETZEN_DER_EIGENEN_RECHTE", label: "Unangebrachte Inhalte" },
-    { key: "VERLETZEN_DER_EIGENEN_RECHTE", label: "Unangemessene Werbung" },
-    { key: "VERLETZEN_DER_EIGENEN_RECHTE", label: "Verstößt gegen deutsches Recht" },
+    { key: "DANGEROUS", label: "Gefährliche oder \nirreführende Inhalte" },
+    { key: "PRIVACY", label: "Privatsphären-Verletzung" },
+    { key: "SPAM", label: "Spam" },
+    { key: "CONTENT_WARNING", label: "Unangebrachte Inhalte" },
+    { key: "AD", label: "Unangemessene Werbung" },
+    { key: "RECHT", label: "Verstößt gegen deutsches Recht" },
     { key: "SONSTIGES", label: "Sonstiges" }
 ];
 
