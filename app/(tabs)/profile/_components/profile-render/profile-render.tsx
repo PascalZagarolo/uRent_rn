@@ -13,6 +13,7 @@ interface ProfileRenderFullProps {
     createdAt: string | null;
     setOpenImageDialog: (open: boolean) => void;
     setOpenSwitchProfile: (open: boolean) => void;
+    setOpenReportModal: (open: boolean) => void;
     thisDescription: string | null;
     ownProfile: boolean;
 }

@@ -15,6 +15,7 @@ interface BusinessRenderProps {
     setOpenOpeningTimes: (open: boolean) => void;
     setOpenDialogImage: (open: boolean) => void;
     setOpenDialogBanner: (open: boolean) => void;
+    setOpenReportModal: (open: boolean) => void;
     foundAddresses : typeof businessAddress.$inferSelect[];
     
     foundOpeningTimes : {
@@ -28,7 +29,7 @@ interface BusinessRenderProps {
     }
 }
 
-const BusinessRender = ({ thisUser, bannerUrl, imageUrl, isOwner, setOpenLocation, setOpenOpeningTimes, foundAddresses, foundOpeningTimes, setOpenDialogImage, setOpenDialogBanner }: BusinessRenderProps) => {
+const BusinessRender = ({ thisUser, bannerUrl, imageUrl, isOwner, setOpenLocation, setOpenOpeningTimes, setOpenReportModal, foundAddresses, foundOpeningTimes, setOpenDialogImage, setOpenDialogBanner }: BusinessRenderProps) => {
 
     
 
@@ -40,6 +41,7 @@ const BusinessRender = ({ thisUser, bannerUrl, imageUrl, isOwner, setOpenLocatio
                     <BusinessBannerRender
                     isOwner={isOwner}
                     setOpenImageDialog={(open) => setOpenDialogImage(open)}
+                    setOpenReportModal={(open) => setOpenReportModal(open)}
                     setOpenDialogBanner={(open) => setOpenDialogBanner(open)}
                         thisImage={bannerUrl ?? null}
                         thisProfilePic={imageUrl}

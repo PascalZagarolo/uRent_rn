@@ -11,9 +11,10 @@ interface BusinessBannerRenderProps {
     createdAt: string | null;
     setOpenImageDialog: (open: boolean) => void;
     setOpenDialogBanner: (open: boolean) => void;
+    setOpenReportModal: (open: boolean) => void;
 }
 
-const BusinessBannerRender = ({ isOwner, thisImage, thisProfilePic, thisUsername, createdAt, setOpenImageDialog, setOpenDialogBanner }: BusinessBannerRenderProps) => {
+const BusinessBannerRender = ({ isOwner, thisImage, thisProfilePic, thisUsername, createdAt, setOpenImageDialog, setOpenReportModal, setOpenDialogBanner }: BusinessBannerRenderProps) => {
 
 
 
@@ -77,12 +78,14 @@ const BusinessBannerRender = ({ isOwner, thisImage, thisProfilePic, thisUsername
 
                     </TouchableOpacity>
                         )}>
-                            <View className="bg-[#30334d] rounded-md border-indigo-800 border">
-                            <TouchableOpacity className="rounded-md flex flex-row items-center bg-[#30334d] w-48 p-2.5 space-x-4 ">
+                            <View className="bg-[#30334d] rounded-md ">
+                            <TouchableOpacity className="rounded-md flex flex-row items-center bg-[#30334d]  w-48 p-2.5 space-x-4 "
+                            onPress={() => {setOpenReportModal(true)}}
+                            >
                                 <MaterialCommunityIcons name="alert" 
-                                size={20} color={"white"}
+                                size={16} color={"white"}
                                 />
-                                <Text className="text-gray-200 text-base font-semibold">
+                                <Text className="text-gray-200 text-sm font-semibold">
                                     Nutzer melden
                                 </Text>
                             </TouchableOpacity>

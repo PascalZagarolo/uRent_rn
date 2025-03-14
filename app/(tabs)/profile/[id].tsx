@@ -20,6 +20,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import placeholderPicture from "@/assets/images";
 import ImageDialog from "./_components/business-render/_components/_tabs/_dialogs/image-dialog";
 import { Modal } from "react-native";
+import ReportModalProfile from "./_components/business-render/_components/_report/report-modal";
 
 
 
@@ -122,6 +123,7 @@ const ProfilePage = () => {
     const [imageUrl, setImageUrl] = useState<string | null>(null);
     const [bannerUrl, setBannerUrl] = useState<string | null>(null);
     const [switchProfile, setSwitchProfile] = useState<boolean>(false);
+    const [showReport, setShowReport] = useState<boolean>(false);
 
     const isOwner = user?.id == currentUser?.id;
 
@@ -158,6 +160,7 @@ const ProfilePage = () => {
                     setOpenDialogImage={(value) => setOpenDialogImage(value)}
                     setOpenDialogBanner={(value) => setOpenDialogBanner(value)}
                     setOpenSwitchProfile={(value) => setSwitchProfile(value)}
+                    setOpenReportModal={(value) => setShowReport(value)}
                     foundAddresses={foundAddresses}
                     foundOpeningTimes={foundOpeningTimes}
                 />
@@ -167,7 +170,7 @@ const ProfilePage = () => {
             <Modal
                 animationType="slide"
                 transparent={true}
-                visible={showLocation.open || showOpeningTimes || openDialogImage || openDialogBanner || switchProfile}
+                visible={showLocation.open || showOpeningTimes || openDialogImage || openDialogBanner || switchProfile || showReport}
                 onRequestClose={() => {
                     setShowLocation({ open: false, id: "", type: null });
                 }}
@@ -205,7 +208,7 @@ const ProfilePage = () => {
                     setFoundTimes={(newOne) => setFoundOpeningTimes(newOne)}
                     />
                 )}
-                {!showLocation?.type && (
+                {(!showLocation?.type && showLocation.open) && (
                     <LocationDialog
                         onClose={() => setShowLocation({ open: false, id: "" })}
                         onInsert={(newOne) => setFoundAddresses([...foundAddresses, newOne])}
@@ -226,7 +229,13 @@ const ProfilePage = () => {
                         prefilledAddress={foundAddresses.find(address => address.id === showLocation.id)}
                     />
                 )}   
-               
+               {showReport && (
+                <ReportModalProfile 
+                reportedUserId={id}
+                currentUserId={currentUser?.id}
+                onClose={() => setShowReport(false)}
+                />
+               )}
             </Modal>
         </View>
         </SafeAreaView>
