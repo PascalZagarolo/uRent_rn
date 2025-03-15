@@ -22,7 +22,6 @@ export function dynamicSearch(
     const filterAvailability = ((pInserat: any) => {
 
         const checkMinTime = checkFitsMinTime(pInserat, startTime, endTime, startDateDynamic, endDateDynamic);
-
         if (!checkMinTime) {
             return false;
         }
