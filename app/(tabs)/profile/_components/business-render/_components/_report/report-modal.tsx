@@ -86,7 +86,6 @@ const ReportModalProfile = ({ onClose, currentUserId, reportedUserId }: ReportMo
                         </TouchableOpacity>
                     </View>
 
-
                     {/* Info Text */}
                     <Text className="text-gray-400 text-sm mt-2">
                         Melde Nutzer wenn du denkst, dass sie gegen unsere Richtlinien verstoßen
