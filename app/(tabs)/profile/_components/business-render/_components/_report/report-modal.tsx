@@ -39,7 +39,6 @@ const ReportModalProfile = ({ onClose, currentUserId, reportedUserId }: ReportMo
 
 
     const router = useRouter()
-
     const [content, setContent] = useState("");
     const [reportType, setReportType] = useState("");
     const [switchedSuccess, setSwitchedSuccess] = useState<{ isOpen: boolean, content: string }>({ isOpen: false, content: "" });
