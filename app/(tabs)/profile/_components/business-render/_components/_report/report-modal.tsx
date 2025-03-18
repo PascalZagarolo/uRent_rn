@@ -37,7 +37,6 @@ function getKeyByLabel(label) {
 
 const ReportModalProfile = ({ onClose, currentUserId, reportedUserId }: ReportModalProfileProps) => {
 
-
     const router = useRouter()
     const [content, setContent] = useState("");
     const [reportType, setReportType] = useState("");
