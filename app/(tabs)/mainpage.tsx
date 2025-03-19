@@ -3,9 +3,9 @@
 import Header from "@/components/_searchpage/header";
 import InseratCard from "@/components/_searchpage/inserat-card";
 import { useEffect, useRef, useState } from "react";
-import { ActivityIndicator, SafeAreaView, ScrollView, Text, View, TouchableOpacity } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 import * as SecureStore from 'expo-secure-store';
-import { throttle } from 'lodash';
+
 import FilterBubbles from "@/components/_searchpage/_components/filter-bubbles";
 import { Drawer } from 'react-native-drawer-layout';
 import DrawerContentProfile from "@/components/_drawercontent/drawer-content-profile";
