@@ -64,12 +64,12 @@ const Businessdescription = ({ thisDescription, isOwnProfile, username }: Busine
                     )}
                     {isEditing && (
                         <View className="flex flex-row items-center ml-auto">
+                            
                             <TouchableOpacity className="p-2.5  rounded-md flex flex-row items-center" onPress={onSave}>
-
                             <MaterialCommunityIcons name="content-save" size={24} color={"white"}  />
                             </TouchableOpacity>
-                            <TouchableOpacity className="p-2.5   rounded-md flex flex-row items-center" onPress={onAbort}>
 
+                            <TouchableOpacity className="p-2.5   rounded-md flex flex-row items-center" onPress={onAbort}>
                             <MaterialCommunityIcons name="close-box" size={24} color={"white"}  />
                             </TouchableOpacity>
 
