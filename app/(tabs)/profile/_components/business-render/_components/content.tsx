@@ -37,8 +37,6 @@ const ContentBusinessRender = ({ thisUser, isOwn, setOpenLocation, setOpenOpenin
     
 
     return (
-
-        
         <View className="relative">
         <ScrollView
             className="py-2"
