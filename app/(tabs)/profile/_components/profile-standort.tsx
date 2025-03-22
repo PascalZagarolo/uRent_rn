@@ -26,13 +26,11 @@ const ProfileStandort : React.FC<ProfileStandortProps> = ({
                         </Text>
                     ) : (
                         thisBusiness?.businessAddresses.map((address) => (
-                           
                                 <View className="mt-2" key={address.id}>
                                     <ProfileStandortRender key={address.id}
                                 thisAddress = {address}
                             />
                                 </View>
-                            
                         ))
                     )
                 }
