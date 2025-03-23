@@ -46,7 +46,7 @@ const MainForm = () => {
                     <View className="flex flex-col justify-center items-center">
                         <Text className="text-gray-200 text-2xl font-bold">Registrieren</Text>
                         <Text className="text-xs text-gray-200/60 font-semibold">
-                            Erstelle ein Konto und erlebe uRents vollen Umfang!
+                            Erstelle ein Konto und erlebe den vollen Umfang von uRent.
                         </Text>
 
                     </View>
