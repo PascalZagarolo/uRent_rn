@@ -1,6 +1,6 @@
 import { booking, inserat } from "@/db/schema";
 import { FontAwesome, FontAwesome5, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Animated, Dimensions, Image, Modal, Platform, Text, TouchableOpacity, View } from "react-native";
+import { Animated, Dimensions, Image, Modal, PanResponder, Platform, Text, TouchableOpacity, View } from "react-native";
 import { format } from "date-fns";
 
 import { Drawer } from 'react-native-drawer-layout';
@@ -18,7 +18,7 @@ import BookingCalendar from "./dialogs/booking-calendar";
 
 import { useCallback, useRef, useState } from "react";
 import BookingDialog from "./dialogs/booking-dialog";
-import { GestureDetector, Gesture, GestureHandlerRootView, PanGestureHandler, State } from 'react-native-gesture-handler';
+
 import ImageCarousel from "./image-carousel";
 import ReportModalInserat from "./report/report-modal";
 
@@ -123,23 +123,25 @@ const InseratRender: React.FC<InseratRenderProps> = ({
         { useNativeDriver: false } // Wichtig: setze `false`, um `translateX._value` zu verwenden
     );
 
-    const onHandlerStateChange = useCallback((event) => {
-        if (event.nativeEvent.state === State.END) {
-            const { translationX } = event.nativeEvent;
-
-            if (translationX < -50) {
-                onSwipeTab('next');
-            } else if (translationX > 50) {
-                onSwipeTab('previous');
-            } else {
-                // Falls der Swipe zu klein ist, springt das Bild zurück
-                Animated.spring(translateX, {
-                    toValue: -currentIndex * width,
-                    useNativeDriver: false,
-                }).start();
-            }
-        }
-    }, [onSwipeTab, currentIndex, translateX]);
+    const onHandlerStateChange = PanResponder.create({
+        onStartShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponder: () => true,
+        onPanResponderMove: (event, gestureState) => {
+          translateX.setValue(-currentIndex * width + gestureState.dx);
+        },
+        onPanResponderRelease: (event, gestureState) => {
+          if (gestureState.dx < -50) {
+            onSwipeTab('next');
+          } else if (gestureState.dx > 50) {
+            onSwipeTab('previous');
+          } else {
+            Animated.spring(translateX, {
+              toValue: -currentIndex * width,
+              useNativeDriver: false,
+            }).start();
+          }
+        },
+      });
 
     return (
         <View className="h-full w-full">
