@@ -11,7 +11,7 @@ import * as schema from "./schema"
 
 
 
-const client = neon(process.env.EXPO_PUBLIC_DATABASE_URL as string);
+const client = neon(process.env.EXPO_SECRET_DATABASE_URL as string);
 const db = drizzle(client, { schema });
 
 

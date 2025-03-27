@@ -13,7 +13,7 @@ export const signIn = async (): Promise<{error? : string, success? : string, tok
     await GoogleSignin.hasPlayServices();
     const response = await GoogleSignin.signIn();
     if (isSuccessResponse(response)) {
-      console.log(response.data)
+      console.log(process.env.EXPO_SECRET_JWT_TOKEN)
       console.log(response.data?.user)
 
       const res = await loginWithGoogle(response.data?.user)
@@ -53,8 +53,10 @@ const loginWithGoogle = async (values) => {
       where: eq(userTable.email, values.email)
     })
 
+    const usedToken = process.env.EXPO_SECRET_JWT_TOKEN
+    console.log("Mein Token:" + usedToken)
     if (findExistingUser) {
-      const usedSecret = "77375149353387154508860974358780";
+      
       const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
 
 
@@ -62,15 +64,15 @@ const loginWithGoogle = async (values) => {
         userId: findExistingUser.id,
         exp: oneMonthInMilliseconds
       },
-        usedSecret
+        usedToken
       )
-
+      
       return generatedTokenJWT
     } else {
       await createAccount(values.email, values.photo, values.givenName);
       const res = await loginWithGoogle(values)
 
-      const usedSecret = "77375149353387154508860974358780";
+      
       const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
 
 
@@ -78,8 +80,10 @@ const loginWithGoogle = async (values) => {
         userId: res,
         exp: oneMonthInMilliseconds
       },
-        usedSecret
+        usedToken
       )
+
+      
 
       return generatedTokenJWT;
     }

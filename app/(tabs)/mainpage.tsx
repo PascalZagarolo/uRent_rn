@@ -314,12 +314,12 @@ const onFav = async (inseratId: string) => {
                             )}
                             {inserate.length > 5 && (
                                 <View className="p-2">
-                                    <PaginationComponent
-                                        currentPage={currentPage}
-                                        inserateLength={inserate.length ?? 0}
-                                        onPageSwitch={onPageSwitch}
-                                    />
-                                </View>
+                                <PaginationComponent
+                                    currentPage={currentPage}
+                                    inserateLength={inserate.length ?? 0}
+                                    onPageSwitch={onPageSwitch}
+                                />
+                            </View>
                             )}
                             {/* <View className="mt-4">
                                 <Footer />

@@ -11,9 +11,8 @@ export async function getCurrentUser(jwtString : string) {
 
 
     try {
-
-        
-        const decodedToken = await JWT.decode(jwtString, process.env.EXPO_PUBLIC_JWT_TOKEN as string);
+       
+        const decodedToken = await JWT.decode(jwtString, process.env.EXPO_SECRET_JWT_TOKEN);
        
         
 
@@ -37,7 +36,7 @@ export async function getCurrentUser(jwtString : string) {
         return retrievedUser;
 
     } catch(e : any) {
-        console.log(e + "11");
+        console.log(e);
         return false;
     } 
 }

@@ -9,7 +9,7 @@ export const login = async (email : string, password : string) => {
     'use server'
     try {
         
-    
+        console.log(process.env.EXPO_SECRET_JWT_TOKEN)
         const findUser = await db.query.userTable.findFirst({
             where : eq(userTable.email , email),
         })
@@ -25,7 +25,7 @@ export const login = async (email : string, password : string) => {
             return {error : "Falsches Passwort"};
         }
 
-        console.log("Richtiges Password");
+        
 
     } catch(e : any) {
         console.log(e);

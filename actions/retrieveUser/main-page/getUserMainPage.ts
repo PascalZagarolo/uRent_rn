@@ -13,7 +13,7 @@ export async function getCurrentUserMainPage(jwtString : string) {
     try {
 
         
-        const decodedToken = await JWT.decode(jwtString, process.env.EXPO_PUBLIC_JWT_TOKEN as string);
+        const decodedToken = await JWT.decode(jwtString, process.env.EXPO_SECRET_JWT_TOKEN as string);
        
         
 
