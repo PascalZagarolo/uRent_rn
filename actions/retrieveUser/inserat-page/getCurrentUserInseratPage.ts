@@ -16,7 +16,7 @@ export async function getCurrentUserInseratPage(jwtString : string) {
             return false;
         }
         
-        const decodedToken = await JWT.decode(jwtString, process.env.EXPO_PUBLIC_JWT_TOKEN as string);
+        const decodedToken = await JWT.decode(jwtString, process.env.EXPO_SECRET_JWT_TOKEN);
        
         
         if(!decodedToken?.userId) {
