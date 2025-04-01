@@ -93,7 +93,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                     <View className="w-full  p-4 py-4">
                         <View className="flex flex-row gap-x-2">
                             <View>
-                                <FontAwesome name="location-arrow" size={20} color="red" />
+                                <FontAwesome name="map-marker" size={20} color="red" />
                             </View>
                             <Text className="text-base font-semibold text-gray-200 line-clamp-1 w-10/12 break-all" numberOfLines={1}>
                                 {//@ts-ignore

@@ -45,11 +45,11 @@ const SettingsPage = () => {
                                 currentUser={currentUser}
                             />
                         </View>
-                        <View className="mt-8 p-4">
+                        {/* <View className="mt-8 p-4">
                             <ViewsAndNotifications
                                 currentUser={currentUser}
                             />
-                        </View>
+                        </View> */}
                         <View className="mt-8 p-4">
                             <PrivacyPart
                                 currentUser={currentUser}

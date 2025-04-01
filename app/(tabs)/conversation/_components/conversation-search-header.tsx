@@ -1,3 +1,4 @@
+import { cn } from "@/~/lib/utils";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
@@ -8,14 +9,20 @@ import { TextInput } from "react-native-gesture-handler";
 interface ConversationSearchHeaderProps {
     currentConversationsLength : number;
     setCurrentTag : (tag : string) => void;
+    setShowUnseenChats : (boolean) => void;
+    showOnlyUnseen : boolean
 }
 
 const ConversationSearchHeader : React.FC<ConversationSearchHeaderProps> = ({
     currentConversationsLength,
-    setCurrentTag
+    setCurrentTag,
+    setShowUnseenChats,
+    showOnlyUnseen
 }) => {
     
     const [search, setSearch] = useState("");
+
+    
 
     const onPress = () => {
         setCurrentTag(search)
@@ -55,13 +62,22 @@ const ConversationSearchHeader : React.FC<ConversationSearchHeaderProps> = ({
                 </View>
             </View>
             <View className="p-4 w-full flex flex-row items-center justify-evenly">
-                <TouchableOpacity className="bg-indigo-800 p-2 rounded-md">
-                    <Text className="text-sm text-gray-200 font-semibold">
+                <TouchableOpacity className={cn("bg-indigo-800 p-2 rounded-md",
+                    !showOnlyUnseen && "bg-indigo-800/40"
+                )}
+                onPress={() => setShowUnseenChats(false)}
+                >
+                    <Text className={cn("text-sm text-gray-200 font-semibold",
+                        !showOnlyUnseen && "text-gray-200/40")}>
                         Alle
                     </Text>
                 </TouchableOpacity>
-                <TouchableOpacity className="bg-indigo-800 p-2 rounded-md">
-                    <Text className="text-sm text-gray-200 font-semibold">
+                <TouchableOpacity className={cn("bg-indigo-800 p-2 rounded-md",
+                                        showOnlyUnseen && "bg-indigo-800/40")}
+                onPress={() => setShowUnseenChats(true)}
+                >
+                    <Text className={cn("text-sm text-gray-200 font-semibold",
+                                        showOnlyUnseen && "text-gray-200/40")}>
                         Ungelesen
                     </Text>
                 </TouchableOpacity>
