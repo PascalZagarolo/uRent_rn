@@ -21,6 +21,7 @@ import Toast from "react-native-toast-message";
 import { deleteFavourite } from "@/actions/favourites/delete-favourite";
 import PaginationComponent from "@/components/_searchpage/_components/pagination";
 import { getInserate } from "@/actions/getInserate";
+import InseratSkeleton from "@/components/_searchpage/_components/inserat-skeleton";
 
 
 
@@ -41,6 +42,8 @@ const MainPage = () => {
         const load = async () => {
 
             try {
+                setIsLoading(true);
+
                 const res = await getInserate({
                     title: params?.["title"] as string,
                     thisCategory: params?.["category"] as any,
@@ -108,6 +111,8 @@ const MainPage = () => {
                 setInserate(res);
             } catch (e: any) {
                 console.log(e);
+            } finally {
+                setIsLoading(false)
             }
         }
 
@@ -138,7 +143,7 @@ const MainPage = () => {
 
     }, [])
 
-    const onPageSwitch = (newPage : number) => {
+    const onPageSwitch = (newPage: number) => {
         setCurrentPage(newPage)
         scrollViewRef.current?.scrollTo({ y: 0, animated: true });
     }
@@ -174,50 +179,50 @@ const MainPage = () => {
     const router = useRouter();
 
 
-   
 
-const onFav = async (inseratId: string) => {
-    try {
-        if (isLoading) return;
-        
-        setIsLoading(true);
 
-        if (!currentUser) {
-            return router.push('/login');
-        }
+    const onFav = async (inseratId: string) => {
+        try {
+            if (isLoading) return;
 
-        const authToken = await SecureStore.getItemAsync("authToken");
+            setIsLoading(true);
 
-        if (favs.find((fav: any) => fav.inseratId == inseratId)) {
-            await deleteFavourite(authToken, inseratId);
-            setFavs(favs.filter((fav: any) => fav.inseratId != inseratId));
+            if (!currentUser) {
+                return router.push('/login');
+            }
+
+            const authToken = await SecureStore.getItemAsync("authToken");
+
+            if (favs.find((fav: any) => fav.inseratId == inseratId)) {
+                await deleteFavourite(authToken, inseratId);
+                setFavs(favs.filter((fav: any) => fav.inseratId != inseratId));
+                Toast.show({
+                    type: 'success',
+                    text1: 'Favorit entfernt',
+                    text2: 'Das Inserat wurde aus deinen Favoriten entfernt'
+                });
+            } else {
+                await addFavourite(authToken, inseratId);
+                setFavs([...favs, { inseratId }]);
+                Toast.show({
+                    type: 'success',
+                    text1: 'Favorit hinzugefügt',
+                    text2: 'Das Inserat wurde zu deinen Favoriten hinzugefügt'
+                });
+            }
+        } catch (e: any) {
             Toast.show({
-                type: 'success',
-                text1: 'Favorit entfernt',
-                text2: 'Das Inserat wurde aus deinen Favoriten entfernt'
+                type: 'error',
+                text1: 'Fehler',
+                text2: 'Favorit konnte nicht hinzugefügt werden'
             });
-        } else {
-            await addFavourite(authToken, inseratId);
-            setFavs([...favs, { inseratId }]);
-            Toast.show({
-                type: 'success',
-                text1: 'Favorit hinzugefügt',
-                text2: 'Das Inserat wurde zu deinen Favoriten hinzugefügt'
-            });
+        } finally {
+            setIsLoading(false);
         }
-    } catch (e: any) {
-        Toast.show({
-            type: 'error',
-            text1: 'Fehler',
-            text2: 'Favorit konnte nicht hinzugefügt werden'
-        });
-    } finally {
-        setIsLoading(false);
-    }
-}; // Limits calls to once every 3 seconds
+    }; // Limits calls to once every 3 seconds
 
 
-  
+
 
 
     return (
@@ -275,7 +280,7 @@ const onFav = async (inseratId: string) => {
                             )
                         }}
                     >
-                        
+
 
 
                         <Header
@@ -298,32 +303,49 @@ const onFav = async (inseratId: string) => {
                                     currentResults={inserate.length as number}
                                 />
                             </View>
-                            {inserate.length > 0 ? (
-                                inserate.slice(0 + ((currentPage - 1) * 5), 5 + ((currentPage - 1) * 5)).map((pInserat: any) => (
-                                    <View key={pInserat?.id} className="mb-4">
-                                        <InseratCard thisInserat={pInserat} currentUser={currentUser} onFav={(inseratId: string) => { onFav(inseratId) }}
-                                            isFaved={favs.find((fav: any) => fav.inseratId == pInserat?.id)} />
-                                    </View>
+                            {isLoading ? (
+                                Array.from({ length: 10 }).map((_, index) => (
+                                    <InseratSkeleton 
+                                    key={index}
+                                    />
                                 ))
+                            ) : inserate.length > 0 ? (
+                                <>
+                                    {inserate
+                                        .slice((currentPage - 1) * 5, currentPage * 5)
+                                        .map((pInserat: any) => (
+                                            <View key={pInserat?.id} className="mb-4">
+                                                <InseratCard
+                                                    thisInserat={pInserat}
+                                                    currentUser={currentUser}
+                                                    onFav={(inseratId: string) => {
+                                                        onFav(inseratId);
+                                                    }}
+                                                    isFaved={favs.find(
+                                                        (fav: any) => fav.inseratId === pInserat?.id
+                                                    )}
+                                                />
+                                            </View>
+                                        ))}
+                                    {inserate.length > 5 && (
+                                        <View className="p-2">
+                                            <PaginationComponent
+                                                currentPage={currentPage}
+                                                inserateLength={inserate.length ?? 0}
+                                                onPageSwitch={onPageSwitch}
+                                            />
+                                        </View>
+                                    )}
+                                </>
                             ) : (
                                 <View className="flex flex-row items-center w-full justify-center p-8">
                                     <Text className="text-base text-gray-200/60">
-                                    Keine passenden Inserate gefunden..
-                                </Text>
+                                        Keine passenden Inserate gefunden..
+                                    </Text>
                                 </View>
                             )}
-                            {inserate.length > 5 && (
-                                <View className="p-2">
-                                <PaginationComponent
-                                    currentPage={currentPage}
-                                    inserateLength={inserate.length ?? 0}
-                                    onPageSwitch={onPageSwitch}
-                                />
-                            </View>
-                            )}
-                            {/* <View className="mt-4">
-                                <Footer />
-                            </View> */}
+
+
 
 
 
