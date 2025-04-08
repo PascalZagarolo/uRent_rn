@@ -207,28 +207,29 @@ const InseratRender: React.FC<InseratRenderProps> = ({
 
                 <View className="py-2">
                     <InseratOptions
+                        phoneNumber={thisInserat?.phoneNumber ?? null}
                         inseratId={thisInserat?.id}
                         currentUserId={currentUserId}
                         inseratUserId={thisInserat?.userId}
                         isFaved={isFaved}
                     />
                 </View>
-                <View>
+                <View className="mt-4">
                     <InseratPriceProfiles
                         thisInserat={thisInserat}
                     />
                 </View>
-                <View className="p-4">
+                <View className="p-4 mt-4">
                     <InseratConditions
                         thisInserat={thisInserat}
                     />
                 </View>
-                <View className="p-4">
+                <View className="p-4 mt-4">
                     <InseratContactOptions
                         thisInserat={thisInserat}
                     />
                 </View>
-                <View className="p-4">
+                <View className="p-4 ">
                     <InseratDescription
                         description={thisInserat?.description}
                     />
