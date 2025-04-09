@@ -62,7 +62,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                         {thisInserat.title}
                     </Text>
                     <TouchableOpacity
-                        className="w-1/12"
+                        className="w-1/12 justify-end ml-auto flex flex-row"
                         onPress={(e) => {
                             e.preventDefault();
                             e.stopPropagation(); // Prevents the event from reaching the parent
@@ -87,7 +87,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                             uri: thisInserat.images[0].url
                         }}
                     />
-
+                
                 </View>
                 <View className=" bg-[#262a3bc5] ">
                     <View className="w-full  p-4 py-4">
@@ -111,7 +111,7 @@ const InseratCard: React.FC<InseratCardProps> = ({
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity className="flex flex-row py-2.5 px-2 items-center gap-x-4 bg-[#1d1e25d7]"
+                <TouchableOpacity className="flex flex-row py-2.5 px-2 sm:px-0 items-center gap-x-4 sm:gap-x-0 sm:w-full bg-[#1d1e25d7]"
                     onPress={() => { router.push(`/profile/${thisInserat?.user?.id}`) }}
                 >
                     <View className="flex ">

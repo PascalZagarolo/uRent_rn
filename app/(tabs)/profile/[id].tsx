@@ -82,7 +82,7 @@ const ProfilePage = () => {
             }
 
             if(thisUser?.isBusiness) {
-                setBannerUrl(thisUser?.business.businessImages[0].url)
+                setBannerUrl(thisUser?.business.businessImages[0]?.url)
             }
         } catch (e: any) {
             console.log(e);
@@ -133,7 +133,7 @@ const ProfilePage = () => {
 
     return (
 <SafeAreaView className=" bg-[#181b27]">
-        <View className=" bg-[#181b27] h-full">
+        <View className=" bg-[#181b27] h-full sm:max-w-[600px] mx-auto">
             
                 <View className="border-b border-gray-800 p-4 bg-[#181b27] space-x-4 flex flex-row items-center">
                     <TouchableOpacity className="" onPress={() => {router.back()}}>
@@ -146,7 +146,7 @@ const ProfilePage = () => {
            
 
 
-            {user && (
+                {user && (
                 <ProfileRender
                     thisUser={user}
                     isOwner={isOwner}

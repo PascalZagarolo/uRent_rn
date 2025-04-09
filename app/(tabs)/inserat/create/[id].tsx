@@ -332,7 +332,7 @@ const InseratCreationPage = () => {
     
 
     return (
-        <SafeAreaView className=" flex flex-col w-full h-full bg-[#161923]" >
+        <SafeAreaView className=" flex flex-col w-full  h-full bg-[#161923]" >
             <View className="p-4 flex flex-row items-center space-x-4">
                 <TouchableOpacity onPress={() => router.back()}>
                     <FontAwesome name="chevron-left" size={24} color="white" />
