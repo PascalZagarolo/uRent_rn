@@ -1,9 +1,9 @@
 import { inserat, userTable } from "@/db/schema";
 import { FontAwesome, FontAwesome5, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Image, Text, View, TouchableOpacity } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 
 import { useRouter } from "expo-router";
-
+import { Image } from 'expo-image';
 import placeholderPicture from "@/assets/images";
 
 
