@@ -5,13 +5,15 @@ import { View, Text, SafeAreaView } from "react-native";
 
 const LoginPage = () => {
     return (
-        <SafeAreaView className="flex-1 items-center justify-center bg-[#1F2332]">
+        <View className="bg-[#1F2332] h-full w-full">
+            <SafeAreaView className="flex-1 items-center justify-center bg-[#1F2332] sm:max-w-[600px] w-full mx-auto">
             <BackToMain />
 
 <View className="px-4">
     <MainForm />
 </View>
         </SafeAreaView>
+        </View>
     );
 }
 
