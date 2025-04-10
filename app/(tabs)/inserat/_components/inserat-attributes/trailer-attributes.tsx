@@ -11,19 +11,28 @@ const TrailerAttributeRender: React.FC<TrailerAttributeRenderProps> = ({ attribu
     let colorIndex = 0;
 
     const attributeList = [
-        { condition: attributes?.type, icon: "caravan", label: attributes?.type, component: MaterialCommunityIcons },
-        { condition: attributes?.extraType, icon: "caravan", label: attributes?.extraType, component: FontAwesome6 },
-        { condition: attributes?.coupling, icon: "gear", label: attributes?.coupling, component: FontAwesome },
-        { condition: attributes?.loading, icon: "crane", label: attributes?.loading, component: MaterialCommunityIcons },
+        { condition: attributes?.type, icon: "caravan", label: attributes?.type.slice(0,1) + attributes?.type?.slice(1)?.toLowerCase() , component: MaterialCommunityIcons },
+        { condition: attributes?.extraType, icon: "caravan", label: attributes?.extraType?.slice(0,1) + attributes?.extraType?.slice(1).toLowerCase(), component: FontAwesome6 },
+        { condition: attributes?.coupling, icon: "gear", label: attributes?.coupling?.slice(0,1) + attributes?.coupling?.slice(1).toLowerCase(), component: FontAwesome },
+        { condition: attributes?.loading, icon: "crane", label: attributes?.loading?.slice(0,1) + attributes?.loading?.slice(1).toLowerCase(), component: MaterialCommunityIcons },
         { condition: attributes?.axis, icon: "axis", label: { '1': "Einachser", '2': "Zweiachser", '3': "Dreiachser", '4': "Vierachser", '5': " > 4 Achsen" }[attributes?.axis], component: MaterialCommunityIcons },
         { condition: attributes?.weightClass, icon: "weight", label: { '75': " bis 0,75 t", '150': " bis 1,5 t", '280': " bis 2,8 t", '350': " bis 3,5 t", '750': " bis 7,5 t", '1200': " bis 12 t", '1800': " bis 18 t", '2600': " bis 26 t", '3200': " bis 32 t", '3900': " bis 39 t", '5000': " > 39 t" }[attributes?.weightClass], component: MaterialCommunityIcons },
         { condition: attributes?.brake, icon: "car-brake-worn-linings", label: attributes?.brake ? "Hat Auflaufbremse" : "Keine Bremse", component: MaterialCommunityIcons },
         { condition: attributes?.loading_volume, icon: "cube", label: `${attributes.loading_volume} l`, component: Ionicons },
-        { condition: attributes?.loading_l || attributes?.loading_b || attributes?.loading_h, icon: "arrow-resize", label: `${attributes?.loading_l} x ${attributes?.loading_b} x ${attributes?.loading_h} m`, component: Fontisto }
+        {
+            condition: attributes?.loading_l || attributes?.loading_b || attributes?.loading_h,
+            icon: "arrow-resize",
+            label: [attributes?.loading_l, attributes?.loading_b, attributes?.loading_h]
+              .map(v => (v !== undefined && v !== null && v !== "" ? `${Number(v).toFixed(2)} m` : null))
+              .filter(Boolean)
+              .join(" x "),
+            component: Fontisto
+          }
+          
     ];
 
     return (
-        <View className="w-full grid grid-cols-2 gap-2 mt-4 text-gray-200">
+        <View className="w-full grid grid-cols-2 gap-y-2 mt-4 text-gray-200">
             {attributeList.map(({ condition, icon, label, component: IconComponent }) => {
                 if (!condition) return null;
                 const color = iconColors[colorIndex % iconColors.length]; // Cycle through colors

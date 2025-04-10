@@ -24,7 +24,7 @@ const PkwAttributeRender: React.FC<PkwAttributeRenderProps> = ({ attributes }) =
     ];
 
     return (
-        <View className="w-full grid grid-cols-2 gap-2 mt-4 text-gray-200">
+        <View className="w-full grid grid-cols-2 gap-y-2 mt-4 text-gray-200">
             {attributeList.map(({ condition, icon, label, component: IconComponent }) => {
                 if (!condition) return null;
                 const color = iconColors[colorIndex % iconColors.length]; // Cycle through colors

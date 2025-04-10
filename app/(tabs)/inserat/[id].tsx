@@ -124,7 +124,7 @@ const InseratPage = () => {
 
   return (
     <SafeAreaView className="bg-[#161923] flex-1 h-full w-full ">
-      <ScrollView className="sm:max-w-[600px] mx-auto">
+      <ScrollView className="sm:max-w-[600px] mx-auto w-full">
       {thisInserat ? (
           <InseratRender
             thisInserat={thisInserat}
