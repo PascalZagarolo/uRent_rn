@@ -273,6 +273,7 @@ const MainPage = () => {
                             return (
                                 <DrawerContentProfile
                                     currentUser={currentUser}
+                                    deleteCurrentUser={() => setCurrentUser(null)}
                                     closeModal={
                                         () => setIsDrawerVisible(false)
                                     }
@@ -289,60 +290,60 @@ const MainPage = () => {
                             currentUser={currentUser}
                         />
 
-<ScrollView className="sm:w-full" ref={scrollViewRef}>
-  <View className="sm:max-w-[600px] w-full mx-auto">
-    <View className="mt-4 px-2 justify-center flex">
-      <SearchBar />
-    </View>
+                        <ScrollView className="sm:w-full" ref={scrollViewRef}>
+                            <View className="sm:max-w-[600px] w-full mx-auto">
+                                <View className="mt-4 px-2 justify-center flex">
+                                    <SearchBar />
+                                </View>
 
-    <View className="p-2">
-      <FilterBubbles
-        toggleFilter={toggleFilter}
-        currentResults={inserate.length as number}
-      />
-    </View>
+                                <View className="p-2">
+                                    <FilterBubbles
+                                        toggleFilter={toggleFilter}
+                                        currentResults={inserate.length as number}
+                                    />
+                                </View>
 
-    {isLoading ? (
-      Array.from({ length: 10 }).map((_, index) => (
-        <InseratSkeleton key={index} />
-      ))
-    ) : inserate.length > 0 ? (
-      <>
-        {inserate
-          .slice((currentPage - 1) * 5, currentPage * 5)
-          .map((pInserat: any) => (
-            <View key={pInserat?.id} className="mb-4">
-              <InseratCard
-                thisInserat={pInserat}
-                currentUser={currentUser}
-                onFav={(inseratId: string) => {
-                  onFav(inseratId);
-                }}
-                isFaved={favs.find(
-                  (fav: any) => fav.inseratId === pInserat?.id
-                )}
-              />
-            </View>
-          ))}
-        {inserate.length > 5 && (
-          <View className="p-2">
-            <PaginationComponent
-              currentPage={currentPage}
-              inserateLength={inserate.length ?? 0}
-              onPageSwitch={onPageSwitch}
-            />
-          </View>
-        )}
-      </>
-    ) : (
-      <View className="flex flex-row items-center w-full justify-center p-8">
-        <Text className="text-base text-gray-200/60">
-          Keine passenden Inserate gefunden..
-        </Text>
-      </View>
-    )}
-  </View>
-</ScrollView>
+                                {isLoading ? (
+                                    Array.from({ length: 10 }).map((_, index) => (
+                                        <InseratSkeleton key={index} />
+                                    ))
+                                ) : inserate.length > 0 ? (
+                                    <>
+                                        {inserate
+                                            .slice((currentPage - 1) * 5, currentPage * 5)
+                                            .map((pInserat: any) => (
+                                                <View key={pInserat?.id} className="mb-4">
+                                                    <InseratCard
+                                                        thisInserat={pInserat}
+                                                        currentUser={currentUser}
+                                                        onFav={(inseratId: string) => {
+                                                            onFav(inseratId);
+                                                        }}
+                                                        isFaved={favs.find(
+                                                            (fav: any) => fav.inseratId === pInserat?.id
+                                                        )}
+                                                    />
+                                                </View>
+                                            ))}
+                                        {inserate.length > 5 && (
+                                            <View className="p-2">
+                                                <PaginationComponent
+                                                    currentPage={currentPage}
+                                                    inserateLength={inserate.length ?? 0}
+                                                    onPageSwitch={onPageSwitch}
+                                                />
+                                            </View>
+                                        )}
+                                    </>
+                                ) : (
+                                    <View className="flex flex-row items-center w-full justify-center p-8">
+                                        <Text className="text-base text-gray-200/60">
+                                            Keine passenden Inserate gefunden..
+                                        </Text>
+                                    </View>
+                                )}
+                            </View>
+                        </ScrollView>
 
                     </Drawer>
                 </Drawer>

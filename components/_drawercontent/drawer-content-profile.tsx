@@ -13,11 +13,13 @@ import { useAuth } from "@/app/(tabs)/AuthProvider";
 
 interface DrawerContentProfileProps {
     currentUser: typeof userTable.$inferSelect;
+    deleteCurrentUser : () => void;
     closeModal: () => void;
 }
 
 const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
     currentUser,
+    deleteCurrentUser,
     closeModal
 }) => {
 
@@ -27,28 +29,32 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
 
     const logOutModal = () => {
         closeModal();
-        setTimeout(() => {
+        
             setShowDialog(true);
-        }, 1)
+        
     }
 
-    const { refetchUser } = useAuth();
+    
 
     const onLogOut = async () => {
         try {
             setShowDialog(false);
             await SecureStore.deleteItemAsync("authToken");
-            await refetchUser();
-            setTimeout(() => {
-                Toast.show({
-                    type: 'success',
-                    text1: 'Erfolgreich ausgeloggt',
-                    text2: "Bis bald! 👋",
-                    
-                  });
-        }, 10)
-        } catch(e : any) {
+            
+            Toast.show({
+                type: 'success',
+                text1: 'Erfolgreich ausgeloggt',
+                text2: "Bis bald! 👋",
 
+            });
+            deleteCurrentUser();
+        } catch (e: any) {
+            Toast.show({
+                type: 'error',
+                text1: 'Etwas ist schiefgelaufen.',
+                text2: "",
+
+            });
         }
     }
 
@@ -88,7 +94,7 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
 
                     <View className="mt-4">
                         <TouchableOpacity className="flex flex-row items-center space-x-4   p-4  rounded-md"
-                        onPress={() => { router.push(`/dashboard/${currentUser?.id}`) }}
+                            onPress={() => { router.push(`/dashboard/${currentUser?.id}`) }}
                         >
                             <FontAwesome6 name="arrow-trend-up" size={20} color="white" />
                             <Text className="text-sm text-gray-200 font-semibold">
@@ -110,7 +116,7 @@ const DrawerContentProfile: React.FC<DrawerContentProfileProps> = ({
 
                     <View className="mt-4">
                         <TouchableOpacity className="flex flex-row items-center space-x-4  p-4  rounded-md"
-                        onPress={() => {router.push('/pricing')}}
+                            onPress={() => { router.push('/pricing') }}
                         >
                             <Ionicons name="pricetags" size={20} color="white" />
                             <Text className="text-sm text-gray-200 font-semibold">

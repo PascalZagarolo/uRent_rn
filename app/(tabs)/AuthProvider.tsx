@@ -58,6 +58,7 @@ export const AuthProvider = ({ children }) => {
             console.error("Failed to retrieve current user2:", error);
         }
     }
+    
 
     return (
         <AuthProviderContext.Provider value={{currentUser , setCurrentUser, isLoading, refetchUser}}>
