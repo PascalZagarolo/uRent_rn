@@ -3,7 +3,7 @@ import { userTable } from "@/db/schema";
 import { GoogleSignin, isErrorWithCode, isSuccessResponse, statusCodes } from "@react-native-google-signin/google-signin";
 import { eq } from "drizzle-orm";
 import JWT from "expo-jwt";
-import { getCurrentUser } from "../getCurrentUser";
+
 
 
 // Somewhere in your code
@@ -13,8 +13,7 @@ export const signIn = async (): Promise<{error? : string, success? : string, tok
     await GoogleSignin.hasPlayServices();
     const response = await GoogleSignin.signIn();
     if (isSuccessResponse(response)) {
-      console.log(process.env.EXPO_SECRET_JWT_TOKEN)
-      console.log(response.data?.user)
+      
 
       const res = await loginWithGoogle(response.data?.user)
       return { token: res }
@@ -36,7 +35,7 @@ export const signIn = async (): Promise<{error? : string, success? : string, tok
           console.log('Play services not available');
           break;
         default:
-          console.log(error);
+          console.log(error.code + error.message + error.name + error?.cause);
       }
     } else {
       console.log("...")
@@ -54,7 +53,7 @@ const loginWithGoogle = async (values) => {
     })
 
     const usedToken = process.env.EXPO_SECRET_JWT_TOKEN
-    console.log("Mein Token:" + usedToken)
+    
     if (findExistingUser) {
       
       const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
