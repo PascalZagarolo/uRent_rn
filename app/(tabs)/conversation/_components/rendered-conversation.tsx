@@ -29,31 +29,42 @@ const RenderedConversation: React.FC<RenderedConversationProps> = ({
     const lastMessageFromMe = lastMessage?.senderId === currentUser.id;
 
     const unseenMessages = thisConversation?.messages.filter((pMessage) => {
-        if(!pMessage?.seen && otherUser?.id == pMessage?.senderId) {
+        if (!pMessage?.seen && otherUser?.id == pMessage?.senderId) {
             return pMessage;
         }
     })
 
     return (
-        <TouchableOpacity className="border-b border-gray-800 py-4 px-2"
+        <TouchableOpacity className="border-b border-gray-800 py-4 px-4"
             onPress={() => {
                 router.push(`/conversation/${thisConversation.id}`)
             }}
         >
             <View className="flex flex-row items-center">
                 <View className="w-2/12">
-                    
-                        <Image
-                            source={{ uri: otherUser.image ? otherUser?.image : placeholderPicture }}
-                            className="w-10 h-10 rounded-full"
-                        />
-                    
+
+                    <Image
+                        source={{ uri: otherUser.image ? otherUser?.image : placeholderPicture }}
+                        className="w-10 h-10 rounded-full"
+                    />
+
                 </View>
                 <View className="w-10/12 flex flex-col">
                     <View className="flex flex-row ">
-                        <Text className="text-base text-gray-200 font-semibold w-10/12 line-clamp-1" numberOfLines={1}>
-                            {otherUser?.name} 
-                        </Text>
+                        {thisConversation?.inseratId ? (
+                            <View className="w-10/12">
+                                <Text className="text-base text-indigo-400 font-semibold w-full line-clamp-1" numberOfLines={1}>
+                                {thisConversation?.inserat?.title}
+                            </Text>
+                            <Text className="text-sm text-gray-200/80 font-medium w-full line-clamp-1" numberOfLines={1}>
+                                {otherUser?.name}
+                            </Text>
+                            </View>
+                        ) : (
+                            <Text className="text-base text-gray-200 font-semibold w-10/12 line-clamp-1" numberOfLines={1}>
+                                {otherUser?.name}
+                            </Text>
+                        )}
                         {lastMessage && (
                             <Text className="text-xs text-gray-200/60 font-semibold">
                                 {format(new Date(lastMessage?.createdAt), "HH:mm")}
@@ -65,7 +76,7 @@ const RenderedConversation: React.FC<RenderedConversationProps> = ({
                             {lastMessageFromMe && "Ich: "} {lastMessage?.content ? lastMessage.content :
                                 "Hat ein Foto gesendet."}
                         </Text>
-                        {(!lastMessage?.seen && otherUser?.id == lastMessage?.senderId)  && (
+                        {(!lastMessage?.seen && otherUser?.id == lastMessage?.senderId) && (
                             <View className="py-0.5 px-1  rounded-full bg-rose-600 justify-end ml-auto mr-8">
                                 <Text className="text-gray-200 text-xs font-semibold">
                                     {unseenMessages?.length > 9 ? "9+" : unseenMessages?.length}

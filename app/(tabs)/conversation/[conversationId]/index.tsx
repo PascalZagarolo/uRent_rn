@@ -117,6 +117,7 @@ const ConversationChatPage = () => {
                 drawerType="front"
                 renderDrawerContent={() => (
                     <DrawerContentProfile currentUser={currentUser}
+                        deleteCurrentUser={() => {}}
                         closeModal={
                             () => setIsDrawerVisible(false)
                         }
@@ -128,17 +129,18 @@ const ConversationChatPage = () => {
                 <Header currentUser={currentUser} toggleDrawer={toggleDrawer} />
                 {(currentConversation && otherUser) && (
                     <ConversationHeader
+                    inseratTitle={currentConversation?.inseratId ? currentConversation?.inserat?.title : null}
                     username={otherUser?.name}
                     imageUrl={otherUser?.image}
                 />
                 )}
 
                 {/* Message List */}
-                <ScrollView className=" px-4  bg-[#222639]"
+                <ScrollView className=" px-4  bg-[#222639] "
                     ref={scrollViewRef}
                 >
                     {renderedMessages.slice(renderedMessages.length - 10, renderedMessages.length).map((message, index) => (
-                        <View className="w-full" key={index}>
+                        <View className="w-full mt-4" key={index}>
                             <MessageRender
                                 content={message.content}
                                 imageUrl={message.image}

@@ -1,6 +1,6 @@
 import { conversation } from "@/db/schema";
 import { useEffect, useMemo, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import RenderedConversation from "./rendered-conversation";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 

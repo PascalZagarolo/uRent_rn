@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { SafeAreaView, Text, View, TouchableOpacity, ActivityIndicator, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { SafeAreaView, Text, View, TouchableOpacity, ActivityIndicator, ScrollView, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Platform } from "react-native";
 import BasicDetails from "./_components/parts/basic-details";
 import { FontAwesome } from "@expo/vector-icons";
 import { useLocalSearchParams, useRouter } from "expo-router";
@@ -28,6 +28,7 @@ import SaveInseratPage from "./_components/parts/save-inserat-page";
 import AddressDetails2 from "./_components/parts/address-details-2";
 import { pkwAttribute } from '../../../../db/schema';
 import WeightAttributes from "./_components/parts/categories/weight-attributes";
+import { cn } from "@/~/lib/utils";
 
 const InseratCreationPage = () => {
     const { id } = useLocalSearchParams<{ id: string }>();
@@ -332,12 +333,15 @@ const InseratCreationPage = () => {
     
 
     return (
-        <SafeAreaView className=" flex flex-col w-full  h-full bg-[#161923]" >
-            <View className="p-4 flex flex-row items-center space-x-4">
+        <SafeAreaView className={cn(
+            " flex flex-col w-full  h-full bg-[#161923] py-8",
+            Platform.OS === "ios" ? "" : "pt-4"
+        )} >
+            <View className="p-4 py-12 flex flex-row items-center space-x-4">
                 <TouchableOpacity onPress={() => router.back()}>
-                    <FontAwesome name="chevron-left" size={24} color="white" />
+                    <FontAwesome name="chevron-left" size={20} color="white" />
                 </TouchableOpacity>
-                <Text className="text-2xl text-gray-200 font-semibold">
+                <Text className="text-xl text-gray-200 font-semibold">
                     Inserat erstellen
                 </Text>
             </View>

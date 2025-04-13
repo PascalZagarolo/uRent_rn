@@ -12,18 +12,86 @@ const LkwAttributeRender: React.FC<LkwAttributeRenderProps> = ({ attributes }) =
     let colorIndex = 0;
 
     const attributeList = [
-        { condition: attributes?.lkwBrand, icon: "truck-moving", label: attributes?.lkwBrand, component: FontAwesome5 },
-        { condition: attributes?.initial, icon: "construction", label: `Baujahr: ${format(new Date(attributes?.initial), "MM/yyyy")}`, component: MaterialIcons },
-        { condition: attributes?.application, icon: "truck-loading", label: attributes.application.charAt(0)?.toUpperCase() + attributes.application.slice(1).toLowerCase(), component: FontAwesome5 },
-        { condition: attributes?.loading, icon: "crane", label: attributes?.loading?.charAt(0)?.toUpperCase() + attributes?.loading?.slice(1)?.toLowerCase(), component: MaterialCommunityIcons },
-        { condition: attributes?.drive, icon: "gear", label: attributes?.drive?.slice(1) + `-Antrieb`, component: FontAwesome },
-        { condition: Number(attributes?.weightClass ?? 0) !== 0 && attributes?.weightClass != 0, icon: "weight", label: (attributes?.weightClass) + " kg zulässiges Gesamtgewicht", component: MaterialCommunityIcons },
-        { condition: attributes?.seats, icon: "couch", label: `${attributes.seats}-Sitzer`, component: FontAwesome5 },
-        { condition: attributes?.axis, icon: "axis", label: { '1': "Einachser", '2': "Zweiachser", '3': "Dreiachser", '4': "Vierachser", '5': " > 4 Achsen" }[attributes?.axis], component: MaterialCommunityIcons },
-        { condition: attributes?.power, icon: "engine", label: `${attributes.power} PS`, component: MaterialCommunityIcons },
-        { condition: attributes?.loading_volume, icon: "cube", label: `${attributes.loading_volume} l`, component: Ionicons },
-        { condition: attributes?.loading_l || attributes?.loading_b || attributes?.loading_h, icon: "arrow-resize", label: `${attributes?.loading_l} x ${attributes?.loading_b} x ${attributes?.loading_h} m`, component: Fontisto }
+        { 
+            condition: attributes?.lkwBrand, 
+            icon: "truck-moving", 
+            label: attributes?.lkwBrand, 
+            component: FontAwesome5 
+        },
+        { 
+            condition: attributes?.initial, 
+            icon: "construction", 
+            label: `Baujahr: ${format(new Date(attributes?.initial), "MM/yyyy")}`, 
+            component: MaterialIcons 
+        },
+        { 
+            condition: attributes?.application, 
+            icon: "truck-loading", 
+            label: typeof attributes?.application === 'string' 
+                ? attributes.application.charAt(0).toUpperCase() + attributes.application.slice(1).toLowerCase() 
+                : '', 
+            component: FontAwesome5 
+        },
+        { 
+            condition: attributes?.loading, 
+            icon: "crane", 
+            label: typeof attributes?.loading === 'string' 
+                ? attributes.loading.charAt(0).toUpperCase() + attributes.loading.slice(1).toLowerCase() 
+                : '', 
+            component: MaterialCommunityIcons 
+        },
+        { 
+            condition: attributes?.drive, 
+            icon: "gear", 
+            label: typeof attributes?.drive === 'string' && attributes.drive.length > 1 
+                ? attributes.drive.slice(1) + `-Antrieb` 
+                : '', 
+            component: FontAwesome 
+        },
+        { 
+            condition: Number(attributes?.weightClass ?? 0) !== 0, 
+            icon: "weight", 
+            label: `${attributes?.weightClass} kg zulässiges Gesamtgewicht`, 
+            component: MaterialCommunityIcons 
+        },
+        { 
+            condition: attributes?.seats, 
+            icon: "couch", 
+            label: `${attributes.seats}-Sitzer`, 
+            component: FontAwesome5 
+        },
+        { 
+            condition: attributes?.axis, 
+            icon: "axis", 
+            label: { 
+                '1': "Einachser", 
+                '2': "Zweiachser", 
+                '3': "Dreiachser", 
+                '4': "Vierachser", 
+                '5': " > 4 Achsen" 
+            }[attributes?.axis] || '', 
+            component: MaterialCommunityIcons 
+        },
+        { 
+            condition: attributes?.power, 
+            icon: "engine", 
+            label: `${attributes.power} PS`, 
+            component: MaterialCommunityIcons 
+        },
+        { 
+            condition: attributes?.loading_volume, 
+            icon: "cube", 
+            label: `${attributes.loading_volume} l`, 
+            component: Ionicons 
+        },
+        { 
+            condition: attributes?.loading_l || attributes?.loading_b || attributes?.loading_h, 
+            icon: "arrow-resize", 
+            label: `${attributes?.loading_l ?? '-'} x ${attributes?.loading_b ?? '-'} x ${attributes?.loading_h ?? '-'} m`, 
+            component: Fontisto 
+        }
     ];
+    
 
     return (
         <View className="w-full grid grid-cols-2 gap-y-2 mt-4 text-gray-200">

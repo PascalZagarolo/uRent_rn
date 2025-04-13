@@ -4,7 +4,7 @@ import React, { forwardRef, useEffect, useImperativeHandle, useState } from "rea
 import {
     Text, View, TouchableOpacity, KeyboardAvoidingView,
     Keyboard, TouchableWithoutFeedback,
-    Modal, Image,
+    Modal, 
     ScrollView
 } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
@@ -17,15 +17,16 @@ import Toast from "react-native-toast-message";
 import axios from "axios";
 import { getAxiosRequest } from "@/actions/inserat/images/axios-request";
 import mime from "mime";
-import { BoxSelectIcon, XIcon } from "lucide-react-native";
+
 import { cn } from "@/~/lib/utils";
 import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import { onlyReorderImages } from "@/actions/inserat/images/only-reorder-images";
+import { Image } from "expo-image";
 
 
 
 interface BasicDetails2Props {
-    thisInserat: typeof inserat.$inferSelect;
+    thisInserat: typeof inserat.$inferSelect & { images };
     refetchInserat: () => void;
 }
 
@@ -269,15 +270,29 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
 
             if (!result.canceled && result.assets && result.assets.length > 0) {
                 const uri = result.assets[0].uri;
-
+            
+                if (!uri) {
+                    Toast.show({
+                        type: 'error',
+                        text1: 'Ungültiges Bild',
+                        text2: 'Das Bild konnte nicht geladen werden.'
+                    });
+                    return;
+                }
+            
                 const newImage: PictureObject = {
                     url: uri,
                     position: currentPicture.length
                 };
-
-                setCurrentPicture([...currentPicture, newImage]);
-                setShowModal(false);
+            
+                try {
+                    setCurrentPicture((prev) => [...prev, newImage]);
+                    setShowModal(false);
+                } catch (err) {
+                    console.log("Error adding image:", err);
+                }
             }
+            
         } catch (e: any) {
             console.log("Error during image upload:", e);
         }
@@ -329,102 +344,11 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
         );
     };
 
-    return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss} className="h-full">
-            <View className="h-full">
-                <View className="flex flex-col items-center w-full">
-
-                    <View className="w-full">
-                        <TouchableOpacity className="w-full bg-[#232636] shadow-lg p-4 rounded-lg mt-4 
-                    flex-row items-center justify-center space-x-4 border "
-                            onPress={() => setShowModal(true)}
-                        >
-                            <View>
-                                <FontAwesome name="plus" size={20} color="#fff" />
-                            </View>
-                            <Text className="text-gray-200/90 text-base font-semibold">
-                                Bilder hinzufügen ({currentPicture.length} / 20)
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
-                    {currentPicture.length > 0 && (
-                        <View className="flex justify-end w-full">
-                            {isDeleting ? (
-                                <View className="flex flex-row items-center">
-                                    <TouchableOpacity
-                                        className=" bg-rose-600  p-2.5 w-8/12 rounded-lg mt-4  flex-row items-center"
-                                        onPress={() => {
-                                            onDelete()
-                                        }}
-                                    >
-                                        <XIcon size={24} color="white" className="mr-4" />
-                                        <Text className="text-sm text-center text-gray-200 font-semibold">
-                                            ({selectedImages?.length}) Elemente löschen
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        className="ml-auto flex justify-end  p-4 rounded-lg mt-4 w-4/12  flex-row items-center"
-                                        onPress={() => {
-
-                                            console.log("press")
-                                            setIsDeleting(false);
-                                        }}
-                                    >
-                                        
-                                        <Text className="text-sm text-gray-200">
-                                            Abbrechen
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            ) : (
-                                <TouchableOpacity
-                                    className="ml-auto flex justify-end  p-4 rounded-lg mt-4  flex-row items-center"
-                                    onPress={() => {
-                                        setIsDeleting(true);
-                                    }}
-                                >
-                                    <BoxSelectIcon size={24} color="white" className="mr-4" />
-                                    <Text className="text-sm text-gray-200">
-                                        Bilder auswählen
-                                    </Text>
-                                </TouchableOpacity>
-                            )}
-                        </View>
-                    )}
-                    <GestureHandlerRootView className="w-full h-2/3 mt-4 flex-col flex ">
-                    <View className="flex-1 pb-26">
-                    <DraggableFlatList
-                    className="h-full "
-                            data={currentPicture}
-
-                            
-                            onDragEnd={({ data, from, to }) => {
-                                // Log the starting index and the final index
-                                console.log("Dragged item from index:", from, "to index:", to);
-
-                                // Update the positions in the new array
-                                const updatedData = data.map((item, index) => ({
-                                    ...item,
-                                    position: index,  // Update the position based on the new index
-                                }));
-
-                                // Update the state with the new data
-                                setCurrentPicture(updatedData);
-
-                            }}
-
-                            keyExtractor={(item) => item.url}
-                            renderItem={renderItem}
-
-
-                        />
-                        </View>
-                    </GestureHandlerRootView>
-                    
-                </View>
-                <Modal
+    if(showModal) {
+        return (
+            <Modal
                     animationType="slide"
-                    transparent={true}
+                    transparent={false}
                     visible={showModal}
                     onRequestClose={() => {
                         setShowModal(false);
@@ -476,6 +400,103 @@ const BasicDetails2 = forwardRef(({ thisInserat, refetchInserat }: BasicDetails2
                         </View>
                     </View>
                 </Modal>
+        )
+    }
+
+    return (
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} className="h-full">
+            <View className="h-full">
+                <View className="flex flex-col items-center w-full">
+
+                    <View className="w-full">
+                        <TouchableOpacity className="w-full bg-[#232636] shadow-lg p-4 rounded-lg mt-4 
+                    flex-row items-center justify-center space-x-4 border "
+                            onPress={() => setShowModal(true)}
+                        >
+                            <View>
+                                <FontAwesome name="plus" size={20} color="#fff" />
+                            </View>
+                            <Text className="text-gray-200/90 text-base font-semibold">
+                                Bilder hinzufügen ({currentPicture.length} / 20)
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                    {currentPicture.length > 0 && (
+                        <View className="flex justify-end w-full">
+                            {isDeleting ? (
+                                <View className="flex flex-row items-center">
+                                    <TouchableOpacity
+                                        className=" bg-rose-600  p-2.5 w-8/12 rounded-lg mt-4  flex-row items-center"
+                                        onPress={() => {
+                                            onDelete()
+                                        }}
+                                    >
+                                        <MaterialCommunityIcons name="close" size={20} color="white" className="mr-4" />
+                                        <Text className="text-sm text-center text-gray-200 font-semibold">
+                                            ({selectedImages?.length}) Elemente löschen
+                                        </Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity
+                                        className="ml-auto flex justify-end  p-4 rounded-lg mt-4 w-4/12  flex-row items-center"
+                                        onPress={() => {
+
+                                            console.log("press")
+                                            setIsDeleting(false);
+                                        }}
+                                    >
+                                        
+                                        <Text className="text-sm text-gray-200">
+                                            Abbrechen
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                            ) : (
+                                <TouchableOpacity
+                                    className="ml-auto flex justify-end  p-4 rounded-lg mt-4  flex-row items-center"
+                                    onPress={() => {
+                                        setIsDeleting(true);
+                                    }}
+                                >
+                                    <MaterialCommunityIcons name="select" size={24} color="white" className="mr-4" />
+                                    <Text className="text-sm text-gray-200">
+                                        Bilder auswählen
+                                    </Text>
+                                </TouchableOpacity>
+                            )}
+                        </View>
+                    )}
+                    <GestureHandlerRootView className="w-full h-2/3 mt-4 flex-col flex ">
+                    <View className="flex-1 pb-26">
+                    <DraggableFlatList
+                    className="h-full "
+                            data={currentPicture}
+
+                            
+                            onDragEnd={({ data, from, to }) => {
+                                // Log the starting index and the final index
+                                console.log("Dragged item from index:", from, "to index:", to);
+
+                                // Update the positions in the new array
+                                const updatedData = data.map((item, index) => ({
+                                    ...item,
+                                    position: index,  // Update the position based on the new index
+                                }));
+
+                                // Update the state with the new data
+                                setCurrentPicture(updatedData);
+
+                            }}
+
+                            keyExtractor={(item) => item.url}
+                            renderItem={renderItem}
+
+
+                        />
+                        </View>
+                    </GestureHandlerRootView>
+                    
+                </View>
+                
             </View>
         </TouchableWithoutFeedback>
     );

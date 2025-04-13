@@ -60,7 +60,7 @@ const InseratOptions = ({ inseratUserId, currentUserId, inseratId, isFaved, phon
                 return router.push('/login');
             }
 
-            const findConversation = await getExistingOrCreateNewConversation(inseratUserId, currentUserId);
+            const findConversation = await getExistingOrCreateNewConversation(inseratUserId, currentUserId, inseratId);
 
             if (findConversation) {
                 return router.push(`/conversation/${findConversation.id}`);

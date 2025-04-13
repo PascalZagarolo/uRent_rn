@@ -741,6 +741,8 @@ export const conversation = pgTable("conversation", {
     createdAt: timestamp("createdAt", { mode: "date" }).defaultNow(),
     blocked : boolean("blocked").notNull().default(false),
     conversationFolder : text("conversationFolder"),
+    inseratId : uuid("inseratId")
+        .references(() => inserat.id, { onDelete: "cascade" }),
     lastMessageId: uuid("lastMessageId")
         .references(() => message.id, { onDelete: "set null" }),
     user1Id: text("user1").
@@ -1432,6 +1434,10 @@ export const conversationRelations = relations(conversation, ({ one, many }) => 
         fields: [conversation.lastMessageId],  // Corrected to refer to the field in the conversation table
         references: [message.id],  // Corrected to refer to the primary key of the message table
         relationName: "lastMessage"
+    }),
+    inserat : one(inserat, {
+        fields : [conversation.inseratId],
+        references : [inserat.id]
     }),
     messages: many(message),
     blocks : many(block),

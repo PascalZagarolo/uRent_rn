@@ -10,7 +10,8 @@ export async function getSelectedConversation(conversationId : string) {
             with : {
                 messages : true,
                 user1 : true,
-                user2 : true
+                user2 : true,
+                inserat : true
             }
         }).prepare("findConversation");
 
