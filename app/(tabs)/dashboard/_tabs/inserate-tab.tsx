@@ -6,6 +6,7 @@ import InseratRender from "./_inserat/inserat-render";
 import { cn } from "@/~/lib/utils";
 import DeleteInseratDialog from "../_dialogs/_inserat/delete-inserat-dialog";
 import { MaterialCommunityIcons, Octicons } from "@expo/vector-icons";
+import { isAfter } from 'date-fns';
 
 interface InserateTabProps {
     currentUser: typeof userTable.$inferSelect & {
@@ -22,41 +23,62 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
     const [prefilledTitle, setPrefilledTitle] = useState<string>();
     const [openDelete, setOpenDelete] = useState<string | null>(null);
 
+    const sortInserate = (inserate) => {
+        return [...inserate].sort((a, b) => {
+            // Published ones first
+            if (a.isPublished && !b.isPublished) return -1;
+            if (!a.isPublished && b.isPublished) return 1;
+    
+            // Sort by createdAt (newest first)
+            return new Date(b.createdAt ?? 0).getTime() - new Date(a.createdAt ?? 0).getTime();
+        });
+    };
+    
+
     useEffect(() => {
-        setRenderedInserate(currentUser?.inserat);
-    }, [currentUser])
+        if (currentUser?.inserat) {
+            const sortedInserate = sortInserate(currentUser.inserat);
+            setRenderedInserate(sortedInserate);
+        }
+    }, [currentUser]);
+    
+    
+    
 
 
     useEffect(() => {
         const filterInserate = () => {
-            let filteredInserate = currentUser?.inserat;
-
+            let filteredInserate = currentUser?.inserat ?? [];
+    
             if (currentFilter === "public") {
-                filteredInserate = filteredInserate?.filter((inserat) => inserat.isPublished);
+                filteredInserate = filteredInserate.filter((inserat) => inserat.isPublished);
             } else if (currentFilter === "private") {
-                filteredInserate = filteredInserate?.filter((inserat) => !inserat.isPublished);
+                filteredInserate = filteredInserate.filter((inserat) => !inserat.isPublished);
             }
-
+    
             if (currentTitle) {
-                filteredInserate = filteredInserate?.filter((inserat) =>
+                filteredInserate = filteredInserate.filter((inserat) =>
                     inserat.title?.toLowerCase().includes(currentTitle.toLowerCase())
                 );
             }
-
-            setRenderedInserate(filteredInserate);
+    
+            const sortedFilteredInserate = sortInserate(filteredInserate);
+            setRenderedInserate(sortedFilteredInserate);
         };
+    
         filterInserate();
     }, [currentFilter, currentTitle, currentUser?.inserat]);
+    
 
     return (
         <View className="p-4">
             <View>
                 <View>
                     <Text className="text-xl text-gray-200 font-semibold">
-                        Meine Inserate ({currentUser?.inserat?.length})
+                        Meine Inserate ({currentUser?.inserat?.length ?? 0})
                     </Text>
                     <Text className="text-xs text-gray-200/60 font-semibold">
-                        Verwalte deine Anzeigen, indem du Inhalte änderst, löscht, bearbeitest oder ihre Sichtbarkeit anpasst.
+                        Verwalte deine Anzeigen, indem du Inhalte änderst, löscht, bearbeitest oder ihre Sichtbarkeit anpasst. 
 
                     </Text>
                     <Text className="text-xs text-gray-200/60 font-semibold">
@@ -105,7 +127,7 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
                                 Öffentlich
                             </Text>
                             <Text className={cn("ml-auto mr-2 text-base font-medium text-gray-200", currentFilter === "public" && "text-gray-200/60")}>
-                                {currentUser?.inserat?.filter((inserat: any) => inserat.isPublic).length}
+                                {currentUser?.inserat?.filter((inserat: any) => inserat.isPublished).length}
                             </Text>
                         </TouchableOpacity>
 
@@ -134,7 +156,7 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
                             <Text className={cn("ml-auto mr-2 text-base  font-medium text-gray-200",
                                 currentFilter === "private" && "text-gray-200/60"
                             )}>
-                                {currentUser?.inserat?.filter((inserat: any) => !inserat.isPublic).length}
+                                {currentUser?.inserat?.filter((inserat: any) => !inserat.isPublished).length}
                             </Text>
                         </TouchableOpacity>
                     </View>
@@ -172,7 +194,7 @@ const InserateTab = ({ currentUser, reloadAll }: InserateTabProps) => {
 </View>
 
 
-                    <SafeAreaView className="flex flex-col h-full space-y-4 mt-8 mb-16">
+                    <SafeAreaView className="flex flex-col h-full space-y-4  mb-16">
                         {renderedInserate?.map((inserat) => (
                             <View className="" key={inserat?.id}>
                                 <InseratRender thisInserat={inserat} setOpenDeleteDialog={(value) => setOpenDelete(value)} />

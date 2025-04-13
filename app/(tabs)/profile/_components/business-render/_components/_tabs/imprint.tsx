@@ -83,7 +83,7 @@ const ImprintRender = ({ imprint, isOwn }: ImprintRenterProps) => {
                 style={{ textAlignVertical: "top" }}
               />
             ) : (
-                <View className="mt-8">
+                <View className="mt-4">
                     {imprint ? (
                         <Text className="text-gray-200/80 text-base">
                             {imprint}

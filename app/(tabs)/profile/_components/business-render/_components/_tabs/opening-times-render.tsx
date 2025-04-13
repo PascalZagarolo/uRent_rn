@@ -60,7 +60,7 @@ const OpeningTimesRender = ({ foundTimes, setOpenOpeningTimes, isOwn, foundOpeni
                 </TouchableOpacity>
                 )}
             </View>
-            <View className="mt-8 space-y-8">
+            <View className="mt-4 space-y-8">
                 {renderedDays.map(day => (
                     <View key={day} className="flex flex-row items-center">
                         <Text className="text-base font-semibold text-gray-200/80">

@@ -1,10 +1,11 @@
 import { inserat } from "@/db/schema";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 
 import { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { Image, Text } from "react-native";
+import {  Text } from "react-native";
 import { View } from "react-native";
 
 
@@ -72,7 +73,7 @@ const onRenderMore = () => {
                 </Text>
             </View>
             {foundInserate?.length > 0 ? (
-                <View className="space-y-4 mt-8">
+                <View className="space-y-4 mt-4">
                 {foundInserate.slice(0, amountRendered).map((inserat: any) => (
                     InseratRender(inserat.title, inserat.address?.postalCode, inserat.address?.locationString, inserat.price, inserat?.images[0]?.url, inserat.id)
                 ))}

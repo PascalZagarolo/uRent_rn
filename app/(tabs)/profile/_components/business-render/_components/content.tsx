@@ -72,7 +72,7 @@ const ContentBusinessRender = ({ thisUser, isOwn, setOpenLocation, setOpenOpenin
             ))}
         </ScrollView>
     
-        <View className="mt-8 px-2 pb-4 flex-1">
+        <View className="mt-4 px-2  flex-1">
             {{
                 content: <ContentTab username={thisUser?.name} foundInserate={foundInserate} />,
                 location: <LocationTab

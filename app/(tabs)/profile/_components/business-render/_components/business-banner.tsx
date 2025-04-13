@@ -1,6 +1,7 @@
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { Image } from "expo-image";
 import { TouchableOpacity } from "react-native";
-import { Image, Text, View } from "react-native";
+import {  Text, View } from "react-native";
 import Popover from "react-native-popover-view";
 
 interface BusinessBannerRenderProps {

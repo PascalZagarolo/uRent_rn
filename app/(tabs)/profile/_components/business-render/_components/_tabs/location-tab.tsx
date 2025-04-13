@@ -1,8 +1,9 @@
 import { businessAddress } from "@/db/schema";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Image } from "expo-image";
 
 import { TouchableOpacity } from "react-native";
-import { Image, Text, View } from "react-native";
+import {  Text, View } from "react-native";
 
 
 interface LocationTabProps {
@@ -17,10 +18,18 @@ const LocationTab = ({ foundAddresses, isOwn, setOpenLocation }: LocationTabProp
         return (
             <View key={title}>
                 <View>
-                    <Image
+                    {imageUrl ? (
+                        <Image
                         source={{ uri: imageUrl }}
                         className="w-full h-40 object-cover rounded-t-md"
                     />
+                    ) : ( 
+                        <View className="h-40 flex flex-row items-center justify-center bg-[#303645]">
+                            <MaterialCommunityIcons name="image" size={20} color={"white"}
+                         className="" 
+                        />
+                        </View>
+                    )}
                 </View>
                 <View className=" bg-[#2a2f3d] shadow-xl rounded-b-md p-4">
                     <View className="flex flex-row items-center">
@@ -66,7 +75,7 @@ const LocationTab = ({ foundAddresses, isOwn, setOpenLocation }: LocationTabProp
                 )}
             </View>
             {foundAddresses?.length > 0 ? (
-                <View className="mt-8 space-y-8">
+                <View className="mt-4 space-y-8">
                     {foundAddresses.map(address => (
                         RenderedAddress(address?.title, String(address.postalCode ?? ""), address.city, address.street, address.image, address?.id)
                     ))}

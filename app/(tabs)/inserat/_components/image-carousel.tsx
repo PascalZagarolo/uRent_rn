@@ -1,6 +1,7 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { Image } from "expo-image";
 import React, { useRef, useState } from "react";
-import { View, Image, FlatList, Dimensions, Text } from "react-native";
+import { View,  FlatList, Dimensions, Text } from "react-native";
 
 const { width } = Dimensions.get("window");
 
