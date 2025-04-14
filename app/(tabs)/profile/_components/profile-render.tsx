@@ -8,6 +8,7 @@ import { format, set } from 'date-fns';
 
 interface ProfileRenderProps {
     thisUser: typeof userTable.$inferSelect | any;
+    currentUser : typeof userTable.$inferSelect | any;
     isOwner: boolean;
     imageUrl : string;
     bannerUrl : string;
@@ -31,6 +32,7 @@ interface ProfileRenderProps {
 
 const ProfileRender: React.FC<ProfileRenderProps> = ({
     thisUser,
+    currentUser,
     isOwner,
     imageUrl,
     bannerUrl,
@@ -64,6 +66,7 @@ const ProfileRender: React.FC<ProfileRenderProps> = ({
                             imageUrl = {imageUrl}
                             bannerUrl = {bannerUrl}
                             thisUser={thisUser}
+                            currentUser={currentUser}
                             isOwner={isOwner}
                             foundAddresses={foundAddresses}
                             setOpenDialogImage={(open) => setOpenDialogImage(open)}

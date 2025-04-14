@@ -131,7 +131,7 @@ const InseratPage = () => {
             inseratBookings={thisInserat.bookings}
             currentUserId={user?.id}
             isFaved={
-              isFaved
+              isFaved 
             }
           />
         ) : (

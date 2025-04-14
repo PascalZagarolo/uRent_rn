@@ -149,6 +149,7 @@ const ProfilePage = () => {
                 {user && (
                 <ProfileRender
                     thisUser={user}
+                    currentUser = {currentUser}
                     isOwner={isOwner}
                     setOpenLocation={(value1, value2, value3) => {
                         setShowLocation({ open: value1, id: value2, type: value3 });

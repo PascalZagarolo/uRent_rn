@@ -9,7 +9,8 @@ import ContentBusinessRender from "./_components/content";
 interface BusinessRenderProps {
     imageUrl : string | null;
     bannerUrl : string | null;
-    thisUser: typeof userTable.$inferSelect & { business};
+    thisUser: typeof userTable.$inferSelect & { business };
+    currentUser : typeof userTable.$inferSelect | any;
     isOwner: boolean;
     setOpenLocation: (open: boolean, id: string, type: string) => void;
     setOpenOpeningTimes: (open: boolean) => void;
@@ -29,7 +30,7 @@ interface BusinessRenderProps {
     }
 }
 
-const BusinessRender = ({ thisUser, bannerUrl, imageUrl, isOwner, setOpenLocation, setOpenOpeningTimes, setOpenReportModal, foundAddresses, foundOpeningTimes, setOpenDialogImage, setOpenDialogBanner }: BusinessRenderProps) => {
+const BusinessRender = ({ thisUser, currentUser, bannerUrl, imageUrl, isOwner, setOpenLocation, setOpenOpeningTimes, setOpenReportModal, foundAddresses, foundOpeningTimes, setOpenDialogImage, setOpenDialogBanner }: BusinessRenderProps) => {
 
     
 
@@ -40,6 +41,8 @@ const BusinessRender = ({ thisUser, bannerUrl, imageUrl, isOwner, setOpenLocatio
                 <View>
                     <BusinessBannerRender
                     isOwner={isOwner}
+                    thisUserId={thisUser ? thisUser?.id : null}
+                    currentUserId={currentUser ? currentUser?.id : null }
                     setOpenImageDialog={(open) => setOpenDialogImage(open)}
                     setOpenReportModal={(open) => setOpenReportModal(open)}
                     setOpenDialogBanner={(open) => setOpenDialogBanner(open)}

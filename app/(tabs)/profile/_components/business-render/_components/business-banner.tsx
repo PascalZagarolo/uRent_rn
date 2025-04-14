@@ -1,11 +1,17 @@
+import { getExistingOrCreateNewConversation } from "@/actions/conversations/find-existing-or-create-new";
 import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image } from "expo-image";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import {  Text, View } from "react-native";
 import Popover from "react-native-popover-view";
+import Toast from "react-native-toast-message";
 
 interface BusinessBannerRenderProps {
     isOwner: boolean;
+    thisUserId : string | null,
+    currentUserId : string | null,
     thisImage: string | null;
     thisProfilePic: string | null
     thisUsername: string | null
@@ -15,9 +21,41 @@ interface BusinessBannerRenderProps {
     setOpenReportModal: (open: boolean) => void;
 }
 
-const BusinessBannerRender = ({ isOwner, thisImage, thisProfilePic, thisUsername, createdAt, setOpenImageDialog, setOpenReportModal, setOpenDialogBanner }: BusinessBannerRenderProps) => {
+const BusinessBannerRender = ({ isOwner, thisUserId, currentUserId, thisImage, thisProfilePic, thisUsername, createdAt, setOpenImageDialog, setOpenReportModal, setOpenDialogBanner }: BusinessBannerRenderProps) => {
 
+    const [isLoading, setIsLoading] = useState(false);
 
+    const router = useRouter();
+
+    const onConversation = async () => {
+        try {
+            if(isLoading) return;
+            setIsLoading(true);
+
+            if(!currentUserId) {
+                return router.push("/login");
+            }
+
+            if(!thisUserId) {
+                return router.push("/")
+            }
+
+            const res = await getExistingOrCreateNewConversation(currentUserId, thisUserId);
+
+            if(res) {
+                return router.push(`/conversation/${res.id}`);
+            }
+
+        } catch(e : any) {
+            Toast.show({
+                type : "error",
+                text1 : "Etwas ist schiefgelaufen."
+            })
+            console.log(e);
+        } finally {
+            setIsLoading(false);
+        }
+    } 
 
     return (
         <View className="w-full">
@@ -60,7 +98,10 @@ const BusinessBannerRender = ({ isOwner, thisImage, thisProfilePic, thisUsername
 
                 {/* Username */}
                 <View className="flex flex-row items-center px-2 w-8/12">
-                    <TouchableOpacity className="shadow-lg space-x-4 bg-indigo-800 p-2.5 w-8/12  rounded-md flex flex-row items-center">
+                    <TouchableOpacity className="shadow-lg space-x-4 bg-indigo-800 p-2.5 w-8/12  rounded-md flex flex-row items-center"
+                    onPress={onConversation}
+                    disabled={isLoading}
+                    >
                         <FontAwesome name="send"
                             size={16} color={"white"}
                         />
