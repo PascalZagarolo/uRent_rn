@@ -351,7 +351,7 @@ keyboardVerticalOffset={100}
 behavior="height"
 >
            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-           <View  className="h-[85%]">
+           <View  className="h-[82%]">
                 
            <View className="px-4">
            <Text className="text-2xl font-semibold text-gray-200/90">
