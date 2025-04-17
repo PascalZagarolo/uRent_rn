@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Image, View, StyleSheet, Animated, Easing, Text } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from './(tabs)/AuthProvider';
@@ -81,6 +81,33 @@ export default function RootLayout() {
     prepare();
   }, [fontsLoaded]);
 
+  useEffect(() => {
+    async function prepare() {
+      try {
+        if (!fontsLoaded) return;
+  
+        await new Promise(resolve => setTimeout(resolve, 1200));
+  
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 600,
+          easing: Easing.out(Easing.exp),
+          useNativeDriver: true,
+        }).start();
+  
+        // 💡 Only hide splash screen after animation starts
+        SplashScreen.hideAsync();
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+  
+    prepare();
+  }, [fontsLoaded]);
+  
+
   const onLayoutRootView = useCallback(() => {
     if (appIsReady) {
       SplashScreen.hideAsync();
@@ -89,9 +116,16 @@ export default function RootLayout() {
 
   if (!appIsReady) {
     return (
-      <View style={styles.splashContainer} onLayout={onLayoutRootView}>
+      <View
+        style={styles.splashContainer}
+        onLayout={() => {
+          if (fontsLoaded) {
+            SplashScreen.hideAsync();
+          }
+        }}
+      >
         <Animated.Image
-          source={require('../assets/images/splash.png')}
+          source={require('../assets/images/urent-logo.png')}
           style={[
             styles.logo,
             {
@@ -115,7 +149,7 @@ export default function RootLayout() {
   return (
     <AuthProvider>
       <BottomSheetModalProvider>
-        <ThemeProvider value={DefaultTheme}>
+        <ThemeProvider value={DarkTheme}>
           <StatusBar style='light'/>
           <Stack screenOptions={{ headerShown: false }} />
           <Toast config={toastConfig as any} />
