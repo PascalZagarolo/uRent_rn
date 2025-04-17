@@ -45,16 +45,16 @@
   "splash": {
     "image": "./assets/images/splash.png",
     "resizeMode": "contain",
-    "backgroundColor": "#ffffff"
-  },
+    "backgroundColor": "#1F2332"
+  },  
   "ios": {
     "supportsTablet": true,
     "bundleIdentifier": "com.paaaascal13.urentrn"
   },
   "android": {
     "adaptiveIcon": {
-      "foregroundImage": "./assets/images/adaptive-icon.png",
-      "backgroundColor": "#ffffff"
+      "foregroundImage": "./assets/images/splash.png",
+      "backgroundColor": "#1F2332"
     },
     "package": "com.anonymous.urent_rn"
   },
@@ -70,7 +70,17 @@
     "@react-native-google-signin/google-signin",
     {
       "iosUrlScheme": "com.googleusercontent.apps.10083961656-noakpk97876masmqood1jibhemtd2igm"
-    }
+    },
+    "expo-splash-screen",
+        {
+          "backgroundColor": "#1F2332",
+          "image": "./assets/images/splash.png",
+          "dark": {
+            "image": "./assets/images/splash.png",
+            "backgroundColor": "#1F2332"
+          },
+          "imageWidth": 200
+        }
   ],
   "experiments": {
     "typedRoutes": true

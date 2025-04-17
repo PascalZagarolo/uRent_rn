@@ -1,73 +1,46 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
+import { useCallback, useEffect, useState } from 'react';
+import { Image, View, StyleSheet, Animated, Easing, Text } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
-
+import { useFonts } from 'expo-font';
+import { DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { Stack } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
-import { AuthProvider, useAuth } from './(tabs)/AuthProvider';
+import { AuthProvider } from './(tabs)/AuthProvider';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
-import 'react-native-get-random-values';
-import { Text, View } from 'react-native';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
+import 'react-native-get-random-values';
+import 'react-native-reanimated';
+import { StatusBar } from 'expo-status-bar'
+// Prevent splash from auto-hiding
 SplashScreen.preventAutoHideAsync();
 
 const toastConfig = {
-  /*
-    Overwrite 'success' type,
-    by modifying the existing `BaseToast` component
-  */
   success: (props) => (
     <BaseToast
-    {...props}
-    activeOpacity={8}
-    style={{ 
-      borderLeftColor: 'green', 
-      margin: 4, // Remove any margins
-      width: '96%', // Make the Toast span the full width
-      height: 100, // Set the height
-       // Ensure no padding
-    }}
-      contentContainerStyle={{ paddingHorizontal: 15, paddingVertical: 0, backgroundColor: '#131620' }}
+      {...props}
+      activeOpacity={8}
+      style={{
+        borderLeftColor: 'green',
+        margin: 4,
+        width: '96%',
+        height: 100,
+      }}
+      contentContainerStyle={{ paddingHorizontal: 15, backgroundColor: '#131620' }}
       text1Style={{
         fontSize: 16,
         fontWeight: '600',
-        color: 'white', // Updated from 'textColor' to 'color',
-        // Ensure no padding
+        color: 'white',
       }}
-      text2NumberOfLines={2}
-      text2Style= {{
-        fontSize: 12,
-        
-      }}
-      
+      text2Style={{ fontSize: 12 }}
     />
   ),
-  /*
-    Overwrite 'error' type,
-    by modifying the existing `ErrorToast` component
-  */
   error: (props) => (
     <ErrorToast
       {...props}
-      text1Style={{
-        fontSize: 17
-      }}
-      text2Style={{
-        fontSize: 15
-      }}
+      text1Style={{ fontSize: 17 }}
+      text2Style={{ fontSize: 15 }}
     />
   ),
-  /*
-    Or create a completely new type - `tomatoToast`,
-    building the layout from scratch.
-
-    I can consume any custom `props` I want.
-    They will be passed when calling the `show` method (see below)
-  */
   tomatoToast: ({ text1, props }) => (
     <View style={{ height: 60, width: '100%', backgroundColor: 'tomato' }}>
       <Text>{text1}</Text>
@@ -76,39 +49,91 @@ const toastConfig = {
   )
 };
 
-export default function RootLayout(props) {
+export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
+  const [appIsReady, setAppIsReady] = useState(false);
+  const [fadeAnim] = useState(new Animated.Value(0));
+
+  const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
   useEffect(() => {
-    if (loaded) {
+    async function prepare() {
+      try {
+        // Wait for fonts
+        if (!fontsLoaded) return;
+        // Simulate loading delay (you can remove in prod)
+        await new Promise(resolve => setTimeout(resolve, 1200));
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 600,
+          easing: Easing.out(Easing.exp),
+          useNativeDriver: true,
+        }).start();
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, [fontsLoaded]);
+
+  const onLayoutRootView = useCallback(() => {
+    if (appIsReady) {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [appIsReady]);
 
-  if (!loaded) {
-    return null;
+  if (!appIsReady) {
+    return (
+      <View style={styles.splashContainer} onLayout={onLayoutRootView}>
+        <Animated.Image
+          source={require('../assets/images/splash.png')}
+          style={[
+            styles.logo,
+            {
+              opacity: fadeAnim,
+              transform: [
+                {
+                  scale: fadeAnim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [0.95, 1],
+                  }),
+                },
+              ],
+            },
+          ]}
+          resizeMode="contain"
+        />
+      </View>
+    );
   }
-
-
-
-
-
-
 
   return (
     <AuthProvider>
       <BottomSheetModalProvider>
-        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-          <Stack screenOptions={{ headerShown: false }}>
-
-
-          </Stack>
+        <ThemeProvider value={DefaultTheme}>
+          <StatusBar style='light'/>
+          <Stack screenOptions={{ headerShown: false }} />
           <Toast config={toastConfig as any} />
         </ThemeProvider>
       </BottomSheetModalProvider>
     </AuthProvider>
   );
 }
+
+const styles = StyleSheet.create({
+  splashContainer: {
+    flex: 1,
+    backgroundColor: '#1F2332',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  logo: {
+    width: 180,
+    height: 180,
+  },
+});
