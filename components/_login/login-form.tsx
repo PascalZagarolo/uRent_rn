@@ -12,13 +12,15 @@ import Toast from "react-native-toast-message";
 import Twofa from "./_components/2fa";
 import * as SecureStorage from 'expo-secure-store';
 import GoogleSignIn from "./_components/google-signin";
+import { cn } from "@/~/lib/utils";
+import { getCurrentUser } from "@/actions/getCurrentUser";
 
 interface LoginFormProps {
-    show2Fa : boolean;
-    show2FaVoid : (value : boolean) => void;
+    show2Fa: boolean;
+    show2FaVoid: (value: boolean) => void;
 }
 
-const LoginForm : React.FC<LoginFormProps> = ({
+const LoginForm: React.FC<LoginFormProps> = ({
     show2Fa,
     show2FaVoid
 }) => {
@@ -29,41 +31,41 @@ const LoginForm : React.FC<LoginFormProps> = ({
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
 
-    
+
     const [foundUser, setFoundUser] = useState(null);
 
     const router = useRouter();
 
-    
+
 
     const onSignUp = async () => {
-        
+
         try {
             setIsLoading(true);
             await createLogin(email, password)
-            .then((res : any) => {
-                if (res?.error) {
-                    console.log("schade");
-                    return;
-                } else {
-                    
-                    if(res?.token) {
-                        const token = res.token;
-                    SecureStore.setItem("authToken", token);
-                    Toast.show({
-                        type: 'success',
-                        text1: 'Erfolgreich eingeloggt',
-                        visibilityTime: 4000
-                    })
-                        router.replace("/")
-                    } else if(res?.twoFa) {
-                        setFoundUser(res.user);
-                        show2FaVoid(true);
-                        
+                .then((res: any) => {
+                    if (res?.error) {
+                        console.log("schade");
+                        return;
+                    } else {
+
+                        if (res?.token) {
+                            const token = res.token;
+                            SecureStore.setItem("authToken", token);
+                            Toast.show({
+                                type: 'success',
+                                text1: 'Erfolgreich eingeloggt',
+                                visibilityTime: 4000
+                            })
+                            router.replace("/")
+                        } else if (res?.twoFa) {
+                            setFoundUser(res.user);
+                            show2FaVoid(true);
+
+                        }
                     }
-                }
-            })
-        } catch(e : any) {
+                })
+        } catch (e: any) {
             console.log(e);
             return;
         } finally {
@@ -75,71 +77,79 @@ const LoginForm : React.FC<LoginFormProps> = ({
         const checkLoginStatus = async () => {
             try {
                 const token = await SecureStorage.getItem("authToken");
-                if (token) {
+                const currentUser = await getCurrentUser(token)
+                if (currentUser) {
                     router.replace("/")
                 }
             } catch (e: any) {
-
+                console.log(e)
             }
         }
 
         checkLoginStatus()
     }, [])
 
-    
+
 
     return (
         <View className="px-4">
 
             {show2Fa ? (
-            <Twofa 
-            foundUser = {foundUser}
-            />
+                <Twofa
+                    foundUser={foundUser}
+                />
             ) : (
                 <View>
-            <View className="mt-4">
-                <Text className="text-md text-gray-200 font-semibold">
-                    Email
-                </Text>
-                <TextInput
-                    className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md mt-2"
-                    onChangeText={(text) => {setEmail(text)}}
-                />
-            </View>
-            <View className="mt-4">
-                <Text className="text-md text-gray-200 font-semibold">
-                    Passwort
-                </Text>
-                <View className="flex flex-row items-center w-full">
-                    <TextInput
-                        className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md rounded-r-none mt-2 w-10/12"
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry={!showPassword} // Hide password text based on showPassword state
-                    />
-                    <TouchableOpacity
-                        className="w-2/12 items-center justify-center bg-[#262a37] p-4 mt-2 rounded-md rounded-l-none" // Ensure the icon is centered
-                        onPress={() => setShowPassword(!showPassword)}
-                    >
-                        <FontAwesome name={showPassword ? "eye-slash" : "eye"} size={20} color="white" />
-                    </TouchableOpacity>
-                </View>
-            </View>
-            <View className="mt-8">
-            <TouchableOpacity className='px-8 py-4 rounded-md w-full bg-[#3f455c] shadow-lg flex flex-row items-center  justify-center'
-                    onPress={onSignUp}>
-                    {isLoading ? (
-                        <ActivityIndicator size="small" color="#000" />
-                    ) : (
-                        <Text className='justify-center text-gray-200 text-center font-semibold'>
-                            Einloggen
+                    <View className="mt-4">
+                        <Text className="text-md text-gray-200 font-semibold">
+                            Email
                         </Text>
-                    )}
-                </TouchableOpacity>
-            </View>
+                        <TextInput
+                            className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md mt-2"
+                            onChangeText={(text) => { setEmail(text) }}
+                        />
+                    </View>
+                    <View className="mt-4">
+                        <Text className="text-md text-gray-200 font-semibold">
+                            Passwort
+                        </Text>
+                        <View className="flex flex-row items-center w-full">
+                            <TextInput
+                                className="bg-[#2A2E3D] text-gray-200 p-4 rounded-md rounded-r-none mt-2 w-10/12"
+                                value={password}
+                                onChangeText={setPassword}
+                                secureTextEntry={!showPassword} // Hide password text based on showPassword state
+                            />
+                            <TouchableOpacity
+                                className="w-2/12 items-center justify-center bg-[#262a37] p-4 mt-2 rounded-md rounded-l-none" // Ensure the icon is centered
+                                onPress={() => setShowPassword(!showPassword)}
+                            >
+                                <FontAwesome name={showPassword ? "eye-slash" : "eye"} size={20} color="white" />
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                    <View className="mt-8">
+                        <TouchableOpacity className={cn('px-8 py-4 rounded-md w-full bg-[#3f455c] shadow-lg flex flex-row items-center  justify-center',
+                            (!email || !password) && "bg-[#3f455c]/20"
+                        )}
 
-            <GoogleSignIn />
-            </View>
+                            disabled={!email || !password}
+                            onPress={onSignUp}>
+                            {isLoading ? (
+                                <ActivityIndicator size="small" color="#000" />
+                            ) : (
+                                <Text className={cn(
+                                    'justify-center text-gray-200 text-center font-semibold',
+                                    (!email || !password) && "text-gray-200/40"
+                                )}>
+                                    Einloggen
+                                </Text>
+                            )}
+                        </TouchableOpacity>
+                    </View>
+
+                    <GoogleSignIn />
+                </View>
             )}
         </View>
     );

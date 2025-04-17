@@ -23,15 +23,15 @@ const ProfileRenderFull = ({ imageUrl, thisProfilePic, thisUsername, createdAt, 
 
 
     return (
-        <View>
+        <View className="flex flex-col" >
             <View>
 
             {ownProfile && (
                     <View className="">
-                        <TransformProfile 
-                        setOpenSwitchProfile={setOpenSwitchProfile}
-                        />
-                    </View>
+                    <TransformProfile 
+                    setOpenSwitchProfile={setOpenSwitchProfile}
+                    />
+                </View>
                 )}
                 <View className="w-full h-48 bg-gray-800 border-b border-black" />
 
@@ -60,8 +60,8 @@ const ProfileRenderFull = ({ imageUrl, thisProfilePic, thisUsername, createdAt, 
                     </View>
                 </View>
             </View>
-            <View className="mt-32 px-4">
-                <ProfileDescription thisDescription={thisDescription}  username={thisUsername} isOwnProfile={ownProfile} />
+            <View className="mt-24 px-4">
+            <ProfileDescription thisDescription={thisDescription}  username={thisUsername} isOwnProfile={ownProfile} />
             </View>
             
         </View>

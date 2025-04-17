@@ -1,10 +1,7 @@
 
 
 import JWT from 'expo-jwt';
-
-
-
-
+import bcrypt from 'bcryptjs';
 import db from "@/db/drizzle"
 import { twoFactorToken, userTable } from "@/db/schema"
 import { eq } from "drizzle-orm"
@@ -30,7 +27,7 @@ export const createLogin = async (givenEmail: string, givenPassword: string) => 
     'use server'
     try {
         
-        var bcrypt = require('bcryptjs');
+        
 
         if (!givenEmail || !givenPassword) {
             return { error: "Ungültige Anmeldedaten" }
@@ -82,7 +79,7 @@ export const createLogin = async (givenEmail: string, givenPassword: string) => 
             const values = {
                 token : createNewTwoFactorToken.token,
                 email : givenEmail,
-                secret : process.env.EXPO_PUBLIC_URENT_API_KEY
+                secret : process.env.EXPO_PRIVATE_URENT_API_KEY
             }
 
             await axios.post(`https://www.urent-rental.de/api/private/sent-mails/two-fa`, values);
@@ -90,7 +87,7 @@ export const createLogin = async (givenEmail: string, givenPassword: string) => 
             return { twoFa : true, user : findExistingUser}
         }
 
-        const usedSecret = "77375149353387154508860974358780";
+        const usedSecret = process.env.EXPO_SECRET_JWT_TOKEN;
         const oneMonthInMilliseconds = 30 * 24 * 60 * 60 * 1000;
 
         

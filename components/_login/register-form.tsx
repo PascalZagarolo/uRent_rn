@@ -28,6 +28,9 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
 
     const onSignUp = async () => {
         try {
+            
+            if(isLoading) return;
+
             setIsLoading(true);
             const values = {
                 name: currentName,
@@ -35,23 +38,25 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
                 email: currentEmail,
             }
 
-            console.log(values);
+            
 
             const res = await registerUser(values)
 
             if (res?.success) {
-                switchLayout();
+                
                 Toast.show({
                     type: 'success',
                     text1: 'Bestätigungs Email gesendet',
                     text2: 'Bitte überprüfe deine Emails um deinen Account zu aktivieren und fortzufahren',
-                    visibilityTime: 8000
+                    visibilityTime: 4000
                 })
+
+                switchLayout();
             } else if (res?.error) {
+
                 Toast.show({
                     type: 'error',
                     text1: 'Fehler',
-
                 })
             }
 
@@ -64,14 +69,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
     }
 
 
-    const onSocial = () => {
-        Toast.show({
-            type: 'success',
-            text1: 'Bestätigungs Email gesendet',
-            text2: 'Bitte überprüfe deine Emails um deinen Account zu aktivieren und fortzufahren',
-            visibilityTime: 8000
-        })
-    }
+   
 
     return (
         <View className="px-4">

@@ -36,7 +36,10 @@
     "android": {
       "package": "com.paaaascal13.urentrn"
     },
-    "owner": "zgr13"
+    "owner": "zgr13",
+    "ios": {
+      "bundleIdentifier": "com.paaaascal13.urentrn"
+    }
   },
   "userInterfaceStyle": "automatic",
   "splash": {
@@ -63,7 +66,11 @@
   "plugins": [
     "expo-router",
     "expo-font",
-    "expo-secure-store"
+    "expo-secure-store",
+    "@react-native-google-signin/google-signin",
+    {
+      "iosUrlScheme": "com.googleusercontent.apps.10083961656-noakpk97876masmqood1jibhemtd2igm"
+    }
   ],
   "experiments": {
     "typedRoutes": true

@@ -21,6 +21,8 @@ import placeholderPicture from "@/assets/images";
 import ImageDialog from "./_components/business-render/_components/_tabs/_dialogs/image-dialog";
 import { Modal } from "react-native";
 import ReportModalProfile from "./_components/business-render/_components/_report/report-modal";
+import * as SecureStorage from 'expo-secure-store';
+import { getCurrentUser } from "@/actions/getCurrentUser";
 
 
 
@@ -32,7 +34,22 @@ const ProfilePage = () => {
 
     const [user, setUser] = useState<any | null>(null);
     
-    const { currentUser } = useAuth();
+    const [currentUser, setCurrentUser] = useState(null)
+
+    const loadCurrentUser = async () => {
+        try {
+             const authToken = await SecureStorage.getItemAsync("authToken");
+             const currentUser = await getCurrentUser(authToken);
+             if(currentUser) {
+                setCurrentUser(currentUser)
+             } else {
+                setCurrentUser(null)
+             }
+        } catch(e : any) {
+            console.log(e);
+            setCurrentUser(null);
+        }
+    }
 
     const findUser = async () => {
         try {
@@ -94,14 +111,14 @@ const ProfilePage = () => {
 
     useEffect(() => {
         findUser();
-
+        loadCurrentUser();
     }, [])
 
     
 
     const onReload = async () => {
-        findUser();
-        
+        await findUser();
+        await loadCurrentUser();
     }
 
     type openTypes = "edit" | "delete"
@@ -133,7 +150,7 @@ const ProfilePage = () => {
 
     return (
 <SafeAreaView className=" bg-[#181b27]">
-        <View className=" bg-[#181b27] h-full sm:max-w-[600px] mx-auto">
+        <View className=" bg-[#181b27] h-full w-full sm:max-w-[600px] mx-auto">
             
                 <View className="border-b border-gray-800 p-4 bg-[#181b27] space-x-4 flex flex-row items-center">
                     <TouchableOpacity className="" onPress={() => {router.back()}}>

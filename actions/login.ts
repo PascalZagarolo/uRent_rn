@@ -1,8 +1,8 @@
 import db from "@/db/drizzle";
 import { userTable } from "@/db/schema";
-import { error } from "console";
+
 import { eq } from "drizzle-orm";
-import BcryptReactNative from "react-native-bcrypt"
+import bcrypt from 'bcryptjs';
 
 
 export const login = async (email : string, password : string) => {
@@ -19,7 +19,7 @@ export const login = async (email : string, password : string) => {
             return {error : "Kein Nutzer gefunden"};
         }
 
-        const passwordsMatch = await BcryptReactNative.compare(password, findUser.password);
+        const passwordsMatch = await bcrypt.compare(password, findUser.password);
 
         if(!passwordsMatch) {
             return {error : "Falsches Passwort"};
