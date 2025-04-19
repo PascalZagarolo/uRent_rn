@@ -44,17 +44,21 @@
   },
   "userInterfaceStyle": "automatic",
   "splash": {
-    "image": "./assets/images/urent-logo",
-    "resizeMode": "cover",
+    "image": "./assets/splash-icon.png",
+    "resizeMode": "contain",
     "backgroundColor": "#1F2332"
-  },  
+  },
+  "splashscreen" : {
+
+  },
   "ios": {
     "supportsTablet": true,
     "bundleIdentifier": "com.paaaascal13.urentrn"
   },
   "android": {
     "adaptiveIcon": {
-      "foregroundImage": "./assets/images/urent-logo.png",
+      "foregroundImage": "./assets/splash-icon.png",
+      "monochromeImage" : "./assets/splash-icon.png",
       "backgroundColor": "#1F2332"
     },
     "package": "com.anonymous.urent_rn"
@@ -65,34 +69,6 @@
     "favicon": "./assets/images/favicon.png"
   },
   "plugins": [
-    "expo-splash-screen",
-    {
-      "backgroundColor": "#1F2332",
-      "image": "./assets/images/urent-logo.png",
-      "dark": {
-        "image": "./assets/images/urent-logo.png",
-        "backgroundColor": "#1F2332"
-      },
-      "imageWidth": 400,
-      "android": {
-        "backgroundColor": "#1F2332",
-        "image": "./assets/images/urent-logo.png",
-        "dark": {
-          "image": "./assets/images/urent-logo.png",
-          "backgroundColor": "#1F2332"
-        },
-        "imageWidth": 400
-      },
-      "ios": {
-        "backgroundColor": "#1F2332",
-        "image": "./assets/images/urent-logo.png",
-        "dark": {
-          "image": "./assets/images/urent-logo.png",
-          "backgroundColor": "#1F2332"
-        },
-        "imageWidth": 400
-      }
-    },    
     "expo-router",
     "expo-font",
     "expo-secure-store",

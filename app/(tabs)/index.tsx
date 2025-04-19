@@ -1,70 +1,355 @@
-import React, { useEffect, useState } from 'react';
-import { Image, Platform, Button, View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 
-import { useRouter } from 'expo-router';
+import Header from "@/components/_searchpage/header";
+import InseratCard from "@/components/_searchpage/inserat-card";
+import { useEffect, useRef, useState } from "react";
+import { ScrollView, Text, View } from "react-native";
+import * as SecureStore from 'expo-secure-store';
+
+import FilterBubbles from "@/components/_searchpage/_components/filter-bubbles";
+import { Drawer } from 'react-native-drawer-layout';
+import DrawerContentProfile from "@/components/_drawercontent/drawer-content-profile";
+import DrawerSearchFilter from "@/components/_drawercontent/drawer-search-filter";
+import { getSearchParamsFunction } from "@/actions/getSearchParams";
+import SearchBar from "@/components/_searchpage/search-bar";
+import { useDrawerSettings } from "@/store";
+import DrawerNotifications from "@/components/_drawercontent/drawer-notifications";
+import { getCurrentUserMainPage } from "@/actions/retrieveUser/main-page/getUserMainPage";
+import { useRouter } from "expo-router";
+import { addFavourite } from "@/actions/favourites/add-favourite";
+import Toast from "react-native-toast-message";
+import { deleteFavourite } from "@/actions/favourites/delete-favourite";
+import PaginationComponent from "@/components/_searchpage/_components/pagination";
+import { getInserate } from "@/actions/getInserate";
+import InseratSkeleton from "@/components/_searchpage/_components/inserat-skeleton";
 
 
-import { useAuth } from './AuthProvider';
 
-export default function HomeScreen() {
-  const router = useRouter();
-  const currentUser = useAuth();
-  const [hasRendered, setHasRendered] = useState(false);
 
-  // Set `hasRendered` to true after the first render
-  useEffect(() => {
-    setHasRendered(true);
-  }, []);
 
-  useEffect(() => {
-   
-    if (hasRendered && currentUser) {
-      router.push(`/mainpage`);
+const MainPage = () => {
+
+    const [inserate, setInserate] = useState([]);
+
+    const params = getSearchParamsFunction();
+
+    const scrollViewRef = useRef<ScrollView>(null);
+
+
+
+    useEffect(() => {
+
+        const load = async () => {
+
+            try {
+                setIsLoading(true);
+
+                const res = await getInserate({
+                    title: params?.["title"] as string,
+                    thisCategory: params?.["category"] as any,
+                    filter: params?.["filter"] as any,
+                    start: Number(params?.["start"]),
+                    end: Number(params?.["end"]),
+                    page: Number(params?.["page"]),
+
+                    periodBegin: params?.["periodBegin"] as any,
+                    periodEnd: params?.["periodEnd"] as any,
+                    startTime: params?.["startTime"] as any,
+                    endTime: params?.["endTime"] as any,
+                    startDateDynamic: params?.["startDateDynamic"] as any,
+                    endDateDynamic: params?.["endDateDynamic"] as any,
+                    reqTime: params?.["reqTime"] as any,
+
+                    location: params?.["location"] as any,
+                    amount: Number(params?.["amount"]),
+
+                    reqAge: Number(params?.["reqAge"]),
+                    reqLicense: params?.["reqLicense"],
+
+                    thisBrand: params?.["thisBrand"] as any,
+                    doors: Number(params?.["doors"]),
+                    doorsMax: Number(params?.["doorsMax"]),
+                    initial: new Date(params?.["initial"] as any),
+                    initialMax: new Date(params?.["initialMax"] as any),
+                    power: Number(params?.["power"]),
+                    powerMax: Number(params?.["powerMax"]),
+                    seats: Number(params?.["seats"]) || null,
+                    seatsMax: Number(params?.["seatsMax"]) || null,
+                    fuel: params?.["fuel"] as any,
+                    transmission: params?.["transmission"] as any,
+                    thisType: params?.["thisType"],
+                    freeMiles: Number(params?.["freeMiles"]),
+                    extraCost: Number(params?.["extraCost"]),
+
+                    weightClass: Number(params?.["weightClass"]),
+                    weightClassMax: Number(params?.["weightClassMax"]),
+                    drive: params?.["drive"] as any,
+                    loading: params?.["loading"] as any,
+                    application: params?.["application"] as any,
+                    lkwBrand: params?.["lkwBrand"] as any,
+
+                    transportBrand: params?.["transportBrand"] as any,
+
+                    trailerType: params?.["trailerType"],
+                    coupling: params?.["coupling"] as any,
+                    extraType: params?.["extraType"] as any,
+                    axis: Number(params?.["axis"]),
+                    axisMax: Number(params?.["axisMax"]),
+                    brake: params?.["brake"] ? (String(params?.["brake"])?.toLowerCase() == 'true') : null,
+                    ahk: params?.["ahk"] ? params?.["ahk"] as any : null,
+
+                    volume: params?.["volume"] as any,
+                    loading_l: params?.["loading_l"] as any,
+                    loading_b: params?.["loading_b"] as any,
+                    loading_h: params?.["loading_h"] as any,
+
+                    radius: params?.["radius"] as any,
+                    userId: params?.["userId"] as any,
+                    caution: params?.["caution"] as any
+                } as any);
+
+                setInserate(res);
+            } catch (e: any) {
+                console.log(e);
+            } finally {
+                setIsLoading(false)
+            }
+        }
+
+        load();
+    }, [])
+
+    useEffect(() => {
+
+        const loadUser = async () => {
+            try {
+                const jwtString = await SecureStore.getItemAsync("authToken");
+                if (!jwtString) {
+                    setCurrentUser(null);
+                }
+                const foundUser = await getCurrentUserMainPage(jwtString);
+                if (foundUser) {
+                    setCurrentUser(foundUser);
+                    setFavs(foundUser?.favourites);
+                } else {
+                    setCurrentUser(null)
+                }
+            } catch (e: any) {
+                console.log(e);
+            }
+        }
+
+        loadUser();
+
+    }, [])
+
+    const onPageSwitch = (newPage: number) => {
+        setCurrentPage(newPage)
+        scrollViewRef.current?.scrollTo({ y: 0, animated: true });
     }
-  }, [hasRendered, currentUser, router]);
 
-  if (!currentUser) {
+    const [currentUser, setCurrentUser] = useState(null);
+    const [favs, setFavs] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const [isDrawerVisible, setIsDrawerVisible] = useState(false);
+    const [isFilterVisible, setIsFilterVisible] = useState(false);
+    const [isNotificationsVisible, setIsNotificationsVisible] = useState(false);
+
+    const toggleDrawer = () => {
+        setIsDrawerVisible(!isDrawerVisible);
+        setIsFilterVisible(false);
+        setIsNotificationsVisible(false);
+    };
+
+    const toggleFilter = () => {
+        setIsFilterVisible(!isFilterVisible);
+        setIsDrawerVisible(false);
+        setIsNotificationsVisible(false);
+    }
+
+    const toggleNotifications = () => {
+        setIsNotificationsVisible(!isNotificationsVisible);
+        setIsDrawerVisible(false);
+        setIsFilterVisible(false);
+    }
+
+
+    const [isLoading, setIsLoading] = useState(false);
+    const router = useRouter();
+
+
+
+
+    const onFav = async (inseratId: string) => {
+        try {
+            if (isLoading) return;
+
+            setIsLoading(true);
+
+            if (!currentUser) {
+                return router.push('/login');
+            }
+
+            const authToken = await SecureStore.getItemAsync("authToken");
+
+            if (favs.find((fav: any) => fav.inseratId == inseratId)) {
+                await deleteFavourite(authToken, inseratId);
+                setFavs(favs.filter((fav: any) => fav.inseratId != inseratId));
+                Toast.show({
+                    type: 'success',
+                    text1: 'Favorit entfernt',
+                    text2: 'Das Inserat wurde aus deinen Favoriten entfernt'
+                });
+            } else {
+                await addFavourite(authToken, inseratId);
+                setFavs([...favs, { inseratId }]);
+                Toast.show({
+                    type: 'success',
+                    text1: 'Favorit hinzugefügt',
+                    text2: 'Das Inserat wurde zu deinen Favoriten hinzugefügt'
+                });
+            }
+        } catch (e: any) {
+            Toast.show({
+                type: 'error',
+                text1: 'Fehler',
+                text2: 'Favorit konnte nicht hinzugefügt werden'
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    }; // Limits calls to once every 3 seconds
+
+
+
+
+
     return (
-      <View className="flex-1 items-center justify-center bg-[#1F2332]">
-        {/* <View className="flex flex-col items-center">
-          <Text className="text-xl font-semibold text-gray-200">
-            Willkommen auf
-          </Text>
-          <Text className="text-4xl font-semibold text-gray-200">
-            uRent
-          </Text>
-        </View>
-        <View className="mt-4 w-full px-24">
-          <View>
-            <TouchableOpacity
-              className="px-8 py-4 rounded-md w-full bg-white justify-center"
-              onPress={() => {
-                router.push(`/login`);
-              }}
-            >
-              <Text className="justify-center text-gray-800 text-center font-semibold">
-                Loslegen
-              </Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <TouchableOpacity
-              className="py-4 rounded-md w-full justify-center"
-              onPress={() => {
-                router.push(`/mainpage`);
-              }}
-            >
-              <Text className="justify-center text-xs text-gray-200 text-center font-semibold">
-                Ohne Konto fortfahren..
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View> */}
-      </View>
-    );
-  }
+        <View className="flex-1 h-full  bg-[#1f2332] w-full">
+            <Drawer
+                open={isNotificationsVisible}
+                onOpen={() => { setIsNotificationsVisible(true) }}
+                onClose={() => { setIsNotificationsVisible(false) }}
 
-  // Return null temporarily if waiting for navigation
-  return null;
+                drawerPosition="right"
+                drawerType="slide"
+                drawerStyle={{ width: '100%' }}
+                renderDrawerContent={() => {
+                    return (
+                        <DrawerNotifications
+                            toggleDrawerNotifications={toggleNotifications}
+                            foundNotifications={currentUser?.notifications}
+                        />
+                    )
+                }}
+            >
+                <Drawer
+                    open={isFilterVisible}
+                    onOpen={() => { setIsFilterVisible(true) }}
+                    onClose={() => { setIsFilterVisible(false) }}
+
+                    drawerPosition="left"
+                    drawerType="slide"
+                    drawerStyle={{ width: '100%' }}
+                    renderDrawerContent={() => {
+                        return (
+
+                            <DrawerSearchFilter
+                                toggleFilter={toggleFilter}
+                                currentResults={inserate.length as number}
+                            />
+
+                        )
+                    }}
+                >
+                    <Drawer
+                        open={isDrawerVisible}
+                        onOpen={() => { setIsDrawerVisible(true) }}
+                        onClose={() => { setIsDrawerVisible(false) }}
+                        drawerPosition="right"
+                        drawerType="front"
+                        renderDrawerContent={() => {
+                            return (
+                                <DrawerContentProfile
+                                    currentUser={currentUser}
+                                    deleteCurrentUser={() => setCurrentUser(null)}
+                                    closeModal={
+                                        () => setIsDrawerVisible(false)
+                                    }
+                                />
+                            )
+                        }}
+                    >
+
+
+
+                        <Header
+                            toggleDrawer={toggleDrawer}
+                            toggleNotifications={toggleNotifications}
+                            currentUser={currentUser}
+                        />
+
+                        <ScrollView className="sm:w-full" ref={scrollViewRef}>
+                            <View className="sm:max-w-[600px] w-full mx-auto">
+                                <View className="mt-4 px-2 justify-center flex">
+                                    <SearchBar />
+                                </View>
+
+                                <View className="p-2">
+                                    <FilterBubbles
+                                        toggleFilter={toggleFilter}
+                                        currentResults={inserate.length as number}
+                                    />
+                                </View>
+
+                                {isLoading ? (
+                                    Array.from({ length: 10 }).map((_, index) => (
+                                        <InseratSkeleton key={index} />
+                                    ))
+                                ) : inserate.length > 0 ? (
+                                    <>
+                                        {inserate
+                                            .slice((currentPage - 1) * 5, currentPage * 5)
+                                            .map((pInserat: any) => (
+                                                <View key={pInserat?.id} className="mb-4">
+                                                    <InseratCard
+                                                        thisInserat={pInserat}
+                                                        currentUser={currentUser}
+                                                        onFav={(inseratId: string) => {
+                                                            onFav(inseratId);
+                                                        }}
+                                                        isFaved={favs.find(
+                                                            (fav: any) => fav.inseratId === pInserat?.id
+                                                        )}
+                                                    />
+                                                </View>
+                                            ))}
+                                        {inserate.length > 5 && (
+                                            <View className="p-2">
+                                                <PaginationComponent
+                                                    currentPage={currentPage}
+                                                    inserateLength={inserate.length ?? 0}
+                                                    onPageSwitch={onPageSwitch}
+                                                />
+                                            </View>
+                                        )}
+                                    </>
+                                ) : (
+                                    <View className="flex flex-row items-center w-full justify-center p-8">
+                                        <Text className="text-base text-gray-200/60">
+                                            Keine passenden Inserate gefunden..
+                                        </Text>
+                                    </View>
+                                )}
+                            </View>
+                        </ScrollView>
+
+                    </Drawer>
+                </Drawer>
+            </Drawer>
+        </View>
+    );
 }
+
+export default MainPage;

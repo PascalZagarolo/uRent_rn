@@ -1,17 +1,17 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Image, View, StyleSheet, Animated, Easing, Text } from 'react-native';
+import { View, StyleSheet, Animated, Text } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import { useFonts } from 'expo-font';
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
+import { DarkTheme, ThemeProvider } from '@react-navigation/native';
 import { Stack } from 'expo-router';
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { AuthProvider } from './(tabs)/AuthProvider';
 import { BottomSheetModalProvider } from '@gorhom/bottom-sheet';
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
-import 'react-native-get-random-values';
-import 'react-native-reanimated';
-import { StatusBar } from 'expo-status-bar'
-// Prevent splash from auto-hiding
+import { StatusBar } from 'expo-status-bar';
+import Entypo from '@expo/vector-icons/Entypo';
+
+// Prevent splash screen from auto-hiding immediately
 SplashScreen.preventAutoHideAsync();
 
 const toastConfig = {
@@ -52,25 +52,16 @@ const toastConfig = {
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   const [appIsReady, setAppIsReady] = useState(false);
-  const [fadeAnim] = useState(new Animated.Value(0));
 
   const [fontsLoaded] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
+    ...Entypo.font, // load Entypo icons
   });
 
   useEffect(() => {
     async function prepare() {
       try {
-        // Wait for fonts
-        if (!fontsLoaded) return;
-        // Simulate loading delay (you can remove in prod)
-        await new Promise(resolve => setTimeout(resolve, 1200));
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 600,
-          easing: Easing.out(Easing.exp),
-          useNativeDriver: true,
-        }).start();
+        
       } catch (e) {
         console.warn(e);
       } finally {
@@ -79,82 +70,37 @@ export default function RootLayout() {
     }
 
     prepare();
-  }, [fontsLoaded]);
+  }, []);
 
-  useEffect(() => {
-    async function prepare() {
-      try {
-        if (!fontsLoaded) return;
-  
-        await new Promise(resolve => setTimeout(resolve, 1200));
-  
-        Animated.timing(fadeAnim, {
-          toValue: 1,
-          duration: 600,
-          easing: Easing.out(Easing.exp),
-          useNativeDriver: true,
-        }).start();
-  
-        // 💡 Only hide splash screen after animation starts
-        SplashScreen.hideAsync();
-      } catch (e) {
-        console.warn(e);
-      } finally {
-        setAppIsReady(true);
-      }
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded && appIsReady) {
+      await SplashScreen.hideAsync();
     }
-  
-    prepare();
-  }, [fontsLoaded]);
-  
+  }, [fontsLoaded, appIsReady]);
 
-  const onLayoutRootView = useCallback(() => {
-    if (appIsReady) {
-      SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
-  if (!appIsReady) {
-    return (
-      <View
-        style={styles.splashContainer}
-        onLayout={() => {
-          if (fontsLoaded) {
-            SplashScreen.hideAsync();
-          }
-        }}
-      >
-        <Animated.Image
-          source={require('../assets/images/urent-logo.png')}
-          style={[
-            styles.logo,
-            {
-              opacity: fadeAnim,
-              transform: [
-                {
-                  scale: fadeAnim.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [0.95, 1],
-                  }),
-                },
-              ],
-            },
-          ]}
-          resizeMode="contain"
-        />
-      </View>
-    );
+  if (!fontsLoaded || !appIsReady) {
+    return null;
   }
 
   return (
     <AuthProvider>
-      <BottomSheetModalProvider>
+      {appIsReady ? (
+        <BottomSheetModalProvider>
         <ThemeProvider value={DarkTheme}>
-          <StatusBar style='light'/>
-          <Stack screenOptions={{ headerShown: false }} />
-          <Toast config={toastConfig as any} />
+          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <StatusBar style="light" />
+            <Stack screenOptions={{ headerShown: false }} />
+            <Toast config={toastConfig as any} />
+          </View>
         </ThemeProvider>
       </BottomSheetModalProvider>
+      ) : (
+        <View>
+          <Text>
+            aijsdaijdjiajiops
+          </Text>
+        </View>
+      )}
     </AuthProvider>
   );
 }
