@@ -48,9 +48,6 @@
     "resizeMode": "contain",
     "backgroundColor": "#1F2332"
   },
-  "splashscreen" : {
-
-  },
   "ios": {
     "supportsTablet": true,
     "bundleIdentifier": "com.paaaascal13.urentrn"
